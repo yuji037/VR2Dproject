@@ -5,10 +5,26 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour {
 
-    // シーンの追加ロード　StartCroutine(SceneLoader.LoadScene(シーン名))で呼び出し
-    public static IEnumerator LoadScene(string _sceneName)
+    // シーンの追加ロード IEnumerator型　StartCroutine(SceneLoader.LoadScene(シーン名))で呼び出し
+    // Update内で簡単に呼び出し可能
+    public static IEnumerator IELoadScene(string _sceneName)
     {
         yield return SceneManager.LoadSceneAsync(_sceneName, LoadSceneMode.Additive);
+    }
+
+    // シーンの追加ロード AsyncOperation型
+    public static AsyncOperation AsyncLoadScene(string _sceneName)
+    {
+        return SceneManager.LoadSceneAsync(_sceneName, LoadSceneMode.Additive);
+    }
+
+    // シーンの追加ロード AsyncOperation型 allowSceneActivationをtrueにするまでシーンの追加は行われない関数
+    // 第二引数を明示的にtrueにすれば読み込み完了時すぐにシーンを追加する
+    public static AsyncOperation AsyncLoadScene(string _sceneName, bool _allowSceneActivation = false)
+    {
+        AsyncOperation async = SceneManager.LoadSceneAsync(_sceneName, LoadSceneMode.Additive);
+        async.allowSceneActivation = _allowSceneActivation;
+        return async;
     }
 
     // シーンの破棄
@@ -23,6 +39,7 @@ public class SceneLoader : MonoBehaviour {
                 return true;
             }
         }
-        return false;
+        Debug.LogError("Can't Destroy Scene" + _sceneName);
+       return false;
     }
 }

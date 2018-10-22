@@ -10,6 +10,6 @@ public class GameCoordinator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        StartCoroutine(SceneLoader.LoadScene(firstLoadScene));
+        StartCoroutine(SceneLoader.IELoadScene(firstLoadScene));
 	}
 }
