@@ -7,8 +7,9 @@ public class WireAction : MonoBehaviour
 {
     [SerializeField]
     float wireAct;
+    [SerializeField]
+    GameObject player;
 
-    private GameObject player = null;
     private Rigidbody playersRigidbody = null;
     private Vector3 endWire;
     private float wireLength = 0.0f;
@@ -17,7 +18,6 @@ public class WireAction : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
         if (player == null) { Debug.LogError("Don't Found Player"); }
 
         playersRigidbody = player.GetComponent<Rigidbody>();
