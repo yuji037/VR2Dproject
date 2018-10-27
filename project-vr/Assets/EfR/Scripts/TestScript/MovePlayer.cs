@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MovePlayer : MonoBehaviour {
     NetworkView networkview;
+    [SerializeField]
+    bool useNetwork;
 
     float inputHorizontal, inputVertical;
     Rigidbody rigidbody;
@@ -16,7 +18,7 @@ public class MovePlayer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         rigidbody = GetComponent<Rigidbody>();
-        networkview = GetComponent<NetworkView>();
+        if(useNetwork) networkview = GetComponent<NetworkView>();
     }
 	
 	// Update is called once per frame
@@ -26,7 +28,8 @@ public class MovePlayer : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        if (networkview.isMine)
+
+        if (!useNetwork || networkview.isMine)
         {
 
             Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1));
