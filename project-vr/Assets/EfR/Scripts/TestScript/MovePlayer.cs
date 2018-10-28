@@ -6,6 +6,8 @@ public class MovePlayer : MonoBehaviour {
     NetworkView networkview;
     [SerializeField]
     bool useNetwork;
+    [SerializeField]
+    bool isFPS = false;
 
     float inputHorizontal, inputVertical;
     Rigidbody rigidbody;
@@ -38,7 +40,9 @@ public class MovePlayer : MonoBehaviour {
 
             rigidbody.velocity = moveForward * moveSpeed + new Vector3(0, rigidbody.velocity.y, 0);
 
-            if (moveForward != Vector3.zero)
+            if(isFPS)
+                transform.rotation = Quaternion.LookRotation(cameraForward);
+            else if (moveForward != Vector3.zero)
             {
                 transform.rotation = Quaternion.LookRotation(moveForward);
             }
