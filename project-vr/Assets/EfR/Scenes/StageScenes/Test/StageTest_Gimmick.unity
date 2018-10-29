@@ -193,7 +193,7 @@ MonoBehaviour:
   m_iGimmickID: 1002
   m_eGimmickType: 0
   m_iTriggerGimmickID: 1001
-  m_iActGimmickID: 1003
+  m_iActorGimmickID: 1003
 --- !u!23 &191200886
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -376,6 +376,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useNetwork: 0
+  isFPS: 0
   jumpPower: 5
 --- !u!143 &244854840
 CharacterController:

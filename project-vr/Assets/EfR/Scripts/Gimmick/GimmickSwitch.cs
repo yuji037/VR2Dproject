@@ -6,6 +6,7 @@ public class GimmickSwitch : GimmickBase {
 
     public enum Type {
         DOOR,
+        ACTIVE,
     }
 
     [SerializeField]
@@ -15,23 +16,46 @@ public class GimmickSwitch : GimmickBase {
     int m_iTriggerGimmickID;
 
     [SerializeField]
-    int m_iActGimmickID;
+    int m_iActorGimmickID;
 
-	// Use this for initialization
- 	void Start () {
-        m_aTriggerAction += PressAction;
-	}
+    // Use this for initialization
+    void Start()
+    {
+        m_aTriggerEnterAction += PressAction;
+        m_aTriggerExitAction += ReleaseAction;
+    }
 
     protected virtual void PressAction(Collider other, int otherGimmickID)
     {
-        if(otherGimmickID == m_iTriggerGimmickID)
+        if ( otherGimmickID == m_iTriggerGimmickID )
         {
+            var gimik = GimmickManager.GetGimmick(m_iActorGimmickID);
             switch ( m_eGimmickType )
             {
                 case Type.DOOR:
-                    var gimik = GimmickManager.GetGimmick(m_iActGimmickID);
                     var door = gimik.GetComponent<GimmickDoor>();
                     door.Open();
+                    break;
+
+                case Type.ACTIVE:
+                    gimik.gameObject.SetActive(true);
+                    break;
+            }
+        }
+    }
+
+    protected virtual void ReleaseAction(Collider other, int otherGimmickID)
+    {
+        if ( otherGimmickID == m_iTriggerGimmickID )
+        {
+            var gimik = GimmickManager.GetGimmick(m_iActorGimmickID);
+            switch ( m_eGimmickType )
+            {
+                case Type.DOOR:
+                    break;
+
+                case Type.ACTIVE:
+                    gimik.gameObject.SetActive(false);
                     break;
             }
         }
