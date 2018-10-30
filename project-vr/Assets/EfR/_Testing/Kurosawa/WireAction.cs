@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ANIMATION : int
+{
+    None,
+    Throw,
+    Hookking,
+    Reverse,
+    Pulling
+}
 
 public class WireAction : MonoBehaviour
 {
@@ -9,17 +17,24 @@ public class WireAction : MonoBehaviour
     float wireAct;
     [SerializeField]
     GameObject player;
-
     private Rigidbody playersRigidbody = null;
     private Vector3 endWire;
-    private float wireLength = 0.0f;
     bool isHook = false;
+    public LineRendererOperation lineOperation;
 
     // Use this for initialization
     void Start()
     {
-        if (player == null) { Debug.LogError("Don't Found Player"); }
-
+        if (player == null) { Debug.LogError("Don't Set Player"); }
+        lineOperation = GetComponent<LineRendererOperation>();
+        if (lineOperation == null) { Debug.LogError("Don't Set lineOperation"); }
         playersRigidbody = player.GetComponent<Rigidbody>();
     }
+
+    public void IsTrrigerOn(Vector3 _start, Vector3 _end)
+    {
+        lineOperation.LineSet(_start, _end);
+    }
+
+
 }
