@@ -8,7 +8,7 @@ public class GimmickReceiveDamagePlayer : GimmickReceiveDamage {
     public bool m_IsFPS;
 
     [SerializeField]
-    Image m_imDamageEffectPanelInFPS;
+    MeshRenderer m_meshRendererDamageEffectInFPS;
 
     [SerializeField]
     Color m_colorDamageEffectInFPS;
@@ -35,12 +35,12 @@ public class GimmickReceiveDamagePlayer : GimmickReceiveDamage {
     {
         for(float t = 0; t < m_fFadeDurationInFPS; t += Time.deltaTime )
         {
-            m_imDamageEffectPanelInFPS.color =
+            m_meshRendererDamageEffectInFPS.sharedMaterial.color =
                     Color.clear * t
                  +  m_colorDamageEffectInFPS * ( m_fFadeDurationInFPS - t ) / m_fFadeDurationInFPS;
             yield return null;
         }
-        m_imDamageEffectPanelInFPS.color = Color.clear;
+        m_meshRendererDamageEffectInFPS.sharedMaterial.color = Color.clear;
         m_DamageCoroutineFPS = null;
     }
 }
