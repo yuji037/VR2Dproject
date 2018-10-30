@@ -22,7 +22,8 @@ public class GimmickBase : MonoBehaviour {
     // ※継承先でAwakeを使いたい場合はbase.Awake()を呼ぶ。
     protected virtual void Awake()
     {
-        GimmickManager.GetInstance().Register(this);
+        if ( m_iGimmickID != -1 )
+            GimmickManager.GetInstance().Register(this);
     }
 
     private void OnCollisionEnter(Collision collision)
