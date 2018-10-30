@@ -52,6 +52,16 @@ public class OculusInput : MonoBehaviour {
             Debug.Log("A");
         }
 
+        if ( OVRInput.Get(OVRInput.Button.Two) )
+        {
+            Debug.Log("B");
+        }
+
+        if ( OVRInput.Get(OVRInput.Button.Three) )
+        {
+            Debug.Log("X");
+        }
+
         if (OVRInput.Get(OVRInput.Button.Four))
         {
             Debug.Log("Y");
