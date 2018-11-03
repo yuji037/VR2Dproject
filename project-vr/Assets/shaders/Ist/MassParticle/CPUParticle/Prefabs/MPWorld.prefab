@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 400000}
+  - component: {fileID: 11400000}
+  - component: {fileID: 11450628}
+  m_Layer: 0
+  m_Name: MPWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &400000
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalScale: {x: 10.24, y: 5.12, z: 10.24}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8255d8bc933d1bc46859365ec1b9f56a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_update_mode: 1
+  m_solver: 0
+  m_enable_interaction: 1
+  m_enable_colliders: 1
+  m_enable_forces: 1
+  m_id_as_float: 1
+  m_particle_mass: 1
+  m_timescale: 0.6
+  m_damping: 0.4
+  m_advection: 0
+  m_pressure_stiffness: 500
+  m_particle_size: 0.08
+  m_max_particle_num: 65536
+  m_coord_scale: {x: 1, y: 1, z: 1}
+  m_world_div_x: 256
+  m_world_div_y: 1
+  m_world_div_z: 256
+  m_active_region_center: {x: 0, y: 0, z: 0}
+  m_active_region_extent: {x: 0, y: 0, z: 0}
+  m_particle_num: 0
+  m_context: 0
+--- !u!114 &11450628
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8858996fe56f7704b964c2a92f7b9584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_max_instances: 0
+  m_mesh: {fileID: 4300000, guid: 71fdcf87fe1fb6d4db195a1e57091d36, type: 2}
+  m_material: {fileID: 2100000, guid: 5d0b858eb43fef94a993bacac643cd26, type: 2}
+  m_materials: []
+  m_layer_selector:
+    serializedVersion: 2
+    m_Bits: 1
+  m_cast_shadow: 1
+  m_receive_shadow: 1
+  m_scale: {x: 1, y: 1, z: 1}
+  m_camera: {fileID: 0}
+  m_flush_on_LateUpdate: 1
+  m_bounds_size: {x: 2, y: 2, z: 2}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 100000}
+  m_IsPrefabParent: 1
