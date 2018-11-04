@@ -16,6 +16,11 @@ public class ControlCameraOVRRig : MonoBehaviour {
     [SerializeField]
     float handRotateSensi = 1f;
 
+    [SerializeField]
+    float cameraSensitivity = 10f;
+
+    public bool isFPS = true;
+
     // Use this for initialization
     void Start()
     {
@@ -35,6 +40,15 @@ public class ControlCameraOVRRig : MonoBehaviour {
     {
         transform.position += targetObject.transform.position - targetPosition;
         targetPosition = targetObject.transform.position;
+
+        if ( !isFPS && Input.GetMouseButton(2))
+        {
+            float mouseInputX = Input.GetAxis("Mouse X");
+            float mouseInputY = -Input.GetAxis("Mouse Y");
+
+            transform.RotateAround(targetPosition, Vector3.up, mouseInputX * cameraSensitivity);
+            transform.RotateAround(targetPosition, transform.right, mouseInputY * cameraSensitivity);
+        }
 
         if ( !isOculusActive )
         {
