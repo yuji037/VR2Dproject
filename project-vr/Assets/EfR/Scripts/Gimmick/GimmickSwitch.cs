@@ -18,11 +18,14 @@ public class GimmickSwitch : GimmickBase {
     [SerializeField]
     int m_iActorGimmickID;
 
+    [SerializeField]
+    bool m_IsActOnRelease;
+
     // Use this for initialization
     void Start()
     {
         m_aTriggerEnterAction += PressAction;
-        m_aTriggerExitAction += ReleaseAction;
+        if(m_IsActOnRelease) m_aTriggerExitAction += ReleaseAction;
     }
 
     protected virtual void PressAction(Collider other, int otherGimmickID)
@@ -33,7 +36,7 @@ public class GimmickSwitch : GimmickBase {
             switch ( m_eGimmickType )
             {
                 case Type.DOOR:
-                    var door = gimik.GetComponent<GimmickDoor>();
+                    var door = gimik as GimmickDoor;
                     door.Open();
                     break;
 

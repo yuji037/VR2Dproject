@@ -10,6 +10,7 @@ public class GimmickBullet : GimmickBase {
     [SerializeField]
     public float m_fSpeed = 1f;
 
+    // 当たる対象候補（プレイヤーの体など）
     [SerializeField]
     int[] m_iHitReceiverGimmickIDs;
 

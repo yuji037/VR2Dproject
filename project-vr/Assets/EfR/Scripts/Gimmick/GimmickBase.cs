@@ -18,6 +18,7 @@ public class GimmickBase : MonoBehaviour {
     protected Action<Collider, int> m_aTriggerEnterAction;
     protected Action<Collider, int> m_aTriggerStayAction;
     protected Action<Collider, int> m_aTriggerExitAction;
+    protected Action<Collider, int> m_aPointerHitAction;
 
     // ※継承先でAwakeを使いたい場合はbase.Awake()を呼ぶ。
     protected virtual void Awake()
