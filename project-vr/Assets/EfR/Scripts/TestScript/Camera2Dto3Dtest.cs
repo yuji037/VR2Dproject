@@ -89,6 +89,6 @@ public class Camera2Dto3Dtest : MonoBehaviour {
 
             yield return null;
         }
-
+        GetComponent<Camera2Dto3Dtest>().enabled = true;
     }
 }

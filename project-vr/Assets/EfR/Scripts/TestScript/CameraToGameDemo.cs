@@ -49,5 +49,6 @@ public class CameraToGameDemo : MonoBehaviour {
         var skyCamObj = GameObject.Find("SkyboxCamera").GetComponent<Camera>();
         skyCamObj.targetTexture = null;
         pp.enabled = false;
+        GetComponent<ControlCamera>().enabled = true;
     }
 }
