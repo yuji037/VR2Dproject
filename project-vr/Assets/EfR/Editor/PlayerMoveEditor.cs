@@ -1,26 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
+﻿//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
+//using UnityEditor;
 
-[CustomEditor(typeof(PlayerMove))]
-public class PlayerMoveEditor : Editor {
+//[CustomEditor(typeof(PlayerMove))]
+//public class PlayerMoveEditor : Editor {
 
-    PlayerMove playerMove;
+//    PlayerMove playerMove;
 
-    private void OnEnable()
-    {
-        playerMove = (PlayerMove)target;
-    }
+//    private void OnEnable()
+//    {
+//        playerMove = (PlayerMove)target;
+//    }
 
-    public override void OnInspectorGUI()
-    {
-        if ( GUILayout.Button("Show Settings") )
-        {
-            playerMove.LoadSettings();
-            Selection.activeObject = playerMove.Pms;
-        }
+//    public override void OnInspectorGUI()
+//    {
+//        if ( GUILayout.Button("Show Settings") )
+//        {
+//            playerMove.LoadSettings();
+//            Selection.activeObject = playerMove.Pms;
+//        }
 
-        base.OnInspectorGUI();
-    }
-}
+//        base.OnInspectorGUI();
+//    }
+//}

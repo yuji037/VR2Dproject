@@ -268,17 +268,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f8a25d4faf0c21478419d3cf7850470, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveType: 0
   useNetwork: 0
-  jumpPower: 22
-  limitSpeed: 16
-  groundMoveAccel: 100
-  airMoveAccel: 100
-  gravity: 31.58
-  airVerticalResistance: 0.2
-  airResistance: 1
-  groundFriction: 5.07
-  distanceToGround: 0.75
+  pmsDatasInDirectory:
+  - {fileID: 11400000, guid: a7da791c65c725744b2e3defabc74548, type: 2}
+  - {fileID: 11400000, guid: 5cff28360b76b454fa6bd9b988879cef, type: 2}
+  - {fileID: 11400000, guid: f624f42295df04f4e93cb3ef918757cb, type: 2}
+  Pms: {fileID: 0}
   isGrounded: 1
+  isAssignedLocal: 0
 --- !u!136 &136024985691135904
 CapsuleCollider:
   m_ObjectHideFlags: 1
