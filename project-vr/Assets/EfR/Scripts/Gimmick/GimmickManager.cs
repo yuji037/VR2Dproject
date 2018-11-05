@@ -22,22 +22,4 @@ public class GimmickManager : SingletonMonoBehaviour<GimmickManager> {
         Debug.LogError("不正なIDです。そのギミックIDは登録されていません。ID : " + gimmickID);
         return null;
     }
-
-
-    //========================================================================
-    // ↓Gimmickは今後使わなくなります
-    //========================================================================
-
-    Dictionary<int, Gimmick> dictionary = new Dictionary<int, Gimmick>();
-
-    public void Register(Gimmick gimmick)
-    {
-        dictionary.Add(gimmick.ID, gimmick);
-        Debug.Log("こっちのGimmickは後々使わなくなります");
-    }
-
-    public void ReceiveMessage(int id, string message)
-    {
-        dictionary[id].SendMessage(message);
-    }
 }
