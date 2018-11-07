@@ -25,6 +25,7 @@ public class GimmickSwitch : GimmickBase {
     void Start()
     {
         m_aTriggerEnterAction += PressAction;
+        m_aPointerHitAction += PressAction;
         if(m_IsActOnRelease) m_aTriggerExitAction += ReleaseAction;
     }
 

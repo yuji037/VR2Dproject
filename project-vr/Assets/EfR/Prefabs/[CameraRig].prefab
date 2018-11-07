@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4188486194951420}
   - component: {fileID: 33008742326113464}
   - component: {fileID: 23461027899027056}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: L_HandRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,13 +38,13 @@ GameObject:
   - component: {fileID: 4494234717577552}
   - component: {fileID: 33813884863608352}
   - component: {fileID: 23478717037652732}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: R_HandRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1326644600484802
 GameObject:
   m_ObjectHideFlags: 1
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 65303900055367272}
   - component: {fileID: 23403450364166636}
   - component: {fileID: 54611730789121172}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: StickForMouse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 23400929515886608}
   - component: {fileID: 114728195440318440}
   - component: {fileID: 54562474480759318}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: StickForMouse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4682172751768028}
   - component: {fileID: 114636756494502674}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Controller (right)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4274679086506704}
   - component: {fileID: 114093879131263148}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 33017517916445526}
   - component: {fileID: 135252209831214298}
   - component: {fileID: 23448681757083772}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 33934064705989400}
   - component: {fileID: 114287347501476090}
   - component: {fileID: 114154886424142156}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: '[CameraRig]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4878671288702608}
   - component: {fileID: 20934732245199450}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4797705106110970}
   - component: {fileID: 114951290940687920}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,7 +194,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4239444946923246}
   - component: {fileID: 114957056642231068}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Controller (left)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,7 +250,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1783514288484382}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10, y: 2.56, z: -3.45}
+  m_LocalPosition: {x: -10, y: 1.647, z: -1.953}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4239444946923246}
@@ -760,7 +760,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a5fb0ca93b55ef4b8d54b512b103341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poseAction: {fileID: 0}
+  poseAction: {fileID: 11400000, guid: 9eaf96a690b0fd740992a7763a571354, type: 2}
   inputSource: 2
   origin: {fileID: 0}
   onTransformUpdated:
@@ -823,7 +823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a5fb0ca93b55ef4b8d54b512b103341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poseAction: {fileID: 0}
+  poseAction: {fileID: 11400000, guid: 9eaf96a690b0fd740992a7763a571354, type: 2}
   inputSource: 1
   origin: {fileID: 0}
   onTransformUpdated:

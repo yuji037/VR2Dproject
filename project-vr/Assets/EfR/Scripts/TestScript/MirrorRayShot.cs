@@ -17,6 +17,9 @@ public class MirrorRayShot : MonoBehaviour
 
     [SerializeField]
     LineRenderer debugRenderer;
+
+    [SerializeField]
+    LayerMask layerMask;
     // Use this for initialization
     void Start()
     {
@@ -39,7 +42,7 @@ public class MirrorRayShot : MonoBehaviour
         pointCount++;
         RaycastHit hit;
         Ray ray = new Ray(origin, direction);
-        if (Physics.Raycast(ray, out hit, 1000f)&& (hit.collider.GetComponent<Mirror>()))
+        if (Physics.Raycast(ray, out hit, 1000f,layerMask)&& (hit.collider.GetComponent<Mirror>()))
         {
             //発射地点から衝突点までのベクトル
             var rayVec = hit.point - origin;
@@ -71,23 +74,5 @@ public class MirrorRayShot : MonoBehaviour
 
             lineRenderer.SetPosition(i,lineRenderPositions[i]);
         }
-    }
-}
-public class RayShooter
-{
-    //Rayを飛ばして当たったインスタンスを返す
-    public static T GetHitObject<T>(Vector2 screen_pos, ref Vector3 hit_point, Camera ray_camera, LayerMask layer_mask, float range = 1000.0f)
-        where T : MonoBehaviour
-    {
-        Ray ray = ray_camera.ScreenPointToRay(screen_pos);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, range, layer_mask))
-        {
-            var hitObj = hit.transform.GetComponent<T>();
-            if (!hitObj) return null;
-            hit_point = hit.point;
-            return hitObj;
-        }
-        return null;
     }
 }

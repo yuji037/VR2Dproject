@@ -86,4 +86,14 @@ public class GimmickBase : MonoBehaviour {
 
         m_aTriggerExitAction(other, gmk.GimmickID);
     }
+
+    public void OnPointerHit(Collider rayShooter)
+    {
+        if (m_aPointerHitAction == null) return;
+
+        var gmk = rayShooter.gameObject.GetComponent<GimmickBase>();
+        if (!gmk) return;
+
+        m_aPointerHitAction(rayShooter, gmk.GimmickID);
+    }
 }
