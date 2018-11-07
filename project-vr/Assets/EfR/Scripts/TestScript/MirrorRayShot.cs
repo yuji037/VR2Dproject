@@ -14,15 +14,19 @@ public class MirrorRayShot : MonoBehaviour
     int maxReflection=30;
 
     List<Vector3> lineRenderPositions=new List<Vector3>();
+
+    [SerializeField]
+    LineRenderer debugRenderer;
     // Use this for initialization
     void Start()
     {
 
     }
-
+    int pointCount=0;
     // Update is called once per frame
     void Update()
     {
+        pointCount = 0;
         lineRenderPositions.Clear();
         RecursiveShootRay(shooter.position,shooter.forward);
         ApplyLinRenderPositions();
@@ -32,12 +36,11 @@ public class MirrorRayShot : MonoBehaviour
     {
 
         if (!SetPosition(origin)) return;
+        pointCount++;
         RaycastHit hit;
-        var vec = Vector3.zero;
         Ray ray = new Ray(origin, direction);
-        if (Physics.Raycast(ray, out hit, 1000f))
+        if (Physics.Raycast(ray, out hit, 1000f)&& (hit.collider.GetComponent<Mirror>()))
         {
-            if (!hit.collider.GetComponent<Mirror>()) return;
             //発射地点から衝突点までのベクトル
             var rayVec = hit.point - origin;
             //法線の長さ
@@ -50,9 +53,11 @@ public class MirrorRayShot : MonoBehaviour
         }
         else if(lineRenderPositions.Count>1)
         {
-            SetPosition(direction * 10);
+
+            SetPosition(origin+direction * 10);
         }
     }
+
     bool SetPosition(Vector3 position)
     {
         lineRenderPositions.Add(position);
