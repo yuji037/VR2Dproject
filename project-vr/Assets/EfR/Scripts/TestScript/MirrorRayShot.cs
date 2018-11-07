@@ -11,27 +11,27 @@ public class MirrorRayShot : MonoBehaviour
     LineRenderer lineRenderer;
 
     [SerializeField]
-    int maxReflection=30;
+    int maxReflection = 30;
 
-    List<Vector3> lineRenderPositions=new List<Vector3>();
+    List<Vector3> lineRenderPositions = new List<Vector3>();
 
     [SerializeField]
     LineRenderer debugRenderer;
 
     [SerializeField]
     LayerMask layerMask;
-    // Use this for initialization
-    void Start()
-    {
 
-    }
-    int pointCount=0;
+    //このRayを飛ばしているGimmickBaseを持ったコライダー
+    [SerializeField]
+    Collider ownerCollider;
+
+    int pointCount = 0;
     // Update is called once per frame
     void Update()
     {
         pointCount = 0;
         lineRenderPositions.Clear();
-        RecursiveShootRay(shooter.position,shooter.forward);
+        RecursiveShootRay(shooter.position, shooter.forward);
         ApplyLinRenderPositions();
     }
     //マックスカウントまで反射するrayを飛ばし続ける再起関数
@@ -42,22 +42,37 @@ public class MirrorRayShot : MonoBehaviour
         pointCount++;
         RaycastHit hit;
         Ray ray = new Ray(origin, direction);
-        if (Physics.Raycast(ray, out hit, 1000f,layerMask)&& (hit.collider.GetComponent<Mirror>()))
+        GimmickBase gimmick = null;
+        bool isHit = Physics.Raycast(ray, out hit, 1000f, layerMask);
+        if (isHit)
         {
-            //発射地点から衝突点までのベクトル
-            var rayVec = hit.point - origin;
-            //法線の長さ
-            var a = Vector3.Dot(-rayVec, hit.normal);
-            //Hitした平面の平行ベクトル
-            var hitHorizontalVec = rayVec + hit.normal * a;
-            var reflectionPoint = origin + hitHorizontalVec * 2;
-            var reflectionDir = (reflectionPoint - hit.point).normalized;
-            RecursiveShootRay(hit.point, reflectionDir);
+            if (hit.collider.GetComponent<Mirror>())
+            {
+
+                //発射地点から衝突点までのベクトル
+                var rayVec = hit.point - origin;
+                //法線の長さ
+                var a = Vector3.Dot(-rayVec, hit.normal);
+                //Hitした平面の平行ベクトル
+                var hitHorizontalVec = rayVec + hit.normal * a;
+                var reflectionPoint = origin + hitHorizontalVec * 2;
+                var reflectionDir = (reflectionPoint - hit.point).normalized;
+                RecursiveShootRay(hit.point, reflectionDir);
+            }
+            else if ((gimmick = hit.collider.GetComponent<GimmickBase>()) != null)
+            {
+                SetPosition(hit.point);
+                gimmick.OnPointerHit(ownerCollider);
+            }
+            else
+            {
+                SetPosition(hit.point);
+            }
         }
-        else if(lineRenderPositions.Count>1)
+        else
         {
 
-            SetPosition(origin+direction * 10);
+            SetPosition(origin + direction * 10);
         }
     }
 
@@ -68,11 +83,11 @@ public class MirrorRayShot : MonoBehaviour
     }
     void ApplyLinRenderPositions()
     {
-        lineRenderer.positionCount=lineRenderPositions.Count;
-        for (int i=0;i<lineRenderer.positionCount;i++)
+        lineRenderer.positionCount = lineRenderPositions.Count;
+        for (int i = 0; i < lineRenderer.positionCount; i++)
         {
 
-            lineRenderer.SetPosition(i,lineRenderPositions[i]);
+            lineRenderer.SetPosition(i, lineRenderPositions[i]);
         }
     }
 }
