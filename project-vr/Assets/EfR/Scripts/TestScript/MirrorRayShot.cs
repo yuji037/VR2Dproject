@@ -16,9 +16,6 @@ public class MirrorRayShot : MonoBehaviour
     List<Vector3> lineRenderPositions = new List<Vector3>();
 
     [SerializeField]
-    LineRenderer debugRenderer;
-
-    [SerializeField]
     LayerMask layerMask;
 
     //このRayを飛ばしているGimmickBaseを持ったコライダー
