@@ -29,6 +29,7 @@ public class ViveInput : MonoBehaviour {
 
             joint = go.AddComponent<FixedJoint>();
             joint.connectedBody = attachPoint;
+            Debug.Log("なんか");
         }
         else if (joint != null && spawn.GetStateUp(trackedObj.inputSource))
         {
@@ -56,6 +57,7 @@ public class ViveInput : MonoBehaviour {
             }
 
             rigidbody.maxAngularVelocity = rigidbody.angularVelocity.magnitude;
+            Debug.Log("ちがう");
         }
     }
 }
