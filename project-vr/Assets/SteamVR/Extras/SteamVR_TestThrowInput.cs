@@ -78,22 +78,23 @@ namespace Valve.VR.Extras
             }
             //Debug.Log(trigger2.)
 
-            if (SteamVR_Input._default.inActions.Teleport.GetStateDown(trackedObj.inputSource))
-            {
-                Debug.Log("Teleport");
-            }
-            if (0 != SteamVR_Input._default.inActions.Squeeze.GetAxis(trackedObj.inputSource))
-            {
-                Debug.Log(SteamVR_Input._default.inActions.Squeeze.GetAxis(trackedObj.inputSource));
-            }
-            if (Vector3.zero != SteamVR_Input._default.inActions.SkeletonLeftHand.GetAngularVelocity(trackedObj.inputSource))
-            {
-                Debug.Log(SteamVR_Input._default.inActions.SkeletonLeftHand.GetAngularVelocity(trackedObj.inputSource));
-            }
-            if (SteamVR_Input._default.inActions.GrabPinch.GetStateDown(trackedObj.inputSource))
-            {
-                Debug.Log("GrabPinch");
-            }
+            //// HTCVive繋いでない状態だとクラスが消えてエラーになる
+            //if (SteamVR_Input._default.inActions.Teleport.GetStateDown(trackedObj.inputSource))
+            //{
+            //    Debug.Log("Teleport");
+            //}
+            //if (0 != SteamVR_Input._default.inActions.Squeeze.GetAxis(trackedObj.inputSource))
+            //{
+            //    Debug.Log(SteamVR_Input._default.inActions.Squeeze.GetAxis(trackedObj.inputSource));
+            //}
+            //if (Vector3.zero != SteamVR_Input._default.inActions.SkeletonLeftHand.GetAngularVelocity(trackedObj.inputSource))
+            //{
+            //    Debug.Log(SteamVR_Input._default.inActions.SkeletonLeftHand.GetAngularVelocity(trackedObj.inputSource));
+            //}
+            //if (SteamVR_Input._default.inActions.GrabPinch.GetStateDown(trackedObj.inputSource))
+            //{
+            //    Debug.Log("GrabPinch");
+            //}
         }
     }
 }
