@@ -6,6 +6,7 @@ public class GimmickSwitch : GimmickBase {
 
     public enum Type {
         DOOR,
+        BUTTON,
         ACTIVE,
     }
 
@@ -41,6 +42,11 @@ public class GimmickSwitch : GimmickBase {
                     door.Open();
                     break;
 
+                case Type.BUTTON:
+                    var blockButton = gimik as GimmickButton;
+                    blockButton.OnTrigger();
+                    break;
+
                 case Type.ACTIVE:
                     gimik.gameObject.SetActive(true);
                     break;
@@ -56,6 +62,11 @@ public class GimmickSwitch : GimmickBase {
             switch ( m_eGimmickType )
             {
                 case Type.DOOR:
+                    break;
+
+                case Type.BUTTON:
+                    var blockButton = gimik as GimmickButton;
+                    blockButton.OffTrigger();
                     break;
 
                 case Type.ACTIVE:
