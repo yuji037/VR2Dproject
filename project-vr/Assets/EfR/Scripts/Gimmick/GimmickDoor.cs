@@ -25,4 +25,23 @@ public class GimmickDoor : GimmickBase {
             yield return null;
         }
     }
+
+    public virtual void Close()
+    {
+        if ( m_IsOpened )
+        {
+            StartCoroutine(CloseCoroutine());
+            m_IsOpened = false;
+        }
+    }
+
+    public virtual IEnumerator CloseCoroutine()
+    {
+        Vector3 defaultPos = transform.position;
+        for (float t = 0; t < 1; t += Time.deltaTime)
+        {
+            transform.position = defaultPos - new Vector3(0, t * 2f, 0);
+            yield return null;
+        }
+    }
 }
