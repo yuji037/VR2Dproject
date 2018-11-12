@@ -66,7 +66,7 @@ public class GimmickSwitch : GimmickBase {
 
                 case Type.BUTTON:
                     var blockButton = gimik as GimmickButton;
-                    blockButton.OffTrigger();
+                    if ( !blockButton.GetIsTggle() ) { blockButton.OffTrigger(); }
                     break;
 
                 case Type.ACTIVE:

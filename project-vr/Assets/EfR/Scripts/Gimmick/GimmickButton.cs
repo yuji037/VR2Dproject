@@ -20,14 +20,20 @@ public class GimmickButton : GimmickBase {
     int m_iActorGimmickID;
 
     [SerializeField]
-    Vector3 m_vPushedDirection  = Vector3.down;
+    Vector3 m_vPushedDirection = Vector3.down;
 
     [SerializeField]
     float m_fAnimationCount = 1.0f;
 
+    [SerializeField]
+    bool m_bIsTggle = false;
+
     private Rigidbody m_rRigidbody;
     private Vector3 m_vMoveDistance;
     private bool m_bIsTriggerOn = false;
+    private bool m_bTggleIsOn = false;
+
+    public bool GetIsTggle() { return m_bIsTggle; }
 
     private void Start()
     {
@@ -37,7 +43,8 @@ public class GimmickButton : GimmickBase {
 
     public virtual void OnTrigger()
     {
-        if ( !m_bIsTriggerOn )
+        if ( m_bIsTggle ) { StartCoroutine(PushButton()); }
+        else if( !m_bIsTriggerOn )
         {
             StartCoroutine(PushButton());
             m_bIsTriggerOn = true;
@@ -46,28 +53,56 @@ public class GimmickButton : GimmickBase {
 
     private IEnumerator PushButton()
     {
-        for (float t = 0; t < m_fAnimationCount; t += 0.1f)
+        if ( !m_bTggleIsOn )
         {
-            m_rRigidbody.MovePosition(m_rRigidbody.position + (m_vMoveDistance * 0.1f));
-            yield return null;
-        }
-
-        var gimik = GimmickManager.GetGimmick(m_iActorGimmickID);
-        if (gimik != null)
-        {
-            switch ( m_eGimmickType )
+            for (float t = 0; t < m_fAnimationCount; t += 0.1f)
             {
-                case Type.DOOR:
-                    var door = gimik as GimmickDoor;
-                    door.Open();
-                    break;
-
-                case Type.ACTIVE:
-                    gimik.gameObject.SetActive(true);
-                    break;
+                m_rRigidbody.MovePosition(m_rRigidbody.position + (m_vMoveDistance * 0.1f));
+                yield return null;
             }
+
+            var gimik = GimmickManager.GetGimmick(m_iActorGimmickID);
+            if (gimik != null)
+            {
+                switch (m_eGimmickType)
+                {
+                    case Type.DOOR:
+                        var door = gimik as GimmickDoor;
+                        door.Open();
+                        break;
+
+                    case Type.ACTIVE:
+                        gimik.gameObject.SetActive(true);
+                        break;
+                }
+            }
+            m_bTggleIsOn = true;
         }
-        
+        else
+        {
+            for (float t = 0; t < m_fAnimationCount; t += 0.1f)
+            {
+                m_rRigidbody.MovePosition(transform.position + (-m_vMoveDistance * 0.1f));
+                yield return null;
+            }
+
+            var gimik = GimmickManager.GetGimmick(m_iActorGimmickID);
+            if (gimik != null)
+            {
+                switch (m_eGimmickType)
+                {
+                    case Type.DOOR:
+                        var door = gimik as GimmickDoor;
+                        door.Close();
+                        break;
+
+                    case Type.ACTIVE:
+                        gimik.gameObject.SetActive(false);
+                        break;
+                }
+            }
+            m_bTggleIsOn = false;
+        }
     }
 
     public virtual void OffTrigger()
