@@ -6,15 +6,17 @@ using UnityEditor;
 
 
 
-public class PlayerMove : MonoBehaviour {
-    
-    public enum MoveType {
+public class PlayerMove : MonoBehaviour
+{
+
+    public enum MoveType
+    {
         FPS,
         TPS,
         _2D,
     }
     [SerializeField]
-    MoveType moveType;
+    public MoveType moveType;
 
     [SerializeField]
     bool useNetwork;
@@ -28,7 +30,7 @@ public class PlayerMove : MonoBehaviour {
 
     [SerializeField]
     bool isGrounded = true;
-    
+
     [SerializeField]
     // 挙動計算をこのクライアントで行うか？
     bool isAssignedLocal = false;
@@ -42,11 +44,11 @@ public class PlayerMove : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        if ( useNetwork ) networkview = GetComponent<NetworkView>();
+        if (useNetwork) networkview = GetComponent<NetworkView>();
         characterController = GetComponent<CharacterController>();
 
         LoadSettings();
-        isAssignedLocal = ( !useNetwork || networkview.isMine );
+        isAssignedLocal = (!useNetwork || networkview.isMine);
     }
 
     public void LoadSettings()
@@ -66,7 +68,7 @@ public class PlayerMove : MonoBehaviour {
         //}
         Pms = pmsDatasInDirectory[(int)moveType];
 
-        if ( !Pms )
+        if (!Pms)
         {
             Debug.LogError("PlayerMoveSettings load failure");
         }
@@ -75,7 +77,7 @@ public class PlayerMove : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if ( !isAssignedLocal ) return;
+        if (!isAssignedLocal) return;
 
         inputHorizontal = Input.GetAxisRaw("Horizontal");
         inputVertical = Input.GetAxisRaw("Vertical");
@@ -85,7 +87,7 @@ public class PlayerMove : MonoBehaviour {
         isGrounded = Physics.Raycast(transform.position, Vector3.down/*, out hit*/, Pms.distanceToGround);
 
         // ジャンプ
-        if ( Pms.canJump && isGrounded && Input.GetKeyDown(KeyCode.Space) )
+        if (Pms.canJump && isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             velocity.y = Pms.jumpPower;
         }
@@ -93,37 +95,37 @@ public class PlayerMove : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if ( !isAssignedLocal ) return;
+        if (!isAssignedLocal) return;
 
         Vector3 cameraForwardXZ = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1));
         Vector3 moveForwardXZ = cameraForwardXZ * inputVertical + Camera.main.transform.right * inputHorizontal;
 
         // XZ平面移動
-        if ( isGrounded )
-            velocity += moveForwardXZ * Pms.groundMoveAccel   * Time.deltaTime;
+        if (isGrounded)
+            velocity += moveForwardXZ * Pms.groundMoveAccel * Time.deltaTime;
         else
-            velocity += moveForwardXZ * Pms.airMoveAccel      * Time.deltaTime;
+            velocity += moveForwardXZ * Pms.airMoveAccel * Time.deltaTime;
 
         // プレイヤーに移動方向を向かせる（瞬時）
-        if ( moveForwardXZ != Vector3.zero )
+        if (moveForwardXZ != Vector3.zero)
         {
             transform.rotation = Quaternion.LookRotation(moveForwardXZ);
         }
 
         // 重力
-        if ( !isGrounded )
+        if (!isGrounded)
             velocity.y -= Pms.gravity * Time.deltaTime;
         // 空気抵抗（次第に減速するためのもの）
         velocity.y -= velocity.y * Pms.airVerticalResistance * Time.deltaTime;
         // 摩擦（次第に減速するためのもの）
-        if ( isGrounded )
+        if (isGrounded)
             velocity -= velocity * Pms.groundFriction * Time.deltaTime;
         else
             velocity -= velocity * Pms.airResistance * Time.deltaTime;
 
 
         // 速度上限
-        if ( velocity.sqrMagnitude > Pms.limitSpeed * Pms.limitSpeed )
+        if (velocity.sqrMagnitude > Pms.limitSpeed * Pms.limitSpeed)
         {
             velocity = velocity.normalized * Pms.limitSpeed;
             Debug.Log("速度ブレーキ");

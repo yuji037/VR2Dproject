@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.1273174, g: 0.13414761, b: 0.12107885, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -129,7 +129,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &536449989
 Transform:
   m_ObjectHideFlags: 0
@@ -209,7 +209,7 @@ ParticleSystem:
   stopAction: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -257,7 +257,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1802916568
+  randomSeed: -1798043321
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3902,7 +3902,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1000636410}
-  - component: {fileID: 1000636411}
   m_Layer: 8
   m_Name: TV
   m_TagString: Untagged
@@ -3929,19 +3928,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1000636411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1000636409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f7437b7231b4346926a79abf77d08c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keyCode: 102
-  activateObj: {fileID: 536449988}
 --- !u!1 &1076884222
 GameObject:
   m_ObjectHideFlags: 0
@@ -4235,6 +4221,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114774948605228442, guid: 9d6fc95b12b2a8c40b0729e976bfb637,
+        type: 2}
+      propertyPath: targetTexture
+      value: 
+      objectReference: {fileID: 8400000, guid: 73ce1b80d8c2ea545a8871cfc913845f, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9d6fc95b12b2a8c40b0729e976bfb637, type: 2}
   m_IsPrefabParent: 0
@@ -4265,6 +4256,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotate: 0
+  is2D: 0
+  cameraSensitivity: 1
+--- !u!114 &1559005883 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114774948605228442, guid: 9d6fc95b12b2a8c40b0729e976bfb637,
+    type: 2}
+  m_PrefabInternal: {fileID: 1559005878}
+  m_Script: {fileID: 11500000, guid: 8569c9630e6c6bb4bac6b66439d37c97, type: 3}
+--- !u!114 &1559005884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1559005881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0892606c9888fc243ad12521d1e8628b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RCAdjuster: {fileID: 1559005883}
+  transRealParticle: {fileID: 536449991}
 --- !u!1 &1755445312
 GameObject:
   m_ObjectHideFlags: 0
