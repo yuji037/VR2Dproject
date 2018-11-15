@@ -15,5 +15,6 @@ public class GameCoordinator : MonoBehaviour {
         StartCoroutine(SceneLoader.IELoadScene("Root_Stage"));
         StartCoroutine(SceneLoader.IELoadScene("Root_Frame3D"));
         StartCoroutine(SceneLoader.IELoadScene("Root_UI"));
+        yield return null;
     }
 }
