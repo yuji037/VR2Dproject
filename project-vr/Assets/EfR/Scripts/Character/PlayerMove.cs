@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+using UnityEngine.Networking;
 
 
+public class PlayerMove : NetworkBehaviour {
 
-
-public class PlayerMove : MonoBehaviour
-{
+    PlayerStatus playerStatus;
+    CharacterController characterController;
 
     public enum MoveType
     {
@@ -19,53 +19,55 @@ public class PlayerMove : MonoBehaviour
     public MoveType moveType;
 
     [SerializeField]
-    bool useNetwork;
-
-    [SerializeField]
     PlayerMoveSettings[] pmsDatasInDirectory;
-
 
     [SerializeField]
     PlayerMoveSettings Pms;
 
+    float inputHorizontal, inputVertical;
+    Vector3 velocity = Vector3.zero;
     [SerializeField]
     bool isGrounded = true;
 
     [SerializeField]
-    // 挙動計算をこのクライアントで行うか？
-    bool isAssignedLocal = false;
-
-    NetworkView networkview;
-    CharacterController characterController;
-
-    float inputHorizontal, inputVertical;
-    Vector3 velocity = Vector3.zero;
+    GameObject camPrefab;
 
     // Use this for initialization
     void Start()
     {
-        if (useNetwork) networkview = GetComponent<NetworkView>();
+        playerStatus = GetComponent<PlayerStatus>();
         characterController = GetComponent<CharacterController>();
 
+        if ( isLocalPlayer )
+        {
+            var stageSettingObj = GameObject.Find("StageSettings");
+            if ( stageSettingObj )
+            {
+                var setting = stageSettingObj.GetComponent<StageSettings>();
+
+                moveType = setting.playerMoveTypeOnStart[playerStatus.PlayerNum - 1];
+            }
+
+            // カメラ生成
+            var camTr = transform.Find("CamPos" + moveType.ToString());
+            Debug.Log("CamPos" + moveType.ToString());
+            var camRig = Instantiate(camPrefab, camTr.position, camTr.rotation);
+            if(moveType == MoveType._2D )
+            {
+                // 2Dの場合のみ、カメラはZ軸の-方向から見る配置にする
+                var distanceVec = this.transform.position - camTr.position;
+                camRig.transform.position = this.transform.position - new Vector3(0, 0, distanceVec.magnitude);
+                camRig.transform.rotation = Quaternion.identity;
+            }
+            var cc = camRig.GetComponent<ControlCameraOVRRig>();
+            cc.targetObject = this.gameObject;
+        }
+
         LoadSettings();
-        isAssignedLocal = (!useNetwork || networkview.isMine);
     }
 
     public void LoadSettings()
     {
-        // Resources.Load()が良く失敗してnullを返すので直接Inspectorから代入
-        //switch ( moveType )
-        //{
-        //    case MoveType.FPS:
-        //        Pms = Resources.Load<PlayerMoveSettings>("Chara/PlayerMoveSettingsFPS");
-        //        break;
-        //    case MoveType.TPS:
-        //        Pms = Resources.Load<PlayerMoveSettings>("Chara/PlayerMoveSettingsTPS");
-        //        break;
-        //    case MoveType._2D:
-        //        Pms = Resources.Load<PlayerMoveSettings>("Chara/PlayerMoveSettings2D");
-        //        break;
-        //}
         Pms = pmsDatasInDirectory[(int)moveType];
 
         if (!Pms)
@@ -77,10 +79,13 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isAssignedLocal) return;
+        if (!isLocalPlayer) return;
 
         inputHorizontal = Input.GetAxisRaw("Horizontal");
         inputVertical = Input.GetAxisRaw("Vertical");
+
+        // 2DならZ方向移動なくす
+        if ( moveType == MoveType._2D ) inputVertical = 0f;
 
         // 着地判定
         //RaycastHit hit;
@@ -95,7 +100,7 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!isAssignedLocal) return;
+        if (!isLocalPlayer ) return;
 
         Vector3 cameraForwardXZ = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1));
         Vector3 moveForwardXZ = cameraForwardXZ * inputVertical + Camera.main.transform.right * inputHorizontal;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ControlCameraOVRRig : MonoBehaviour {
 
-    GameObject targetObject;
+    public GameObject targetObject;
     Vector3 targetPosition;
 
     [SerializeField]
@@ -24,7 +24,6 @@ public class ControlCameraOVRRig : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        targetObject = GameObject.Find("Player");
         targetPosition = targetObject.transform.position;
         if ( isOculusActive )
         {
@@ -38,6 +37,8 @@ public class ControlCameraOVRRig : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if(!targetObject) targetObject = PlayerManager.GetPlayerThisClient();
+
         transform.position += targetObject.transform.position - targetPosition;
         targetPosition = targetObject.transform.position;
 

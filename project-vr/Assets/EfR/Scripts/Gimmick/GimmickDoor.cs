@@ -5,43 +5,56 @@ using UnityEngine;
 public class GimmickDoor : GimmickBase {
 
     [SerializeField]
-    bool m_IsOpened = false;
-    
-    public virtual void Open()
+    Vector3     m_vOpenedDistance = new Vector3(0f,1f,0f);
+
+    [SerializeField]
+    float       m_fPerformDuration = 1.0f;
+
+    [SerializeField]
+    bool        m_IsDefaultOpened = false;
+
+    Coroutine m_RunningCoroutine = null;
+    Vector3 m_vClosedPosition;
+
+    private void Start()
     {
-        if ( !m_IsOpened )
-        {
-            StartCoroutine(OpenCoroutine());
-            m_IsOpened = true;
-        }
+        m_vClosedPosition = transform.position;
+        if ( m_IsDefaultOpened )
+            transform.position = transform.position + m_vOpenedDistance;
     }
 
-    public virtual IEnumerator OpenCoroutine()
+    public virtual void Open()
     {
-        Vector3 defaultPos = transform.position;
-        for(float t = 0; t < 1; t += Time.deltaTime )
+        if ( m_RunningCoroutine != null)
         {
-            transform.position = defaultPos + new Vector3(0, t*2f, 0);
-            yield return null;
+            StopCoroutine(m_RunningCoroutine);
         }
+        m_RunningCoroutine = StartCoroutine(MotionCoroutine(m_vClosedPosition + m_vOpenedDistance));
     }
 
     public virtual void Close()
     {
-        if ( m_IsOpened )
+        if ( m_RunningCoroutine != null )
         {
-            StartCoroutine(CloseCoroutine());
-            m_IsOpened = false;
+            StopCoroutine(m_RunningCoroutine);
         }
+        m_RunningCoroutine = StartCoroutine(MotionCoroutine(m_vClosedPosition));
     }
 
-    public virtual IEnumerator CloseCoroutine()
+    public virtual IEnumerator MotionCoroutine(Vector3 endPos)
     {
-        Vector3 defaultPos = transform.position;
-        for (float t = 0; t < 1; t += Time.deltaTime)
+        Vector3 startPos = transform.position;
+        float moveLen = ( endPos - startPos ).magnitude;
+        float dur = m_fPerformDuration * moveLen;
+
+        for(float t = 0; t < dur; t += Time.deltaTime )
         {
-            transform.position = defaultPos - new Vector3(0, t * 2f, 0);
+            transform.position =
+                    startPos * t / dur
+                +   endPos * ( dur - t ) / dur;
+
             yield return null;
         }
+        transform.position = endPos;
     }
 }

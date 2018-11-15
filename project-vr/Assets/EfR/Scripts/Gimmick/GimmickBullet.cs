@@ -24,7 +24,7 @@ public class GimmickBullet : GimmickBase {
         transform.Translate(m_vDir * m_fSpeed * Time.deltaTime);
     }
 
-    void HitAction(Collider other , int otherGimmickID)
+    void HitAction(int otherGimmickID)
     {
         foreach(var hitReceiverID in m_iHitReceiverGimmickIDs )
         {

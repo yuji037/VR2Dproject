@@ -31,6 +31,13 @@ public class StageSceneLoader : MonoBehaviour {
 
     void LoadNextStage()
     {
+        if(QuickStageStarter.firstStageName != "" )
+        {
+            LoadStageScene(QuickStageStarter.firstStageName);
+            QuickStageStarter.firstStageName = "";
+            return;
+        }
+
         LoadStageScene(sceneNames[sceneCount]);
         sceneCount++; if ( sceneCount >= sceneNames.Length ) sceneCount = 0;
     }

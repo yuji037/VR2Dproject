@@ -8,7 +8,15 @@ public class GimmickManager : SingletonMonoBehaviour<GimmickManager> {
 
     public void Register(GimmickBase gimmick)
     {
-        m_dcGimmickBases.Add(gimmick.GimmickID, gimmick);
+        if ( !m_dcGimmickBases.ContainsKey(gimmick.GimmickID) )
+        {
+            m_dcGimmickBases[gimmick.GimmickID] = gimmick;
+        }
+        else
+        {
+            // ギミックIDの重複
+        }
+
     }
 
     public static GimmickBase GetGimmick(int gimmickID)
