@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -215,4 +215,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fd630b5bff4a3c4bba1dd05f0d2c5e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstLoadScene: Root_Stage
+--- !u!1 &1837193878
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1837193880}
+  - component: {fileID: 1837193879}
+  m_Layer: 0
+  m_Name: NetworkCoordinator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1837193879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1837193878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1217289edc51f4cac3321925cc20c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectPrefab: {fileID: 1994373463090400, guid: e61683d34cd289e46b169b75aa154c02,
+    type: 2}
+  camPrefab: {fileID: 1878929245520666, guid: b4dd506e28a2aed4aa6e8e7bfcfcd570, type: 2}
+  ip: 127.0.0.1
+  port: 8900
+  connected: 0
+  playerPopPos:
+  - {fileID: 0}
+  - {fileID: 0}
+  camOffset: {x: 0, y: 0.35, z: 0}
+--- !u!4 &1837193880
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1837193878}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.728205, y: 2.7394638, z: 14.340616}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
