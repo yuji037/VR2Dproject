@@ -25,6 +25,7 @@ public class GimmickDoor : GimmickBase {
 
     public virtual void Open()
     {
+        Debug.Log("Door Open");
         if ( m_RunningCoroutine != null)
         {
             StopCoroutine(m_RunningCoroutine);
@@ -34,6 +35,7 @@ public class GimmickDoor : GimmickBase {
 
     public virtual void Close()
     {
+        Debug.Log("Door Close");
         if ( m_RunningCoroutine != null )
         {
             StopCoroutine(m_RunningCoroutine);
@@ -50,8 +52,8 @@ public class GimmickDoor : GimmickBase {
         for(float t = 0; t < dur; t += Time.deltaTime )
         {
             transform.position =
-                    startPos * t / dur
-                +   endPos * ( dur - t ) / dur;
+                    startPos    * ( dur - t ) / dur
+                +   endPos      * t / dur;
 
             yield return null;
         }
