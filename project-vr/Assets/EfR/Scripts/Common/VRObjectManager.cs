@@ -38,7 +38,7 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
         var plMove = oPlayer.GetComponent<PlayerMove>();
 
         // カメラ生成
-        var camTr = GameObject.Find("CamPos" + plMove.moveType.ToString()).transform;
+        var camTr = oPlayer.GetComponent<ViewPointStorage>().GetCamPos(plMove.moveType);
         VRCamObject.transform.position = camTr.position;
         VRCamObject.transform.rotation = camTr.rotation;
 
@@ -49,7 +49,7 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
         //    camRig.transform.position = this.transform.position - new Vector3(0, 0, distanceVec.magnitude);
         //    camRig.transform.rotation = Quaternion.identity;
         //}
-        var cc = VRCamObject.GetComponent<ControlCameraOVRRig>();
+        var cc = VRCamObject.GetComponent<CameraVRController>();
         cc.Init();
 
     }
