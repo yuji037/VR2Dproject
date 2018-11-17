@@ -47,6 +47,8 @@ public class RealCameraAdjuster : MonoBehaviour
 
     int defaultRealCullingMask;
 
+
+
     UnityEngine.PostProcessing.PostProcessingBehaviour postProcessing;
     private void Start()
     {
@@ -54,7 +56,7 @@ public class RealCameraAdjuster : MonoBehaviour
         postProcessing = realCam.GetComponent<UnityEngine.PostProcessing.PostProcessingBehaviour>();
         defaultRealCullingMask = realCam.cullingMask;
         defaultRealFlags = realCam.clearFlags;
-
+        
     }
 
 
@@ -85,7 +87,7 @@ public class RealCameraAdjuster : MonoBehaviour
         SkyCam.targetTexture = null;
 
 
-        GetComponent<ControlCamera>().enabled = true;
+        //GetComponent<ControlCameraOVRRig>().enabled = true;
 
         postProcessing.enabled = false;
     }
@@ -107,7 +109,7 @@ public class RealCameraAdjuster : MonoBehaviour
       
 
         //コントロールを無効に
-        GetComponent<ControlCamera>().enabled = false;
+        //GetComponent<ControlCamera>().enabled = false;
 
      
     }

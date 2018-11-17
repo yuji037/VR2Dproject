@@ -16,7 +16,7 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
 
     public VRDeviceType DeviceType { get; private set; }
 
-    GameObject m_oCam;
+    public GameObject VRCamObject { get; private set; }
 
     public void SetDeviceType(VRDeviceType deviceType)
     {
@@ -26,9 +26,9 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
     public void SpawnVRCamObject()
     {
         var trParent = GameObject.Find("VRCamParent").transform;
-        m_oCam = Instantiate(m_prefVRCams[(int)DeviceType]);
+        VRCamObject = Instantiate(m_prefVRCams[(int)DeviceType]);
 
-        m_oCam.transform.parent = trParent;
+        VRCamObject.transform.parent = trParent;
     }
 
     // プレイヤースポーン後に呼ぶ
@@ -39,8 +39,8 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
 
         // カメラ生成
         var camTr = GameObject.Find("CamPos" + plMove.moveType.ToString()).transform;
-        m_oCam.transform.position = camTr.position;
-        m_oCam.transform.rotation = camTr.rotation;
+        VRCamObject.transform.position = camTr.position;
+        VRCamObject.transform.rotation = camTr.rotation;
 
         //if ( moveType == MoveType._2D )
         //{
@@ -49,7 +49,7 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
         //    camRig.transform.position = this.transform.position - new Vector3(0, 0, distanceVec.magnitude);
         //    camRig.transform.rotation = Quaternion.identity;
         //}
-        var cc = m_oCam.GetComponent<ControlCameraOVRRig>();
+        var cc = VRCamObject.GetComponent<ControlCameraOVRRig>();
         cc.Init();
 
     }

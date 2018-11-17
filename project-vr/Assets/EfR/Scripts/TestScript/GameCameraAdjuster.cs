@@ -24,7 +24,7 @@ public class GameCameraAdjuster : MonoBehaviour
     {
         get
         {
-            if (!rc) rc = GameObject.Find("EfR_CameraRig").gameObject;
+            if (!rc) rc = VRObjectManager.GetInstance().VRCamObject;
             return rc;
         }
     }

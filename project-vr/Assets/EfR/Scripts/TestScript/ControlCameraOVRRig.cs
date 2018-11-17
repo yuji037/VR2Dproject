@@ -17,8 +17,6 @@ public class ControlCameraOVRRig : MonoBehaviour {
     [SerializeField]
     float cameraSensitivity = 10f;
 
-    public bool isFPS = true;
-
     VRObjectManager vrObjectManager;
 
     // Use this for initialization
@@ -75,7 +73,9 @@ public class ControlCameraOVRRig : MonoBehaviour {
         }
 
         // TPS視点ならマウスの中ボタンでカメラをプレイヤーの周囲を回転
-        if ( !isFPS && Input.GetMouseButton(2))
+        if (    playerMove 
+            &&  playerMove.moveType == PlayerMove.MoveType.TPS 
+            &&  Input.GetMouseButton(2))
         {
             float mouseInputX = Input.GetAxis("Mouse X");
             float mouseInputY = -Input.GetAxis("Mouse Y");
