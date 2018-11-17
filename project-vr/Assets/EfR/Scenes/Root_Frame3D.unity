@@ -3601,6 +3601,31 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114301846176183908, guid: b4dd506e28a2aed4aa6e8e7bfcfcd570,
+        type: 2}
+      propertyPath: realWorldCameraParam.ClearFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114301846176183908, guid: b4dd506e28a2aed4aa6e8e7bfcfcd570,
+        type: 2}
+      propertyPath: realWorldCameraParam.CullingMask.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 114301846176183908, guid: b4dd506e28a2aed4aa6e8e7bfcfcd570,
+        type: 2}
+      propertyPath: videoGameWorldCameraParam.ClearFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114301846176183908, guid: b4dd506e28a2aed4aa6e8e7bfcfcd570,
+        type: 2}
+      propertyPath: videoGameWorldCameraParam.CullingMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 114301846176183908, guid: b4dd506e28a2aed4aa6e8e7bfcfcd570,
+        type: 2}
+      propertyPath: nearTVPos
+      value: 
+      objectReference: {fileID: 752962535}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b4dd506e28a2aed4aa6e8e7bfcfcd570, type: 2}
   m_IsPrefabParent: 0
@@ -3688,6 +3713,34 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 730581204}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &752962534
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 752962535}
+  m_Layer: 0
+  m_Name: NearTVObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &752962535
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 752962534}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.75099945}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1000636410}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &757210325
 GameObject:
   m_ObjectHideFlags: 0
@@ -3971,6 +4024,7 @@ Transform:
   - {fileID: 757210326}
   - {fileID: 1105480638}
   - {fileID: 536449989}
+  - {fileID: 752962535}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4241,11 +4295,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4981755552160928, guid: 9d6fc95b12b2a8c40b0729e976bfb637, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.04
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4981755552160928, guid: 9d6fc95b12b2a8c40b0729e976bfb637, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -28.3
+      value: -28.315
       objectReference: {fileID: 0}
     - target: {fileID: 4981755552160928, guid: 9d6fc95b12b2a8c40b0729e976bfb637, type: 2}
       propertyPath: m_LocalRotation.x
@@ -4274,8 +4328,33 @@ Prefab:
       objectReference: {fileID: 8400000, guid: 73ce1b80d8c2ea545a8871cfc913845f, type: 2}
     - target: {fileID: 1070392245184794, guid: 9d6fc95b12b2a8c40b0729e976bfb637, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114774948605228442, guid: 9d6fc95b12b2a8c40b0729e976bfb637,
+        type: 2}
+      propertyPath: realWorldCameraParam.ClearFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114774948605228442, guid: 9d6fc95b12b2a8c40b0729e976bfb637,
+        type: 2}
+      propertyPath: realWorldCameraParam.CullingMask.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 114774948605228442, guid: 9d6fc95b12b2a8c40b0729e976bfb637,
+        type: 2}
+      propertyPath: videoGameWorldCameraParam.CullingMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 114774948605228442, guid: 9d6fc95b12b2a8c40b0729e976bfb637,
+        type: 2}
+      propertyPath: videoGameWorldCameraParam.ClearFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114774948605228442, guid: 9d6fc95b12b2a8c40b0729e976bfb637,
+        type: 2}
+      propertyPath: nearTVPos
+      value: 
+      objectReference: {fileID: 752962535}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9d6fc95b12b2a8c40b0729e976bfb637, type: 2}
   m_IsPrefabParent: 0
@@ -4324,7 +4403,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RCAdjuster: {fileID: 1559005883}
   transRealParticle: {fileID: 0}
-  isReal: 1
 --- !u!1 &1755445312
 GameObject:
   m_ObjectHideFlags: 0
