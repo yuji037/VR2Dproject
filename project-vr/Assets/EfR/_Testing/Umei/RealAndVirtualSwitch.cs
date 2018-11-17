@@ -51,8 +51,7 @@ public class RealAndVirtualSwitch : MonoBehaviour
 
 
     }
-
-
+    [SerializeField]
     bool isReal = true;
 
     //遷移中
@@ -75,32 +74,34 @@ public class RealAndVirtualSwitch : MonoBehaviour
         isTrans = true;
         if (isReal)
         {
-            transRealParticle.Play();
+            Debug.Log("遷移開始Real→Virtual");
+            if(transRealParticle)transRealParticle.Play();
             yield return new WaitForSeconds(1.0f);
-            playerMove.moveType = PlayerMove.MoveType.TPS;
+            //playerMove.moveType = PlayerMove.MoveType.TPS;
             RCAdjuster.StartToVirtual();
             //realCamがTV画面まで近づいたらgameCameraを移動させる
             yield return new WaitForSeconds(2.0f);
             GCAdjuster.RealToVirtual();
             yield return new WaitForSeconds(2.1f);
-            transRealParticle.Stop();
+            if (transRealParticle) transRealParticle.Stop();
             //gameCameraがプレイヤー位置まで近づいたら
             RCAdjuster.EndToVirtual();
             isReal = false;
-
+            Debug.Log("遷移停止Real→Virtual");
         }
         else
         {
-
-            transGameParticle.Play();
-            playerMove.moveType = PlayerMove.MoveType._2D;
+            Debug.Log("遷移開始Virtual→Real");
+            //if(transGameParticle)transGameParticle.Play();
+            //playerMove.moveType = PlayerMove.MoveType._2D;
             GCAdjuster.VirtualToReal();
             yield return new WaitForSeconds(1.0f);
             RCAdjuster.StartToReal();
             yield return new WaitForSeconds(1.0f);
-            transGameParticle.Stop();
+            //if (transGameParticle) transGameParticle.Stop();
             RCAdjuster.EndToReal();
             isReal = true;
+            Debug.Log("遷移停止Virtual→Real");
         }
         isTrans = false;
     }
