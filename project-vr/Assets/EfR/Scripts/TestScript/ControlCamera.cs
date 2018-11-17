@@ -14,12 +14,14 @@ public class ControlCamera : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        targetObject = GameObject.Find("Player");
+        targetObject = PlayerManager.LocalPlayer;
         targetPosition = targetObject.transform.position;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        if ( !targetObject ) targetObject = PlayerManager.LocalPlayer;
+
         Vector3 move = targetObject.transform.position - targetPosition;
         if ( is2D ) move.y = 0;
         transform.position += move;

@@ -48,19 +48,6 @@ public class PlayerMove : NetworkBehaviour {
                 moveType = setting.playerMoveTypeOnStart[playerStatus.PlayerNum - 1];
             }
 
-            // カメラ生成
-            var camTr = transform.Find("CamPos" + moveType.ToString());
-            Debug.Log("CamPos" + moveType.ToString());
-            var camRig = Instantiate(camPrefab, camTr.position, camTr.rotation);
-            if(moveType == MoveType._2D )
-            {
-                // 2Dの場合のみ、カメラはZ軸の-方向から見る配置にする
-                var distanceVec = this.transform.position - camTr.position;
-                camRig.transform.position = this.transform.position - new Vector3(0, 0, distanceVec.magnitude);
-                camRig.transform.rotation = Quaternion.identity;
-            }
-            var cc = camRig.GetComponent<ControlCameraOVRRig>();
-            cc.targetObject = this.gameObject;
         }
 
         LoadSettings();

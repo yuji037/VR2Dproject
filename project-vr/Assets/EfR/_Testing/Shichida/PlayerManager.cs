@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public static class PlayerManager {
 
@@ -9,6 +10,10 @@ public static class PlayerManager {
         "Player1",
         "Player2"
     };
+
+    public static GameObject LocalPlayer { get; private set; }
+
+    public static GameObject[] Players { get; private set; }
 
     public static int GetNewPlayerNum()
     {
@@ -23,15 +28,15 @@ public static class PlayerManager {
         return playerNum;
     }
 
-    // このPCで動かしているプレイヤーオブジェクトを返す。
-    public static GameObject GetPlayerThisClient()
+    public static void SetLocalPlayer(GameObject localPlayer)
     {
-        if ( Network.peerType == NetworkPeerType.Disconnected )
-            return GameObject.Find(PlayerNames[0]);
-        
-        if ( Network.isServer )
-            return GameObject.Find(PlayerNames[0]);
-        else
-            return GameObject.Find(PlayerNames[1]);
+        LocalPlayer = localPlayer;
+    }
+
+    public static void SetPlayers()
+    {
+        Players = new GameObject[2];
+        Players[0] = GameObject.Find(PlayerNames[0]);
+        Players[1] = GameObject.Find(PlayerNames[1]);
     }
 }

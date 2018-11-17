@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// 固定砲台
 public class GimmickTurret : GimmickBase {
 
     [SerializeField]

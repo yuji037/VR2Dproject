@@ -23,6 +23,12 @@ public class MirrorRayShot : MonoBehaviour
     Collider ownerCollider;
 
     int pointCount = 0;
+
+    private void Start()
+    {
+        shooter = GameObject.Find("R_HandRig").transform;
+    }
+
     // Update is called once per frame
     void Update()
     {
