@@ -192,6 +192,8 @@ GameObject:
   - component: {fileID: 33934064705989400}
   - component: {fileID: 114287347501476090}
   - component: {fileID: 114154886424142156}
+  - component: {fileID: 114628329754980558}
+  - component: {fileID: 114838424618217616}
   m_Layer: 9
   m_Name: '[CameraRig]'
   m_TagString: Untagged
@@ -208,6 +210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4878671288702608}
   - component: {fileID: 20934732245199450}
+  - component: {fileID: 114081111154999212}
   m_Layer: 9
   m_Name: Camera
   m_TagString: MainCamera
@@ -281,8 +284,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1783514288484382}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10, y: 1.647, z: -1.953}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.69, y: 1.65, z: 3.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4239444946923246}
@@ -788,6 +791,18 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114081111154999212
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1865045485899902}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 647fa616d227c354fa22113d05fa4579, type: 2}
 --- !u!114 &114093879131263148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -818,10 +833,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 0}
   rightHandRig: {fileID: 4479039611792472}
-  isOculusActive: 1
   handRotateSensi: 1
   cameraSensitivity: 10
-  isFPS: 1
 --- !u!114 &114244421735819446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1010,6 +1023,20 @@ MonoBehaviour:
     i15: 158
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114628329754980558
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1783514288484382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8569c9630e6c6bb4bac6b66439d37c97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  endPos: {x: 7.16, y: 0, z: -27.5}
+  targetTexture: {fileID: 8400000, guid: 73ce1b80d8c2ea545a8871cfc913845f, type: 2}
+  realCam: {fileID: 20934732245199450}
 --- !u!114 &114636756494502674
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1095,6 +1122,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294966783
   ownerCollider: {fileID: 65548261082473496}
+--- !u!114 &114838424618217616
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1783514288484382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0892606c9888fc243ad12521d1e8628b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RCAdjuster: {fileID: 114628329754980558}
+  transRealParticle: {fileID: 0}
+  isReal: 1
 --- !u!114 &114890265025830834
 MonoBehaviour:
   m_ObjectHideFlags: 1
