@@ -466,6 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c50a91bbb43040c4b89be763c826a6d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetObject: {fileID: 0}
   rightHandRig: {fileID: 1572615938}
   isOculusActive: 0
   handRotateSensi: 1
@@ -601,6 +602,10 @@ Prefab:
       value: 
       objectReference: {fileID: 11400000, guid: 5cff28360b76b454fa6bd9b988879cef,
         type: 2}
+    - target: {fileID: 1994373463090400, guid: e61683d34cd289e46b169b75aa154c02, type: 2}
+      propertyPath: m_Name
+      value: Player1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e61683d34cd289e46b169b75aa154c02, type: 2}
   m_IsPrefabParent: 0
@@ -788,7 +793,6 @@ MonoBehaviour:
   shooter: {fileID: 34782943}
   lineRenderer: {fileID: 589048466}
   maxReflection: 30
-  debugRenderer: {fileID: 193679276}
   layerMask:
     serializedVersion: 2
     m_Bits: 4294966783
@@ -824,7 +828,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_iGimmickID: 1002
-  m_IsOpened: 0
+  m_vOpenedDistance: {x: 0, y: 1, z: 0}
+  m_fPerformDuration: 1
+  m_IsDefaultOpened: 0
 --- !u!23 &605956298
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1195,7 +1201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_iGimmickID: 1001
   m_eGimmickType: 0
-  m_iTriggerGimmickID: 2
+  m_iTriggerGimmickIDs: 
   m_iActorGimmickID: 1002
   m_IsActOnRelease: 0
 --- !u!23 &954148710

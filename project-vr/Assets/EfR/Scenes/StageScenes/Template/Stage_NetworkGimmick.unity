@@ -124,11 +124,12 @@ GameObject:
   - component: {fileID: 28985365}
   - component: {fileID: 28985364}
   - component: {fileID: 28985363}
-  - component: {fileID: 28985368}
   - component: {fileID: 28985367}
   - component: {fileID: 28985369}
   - component: {fileID: 28985371}
   - component: {fileID: 28985370}
+  - component: {fileID: 28985373}
+  - component: {fileID: 28985372}
   m_Layer: 0
   m_Name: GimmickCube (1)
   m_TagString: Untagged
@@ -214,17 +215,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_iGimmickID: -1
---- !u!114 &28985368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 28985362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b1e24eae89d9804d8fce6d054884891, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &28985369
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -293,6 +283,32 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &28985372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 28985362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b9a7cfccb235d488ae25d050b07565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerLayerMask:
+    serializedVersion: 2
+    m_Bits: 1536
+  pushStrength: 0.5
+--- !u!114 &28985373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 28985362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b1e24eae89d9804d8fce6d054884891, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &29519544 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4434859530889472, guid: 076536bdb7647d94c9a44e88c59739d9,
@@ -345,6 +361,7 @@ Transform:
   - {fileID: 942565349}
   - {fileID: 899808006}
   - {fileID: 203305336}
+  - {fileID: 1052706810}
   m_Father: {fileID: 1417088386}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -719,7 +736,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &403994437 stripped
 Transform:
@@ -771,7 +788,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1994373463090400, guid: e61683d34cd289e46b169b75aa154c02, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e61683d34cd289e46b169b75aa154c02, type: 2}
@@ -1135,7 +1152,7 @@ RectTransform:
   m_Children:
   - {fileID: 1672662530}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1153,11 +1170,12 @@ GameObject:
   - component: {fileID: 723655326}
   - component: {fileID: 723655325}
   - component: {fileID: 723655324}
-  - component: {fileID: 723655329}
   - component: {fileID: 723655328}
   - component: {fileID: 723655330}
   - component: {fileID: 723655332}
   - component: {fileID: 723655331}
+  - component: {fileID: 723655334}
+  - component: {fileID: 723655333}
   m_Layer: 0
   m_Name: GimmickCube (7)
   m_TagString: Untagged
@@ -1243,17 +1261,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_iGimmickID: -1
---- !u!114 &723655329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 723655323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b1e24eae89d9804d8fce6d054884891, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &723655330
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1322,6 +1329,32 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &723655333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 723655323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b9a7cfccb235d488ae25d050b07565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerLayerMask:
+    serializedVersion: 2
+    m_Bits: 1536
+  pushStrength: 0.5
+--- !u!114 &723655334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 723655323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b1e24eae89d9804d8fce6d054884891, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &750554740
 GameObject:
   m_ObjectHideFlags: 0
@@ -1561,7 +1594,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &904260271
 MonoBehaviour:
@@ -1988,12 +2021,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1052706806}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 45.2, y: -14.75, z: 13.2}
-  m_LocalScale: {x: 100, y: 100, z: 1}
+  m_LocalScale: {x: 100, y: 100.00012, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_Father: {fileID: 48973651}
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1001 &1077475619
 Prefab:
@@ -2494,11 +2527,12 @@ GameObject:
   - component: {fileID: 1301848006}
   - component: {fileID: 1301848005}
   - component: {fileID: 1301848004}
-  - component: {fileID: 1301848009}
   - component: {fileID: 1301848008}
   - component: {fileID: 1301848010}
   - component: {fileID: 1301848012}
   - component: {fileID: 1301848011}
+  - component: {fileID: 1301848014}
+  - component: {fileID: 1301848013}
   m_Layer: 0
   m_Name: GimmickCube (6)
   m_TagString: Untagged
@@ -2584,17 +2618,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_iGimmickID: -1
---- !u!114 &1301848009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1301848003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b1e24eae89d9804d8fce6d054884891, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &1301848010
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2663,6 +2686,32 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &1301848013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1301848003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b9a7cfccb235d488ae25d050b07565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerLayerMask:
+    serializedVersion: 2
+    m_Bits: 1536
+  pushStrength: 0.5
+--- !u!114 &1301848014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1301848003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b1e24eae89d9804d8fce6d054884891, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1403407893
 Prefab:
   m_ObjectHideFlags: 0
@@ -3472,7 +3521,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1716024082
 Prefab:
@@ -3548,11 +3597,12 @@ GameObject:
   - component: {fileID: 1736203626}
   - component: {fileID: 1736203625}
   - component: {fileID: 1736203624}
-  - component: {fileID: 1736203629}
   - component: {fileID: 1736203628}
   - component: {fileID: 1736203630}
   - component: {fileID: 1736203632}
   - component: {fileID: 1736203631}
+  - component: {fileID: 1736203634}
+  - component: {fileID: 1736203633}
   m_Layer: 0
   m_Name: GimmickCube (2)
   m_TagString: Untagged
@@ -3638,17 +3688,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_iGimmickID: -1
---- !u!114 &1736203629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1736203623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b1e24eae89d9804d8fce6d054884891, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &1736203630
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3717,6 +3756,32 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &1736203633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1736203623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b9a7cfccb235d488ae25d050b07565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerLayerMask:
+    serializedVersion: 2
+    m_Bits: 1536
+  pushStrength: 0.5
+--- !u!114 &1736203634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1736203623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b1e24eae89d9804d8fce6d054884891, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1805209586
 GameObject:
   m_ObjectHideFlags: 0
@@ -4129,7 +4194,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2062688795
 GameObject:
@@ -4147,6 +4212,7 @@ GameObject:
   - component: {fileID: 2062688804}
   - component: {fileID: 2062688803}
   - component: {fileID: 2062688801}
+  - component: {fileID: 2062688805}
   m_Layer: 0
   m_Name: GimmickCube
   m_TagString: Untagged
@@ -4254,7 +4320,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -4311,3 +4377,18 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &2062688805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2062688795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b9a7cfccb235d488ae25d050b07565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerLayerMask:
+    serializedVersion: 2
+    m_Bits: 1536
+  pushStrength: 0.5

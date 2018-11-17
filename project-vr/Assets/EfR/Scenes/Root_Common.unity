@@ -215,51 +215,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fd630b5bff4a3c4bba1dd05f0d2c5e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1837193878
+--- !u!1 &1740374803
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 1837193880}
-  - component: {fileID: 1837193879}
+  - component: {fileID: 1740374805}
+  - component: {fileID: 1740374804}
   m_Layer: 0
-  m_Name: NetworkCoordinator
+  m_Name: VRObjectManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1837193879
+--- !u!114 &1740374804
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1837193878}
+  m_GameObject: {fileID: 1740374803}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b1217289edc51f4cac3321925cc20c6, type: 3}
+  m_Script: {fileID: 11500000, guid: da036d5890e5f1846822ddd6da8b14e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 1994373463090400, guid: e61683d34cd289e46b169b75aa154c02,
-    type: 2}
-  camPrefab: {fileID: 1878929245520666, guid: b4dd506e28a2aed4aa6e8e7bfcfcd570, type: 2}
-  ip: 127.0.0.1
-  port: 8900
-  connected: 0
-  playerPopPos:
-  - {fileID: 0}
-  - {fileID: 0}
-  camOffset: {x: 0, y: 0.35, z: 0}
---- !u!4 &1837193880
+  m_prefVRCams:
+  - {fileID: 1878929245520666, guid: b4dd506e28a2aed4aa6e8e7bfcfcd570, type: 2}
+  - {fileID: 1878929245520666, guid: b4dd506e28a2aed4aa6e8e7bfcfcd570, type: 2}
+  - {fileID: 1783514288484382, guid: a648540c67d03f044adc82e23dcaf19e, type: 2}
+--- !u!4 &1740374805
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1837193878}
+  m_GameObject: {fileID: 1740374803}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.728205, y: 2.7394638, z: 14.340616}
+  m_LocalPosition: {x: -10.000002, y: 1.6469998, z: -1.7155007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
