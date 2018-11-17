@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 114821892357800548}
   - component: {fileID: 114772261367889460}
   - component: {fileID: 114573797881991348}
+  - component: {fileID: 114572648569030030}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -346,6 +347,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_iGimmickID: 1
+--- !u!114 &114572648569030030
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1994373463090400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e58f0be829ba37a4c91caddf5b2732d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CamPosFPS: {fileID: 4108676244660118}
+  CamPosTPS: {fileID: 4713840663548026}
+  CamPos_2D: {fileID: 4350994385017248}
 --- !u!114 &114573797881991348
 MonoBehaviour:
   m_ObjectHideFlags: 1
