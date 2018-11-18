@@ -8,8 +8,6 @@ public class CameraVRController : MonoBehaviour {
     GameObject targetObject;
     Vector3 targetPosition;
 
-    Transform seekPos = null;
-
     Transform camPosParent;
 
     [SerializeField]
@@ -31,6 +29,7 @@ public class CameraVRController : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+
         vrObjectManager = VRObjectManager.GetInstance();
 
         GameObject oRHAnchor = null;
@@ -50,14 +49,17 @@ public class CameraVRController : MonoBehaviour {
             rightHandRig.localPosition = Vector3.zero;
             rightHandRig.localEulerAngles = Vector3.zero;
         }
+
     }
 
     // プレイヤースポーン後に呼ぶ
     public void Init()
     {
+
         var oPlayer = PlayerManager.LocalPlayer;
         playerMove = oPlayer.GetComponent<PlayerMove>();
 
+        // カメラを初期位置にセット
         if ( playerMove.moveType != PlayerMove.MoveType._2D )
         {
             var camPos = playerMove.GetComponent<ViewPointStorage>().GetCamPos(playerMove.moveType);
@@ -66,31 +68,34 @@ public class CameraVRController : MonoBehaviour {
             targetObject = oPlayer;
             targetPosition = targetObject.transform.position;
         }
-        else seekPos = null;
 
         camPosParent = GameObject.Find("CamPosParent").transform;
         camPosParent.transform.rotation = Quaternion.identity;
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
         // 非VRなら右手がマウスについてくる
         if ( vrObjectManager.DeviceType == VRDeviceType.NO_DEVICE )
         {
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = handRotateSensi;
-            Vector3 lookVec = centerCam.ScreenToWorldPoint(mousePos) - rightHandRig.position;
-            rightHandRig.rotation = Quaternion.LookRotation(lookVec);
+            Vector3 mousePos        = Input.mousePosition;
+            mousePos.z              = handRotateSensi;
+            Vector3 lookVec         = centerCam.ScreenToWorldPoint(mousePos) - rightHandRig.position;
+            rightHandRig.rotation   = Quaternion.LookRotation(lookVec);
         }
+
 
         if ( targetObject )
         {
-            Vector3 move = targetObject.transform.position - targetPosition;
-            transform.position += move;
-            targetPosition = targetObject.transform.position;
+            Vector3 move            = targetObject.transform.position - targetPosition;
+            transform.position      += move;
+            targetPosition          = targetObject.transform.position;
             //transform.position = targetObject.transform.position;
         }
+
 
         // TPS視点ならマウスの中ボタンでカメラをプレイヤーの周囲を回転
         if (    playerMove 
@@ -100,8 +105,8 @@ public class CameraVRController : MonoBehaviour {
             float mouseInputX = Input.GetAxis("Mouse X");
             float mouseInputY = -Input.GetAxis("Mouse Y");
 
-            transform.RotateAround(camPosParent.position, Vector3.up, mouseInputX * cameraSensitivity);
-            transform.RotateAround(camPosParent.position, transform.right, mouseInputY * cameraSensitivity);
+            transform.RotateAround(camPosParent.position, Vector3.up,       mouseInputX * cameraSensitivity);
+            transform.RotateAround(camPosParent.position, transform.right,  mouseInputY * cameraSensitivity);
         }
 
     }

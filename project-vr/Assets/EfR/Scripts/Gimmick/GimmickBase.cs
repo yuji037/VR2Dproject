@@ -39,10 +39,12 @@ public abstract class GimmickBase : NetworkBehaviour {
 
     public override void OnStartServer()
     {
-        NetworkServer.Spawn(gameObject);
+        if ( GimmickID >= 100 )
+            NetworkServer.Spawn(gameObject);
         //Debug.Log("NetworkServer spawn gimmick : " + gameObject.name);
     }
 
+    [ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
         if ( m_aCollisionEnterAction == null ) return;
@@ -64,6 +66,7 @@ public abstract class GimmickBase : NetworkBehaviour {
     //    networkView.RPC("ActCollisionStayAction", RPCMode.All, gmk.GimmickID);
     //}
 
+    [ServerCallback]
     private void OnCollisionExit(Collision collision)
     {
         if ( m_aCollisionExitAction == null ) return;
@@ -75,6 +78,7 @@ public abstract class GimmickBase : NetworkBehaviour {
         RpcCollisionExitAction(gmk.GimmickID);
     }
 
+    [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
         if ( m_aTriggerEnterAction == null ) return;
@@ -97,6 +101,7 @@ public abstract class GimmickBase : NetworkBehaviour {
     //    networkView.RPC("ActTriggerStayAction", RPCMode.All, gmk.GimmickID);
     //}
 
+    [ServerCallback]
     private void OnTriggerExit(Collider other)
     {
         if ( m_aTriggerExitAction == null ) return;
@@ -108,6 +113,7 @@ public abstract class GimmickBase : NetworkBehaviour {
         RpcTriggerExitAction(gmk.GimmickID);
     }
 
+    [ServerCallback]
     public void OnPointerHit(Collider rayShooter)
     {
         if (m_aPointerHitAction == null) return;

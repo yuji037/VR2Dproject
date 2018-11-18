@@ -43,18 +43,23 @@ public class GameCoordinator : MonoBehaviour {
     IEnumerator GameStartCoroutine()
     {
         yield return new WaitUntil(() => selectedVRDevice);
+        // VR機器種、選択完了
 
-        yield return StartCoroutine(SceneLoader.IELoadScene("Root_Frame3D"));
-        yield return StartCoroutine(SceneLoader.IELoadScene("Root_Stage"));
-        yield return StartCoroutine(StageSceneLoader.GetInstance().LoadNextStage());
-
-        StartCoroutine(SceneLoader.IELoadScene("Root_UI"));
+        StartCoroutine(                 SceneLoader.IELoadScene("Root_UI")              );
+        yield return StartCoroutine(    SceneLoader.IELoadScene("Root_Frame3D")         );
+        yield return StartCoroutine(    SceneLoader.IELoadScene("Root_Stage")           );
+        yield return StartCoroutine(    StageSceneLoader.GetInstance().LoadNextStage()  );
+        // 最初のステージロード完了
 
         vrObjectManager.SpawnVRCamObject();
         networkManager.gameObject.SetActive(true);
+        // ネットワーク接続
 
         yield return new WaitUntil(() => networkManager.IsClientSceneReady());
+        // ネットワーク接続完了
+        vrObjectManager.OnNetworkConnected();
         networkManager.SpawnPlayer();
+        // プレイヤースポーン
         yield return new WaitUntil(() => PlayerManager.LocalPlayer != null);
 
         OnPlayerSpawned();

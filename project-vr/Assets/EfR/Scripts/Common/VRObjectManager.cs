@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using System.Linq;
 
 public enum VRDeviceType {
@@ -13,13 +14,14 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
 
 
     [SerializeField]
-    GameObject[] m_prefVRCams;
+            GameObject[]    m_prefVRCams;
 
-    public VRDeviceType DeviceType { get; private set; }
+    public  VRDeviceType    DeviceType { get; private set; }
 
-    public GameObject VRCamObject { get; private set; }
+    public  GameObject      VRCamObject { get; private set; }
 
-    public void SetDeviceType(VRDeviceType deviceType)
+
+    public  void            SetDeviceType(VRDeviceType deviceType)
     {
         this.DeviceType = deviceType;
     }
@@ -30,6 +32,32 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
         VRCamObject = Instantiate(m_prefVRCams[(int)DeviceType]);
 
         VRCamObject.transform.parent = trParent;
+    }
+
+    NetworkIdentity[] handObjIDs;
+    
+    public void OnNetworkConnected()
+    {
+        // 2Pからも1Pの手が見えるように、ネットワーク対応
+        var handObjTransforms = VRCamObject.GetComponentsInChildren<Transform>()
+            .Where(tr => tr.gameObject.name == "StickForMouse").ToArray();
+
+        handObjIDs = new NetworkIdentity[handObjTransforms.Length];
+        foreach ( var obj in handObjTransforms )
+        {
+            NetworkServer.Spawn(obj.gameObject);
+        }
+
+        for(int i = 0; i < handObjTransforms.Length; ++i )
+        {
+            handObjIDs[i] = handObjTransforms[i].GetComponent<NetworkIdentity>();
+        }
+    }
+
+    private void Update()
+    {
+        //foreach ( var ni in handObjIDs )
+        //    Debug.Log(ni.netId);
     }
 
     // プレイヤースポーン後に呼ぶ
