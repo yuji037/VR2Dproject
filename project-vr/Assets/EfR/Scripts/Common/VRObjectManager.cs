@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public enum VRDeviceType {
     NO_DEVICE,
@@ -37,7 +38,7 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
         var oPlayer = PlayerManager.LocalPlayer;
         var plMove = oPlayer.GetComponent<PlayerMove>();
 
-        // カメラ生成
+        // カメラのTransform設定
         var camTr = oPlayer.GetComponent<ViewPointStorage>().GetCamPos(plMove.moveType);
         VRCamObject.transform.position = camTr.position;
         VRCamObject.transform.rotation = camTr.rotation;
@@ -52,5 +53,24 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
         var cc = VRCamObject.GetComponent<CameraVRController>();
         cc.Init();
 
+        var vca = VRCamObject.GetComponent<VRCameraAdjuster>();
+        vca.Init();
+    }
+
+    public GameObject GetBaseCameraObject()
+    {
+        switch ( DeviceType )
+        {
+            case VRDeviceType.NO_DEVICE:
+            case VRDeviceType.OCULUS:
+                var oculusCam = VRCamObject.GetComponentsInChildren<Camera>()
+                    .Where(cam => cam.gameObject.name == "CenterEyeAnchor").ToArray();
+                return oculusCam[0].gameObject;
+            case VRDeviceType.HTC_VIVE:
+            default:
+                var htcCam = VRCamObject.GetComponentsInChildren<Camera>()
+                    .Where(cam => cam.gameObject.name == "Camera").ToArray();
+                return htcCam[0].gameObject;
+        }
     }
 }

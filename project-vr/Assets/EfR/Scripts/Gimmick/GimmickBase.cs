@@ -40,7 +40,7 @@ public abstract class GimmickBase : NetworkBehaviour {
     public override void OnStartServer()
     {
         NetworkServer.Spawn(gameObject);
-        Debug.Log("NetworkServer spawn gimmick : " + gameObject.name);
+        //Debug.Log("NetworkServer spawn gimmick : " + gameObject.name);
     }
 
     private void OnCollisionEnter(Collision collision)

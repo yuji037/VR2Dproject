@@ -5,10 +5,62 @@ using UnityEngine.Networking;
 
 public class EFRNetworkManager : NetworkManager {
 
-    public override void OnStartClient(NetworkClient client)
+    bool connected = false;
+    bool isHost = false;
+
+    [SerializeField]
+    GameObject m_EFRPlayerPrefab;
+
+    public class AddPlayerMessage : MessageBase {
+        public int playerNum;
+    }
+
+    private void OnGUI()
     {
-        Debug.Log("Start Client");
-        base.OnStartClient(client);
-        PlayerManager.SetPlayers();
+        if ( !connected )
+        {
+
+            if ( GUI.Button(new Rect(10, 30, 200, 30), "LAN Host") )
+            {
+                StartHost();
+                isHost = true;
+                connected = true;
+            }
+
+            networkAddress = GUI.TextField(new Rect(10, 70, 200, 30), networkAddress);
+            if ( GUI.Button(new Rect(10, 100, 200, 30), "LAN Client") )
+            {
+                StartClient();
+                isHost = false;
+                connected = true;
+            }
+        }
+    }
+
+    public void SpawnPlayer()
+    {
+        var message = new AddPlayerMessage();
+        message.playerNum = isHost ? 1 : 2;
+        if(ClientScene.AddPlayer(ClientScene.readyConnection, (short)message.playerNum, message) == false)
+        {
+            Debug.LogError("プレイヤー作成失敗 : " + message.playerNum);
+            return;
+        }
+    }
+
+    public bool IsClientSceneReady()
+    {
+        return ClientScene.ready;
+    }
+
+    public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId, NetworkReader reader)
+    {
+        Debug.Log("サーバーにプレイヤー追加要請");
+
+        var message = reader.ReadMessage<AddPlayerMessage>();
+        var player = Instantiate(m_EFRPlayerPrefab);
+
+        NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+        Debug.Log("プレイヤー作成成功 : " + message.playerNum);
     }
 }

@@ -29,15 +29,18 @@ public class PlayerMove : NetworkBehaviour {
     [SerializeField]
     bool isGrounded = true;
 
-    [SerializeField]
-    GameObject camPrefab;
+    Transform camTransform;
 
-    // Use this for initialization
-    void Start()
+    public override void OnStartLocalPlayer()
     {
         playerStatus = GetComponent<PlayerStatus>();
         characterController = GetComponent<CharacterController>();
 
+        StageInit();
+    }
+
+    public void StageInit()
+    {
         if ( isLocalPlayer )
         {
             var stageSettingObj = GameObject.Find("StageSettings");
@@ -45,12 +48,15 @@ public class PlayerMove : NetworkBehaviour {
             {
                 var setting = stageSettingObj.GetComponent<StageSettings>();
 
-                moveType = setting.playerMoveTypeOnStart[playerStatus.PlayerNum - 1];
+                moveType = setting.playerMoveTypeOnStart[playerStatus.playerControllerId - 1];
             }
 
         }
-
+        Debug.Log("Load PlayerMoveSettings");
         LoadSettings();
+        playerStatus.RendererSwitchForPlayerMoveType(moveType);
+
+        camTransform = VRObjectManager.GetInstance().GetBaseCameraObject().transform;
     }
 
     public void LoadSettings()
@@ -83,14 +89,20 @@ public class PlayerMove : NetworkBehaviour {
         {
             velocity.y = Pms.jumpPower;
         }
+
+        if ( Input.GetKeyDown(KeyCode.H) )
+        {
+            var oldType = moveType;
+            moveType++; if ( moveType > MoveType._2D ) moveType = MoveType.FPS;
+        }
     }
 
     void FixedUpdate()
     {
         if (!isLocalPlayer ) return;
 
-        Vector3 cameraForwardXZ = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1));
-        Vector3 moveForwardXZ = cameraForwardXZ * inputVertical + Camera.main.transform.right * inputHorizontal;
+        Vector3 cameraForwardXZ = Vector3.Scale(camTransform.forward, new Vector3(1, 0, 1));
+        Vector3 moveForwardXZ = cameraForwardXZ * inputVertical + camTransform.right * inputHorizontal;
 
         // XZ平面移動
         if (isGrounded)

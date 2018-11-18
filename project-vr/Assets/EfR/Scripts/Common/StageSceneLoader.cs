@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageSceneLoader : MonoBehaviour {
+public class StageSceneLoader : SingletonMonoBehaviour<StageSceneLoader> {
 
     string nowSceneName;
 
@@ -11,50 +11,42 @@ public class StageSceneLoader : MonoBehaviour {
 
     int sceneCount = 0;
 
-    // Use this for initialization
-    void Start()
-    {
-        LoadNextStage();
-    }
+    //// Use this for initialization
+    //void Start()
+    //{
+    //    StartCoroutine(LoadNextStage());
+    //}
 
     // Update is called once per frame
     void Update()
     {
-        if ( Input.GetKeyDown(KeyCode.H) )
-        {
-            if ( SceneLoader.DestroyScene(nowSceneName) )
-            {
-                LoadNextStage();
-            }
-        }
+        //if ( Input.GetKeyDown(KeyCode.H) )
+        //{
+        //    if ( SceneLoader.DestroyScene(nowSceneName) )
+        //    {
+        //        StartCoroutine(LoadNextStage());
+        //    }
+        //}
     }
 
-    void LoadNextStage()
+    public IEnumerator LoadNextStage()
     {
         if(QuickStageStarter.firstStageName != "" )
         {
-            LoadStageScene(QuickStageStarter.firstStageName);
+            yield return StartCoroutine(LoadStageScene(QuickStageStarter.firstStageName));
             QuickStageStarter.firstStageName = "";
-            return;
+            yield break;
         }
 
-        LoadStageScene(sceneNames[sceneCount]);
+        yield return StartCoroutine(LoadStageScene(sceneNames[sceneCount]));
         sceneCount++; if ( sceneCount >= sceneNames.Length ) sceneCount = 0;
     }
 
-    //IEnumerator CoLoadNextStage()
-    //{
-    //    yield return SceneLoader.LoadScene("");
-    //}
-
-    void LoadStageScene(string _sceneName)
+    IEnumerator LoadStageScene(string _sceneName)
     {
-        var ao = SceneLoader.AsyncLoadScene(_sceneName);
-        ao.completed += (_ao) =>
-        {
-            var scene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(_sceneName);
-            UnityEngine.SceneManagement.SceneManager.SetActiveScene(scene);
-        };
+        yield return SceneLoader.IELoadScene(_sceneName);
+        var scene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(_sceneName);
+        UnityEngine.SceneManagement.SceneManager.SetActiveScene(scene);
         nowSceneName = _sceneName;
     }
 }

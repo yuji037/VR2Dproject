@@ -31,7 +31,9 @@ public class Camera2DAdjuster : MonoBehaviour
     {
         if (Target == null)
         {
-            Target = PlayerManager.LocalPlayer.transform;
+            var localPlayer = PlayerManager.LocalPlayer;
+            if ( !localPlayer ) return;
+            Target = localPlayer.transform;
             targetOffset = transform.position - Target.transform.position;
         }
     }

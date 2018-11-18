@@ -20,7 +20,7 @@ public class VRCameraAdjuster : MonoBehaviour
     [SerializeField]
     RenderTexture targetTexture;
 
-    Camera VRCam;
+    Camera[] VRCams;
 
     Camera videoGameCam;
     Camera VideoGameCam
@@ -55,33 +55,41 @@ public class VRCameraAdjuster : MonoBehaviour
     CameraParam videoGameWorldCameraParam;
 
     UnityEngine.PostProcessing.PostProcessingBehaviour postProcessing;
-    private void Start()
-    {
-        DelayInit(1.0f);
-    }
-    IEnumerator DelayInit(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        Init();
-    }
+    //private void Start()
+    //{
+    //    DelayInit(1.0f);
+    //}
+    //IEnumerator DelayInit(float delay)
+    //{
+    //    yield return new WaitForSeconds(delay);
+    //    Init();
+    //}
 
-    void Init()
+    public void Init()
     {
-        var player=PlayerManager.LocalPlayer;
-        VRCam = GetComponent<Camera>();
-        postProcessing = VRCam.GetComponent<UnityEngine.PostProcessing.PostProcessingBehaviour>();
+        var player = PlayerManager.LocalPlayer;
+        VRCams = GetComponentsInChildren<Camera>();
+        postProcessing = GetComponentInChildren<UnityEngine.PostProcessing.PostProcessingBehaviour>();
         farTVPos = player.GetComponent<ViewPointStorage>().GetCamPos(PlayerMove.MoveType._2D).position;
         var moveType = player.GetComponent<PlayerMove>().moveType;
-        switch (moveType)
+
+        switch ( moveType )
         {
             case PlayerMove.MoveType.FPS:
             case PlayerMove.MoveType.TPS:
-                SetCameraParam(VRCam, videoGameWorldCameraParam);
+                SetAllVRCamsParam(videoGameWorldCameraParam);
                 break;
             case PlayerMove.MoveType._2D:
-                SetCameraParam(VRCam, realWorldCameraParam);
+                SetAllVRCamsParam(realWorldCameraParam);
                 break;
         }
+        Debug.Log("Camera Init");
+    }
+
+    void SetAllVRCamsParam(CameraParam cameraParam)
+    {
+        foreach ( var VRCam in VRCams )
+            SetCameraParam(VRCam, cameraParam);
     }
 
     void SetCameraParam(Camera camera,CameraParam cameraParam)
@@ -109,7 +117,7 @@ public class VRCameraAdjuster : MonoBehaviour
         //transform.eulerAngles = GameCam.transform.eulerAngles /*+ realCam.transform.eulerAngles*/;
 
         //gameCamと同じものを見る設定
-        SetCameraParam(VRCam,videoGameWorldCameraParam);
+        SetAllVRCamsParam(videoGameWorldCameraParam);
 
         //skyCamのターゲットを外す
         SkyCam.targetTexture = null;
@@ -128,7 +136,7 @@ public class VRCameraAdjuster : MonoBehaviour
         SkyCam.targetTexture = targetTexture;
 
         //realCamのdefaultの設定に
-        SetCameraParam(VRCam, realWorldCameraParam);
+        SetAllVRCamsParam(realWorldCameraParam);
         transform.position = nearTVPos.position;
 
         //コントロールを無効に

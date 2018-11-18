@@ -7,6 +7,8 @@ public class GameCoordinator : MonoBehaviour {
 
     bool selectedVRDevice = false;
     VRObjectManager vrObjectManager;
+    [SerializeField]
+    EFRNetworkManager networkManager;
 
 	// Use this for initialization
 	void Start () {
@@ -42,15 +44,27 @@ public class GameCoordinator : MonoBehaviour {
     {
         yield return new WaitUntil(() => selectedVRDevice);
 
-        StartCoroutine(SceneLoader.IELoadScene("Root_Stage"));
         yield return StartCoroutine(SceneLoader.IELoadScene("Root_Frame3D"));
+        yield return StartCoroutine(SceneLoader.IELoadScene("Root_Stage"));
+        yield return StartCoroutine(StageSceneLoader.GetInstance().LoadNextStage());
+
         StartCoroutine(SceneLoader.IELoadScene("Root_UI"));
 
         vrObjectManager.SpawnVRCamObject();
+        networkManager.gameObject.SetActive(true);
 
+        yield return new WaitUntil(() => networkManager.IsClientSceneReady());
+        networkManager.SpawnPlayer();
         yield return new WaitUntil(() => PlayerManager.LocalPlayer != null);
 
-        Debug.Log("Init VRCamObject");
+        OnPlayerSpawned();
+    }
+
+    public void OnPlayerSpawned()
+    {
+        //PlayerManager.LocalPlayerInit();
         vrObjectManager.InitVRCamObject();
+
+        Debug.Log("Init VRCam and Player");
     }
 }
