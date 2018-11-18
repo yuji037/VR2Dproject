@@ -26,6 +26,7 @@ public class Camera2DAdjuster : MonoBehaviour
     void Start()
     {
         DefaultRot = transform.eulerAngles;
+        videoGameCamera = GetComponent<Camera>();
     }
     private void Update()
     {
@@ -34,7 +35,9 @@ public class Camera2DAdjuster : MonoBehaviour
             var localPlayer = PlayerManager.LocalPlayer;
             if ( !localPlayer ) return;
             Target = localPlayer.transform;
-            targetOffset = transform.position - Target.transform.position;
+            var offset = transform.position - Target.transform.position;
+            Debug.Log(offset);
+            targetOffset = new Vector3(0,offset.y,-15.0f);
         }
     }
     public void Trans2DPerspective()
@@ -49,7 +52,7 @@ public class Camera2DAdjuster : MonoBehaviour
     }
     public void Move2DPosition(Transform target)
     {
-        StartCoroutine(AdjustPosition(target, Get2DCameraPos(), DefaultRot));
+        StartCoroutine(AdjustPosition(target, Get2DCameraPos()));
     }
 
 
@@ -66,9 +69,9 @@ public class Camera2DAdjuster : MonoBehaviour
         StartCoroutine(AdjustPerspective(false));
     }
 
-    public void TransPosition(Transform endTransform)
+    public void TransPosition(Transform endTransform,float duration)
     {
-        StartCoroutine(AdjustPosition(transform, endTransform.position, endTransform.eulerAngles));
+        StartCoroutine(AdjustPosition(transform, endTransform.position,duration));
     }
 
     public void Set2DPosition()
@@ -78,12 +81,12 @@ public class Camera2DAdjuster : MonoBehaviour
     }
 
     //パースを調節する
-    IEnumerator AdjustPerspective(bool toReal)
+    IEnumerator AdjustPerspective(bool toReal,float defaultFov=90.0f)
     {
         pointLeftCenter = videoGameCamera.ScreenToWorldPoint(new Vector3(0/*Screen.width * 0.25f*/, Screen.height * 0.5f, depth));
         pointCenter = videoGameCamera.ScreenToWorldPoint(new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, depth));
         videoGameCamera.orthographic = false;
-        videoGameCamera.fieldOfView = 60f;
+        videoGameCamera.fieldOfView = defaultFov;
         Debug.Log("Screen width : " + Screen.width);
         float z = depth;
 
@@ -97,7 +100,7 @@ public class Camera2DAdjuster : MonoBehaviour
                 fovCoeff = 1.0f - t;
             }
 
-            float fieldOfView = 1f + 59f * fovCoeff;
+            float fieldOfView = 1f + (defaultFov-1) * fovCoeff;
 
             videoGameCamera.fieldOfView = fieldOfView;
 
@@ -109,14 +112,14 @@ public class Camera2DAdjuster : MonoBehaviour
         }
     }
 
-    IEnumerator AdjustPosition(Transform adjustTarget, Vector3 endPos, Vector3 endRot)
+    IEnumerator AdjustPosition(Transform adjustTarget, Vector3 endPos,float duration=1.0f)
     {
         Vector3 defPos = adjustTarget.position;
-        Vector3 defRot = adjustTarget.eulerAngles;
-        for (float t = 0; t < 1; t += Time.deltaTime)
+        //Vector3 defRot = adjustTarget.eulerAngles;
+        for (float t = 0; t < duration; t += Time.deltaTime)
         {
-            adjustTarget.position = defPos * (1f - t) / 1f + endPos * t / 1f;
-            adjustTarget.eulerAngles = defRot * (1f - t) / 1f + endRot * t / 1f;
+            adjustTarget.position = defPos * (duration - t) / duration + endPos * t / duration;
+            //adjustTarget.eulerAngles = defRot * (duration - t) / duration + endRot * t / duration;
             yield return null;
         }
     }

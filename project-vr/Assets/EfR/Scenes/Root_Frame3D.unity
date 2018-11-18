@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.1273174, g: 0.13414761, b: 0.12107885, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 536449991}
   - component: {fileID: 536449990}
   m_Layer: 8
-  m_Name: par_TransReal
+  m_Name: TransRealParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -205,7 +205,7 @@ ParticleSystem:
   m_GameObject: {fileID: 536449988}
   serializedVersion: 5
   lengthInSec: 5
-  simulationSpeed: 1
+  simulationSpeed: 10
   stopAction: 0
   looping: 1
   prewarm: 0
@@ -257,7 +257,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 336157086
+  randomSeed: 419572567
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3715,7 +3715,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 752962534}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.75099945}
+  m_LocalPosition: {x: 0, y: 0, z: -0.46500015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1000636410}
@@ -4279,7 +4279,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4981755552160928, guid: 9d6fc95b12b2a8c40b0729e976bfb637, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -28.315
+      value: -28.346
       objectReference: {fileID: 0}
     - target: {fileID: 4981755552160928, guid: 9d6fc95b12b2a8c40b0729e976bfb637, type: 2}
       propertyPath: m_LocalRotation.x
@@ -4335,6 +4335,11 @@ Prefab:
       propertyPath: nearTVPos
       value: 
       objectReference: {fileID: 752962535}
+    - target: {fileID: 20717326684680490, guid: 9d6fc95b12b2a8c40b0729e976bfb637,
+        type: 2}
+      propertyPath: field of view
+      value: 60
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9d6fc95b12b2a8c40b0729e976bfb637, type: 2}
   m_IsPrefabParent: 0
@@ -4382,7 +4387,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RCAdjuster: {fileID: 1559005883}
-  transRealParticle: {fileID: 0}
 --- !u!1 &1755445312
 GameObject:
   m_ObjectHideFlags: 0

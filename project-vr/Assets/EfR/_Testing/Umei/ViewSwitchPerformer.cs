@@ -16,13 +16,21 @@ public class ViewSwitchPerformer : MonoBehaviour
         {
             if (!gcAd)
             {
-                gcAd = GameObject.Find("GameCamera").GetComponent<Camera2DAdjuster>();
+                gcAd = GameObject.Find("Camera2D").GetComponent<Camera2DAdjuster>();
             }
             return gcAd;
         }
     }
-    [SerializeField]
-    ParticleSystem transRealParticle;
+    ParticleSystem trp;
+    ParticleSystem transRealParticle
+    {
+        get
+        {
+            if (!trp) trp = GameObject.Find("TransRealParticle").GetComponent<ParticleSystem>();
+            return trp;
+        }
+    }
+
 
     ParticleSystem tgp;
     ParticleSystem transGameParticle
@@ -46,11 +54,16 @@ public class ViewSwitchPerformer : MonoBehaviour
     //遷移中
     public bool IsTranslation { get; private set; }
 
+    PlayerMove pm;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.G))
         {
-            SwitchView(PlayerManager.LocalPlayer.GetComponent<PlayerMove>().moveType);
+            pm = PlayerManager.LocalPlayer.GetComponent<PlayerMove>();
+            var current = pm.moveType;
+            var next = (current == PlayerMove.MoveType.FPS)?PlayerMove.MoveType._2D: PlayerMove.MoveType.FPS;
+            pm.SwitchMoveType(next);
+            SwitchView(next);
         }
     }
 
@@ -66,43 +79,59 @@ public class ViewSwitchPerformer : MonoBehaviour
         switch (moveType)
         {
             case PlayerMove.MoveType.FPS:
-                break;
             case PlayerMove.MoveType.TPS:
                 Debug.Log("遷移開始Real→Virtual");
+
+                RCAdjuster.PlayMotionBlur();
+
+                transRealParticle.Play();
                 //TVにVRCameraを近づける
-                RCAdjuster.ApproachTV();
+                RCAdjuster.ApproachTV(1.0f);
                 yield return new WaitForSeconds(1.0f);
 
                 //realCamがTV画面まで近づいたら遠近感を出す。
                 C2DAdjuster.Trans3DPerspective();
                 yield return new WaitForSeconds(1.0f);
 
+
                 //2dCameraを徐々にプレイヤー位置に近づける
-                C2DAdjuster.TransPosition(vps.GetCamPos(moveType));
-                yield return new WaitForSeconds(2.1f);
-                
+                C2DAdjuster.TransPosition(viewPointStorage.GetCamPos(moveType),1.0f);
+                yield return new WaitForSeconds(1.0f);
+
                 //2dCameraがプレイヤー位置まで近づいたらVRCameraを同じ位置に
-                RCAdjuster.ChangeVRCamParamTo2DCam();
-                
+                RCAdjuster.ChangeVRCamParamTo2DCam(viewPointStorage.GetCamPos(moveType).position);
+                transRealParticle.Stop();
+
                 //2Dカメラを所定の位置に戻す
                 C2DAdjuster.Set2DPosition();
+
+                RCAdjuster.StopMotionBlur();
+
                 Debug.Log("遷移停止Real→Virtual");
                 break;
             case PlayerMove.MoveType._2D:
                 Debug.Log("遷移開始Virtual→Real");
-                
+
+                RCAdjuster.PlayMotionBlur();
+
                 //2ＤCamera位置にVRCamera移動
-                RCAdjuster.TransPosition(C2DAdjuster.Get2DCameraPos(),C2DAdjuster.DefaultRot);
+                RCAdjuster.TransPosition(C2DAdjuster.Get2DCameraPos(), C2DAdjuster.DefaultRot);
                 yield return new WaitForSeconds(1.0f);
 
+                transRealParticle.Play();
                 //VRCameraをRealWorldに戻す
                 RCAdjuster.ChangeVRCamParamToDefault();
 
                 //カメラを平行投影へ
                 C2DAdjuster.Trans2DPerspective();
-                
+                yield return new WaitForSeconds(1.0f);
+
                 //ＴＶ画面から離れる
-                RCAdjuster.DepartTV();
+                RCAdjuster.DepartTV(1.0f);
+                yield return new WaitForSeconds(1.0f);
+                RCAdjuster.StopMotionBlur();
+                transRealParticle.Stop();
+
                 Debug.Log("遷移停止Virtual→Real");
                 break;
         }
