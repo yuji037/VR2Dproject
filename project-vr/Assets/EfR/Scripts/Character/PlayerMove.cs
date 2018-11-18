@@ -15,8 +15,7 @@ public class PlayerMove : NetworkBehaviour {
         TPS,
         _2D,
     }
-    [SerializeField]
-    public MoveType moveType;
+    public MoveType moveType { get; private set; }
 
     [SerializeField]
     PlayerMoveSettings[] pmsDatasInDirectory;
@@ -67,6 +66,11 @@ public class PlayerMove : NetworkBehaviour {
         {
             Debug.LogError("PlayerMoveSettings load failure");
         }
+    }
+
+    public void SwitchMoveType(MoveType _moveType)
+    {
+        moveType = _moveType;
     }
 
     // Update is called once per frame
