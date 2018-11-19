@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //ToDo:2D→TPSorFPSに出来るように設計
-public class ViewSwitchPerformer : MonoBehaviour
+public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
 {
 
     // Use this for initialization
@@ -14,10 +14,7 @@ public class ViewSwitchPerformer : MonoBehaviour
     {
         get
         {
-            if (!gcAd)
-            {
-                gcAd = GameObject.Find("Camera2D").GetComponent<Camera2DAdjuster>();
-            }
+            if (!gcAd) gcAd = GameObject.Find("Camera2D").GetComponent<Camera2DAdjuster>();
             return gcAd;
         }
     }
@@ -51,29 +48,28 @@ public class ViewSwitchPerformer : MonoBehaviour
             return vps;
         }
     }
-    //遷移中
-    public bool IsTranslation { get; private set; }
 
     PlayerMove pm;
-    void Update()
+    PlayerMove playerMove
     {
-        if (Input.GetKeyDown(KeyCode.G))
+        get
         {
-            pm = PlayerManager.LocalPlayer.GetComponent<PlayerMove>();
-            var current = pm.moveType;
-            var next = (current == PlayerMove.MoveType.FPS)?PlayerMove.MoveType._2D: PlayerMove.MoveType.FPS;
-            pm.SwitchMoveType(next);
-            SwitchView(next);
+            if (!pm)pm= PlayerManager.LocalPlayer.GetComponent<PlayerMove>();
+            return pm;
         }
     }
 
-    void SwitchView(PlayerMove.MoveType switchType)
+    //遷移中
+    public bool IsTranslation { get; private set; }
+
+
+    public void SwitchView(PlayerMove.MoveType switchType,System.Action callBack=null)
     {
         if (IsTranslation) return;
-        StartCoroutine(Translation(switchType));
+        StartCoroutine(Translation(switchType, callBack));
     }
 
-    IEnumerator Translation(PlayerMove.MoveType moveType)
+    IEnumerator Translation(PlayerMove.MoveType moveType,System.Action callBack)
     {
         IsTranslation = true;
         switch (moveType)
@@ -107,6 +103,8 @@ public class ViewSwitchPerformer : MonoBehaviour
 
                 RCAdjuster.StopMotionBlur();
 
+                playerMove.RendererSwitchForPlayerMoveType(moveType);
+
                 Debug.Log("遷移停止Real→Virtual");
                 break;
             case PlayerMove.MoveType._2D:
@@ -114,8 +112,10 @@ public class ViewSwitchPerformer : MonoBehaviour
 
                 RCAdjuster.PlayMotionBlur();
 
+                playerMove.RendererSwitchForPlayerMoveType(moveType);
+
                 //2ＤCamera位置にVRCamera移動
-                RCAdjuster.TransPosition(C2DAdjuster.Get2DCameraPos(), C2DAdjuster.DefaultRot);
+                RCAdjuster.TransPosition(C2DAdjuster.GetPositionForDefaultFOV());
                 yield return new WaitForSeconds(1.0f);
 
                 transRealParticle.Play();
@@ -136,5 +136,6 @@ public class ViewSwitchPerformer : MonoBehaviour
                 break;
         }
         IsTranslation = false;
+        if (callBack!=null) callBack();
     }
 }

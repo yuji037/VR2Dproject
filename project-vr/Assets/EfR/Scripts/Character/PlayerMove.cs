@@ -30,6 +30,7 @@ public class PlayerMove : NetworkBehaviour {
 
     Transform camTransform;
 
+    public bool canMove=true;
     public override void OnStartLocalPlayer()
     {
         playerStatus = GetComponent<PlayerStatus>();
@@ -67,7 +68,10 @@ public class PlayerMove : NetworkBehaviour {
             Debug.LogError("PlayerMoveSettings load failure");
         }
     }
-
+    public void RendererSwitchForPlayerMoveType(MoveType moveType)
+    {
+        playerStatus.RendererSwitchForPlayerMoveType(moveType);
+    }
     public void SwitchMoveType(MoveType _moveType)
     {
         moveType = _moveType;
@@ -83,6 +87,11 @@ public class PlayerMove : NetworkBehaviour {
 
         // 2DならZ方向移動なくす
         if ( moveType == MoveType._2D ) inputVertical = 0f;
+        if (!canMove)
+        {
+            inputHorizontal = 0f;
+            inputVertical=0f;
+        }
 
         // 着地判定
         //RaycastHit hit;

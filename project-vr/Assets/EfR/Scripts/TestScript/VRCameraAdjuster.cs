@@ -157,19 +157,19 @@ public class VRCameraAdjuster : MonoBehaviour
             yield return null;
         }
     }
-    public void TransPosition(Vector3 endPos, Vector3 endRot)
+    public void TransPosition(Vector3 endPos)
     {
-        StartCoroutine(AdjustPosition(transform, endPos, endRot));
+        StartCoroutine(AdjustPosition(transform, endPos));
     }
 
-    IEnumerator AdjustPosition(Transform adjustTarget, Vector3 endPos, Vector3 endRot)
+    IEnumerator AdjustPosition(Transform adjustTarget, Vector3 endPos)
     {
         Vector3 defPos = adjustTarget.position;
-        Vector3 defRot = adjustTarget.eulerAngles;
+        //Vector3 defRot = adjustTarget.eulerAngles;
         for (float t = 0; t < 1; t += Time.deltaTime)
         {
             adjustTarget.position = defPos * (1f - t) / 1f + endPos * t / 1f;
-            adjustTarget.eulerAngles = defRot * (1f - t) / 1f + endRot * t / 1f;
+            //adjustTarget.eulerAngles = defRot * (1f - t) / 1f + endRot * t / 1f;
             yield return null;
         }
     }

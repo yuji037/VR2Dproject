@@ -88,7 +88,7 @@ public class CameraVRController : MonoBehaviour {
         }
 
 
-        if ( targetObject )
+        if ( targetObject&&playerMove.moveType!=PlayerMove.MoveType._2D )
         {
             Vector3 move            = targetObject.transform.position - targetPosition;
             transform.position      += move;

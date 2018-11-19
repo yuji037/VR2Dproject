@@ -22,6 +22,7 @@ public class Camera2DAdjuster : MonoBehaviour
 
     public Vector3 DefaultRot { private set; get; }
 
+    float defaultFOV = 90.0f;
     // Use this for initialization
     void Start()
     {
@@ -33,11 +34,10 @@ public class Camera2DAdjuster : MonoBehaviour
         if (Target == null)
         {
             var localPlayer = PlayerManager.LocalPlayer;
-            if ( !localPlayer ) return;
+            if (!localPlayer) return;
             Target = localPlayer.transform;
             var offset = transform.position - Target.transform.position;
-            Debug.Log(offset);
-            targetOffset = new Vector3(0,offset.y,-15.0f);
+            targetOffset = new Vector3(0, offset.y, -10.0f);
         }
     }
     public void Trans2DPerspective()
@@ -69,9 +69,9 @@ public class Camera2DAdjuster : MonoBehaviour
         StartCoroutine(AdjustPerspective(false));
     }
 
-    public void TransPosition(Transform endTransform,float duration)
+    public void TransPosition(Transform endTransform, float duration)
     {
-        StartCoroutine(AdjustPosition(transform, endTransform.position,duration));
+        StartCoroutine(AdjustPosition(transform, endTransform.position, duration));
     }
 
     public void Set2DPosition()
@@ -79,19 +79,25 @@ public class Camera2DAdjuster : MonoBehaviour
         transform.position = Get2DCameraPos();
         transform.eulerAngles = DefaultRot;
     }
-
+    //Fovがデフォルト値になった時のCameraPosition
+    public Vector3 GetPositionForDefaultFOV()
+    {
+        pointLeftCenter = videoGameCamera.ScreenToWorldPoint(new Vector3(0/*Screen.width * 0.25f*/, Screen.height * 0.5f, depth));
+        pointCenter = videoGameCamera.ScreenToWorldPoint(new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, depth));
+        var z = Vector3.Magnitude(pointLeftCenter - pointCenter) / Mathf.Tan(Mathf.Deg2Rad * defaultFOV);
+        return Get2DCameraPos() + new Vector3(0, 0, depth) - new Vector3(0, 0, z);
+    }
     //パースを調節する
-    IEnumerator AdjustPerspective(bool toReal,float defaultFov=90.0f)
+    IEnumerator AdjustPerspective(bool toReal)
     {
         pointLeftCenter = videoGameCamera.ScreenToWorldPoint(new Vector3(0/*Screen.width * 0.25f*/, Screen.height * 0.5f, depth));
         pointCenter = videoGameCamera.ScreenToWorldPoint(new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, depth));
         videoGameCamera.orthographic = false;
-        videoGameCamera.fieldOfView = defaultFov;
-        Debug.Log("Screen width : " + Screen.width);
-        float z = depth;
+        videoGameCamera.fieldOfView = defaultFOV;
 
-        Debug.Log("pointLeftTop : " + pointLeftCenter);
-        Debug.Log("pointCenter : " + pointCenter);
+        //Debug.Log("Screen width : " + Screen.width);
+        //Debug.Log("pointLeftTop : " + pointLeftCenter);
+        //Debug.Log("pointCenter : " + pointCenter);
         for (float t = 0; t < 1.0f; t += Time.deltaTime)
         {
             float fovCoeff = t;
@@ -100,19 +106,20 @@ public class Camera2DAdjuster : MonoBehaviour
                 fovCoeff = 1.0f - t;
             }
 
-            float fieldOfView = 1f + (defaultFov-1) * fovCoeff;
+            float fieldOfView = 1f + (defaultFOV - 1) * fovCoeff;
 
             videoGameCamera.fieldOfView = fieldOfView;
 
-            z = Vector3.Magnitude(pointLeftCenter - pointCenter) / Mathf.Tan(Mathf.Deg2Rad * fieldOfView);
+            var z = Vector3.Magnitude(pointLeftCenter - pointCenter) / Mathf.Tan(Mathf.Deg2Rad * fieldOfView);
 
             transform.position = Get2DCameraPos() + new Vector3(0, 0, depth) - new Vector3(0, 0, z);
+
 
             yield return null;
         }
     }
 
-    IEnumerator AdjustPosition(Transform adjustTarget, Vector3 endPos,float duration=1.0f)
+    IEnumerator AdjustPosition(Transform adjustTarget, Vector3 endPos, float duration = 1.0f)
     {
         Vector3 defPos = adjustTarget.position;
         //Vector3 defRot = adjustTarget.eulerAngles;
