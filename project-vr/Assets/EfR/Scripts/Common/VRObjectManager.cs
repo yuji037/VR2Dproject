@@ -20,6 +20,9 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
 
     public  GameObject      VRCamObject { get; private set; }
 
+	[SerializeField]
+			GameObject		m_prefVRHand;
+
 
     public  void            SetDeviceType(VRDeviceType deviceType)
     {
@@ -40,13 +43,27 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
     {
         // 2Pからも1Pの手が見えるように、ネットワーク対応
         var handObjTransforms = VRCamObject.GetComponentsInChildren<Transform>()
-            .Where(tr => tr.gameObject.name == "StickForMouse").ToArray();
+								.Where(tr => tr.gameObject.name.Contains("HandRig")).ToArray();
 
         handObjIDs = new NetworkIdentity[handObjTransforms.Length];
         foreach ( var obj in handObjTransforms )
         {
-            NetworkServer.Spawn(obj.gameObject);
-        }
+			//var _parent = obj.transform.parent;
+			//obj.transform.parent = null;
+			//NetworkServer.Spawn(obj.gameObject);
+			//obj.transform.parent = _parent;
+
+			// ※サーバーでスポーンするオブジェクトの親が非アクティブだと
+			// 上手くスポーンしないらしい？
+			var trackHand = Instantiate(m_prefVRHand);
+			//trackHand.transform.parent = GameObject.Find("VRCamParent").transform;
+			trackHand.transform.position = obj.transform.position;
+			trackHand.transform.rotation = obj.transform.rotation;
+			trackHand.GetComponent<TrackingTransform>().trackTransform = obj.transform;
+			Debug.Log("OnNetworkConnected");
+			NetworkServer.SpawnWithClientAuthority(trackHand, PlayerManager.LocalPlayer);
+			//NetworkServer.Spawn(trackHand);
+		}
 
         for(int i = 0; i < handObjTransforms.Length; ++i )
         {

@@ -10,8 +10,12 @@ public class EFRNetworkManager : NetworkManager {
 
     [SerializeField]
     GameObject m_EFRPlayerPrefab;
+	[SerializeField]
+	GameObject m_HandRPrefab;
+	[SerializeField]
+	GameObject m_HandLPrefab;
 
-    public class AddPlayerMessage : MessageBase {
+	public class AddPlayerMessage : MessageBase {
         public int playerNum;
     }
 
@@ -34,7 +38,14 @@ public class EFRNetworkManager : NetworkManager {
                 isHost = false;
                 connected = true;
             }
-        }
+
+			if ( GUI.Button(new Rect(10, 200, 200, 30), "LAN Server Only (使用不可)") )
+			{
+				StartServer(connectionConfig, maxConnections);
+				isHost = false;
+				connected = true;
+			}
+		}
     }
 
     public void SpawnPlayer()
@@ -59,8 +70,27 @@ public class EFRNetworkManager : NetworkManager {
 
         var message = reader.ReadMessage<AddPlayerMessage>();
         var player = Instantiate(m_EFRPlayerPrefab);
+		var handR = Instantiate(m_HandRPrefab);
+		var handL = Instantiate(m_HandLPrefab);
 
-        NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
-        Debug.Log("プレイヤー作成成功 : " + message.playerNum);
-    }
+		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+		NetworkServer.AddPlayerForConnection(conn, handR, (short)(playerControllerId + 2));
+		NetworkServer.AddPlayerForConnection(conn, handL, (short)(playerControllerId + 4));
+		Debug.Log("プレイヤー作成成功 : " + message.playerNum);
+	}
+
+	public override void OnClientConnect(NetworkConnection conn)
+	{
+		base.OnClientConnect(conn);
+	}
+
+	public override void OnServerConnect(NetworkConnection conn)
+	{
+		base.OnServerConnect(conn);
+	}
+
+	public override void OnStartClient(NetworkClient client)
+	{
+		base.OnStartClient(client);
+	}
 }

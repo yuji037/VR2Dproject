@@ -23,6 +23,7 @@ public class PlayerMove : NetworkBehaviour {
     [SerializeField]
     PlayerMoveSettings Pms;
 
+	// 内部変数
     float inputHorizontal, inputVertical;
     Vector3 velocity = Vector3.zero;
     [SerializeField]
@@ -75,6 +76,7 @@ public class PlayerMove : NetworkBehaviour {
     public void SwitchMoveType(MoveType _moveType)
     {
         moveType = _moveType;
+		LoadSettings();
     }
 
     // Update is called once per frame
@@ -102,20 +104,33 @@ public class PlayerMove : NetworkBehaviour {
         {
             velocity.y = Pms.jumpPower;
         }
-
-        if ( Input.GetKeyDown(KeyCode.H) )
-        {
-            var oldType = moveType;
-            moveType++; if ( moveType > MoveType._2D ) moveType = MoveType.FPS;
-        }
     }
 
     void FixedUpdate()
     {
         if (!isLocalPlayer ) return;
 
+		// カメラの前方向と右方向を基準に移動
         Vector3 cameraForwardXZ = Vector3.Scale(camTransform.forward, new Vector3(1, 0, 1));
-        Vector3 moveForwardXZ = cameraForwardXZ * inputVertical + camTransform.right * inputHorizontal;
+		if ( cameraForwardXZ == Vector3.zero ) return;
+
+		cameraForwardXZ			= Vector3.Normalize(cameraForwardXZ);
+		Vector3 moveForwardXZ	= Vector3.zero;
+
+		switch ( moveType )
+		{
+			case MoveType.FPS:
+				moveForwardXZ = cameraForwardXZ * inputVertical + camTransform.right * inputHorizontal;
+				break;
+
+			case MoveType.TPS:
+				moveForwardXZ = cameraForwardXZ * inputVertical + camTransform.right * inputHorizontal;
+				break;
+
+			case MoveType._2D:
+				moveForwardXZ = new Vector3(inputHorizontal, 0, 0);
+				break;
+		}
 
         // XZ平面移動
         if (isGrounded)
@@ -131,14 +146,14 @@ public class PlayerMove : NetworkBehaviour {
 
         // 重力
         if (!isGrounded)
-            velocity.y -= Pms.gravity * Time.deltaTime;
+            velocity.y	-= Pms.gravity * Time.deltaTime;
         // 空気抵抗（次第に減速するためのもの）
-        velocity.y -= velocity.y * Pms.airVerticalResistance * Time.deltaTime;
+        velocity.y		-= velocity.y * Pms.airVerticalResistance * Time.deltaTime;
         // 摩擦（次第に減速するためのもの）
         if (isGrounded)
-            velocity -= velocity * Pms.groundFriction * Time.deltaTime;
+            velocity	-= velocity * Pms.groundFriction * Time.deltaTime;
         else
-            velocity -= velocity * Pms.airResistance * Time.deltaTime;
+            velocity	-= velocity * Pms.airResistance * Time.deltaTime;
 
 
         // 速度上限

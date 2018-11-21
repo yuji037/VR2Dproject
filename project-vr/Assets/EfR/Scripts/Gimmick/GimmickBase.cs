@@ -7,25 +7,29 @@ using UnityEngine.Networking;
 public abstract class GimmickBase : NetworkBehaviour {
 
     [SerializeField]
-    private int m_iGimmickID;
-    public int GimmickID
+    private		int		m_iGimmickID;
+    public		int		GimmickID
     {
-        get { return m_iGimmickID; }
+        get { return	m_iGimmickID; }
     }
 
-    protected Action<int> m_aCollisionEnterAction;
+    protected	Action<int> m_aCollisionEnterAction;
     //protected Action<int> m_aCollisionStayAction;
-    protected Action<int> m_aCollisionExitAction;
-    protected Action<int> m_aTriggerEnterAction;
+    protected	Action<int> m_aCollisionExitAction;
+    protected	Action<int> m_aTriggerEnterAction;
     //protected Action<int> m_aTriggerStayAction;
-    protected Action<int> m_aTriggerExitAction;
-    protected Action<int> m_aPointerHitAction;
+    protected	Action<int> m_aTriggerExitAction;
+    protected	Action<int> m_aPointerHitAction;
 
-    [ClientRpc]void RpcCollisionEnterAction(int otherGimmickID  ) {  m_aCollisionEnterAction(    otherGimmickID);     }
-    [ClientRpc]void RpcCollisionExitAction (int otherGimmickID  ) {  m_aCollisionExitAction(     otherGimmickID);     }
-    [ClientRpc]void RpcTriggerEnterAction  (int otherGimmickID  ) {  m_aTriggerEnterAction(      otherGimmickID);     }
-    [ClientRpc]void RpcTriggerExitAction   (int otherGimmickID  ) {  m_aTriggerExitAction(       otherGimmickID);     }
-    [ClientRpc]void RpcPointerHitAction    (int pointerGimmickID) {  m_aPointerHitAction(        pointerGimmickID);   }
+	// サーバーから全クライアントで呼び出す
+	// →ということは各クライアントでDoor.Open()などが起こるのでほんとは[Server]だけで起こるのが正しい？
+	// それか呼び出し元が[ServerCallback]でServerのみで呼ばれるのでこちらにAttributeは要らない？
+	void RpcCollisionEnterAction(	int otherGimmickID		){ m_aCollisionEnterAction(	otherGimmickID		); }
+	void RpcCollisionExitAction(	int otherGimmickID		){ m_aCollisionExitAction(	otherGimmickID		); }
+	void RpcTriggerEnterAction(		int otherGimmickID		){ m_aTriggerEnterAction(	otherGimmickID		); }
+	void RpcTriggerExitAction(		int otherGimmickID		){ m_aTriggerExitAction(	otherGimmickID		); }
+	void RpcPointerHitAction(		int pointerGimmickID	){ m_aPointerHitAction(		pointerGimmickID	); }
+
     //[RPC] void ActCollisionStayAction (int otherGimmickID  ) {  m_aCollisionStayAction(     otherGimmickID);     }
     //[RPC] void ActTriggerStayAction   (int otherGimmickID  ) {  m_aTriggerStayAction(       otherGimmickID);     }
 
@@ -39,9 +43,11 @@ public abstract class GimmickBase : NetworkBehaviour {
 
     public override void OnStartServer()
     {
-        if ( GimmickID >= 100 )
-            NetworkServer.Spawn(gameObject);
-        //Debug.Log("NetworkServer spawn gimmick : " + gameObject.name);
+		if ( GimmickID >= 100 )
+		{
+			//NetworkServer.Spawn(gameObject);
+			Debug.Log("NetworkServer spawn gimmick : " + gameObject.name);
+		}
     }
 
     [ServerCallback]

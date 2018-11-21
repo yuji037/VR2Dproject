@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 public class GameCoordinator : MonoBehaviour {
@@ -56,20 +57,21 @@ public class GameCoordinator : MonoBehaviour {
         // ネットワーク接続
 
         yield return new WaitUntil(() => networkManager.IsClientSceneReady());
-        // ネットワーク接続完了
-        vrObjectManager.OnNetworkConnected();
+		yield return new WaitUntil(() => networkManager.IsClientConnected());
         networkManager.SpawnPlayer();
-        // プレイヤースポーン
-        yield return new WaitUntil(() => PlayerManager.LocalPlayer != null);
+		// ネットワーク接続完了
+		yield return new WaitForSeconds(1f);
+		// プレイヤースポーン
+		yield return new WaitUntil(() => PlayerManager.LocalPlayer != null);
 
-        OnPlayerSpawned();
+
+		OnPlayerSpawned();
     }
 
     public void OnPlayerSpawned()
     {
-        //PlayerManager.LocalPlayerInit();
         vrObjectManager.InitVRCamObject();
 
-        Debug.Log("Init VRCam and Player");
+        Debug.Log("Init VRCam");
     }
 }
