@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Linq;
 
+// MonoBehaviourなのはlocalPlayerをインスペクターで見るため
 public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 
 	const string PlayerPrefixName = "Player_";
@@ -39,20 +40,6 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 	// プレイヤー座標が近い順に並べて取得
 	public static GameObject[] GetNearPlayers(Vector3 original)
 	{
-		//float		minSqrDistance	= 9999f;
-		//GameObject	nearPlayer		= null;
-
-		//foreach(var pl in Players )
-		//{
-		//	float	_sqrDistance = ( pl.transform.position - original ).sqrMagnitude;
-
-		//	if(		_sqrDistance < minSqrDistance )
-		//	{
-		//		minSqrDistance	= _sqrDistance;
-		//		nearPlayer		= pl;
-		//	}
-		//}
-		//return nearPlayer;
 		var nearPlayers = Players.OrderBy(obj => ( obj.transform.position - original ).sqrMagnitude).ToArray();
 
 		foreach(var pl in nearPlayers )
