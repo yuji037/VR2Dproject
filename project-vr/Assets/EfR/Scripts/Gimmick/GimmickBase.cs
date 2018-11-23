@@ -130,4 +130,9 @@ public abstract class GimmickBase : NetworkBehaviour {
 
         RpcPointerHitAction(gmk.GimmickID);
     }
+
+	public void DestroyThisObject()
+	{
+		NetworkServer.Destroy(this.gameObject);
+	}
 }

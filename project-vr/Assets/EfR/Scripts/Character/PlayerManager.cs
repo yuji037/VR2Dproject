@@ -2,41 +2,75 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.Linq;
 
-public static class PlayerManager {
+public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 
-    //public static readonly string[] PlayerNames =
-    //{
-    //    "Player1",
-    //    "Player2"
-    //};
+	const string PlayerPrefixName = "Player_";
 
-    public static GameObject LocalPlayer { get; private set; }
+	[SerializeField]
+	GameObject localPlayer;
 
-    public static GameObject[] Players { get; private set; }
+	// このPC端末のプレイヤー
+    public static GameObject LocalPlayer { get { return GetInstance().localPlayer; } }
 
-    //public static void LocalPlayerInit()
-    //{
-    //    LocalPlayer.GetComponent<PlayerStatus>().Init();
-    //    LocalPlayer.GetComponent<PlayerMove>().Init();
-    //}
+	// 他のPC端末のプレイヤー
+	public static GameObject OtherPlayer { get
+		{
+			GameObject[]	otherPlayers = Players.Where(obj => obj != LocalPlayer).ToArray();
+			return			otherPlayers[0];
+		} }
 
-    //public static int GetNewPlayerNum()
-    //{
-    //    return GameObject.Find("Server").GetComponent<EFRNetworkServer>().Players.Count;
-    //}
+	// 接続中の全てのプレイヤー
+    public static GameObject[] Players { get
+		{
+			var playerNIs = ClientScene.objects.Values.Where(ni => 
+				ni.gameObject.name.Contains(PlayerPrefixName)).ToArray();
 
-    public static void SetLocalPlayer(GameObject localPlayer)
+			var players = new GameObject[playerNIs.Length];
+			for(int i = 0; i < players.Length; ++i )
+			{
+				players[i] = playerNIs[i].gameObject;
+			}
+			return players;
+		}
+	}
+
+	// プレイヤー座標が近い順に並べて取得
+	public static GameObject[] GetNearPlayers(Vector3 original)
+	{
+		//float		minSqrDistance	= 9999f;
+		//GameObject	nearPlayer		= null;
+
+		//foreach(var pl in Players )
+		//{
+		//	float	_sqrDistance = ( pl.transform.position - original ).sqrMagnitude;
+
+		//	if(		_sqrDistance < minSqrDistance )
+		//	{
+		//		minSqrDistance	= _sqrDistance;
+		//		nearPlayer		= pl;
+		//	}
+		//}
+		//return nearPlayer;
+		var nearPlayers = Players.OrderBy(obj => ( obj.transform.position - original ).sqrMagnitude).ToArray();
+
+		foreach(var pl in nearPlayers )
+		{
+			Debug.Log(pl.name);
+		}
+
+		return nearPlayers;
+	}
+
+	public static string GetPlayerName(short playerControllerId)
+	{
+		return PlayerPrefixName + playerControllerId.ToString("D2");
+	}
+
+	public static void SetLocalPlayer(GameObject _localPlayer)
     {
-        LocalPlayer = localPlayer;
+        GetInstance().localPlayer = _localPlayer;
     }
 
-    public static void SetPlayers()
-    {
-        Players = new GameObject[2];
-        Players[0] = GameObject.Find("Player1");
-        Players[1] = GameObject.Find("Player2");
-        Debug.Log("Player[0] : " + Players[0]);
-        Debug.Log("Player[1] : " + Players[1]);
-    }
 }

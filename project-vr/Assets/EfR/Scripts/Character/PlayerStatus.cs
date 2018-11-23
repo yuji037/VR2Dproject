@@ -23,38 +23,9 @@ public class PlayerStatus : NetworkBehaviour {
 		}
 	}
 
-	[Command]
-	public void CmdSpawnHand()
-	{
-		var VRCamObject = VRObjectManager.GetInstance().VRCamObject;
-		// 2Pからも1Pの手が見えるように、ネットワーク対応
-		var handObjTransforms = VRCamObject.GetComponentsInChildren<Transform>()
-								.Where(tr => tr.gameObject.name.Contains("HandRig")).ToArray();
-
-		foreach ( var obj in handObjTransforms )
-		{
-			//var _parent = obj.transform.parent;
-			//obj.transform.parent = null;
-			//NetworkServer.Spawn(obj.gameObject);
-			//obj.transform.parent = _parent;
-
-			// ※サーバーでスポーンするオブジェクトの親が非アクティブだと
-			// 上手くスポーンしないらしい？
-			var trackHand = Instantiate(m_prefVRHand);
-			//trackHand.transform.parent = GameObject.Find("VRCamParent").transform;
-			trackHand.transform.position = obj.transform.position;
-			trackHand.transform.rotation = obj.transform.rotation;
-			trackHand.GetComponent<TrackingTransform>().trackTransform = obj.transform;
-			Debug.Log("hand spon");
-			NetworkServer.SpawnWithClientAuthority(trackHand, connectionToClient);
-			//NetworkServer.Spawn(trackHand);
-		}
-	}
-
     private void Start()
     {
-        gameObject.name = "Player" + playerControllerId.ToString();
-        Debug.Log("MonoBehaviour Start function");
+		gameObject.name = PlayerManager.GetPlayerName(playerControllerId);
         StageInit();
     }
 
@@ -101,4 +72,22 @@ public class PlayerStatus : NetworkBehaviour {
             Debug.LogWarning("PlayerPopPos" + playerControllerId.ToString() + "が見つかりません");
         }
     }
+
+	// 他端末のプレイヤーに影響する場合は[ClientRpc]を使う
+	// [ClientRpc]：すべてのクライアントの関数をリモートで実行
+	[ClientRpc]
+	public void RpcFlipFlopPlayerView(PlayerMove.MoveType transMoveTypeTo)
+	{
+		if ( !hasAuthority ) return;
+
+		var pm = GetComponent<PlayerMove>();
+		Debug.Log(pm.gameObject.name + " : " + pm.moveType + " → " + transMoveTypeTo);
+
+		//既に移行したいMoveTypeだった場合か移行中の場合return
+		if ( transMoveTypeTo == pm.moveType || ViewSwitchPerformer.GetInstance().IsTranslation ) return;
+		pm.SwitchMoveType(transMoveTypeTo);
+		pm.canMove = false;
+		ViewSwitchPerformer.GetInstance().SwitchView(transMoveTypeTo, () => pm.canMove = true);
+	}
+
 }
