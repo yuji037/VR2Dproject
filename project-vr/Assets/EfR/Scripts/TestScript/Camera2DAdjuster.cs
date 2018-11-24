@@ -7,14 +7,14 @@ public class Camera2DAdjuster : MonoBehaviour
 {
     Camera videoGameCamera;
 
-    [SerializeField]
-    Rect screenRect;
-
     Vector3 pointLeftCenter;
     Vector3 pointCenter;
 
     [SerializeField]
     float depth = 1f;
+
+    [SerializeField]
+    RenderTexture targetTexture;
 
     Transform Target;
 
@@ -23,6 +23,8 @@ public class Camera2DAdjuster : MonoBehaviour
     public Vector3 DefaultRot { private set; get; }
 
     float defaultFOV = 90.0f;
+
+
     // Use this for initialization
     void Start()
     {
@@ -79,19 +81,27 @@ public class Camera2DAdjuster : MonoBehaviour
         transform.position = Get2DCameraPos();
         transform.eulerAngles = DefaultRot;
     }
+    Vector3 GetLeftCenterPoint()
+    {
+        return videoGameCamera.ScreenToWorldPoint(new Vector3(0, targetTexture.height * 0.5f, depth));
+    }
+    Vector3 GetCenterPoint()
+    {
+        return videoGameCamera.ScreenToWorldPoint(new Vector3(targetTexture.width * 0.5f, targetTexture.height * 0.5f, depth));
+    }
     //Fovがデフォルト値になった時のCameraPosition
     public Vector3 GetPositionForDefaultFOV()
     {
-        pointLeftCenter = videoGameCamera.ScreenToWorldPoint(new Vector3(0/*Screen.width * 0.25f*/, Screen.height * 0.5f, depth));
-        pointCenter = videoGameCamera.ScreenToWorldPoint(new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, depth));
+        pointLeftCenter = GetLeftCenterPoint();
+        pointCenter = GetCenterPoint();
         var z = Vector3.Magnitude(pointLeftCenter - pointCenter) / Mathf.Tan(Mathf.Deg2Rad * defaultFOV);
         return Get2DCameraPos() + new Vector3(0, 0, depth) - new Vector3(0, 0, z);
     }
     //パースを調節する
     IEnumerator AdjustPerspective(bool toReal)
     {
-        pointLeftCenter = videoGameCamera.ScreenToWorldPoint(new Vector3(0/*Screen.width * 0.25f*/, Screen.height * 0.5f, depth));
-        pointCenter = videoGameCamera.ScreenToWorldPoint(new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, depth));
+        pointLeftCenter = GetLeftCenterPoint();
+        pointCenter = GetCenterPoint();
         videoGameCamera.orthographic = false;
         videoGameCamera.fieldOfView = defaultFOV;
 
