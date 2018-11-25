@@ -121,7 +121,7 @@ public class CameraVRController : MonoBehaviour {
         if (   playerMove
             && playerMove.moveType == PlayerMove.MoveType.FPS
             && Physics.Raycast(targetObject.transform.position, playerMove.GetVelocity(), out hit, 2.0f)
-            && hit.transform.name == "GimmickCube"
+            && hit.transform.tag == "GimmickCube"
             && changeCamera == null)
         {
             playerMove.SwitchMoveType(PlayerMove.MoveType.TPS);
@@ -137,7 +137,7 @@ public class CameraVRController : MonoBehaviour {
             || playerMove
             && playerMove.moveType == PlayerMove.MoveType.TPS
             && (Physics.Raycast(targetObject.transform.position, playerMove.GetVelocity(),out hit, 2.0f)
-            && hit.transform.name != "GimmickCube"
+            && hit.transform.tag != "GimmickCube"
             && changeCamera == null))
         {
             playerMove.SwitchMoveType(PlayerMove.MoveType.FPS);
