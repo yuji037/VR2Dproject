@@ -75,7 +75,7 @@ public class CameraVRController : MonoBehaviour {
         }
 
         camPosParent = GameObject.Find("CamPosParent").transform;
-        camPosParent.transform.rotation = Quaternion.identity;
+        camPosParent.transform.localRotation = Quaternion.identity;
         camChangeDis = targetObject.GetComponent<ViewPointStorage>().GetCamPos(PlayerMove.MoveType.TPS).position
             - targetObject.GetComponent<ViewPointStorage>().GetCamPos(PlayerMove.MoveType.FPS).position;
 
