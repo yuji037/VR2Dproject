@@ -6,8 +6,8 @@ using UnityEngine.Networking;
 
 public class PlayerMove : NetworkBehaviour {
 
-    PlayerStatus playerStatus;
-    CharacterController characterController;
+    PlayerStatus			playerStatus;
+    CharacterController		characterController;
 
     public enum MoveType
     {
@@ -15,13 +15,19 @@ public class PlayerMove : NetworkBehaviour {
         TPS,
         _2D,
     }
-    public MoveType moveType { get; private set; }
+
+	[SyncVar]
+	MoveType		_moveType; 
+    public MoveType moveType { get
+		{
+			return	_moveType;
+		} }
 
     [SerializeField]
-    PlayerMoveSettings[] pmsDatasInDirectory;
+    PlayerMoveSettings[]	pmsDatasInDirectory;
 
     [SerializeField]
-    PlayerMoveSettings Pms;
+    PlayerMoveSettings		Pms;
 
 	// 内部変数
     float inputHorizontal, inputVertical;
@@ -46,25 +52,29 @@ public class PlayerMove : NetworkBehaviour {
     {
         if ( isLocalPlayer )
         {
-            var stageSettingObj = GameObject.Find("StageSettings");
+			var moveTypeOnStart = _moveType;
+
+			var stageSettingObj = GameObject.Find("StageSettings");
             if ( stageSettingObj )
             {
                 var setting = stageSettingObj.GetComponent<StageSettings>();
 
-                moveType = setting.playerMoveTypeOnStart[playerStatus.playerControllerId - 1];
+				moveTypeOnStart = setting.playerMoveTypeOnStart[playerStatus.playerControllerId - 1];
+				SwitchMoveType(moveTypeOnStart);
             }
+			else
+			{
+				Debug.LogWarning("StageSettingsオブジェクトがないため、Playerの視点モードが上手く設定できません。");
+			}
 
-        }
-        Debug.Log("Load PlayerMoveSettings");
-        LoadSettings();
-        playerStatus.RendererSwitchForPlayerMoveType(moveType);
-
-        camTransform = VRObjectManager.GetInstance().GetBaseCameraObject().transform;
+			playerStatus.RendererSwitchForPlayerMoveType(moveTypeOnStart);
+			camTransform = VRObjectManager.GetInstance().GetBaseCameraObject().transform;
+		}
     }
 
-    public void LoadSettings()
+    public void LoadMoveSettings(MoveType __moveType)
     {
-        Pms = pmsDatasInDirectory[(int)moveType];
+        Pms = pmsDatasInDirectory[(int)__moveType];
 
         if (!Pms)
         {
@@ -75,11 +85,16 @@ public class PlayerMove : NetworkBehaviour {
     {
         playerStatus.RendererSwitchForPlayerMoveType(moveType);
     }
-    public void SwitchMoveType(MoveType _moveType)
+    public void SwitchMoveType(MoveType __moveType)
     {
-        moveType = _moveType;
-		LoadSettings();
+		CmdSetMoveType(__moveType);
+		LoadMoveSettings(__moveType);
     }
+	[Command]
+	void CmdSetMoveType(MoveType _moveType)
+	{
+		this._moveType = _moveType;
+	}
 
     // Update is called once per frame
     void Update()

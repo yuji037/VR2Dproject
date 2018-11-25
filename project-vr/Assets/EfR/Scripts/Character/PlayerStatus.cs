@@ -17,9 +17,6 @@ public class PlayerStatus : NetworkBehaviour {
         {
             Debug.Log("Set LocalPlayer");
             PlayerManager.SetLocalPlayer(this.gameObject);
-			//GameObject.Find("Server").GetComponent<EFRNetworkServer>().RegisterPlayer(this.gameObject);
-			//VRObjectManager.GetInstance().OnNetworkConnected();
-			//CmdSpawnHand();
 		}
 	}
 
@@ -76,7 +73,7 @@ public class PlayerStatus : NetworkBehaviour {
 	// 他端末のプレイヤーに影響する場合は[ClientRpc]を使う
 	// [ClientRpc]：すべてのクライアントの関数をリモートで実行
 	[ClientRpc]
-	public void RpcFlipFlopPlayerView(PlayerMove.MoveType transMoveTypeTo)
+	public void RpcTransWorld(PlayerMove.MoveType transMoveTypeTo)
 	{
 		if ( !hasAuthority ) return;
 

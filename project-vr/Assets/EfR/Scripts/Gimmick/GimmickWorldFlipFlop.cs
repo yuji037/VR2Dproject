@@ -14,34 +14,31 @@ public class GimmickWorldFlipFlop : GimmickBase {
 	[SerializeField, Header("もう一方のプレイヤーの遷移後視点モード")]
 	PlayerMove.MoveType otherPlayerTransMoveTypeTo;
 
+	//[SerializeField, Header("一回触れると消えるかどうか")]
+	//bool destroyOnTrigger = true;
+
 	void Start()
 	{
-		m_aTriggerEnterAction += FlipFlopPlayerWorldView;
+		m_aTriggerEnterAction += FlipFlopPlayersWorld;
 	}
 
-	void FlipFlopPlayerWorldView(int otherGimmickID)
+	// 両プレイヤーの視点を設定に従って切り替える
+	// 1人プレイなら1人だけ切り替わる
+	void FlipFlopPlayersWorld(int otherGimmickID)
 	{
 		if ( otherGimmickID == triggerGimmickID )
 		{
-			//var players = ClientScene.objects.Values.Where(ni => ni.gameObject.name.Contains("Player")).ToArray();
-
-			//foreach ( var pl in players )
-			//{
-			//	if ( pl.gameObject == null) continue;
-			//	var ps = pl.gameObject.GetComponent<PlayerStatus>();
-			//	if ( !ps ) continue;
-			//	Debug.Log(ps.gameObject.name);
-			//	ps.RpcFlipFlopPlayerView(
-			//		ps.playerControllerId,
-			//		triggeredPlayerTransMoveTypeTo,
-			//		otherPlayerTransMoveTypeTo);
-			//}
 			var nearPlayers = PlayerManager.GetNearPlayers(transform.position);
 			var trigrPlayer = nearPlayers[0];
-			var otherPlayer = nearPlayers[1];
+			var otherPlayer = nearPlayers.Length > 1 ? nearPlayers[1] : null;
 
-			trigrPlayer.GetComponent<PlayerStatus>().RpcFlipFlopPlayerView(triggeredPlayerTransMoveTypeTo);
-			otherPlayer.GetComponent<PlayerStatus>().RpcFlipFlopPlayerView(otherPlayerTransMoveTypeTo);
+			trigrPlayer.GetComponent<PlayerStatus>().RpcTransWorld(triggeredPlayerTransMoveTypeTo);
+
+			if ( otherPlayer )
+				otherPlayer.GetComponent<PlayerStatus>().RpcTransWorld(otherPlayerTransMoveTypeTo);
+
+			//if ( destroyOnTrigger )
+			//	DestroyThisObject();
 		}
 	}
 
