@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraVRController : MonoBehaviour {
 
     PlayerMove playerMove;
+    PlayerStatus playerStatus;
     GameObject targetObject;
     Vector3 targetPosition;
 
@@ -25,6 +26,9 @@ public class CameraVRController : MonoBehaviour {
 
     [SerializeField]
     Camera centerCam;
+
+    private Vector3 camChangeDis;
+    private Coroutine changeCamera;
 
     // Use this for initialization
     void Start()
@@ -59,6 +63,7 @@ public class CameraVRController : MonoBehaviour {
         var oPlayer = PlayerManager.LocalPlayer;
         targetObject = oPlayer;
         playerMove = oPlayer.GetComponent<PlayerMove>();
+        playerStatus = oPlayer.GetComponent<PlayerStatus>();
 
 		// カメラを初期位置にセット
 		if ( playerMove.moveType != PlayerMove.MoveType._2D )
@@ -71,6 +76,8 @@ public class CameraVRController : MonoBehaviour {
 
         camPosParent = GameObject.Find("CamPosParent").transform;
         camPosParent.transform.rotation = Quaternion.identity;
+        camChangeDis = targetObject.GetComponent<ViewPointStorage>().GetCamPos(PlayerMove.MoveType.TPS).position
+            - targetObject.GetComponent<ViewPointStorage>().GetCamPos(PlayerMove.MoveType.FPS).position;
 
     }
 
@@ -109,5 +116,53 @@ public class CameraVRController : MonoBehaviour {
             transform.RotateAround(camPosParent.position, transform.right,  mouseInputY * cameraSensitivity);
         }
 
+        // FPS視点時、GimmickCubeを押していたら視点をTPSに変更する
+        RaycastHit hit;
+        if (   playerMove
+            && playerMove.moveType == PlayerMove.MoveType.FPS
+            && Physics.Raycast(targetObject.transform.position, playerMove.GetVelocity(), out hit, 2.0f)
+            && hit.transform.name == "GimmickCube"
+            && changeCamera == null)
+        {
+            playerMove.SwitchMoveType(PlayerMove.MoveType.TPS);
+            changeCamera = StartCoroutine(ChangeCamTPS());
+            playerStatus.RendererSwitchForPlayerMoveType(PlayerMove.MoveType.TPS);    
+        }
+
+        // TPS視点時、GimmickCubeを押していなかったら視点をFPSに変更する
+        if ((   playerMove
+            && playerMove.moveType == PlayerMove.MoveType.TPS
+            && !Physics.Raycast(targetObject.transform.position,playerMove.GetVelocity(), 2.0f)
+            && changeCamera == null)
+            || playerMove
+            && playerMove.moveType == PlayerMove.MoveType.TPS
+            && (Physics.Raycast(targetObject.transform.position, playerMove.GetVelocity(),out hit, 2.0f)
+            && hit.transform.name != "GimmickCube"
+            && changeCamera == null))
+        {
+            playerMove.SwitchMoveType(PlayerMove.MoveType.FPS);
+            changeCamera = StartCoroutine(ChangeCamFPS());
+            playerStatus.RendererSwitchForPlayerMoveType(PlayerMove.MoveType.FPS);
+        }
+    }
+
+    private IEnumerator ChangeCamTPS()
+    {
+        for (float f = 0; f < 1.0f; f += Time.deltaTime)
+        {
+            transform.position += camChangeDis * Time.deltaTime;
+            yield return null;
+        }
+        changeCamera = null;
+    }
+
+    private IEnumerator ChangeCamFPS()
+    {
+        for (float f = 0; f < 1.0f; f += Time.deltaTime)
+        {
+            transform.position -= camChangeDis * Time.deltaTime;
+            yield return null;
+        }
+        changeCamera = null;
     }
 }

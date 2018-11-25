@@ -39,6 +39,8 @@ public class PlayerMove : NetworkBehaviour {
 
         StageInit();
     }
+    
+    public Vector3 GetVelocity() { return velocity; }
 
     public void StageInit()
     {
