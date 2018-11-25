@@ -97,7 +97,7 @@ public class VRCameraAdjuster : MonoBehaviour
     IEnumerator ApproachTVRoutine(float duration)
     {
         yield return MoveThis(farTVPos, NearTVObject.position, duration);
-        SkyCam.transform.eulerAngles = Vector3.zero;
+        //SkyCam.transform.eulerAngles = Vector3.zero;
     }
     //VRCameraを2DCameraと同じにする状態にする。
     public void ChangeVRCamParamTo2DCam(Vector3 Camera2DPos)
@@ -110,7 +110,7 @@ public class VRCameraAdjuster : MonoBehaviour
         SetAllVRCamsParam(videoGameWorldCameraParam);
 
         //skyCamのターゲットを外す
-        SkyCam.targetTexture = null;
+        //SkyCam.targetTexture = null;
 
         //GetComponent<ControlCameraOVRRig>().enabled = true;
     }
@@ -122,7 +122,7 @@ public class VRCameraAdjuster : MonoBehaviour
 
 
         //skyCamのターゲット(TV画面)を入れなおす
-        SkyCam.targetTexture = targetTexture;
+        //SkyCam.targetTexture = targetTexture;
 
         //realCamのdefaultの設定に
         SetAllVRCamsParam(realWorldCameraParam);
@@ -144,7 +144,7 @@ public class VRCameraAdjuster : MonoBehaviour
     {
 
         //gameCamを平行投影にすると180度回転するので再度回転させる
-        SkyCam.transform.eulerAngles = new Vector3(0, 0, 180);
+        //SkyCam.transform.eulerAngles = new Vector3(0, 0, 180);
         yield return StartCoroutine(MoveThis(NearTVObject.position, farTVPos, duration));
 
     }
