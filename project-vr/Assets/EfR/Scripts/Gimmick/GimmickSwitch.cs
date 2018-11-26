@@ -10,76 +10,217 @@ public class GimmickSwitch : GimmickBase {
         ACTIVE,
     }
 
-    [SerializeField]
-    Type m_eGimmickType;
+    [SerializeField, Header("スイッチを押したときの影響先タイプ")]
 
-    [SerializeField]
-    int[] m_iTriggerGimmickIDs;
+    Type		m_eGimmickType;
 
-    [SerializeField]
-    int m_iActorGimmickID;
+    [SerializeField, Header("押せる物体のギミックID（プレイヤーの手、ブロックなど）")]
 
-    [SerializeField]
-    bool m_IsActOnRelease;
+    int[]		m_iTriggerGimmickIDs;
 
-    // Use this for initialization
-    void Start()
-    {
-        m_aTriggerEnterAction += PressAction;
-        m_aPointerHitAction += PressAction;
+    [SerializeField, Header("押したときの影響先ギミックID")]
 
-        if(m_IsActOnRelease) m_aTriggerExitAction += ReleaseAction;
-    }
+    int			m_iActorGimmickID;
 
-    protected virtual void PressAction(int otherGimmickID)
-    {
-        foreach ( var triggerID in m_iTriggerGimmickIDs )
-        {
-            if ( otherGimmickID == triggerID )
-            {
-                var gimik = GimmickManager.GetGimmick(m_iActorGimmickID);
-                switch ( m_eGimmickType )
-                {
-                    case Type.DOOR:
-                        var door = gimik as GimmickDoor;
-                        door.Open();
-                        break;
+	[SerializeField, Header("光線ポインターで反応するかどうか")]
 
-                    case Type.BUTTON:
-                        var blockButton = gimik as GimmickButton;
-                        blockButton.OnTrigger();
-                        break;
+	bool		m_IsActPointerHit;
 
-                    case Type.ACTIVE:
-                        gimik.gameObject.SetActive(true);
-                        break;
-                }
-            }
-        }
-    }
+	[SerializeField, Header("スイッチを離したときにもアクションするか")]
 
-    protected virtual void ReleaseAction(int otherGimmickID)
-    {
-        foreach ( var triggerID in m_iTriggerGimmickIDs )
-        {
-            if ( otherGimmickID == triggerID )
-            {
-                var gimik = GimmickManager.GetGimmick(m_iActorGimmickID);
-                switch ( m_eGimmickType )
-                {
-                    case Type.DOOR:
-                        break;
+	bool		m_IsActOnRelease;
 
-                    case Type.BUTTON:
-                        var blockButton = gimik as GimmickButton;
-                        if ( !blockButton.GetIsTggle() ) { blockButton.OffTrigger(); }
-                        break;
 
-                    case Type.ACTIVE:
-                        gimik.gameObject.SetActive(false);
-                        break;
-                }
-            }
-        }
-    }
+	[SerializeField, Header("押したときの位置変化ベクトル")]
+
+	Vector3		m_vPushedVector	= new Vector3(0, -0.2f, 0);
+
+	[SerializeField, Header("押せるスピード")]
+
+	float		m_fPerformSpeed		= 1.0f;
+
+	[SerializeField, Header("トグルスイッチかどうか（1回押すとON、もう1回押すとOFF）")]
+
+	bool		m_IsToggle			= false;
+
+
+
+	#region 内部変数
+
+	[SerializeField]
+	bool		m_IsPushing			= false;
+	bool		m_IsPressed			= false;
+	bool		m_IsToggleOn		= false;
+
+	Rigidbody	m_rRigidbody;
+
+	Vector3		m_vReleasedPosition;
+	Vector3		m_vPressedPosition;
+	float		m_fPressedDistanceSqr;
+
+	#endregion
+
+
+	// Use this for initialization
+	void Start()
+	{
+
+		m_aTriggerEnterAction		+= PushJudge;
+		// 光線でONになるかどうか
+		if ( m_IsActPointerHit )
+			m_aPointerHitAction		+= PushJudge;
+
+		m_aTriggerExitAction		+= ReleaseJudge;
+
+		// 内部変数への入れ込み
+		m_rRigidbody = GetComponent<Rigidbody>();
+
+		m_vReleasedPosition			= transform.localPosition;
+		m_vPressedPosition			= transform.localPosition + m_vPushedVector;
+		m_fPressedDistanceSqr		= ( m_vPressedPosition - m_vReleasedPosition ).sqrMagnitude;
+	}
+
+	private void Update()
+	{
+		if ( m_IsPushing )
+		{
+			OnPushing();
+		}
+		else
+		{
+			OnReleasing();
+		}
+	}
+
+	// スイッチが沈み切るとアクションが起こる
+	void OnPushing()
+	{
+		Vector3		nowPressedVector		=	transform.localPosition - m_vReleasedPosition;
+		float		nowPressedDistanceSqr	=	nowPressedVector.sqrMagnitude;
+
+
+		if (		nowPressedDistanceSqr < m_fPressedDistanceSqr )
+		{
+			// スイッチが沈んでいる途中
+			PressThisFrame();
+		}
+		else
+		{
+			// スイッチが沈み切った
+			if ( m_IsPressed ) return;
+			
+			m_IsPressed		= true;
+
+			if ( m_IsToggle )
+			{
+				// トグルスイッチの場合
+				if ( m_IsToggleOn == false )
+					OnAction();
+				else
+					OffAction();
+
+				m_IsToggleOn = !m_IsToggleOn;
+			}
+			else
+			{
+				// トグルスイッチじゃない場合
+				OnAction();
+			}
+			transform.localPosition = m_vPressedPosition;
+		}
+	}
+
+	void OnReleasing()
+	{
+		Vector3		nowReleasedVector		= transform.localPosition - m_vPressedPosition;
+		float		nowReleasedDistanceSqr	= nowReleasedVector.sqrMagnitude;
+
+		if (		nowReleasedDistanceSqr	< m_fPressedDistanceSqr )
+		{
+			// スイッチが浮かんでいる途中
+			// 離してアクションするタイプならここでアクション
+			if ( m_IsPressed && m_IsActOnRelease)
+				OffAction();
+
+			ReleaseThisFrame();
+			m_IsPressed = false;
+		}
+		else
+		{
+			// スイッチが浮かび切った
+			// スイッチに何も触れてない定常時
+
+			transform.localPosition = m_vReleasedPosition;
+		}
+	}
+
+	void PressThisFrame()
+	{
+		var moveVec =	m_vPushedVector * m_fPerformSpeed * Time.deltaTime;
+		m_rRigidbody.MovePosition(transform.position + moveVec);
+	}
+
+	void ReleaseThisFrame()
+	{
+		var moveVec = -	m_vPushedVector * m_fPerformSpeed * Time.deltaTime;
+		m_rRigidbody.MovePosition(transform.position + moveVec);
+	}
+
+	protected virtual void PushJudge(int otherGimmickID)
+	{
+		Debug.Log("Push");
+		foreach ( var triggerID in m_iTriggerGimmickIDs )
+		{
+			if ( otherGimmickID == triggerID )
+			{
+				m_IsPushing = true;
+			}
+		}
+	}
+
+	protected virtual void ReleaseJudge(int otherGimmickID)
+	{
+		Debug.Log("Release");
+		foreach ( var triggerID in m_iTriggerGimmickIDs )
+		{
+			if ( otherGimmickID == triggerID )
+			{
+				m_IsPushing = false;
+			}
+		}
+	}
+
+	protected virtual void OnAction()
+	{
+		Debug.Log("Switch On");
+		var gimik = GimmickManager.GetGimmick(m_iActorGimmickID);
+		switch ( m_eGimmickType )
+		{
+			case Type.DOOR:
+				var door = gimik as GimmickDoor;
+				door.Open();
+				break;
+
+			case Type.ACTIVE:
+				gimik.gameObject.SetActive(true);
+				break;
+		}
+	}
+
+	protected virtual void OffAction()
+	{
+		Debug.Log("Switch Off");
+		var gimik = GimmickManager.GetGimmick(m_iActorGimmickID);
+		switch ( m_eGimmickType )
+		{
+			case Type.DOOR:
+				var door = gimik as GimmickDoor;
+				door.Close();
+				break;
+
+			case Type.ACTIVE:
+				gimik.gameObject.SetActive(false);
+				break;
+		}
+	}
 }
