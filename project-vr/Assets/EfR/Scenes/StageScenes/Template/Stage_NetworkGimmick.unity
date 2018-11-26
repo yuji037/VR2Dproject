@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: d07d2172e76d3fa429e80a14d2ae3616, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -422,6 +422,72 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a648540c67d03f044adc82e23dcaf19e, type: 2}
   m_IsPrefabParent: 0
+--- !u!1001 &152869750
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1417088386}
+    m_Modifications:
+    - target: {fileID: 4836335025460498, guid: 9e91b36b305151441a8262bd8f0f4246, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 5.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 4836335025460498, guid: 9e91b36b305151441a8262bd8f0f4246, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 6.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 4836335025460498, guid: 9e91b36b305151441a8262bd8f0f4246, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 4836335025460498, guid: 9e91b36b305151441a8262bd8f0f4246, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4836335025460498, guid: 9e91b36b305151441a8262bd8f0f4246, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4836335025460498, guid: 9e91b36b305151441a8262bd8f0f4246, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4836335025460498, guid: 9e91b36b305151441a8262bd8f0f4246, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4836335025460498, guid: 9e91b36b305151441a8262bd8f0f4246, type: 2}
+      propertyPath: m_RootOrder
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1968661350617512, guid: 9e91b36b305151441a8262bd8f0f4246, type: 2}
+      propertyPath: m_Name
+      value: GimmickWorldFlipFlop (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114458509353323446, guid: 9e91b36b305151441a8262bd8f0f4246,
+        type: 2}
+      propertyPath: m_iGimmickID
+      value: 1037
+      objectReference: {fileID: 0}
+    - target: {fileID: 114458509353323446, guid: 9e91b36b305151441a8262bd8f0f4246,
+        type: 2}
+      propertyPath: triggeredPlayerTransMoveTypeTo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114458509353323446, guid: 9e91b36b305151441a8262bd8f0f4246,
+        type: 2}
+      propertyPath: otherPlayerTransMoveTypeTo
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 9e91b36b305151441a8262bd8f0f4246, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &152869751 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4836335025460498, guid: 9e91b36b305151441a8262bd8f0f4246,
+    type: 2}
+  m_PrefabInternal: {fileID: 152869750}
 --- !u!4 &193400010 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4442675754526732, guid: 2ed35db9ffca9ee45a1ff9888b917efa,
@@ -844,31 +910,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b4dd506e28a2aed4aa6e8e7bfcfcd570, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &558913446 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1223861662612656, guid: 407adee00d5351a42a027561beff7eb9,
-    type: 2}
-  m_PrefabInternal: {fileID: 417157679}
 --- !u!4 &558913447 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4646716808764278, guid: 407adee00d5351a42a027561beff7eb9,
     type: 2}
   m_PrefabInternal: {fileID: 417157679}
---- !u!114 &558913448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 558913446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 271a04fb988f3e54da5c241823dd1955, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_iGimmickID: 1001
-  m_vOpenedDistance: {x: 0, y: 2, z: 0}
-  m_fPerformDuration: 1
-  m_IsDefaultOpened: 0
 --- !u!1001 &559824545
 Prefab:
   m_ObjectHideFlags: 0
@@ -2188,31 +2234,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4434859530889472, guid: 076536bdb7647d94c9a44e88c59739d9,
     type: 2}
   m_PrefabInternal: {fileID: 1131572426}
---- !u!1 &1135549275 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1223861662612656, guid: 407adee00d5351a42a027561beff7eb9,
-    type: 2}
-  m_PrefabInternal: {fileID: 1234366390}
 --- !u!4 &1135549276 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4646716808764278, guid: 407adee00d5351a42a027561beff7eb9,
     type: 2}
   m_PrefabInternal: {fileID: 1234366390}
---- !u!114 &1135549277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1135549275}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 271a04fb988f3e54da5c241823dd1955, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_iGimmickID: 1002
-  m_vOpenedDistance: {x: 0, y: 2, z: 0}
-  m_fPerformDuration: 1
-  m_IsDefaultOpened: 0
 --- !u!1001 &1155076866
 Prefab:
   m_ObjectHideFlags: 0
@@ -2383,6 +2409,11 @@ Prefab:
       propertyPath: m_Name
       value: Door (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 114115580668876704, guid: 407adee00d5351a42a027561beff7eb9,
+        type: 2}
+      propertyPath: m_iGimmickID
+      value: 1002
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 407adee00d5351a42a027561beff7eb9, type: 2}
   m_IsPrefabParent: 0
@@ -2476,6 +2507,11 @@ Prefab:
       propertyPath: m_Name
       value: Door (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 114115580668876704, guid: 407adee00d5351a42a027561beff7eb9,
+        type: 2}
+      propertyPath: m_iGimmickID
+      value: 1003
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 407adee00d5351a42a027561beff7eb9, type: 2}
   m_IsPrefabParent: 0
@@ -2484,26 +2520,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4646716808764278, guid: 407adee00d5351a42a027561beff7eb9,
     type: 2}
   m_PrefabInternal: {fileID: 1281496683}
---- !u!1 &1281496685 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1223861662612656, guid: 407adee00d5351a42a027561beff7eb9,
-    type: 2}
-  m_PrefabInternal: {fileID: 1281496683}
---- !u!114 &1281496686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1281496685}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 271a04fb988f3e54da5c241823dd1955, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_iGimmickID: 1003
-  m_vOpenedDistance: {x: 0, y: 2, z: 0}
-  m_fPerformDuration: 1
-  m_IsDefaultOpened: 0
 --- !u!1001 &1288775253
 Prefab:
   m_ObjectHideFlags: 0
@@ -2990,6 +3006,7 @@ Transform:
   - {fileID: 193400010}
   - {fileID: 1858532240}
   - {fileID: 247636809}
+  - {fileID: 152869751}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3096,7 +3113,12 @@ MonoBehaviour:
   m_eGimmickType: 0
   m_iTriggerGimmickIDs: ffffffff
   m_iActorGimmickID: 1002
-  m_IsActOnRelease: 1
+  m_IsActPointerHit: 0
+  m_IsActOnRelease: 0
+  m_vPushedVector: {x: 0, y: -0.2, z: 0}
+  m_fPerformSpeed: 2
+  m_IsToggle: 0
+  m_IsPushing: 0
 --- !u!114 &1432260361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3723,7 +3745,12 @@ MonoBehaviour:
   m_eGimmickType: 0
   m_iTriggerGimmickIDs: ffffffff
   m_iActorGimmickID: 1003
-  m_IsActOnRelease: 1
+  m_IsActPointerHit: 0
+  m_IsActOnRelease: 0
+  m_vPushedVector: {x: 0, y: -0.2, z: 0}
+  m_fPerformSpeed: 2
+  m_IsToggle: 0
+  m_IsPushing: 0
 --- !u!114 &1695165716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4262,7 +4289,12 @@ MonoBehaviour:
   m_eGimmickType: 0
   m_iTriggerGimmickIDs: ffffffff
   m_iActorGimmickID: 1001
-  m_IsActOnRelease: 1
+  m_IsActPointerHit: 0
+  m_IsActOnRelease: 0
+  m_vPushedVector: {x: 0, y: -0.2, z: 0}
+  m_fPerformSpeed: 2
+  m_IsToggle: 0
+  m_IsPushing: 0
 --- !u!54 &1855169016
 Rigidbody:
   m_ObjectHideFlags: 0
