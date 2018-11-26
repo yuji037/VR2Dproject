@@ -1113,7 +1113,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9dbb932278a2304393db85462268996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shooter: {fileID: 0}
   lineRenderer: {fileID: 589048466}
   maxReflection: 30
   layerMask:
@@ -3110,9 +3109,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_iGimmickID: 1032
-  m_eGimmickType: 0
+  switchAction:
+    m_iActorGimmickID: 1002
+    m_eGimmickType: 0
   m_iTriggerGimmickIDs: ffffffff
-  m_iActorGimmickID: 1002
   m_IsActPointerHit: 0
   m_IsActOnRelease: 0
   m_vPushedVector: {x: 0, y: -0.2, z: 0}
@@ -3742,9 +3742,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_iGimmickID: 1033
-  m_eGimmickType: 0
+  switchAction:
+    m_iActorGimmickID: 1003
+    m_eGimmickType: 0
   m_iTriggerGimmickIDs: ffffffff
-  m_iActorGimmickID: 1003
   m_IsActPointerHit: 0
   m_IsActOnRelease: 0
   m_vPushedVector: {x: 0, y: -0.2, z: 0}
@@ -4286,9 +4287,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_iGimmickID: 1031
-  m_eGimmickType: 0
+  switchAction:
+    m_iActorGimmickID: 1001
+    m_eGimmickType: 0
   m_iTriggerGimmickIDs: ffffffff
-  m_iActorGimmickID: 1001
   m_IsActPointerHit: 0
   m_IsActOnRelease: 0
   m_vPushedVector: {x: 0, y: -0.2, z: 0}

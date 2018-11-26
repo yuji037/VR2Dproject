@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class MirrorRayShot : MonoBehaviour
 {
+    Transform sh;
     [SerializeField]
-    Transform shooter;
-
+    Transform shooter
+    {
+        get
+        {
+            if (!sh)
+            {
+                sh = GameObject.Find("R_HandRig").transform;
+            }
+            return sh;
+        }
+    }
     [SerializeField]
     LineRenderer lineRenderer;
 
@@ -23,11 +33,6 @@ public class MirrorRayShot : MonoBehaviour
     Collider ownerCollider;
 
     int pointCount = 0;
-
-    private void Start()
-    {
-        shooter = GameObject.Find("R_HandRig").transform;
-    }
 
     // Update is called once per frame
     void Update()

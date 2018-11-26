@@ -4,23 +4,14 @@ using UnityEngine;
 
 public class GimmickSwitch : GimmickBase {
 
-    public enum Type {
-        DOOR,
-        BUTTON,
-        ACTIVE,
-    }
 
-    [SerializeField, Header("スイッチを押したときの影響先タイプ")]
-
-    Type		m_eGimmickType;
+    [SerializeField]
+    SwitchAction switchAction;
 
     [SerializeField, Header("押せる物体のギミックID（プレイヤーの手、ブロックなど）")]
 
     int[]		m_iTriggerGimmickIDs;
 
-    [SerializeField, Header("押したときの影響先ギミックID")]
-
-    int			m_iActorGimmickID;
 
 	[SerializeField, Header("光線ポインターで反応するかどうか")]
 
@@ -115,16 +106,16 @@ public class GimmickSwitch : GimmickBase {
 			{
 				// トグルスイッチの場合
 				if ( m_IsToggleOn == false )
-					OnAction();
+                    switchAction.OnAction();
 				else
-					OffAction();
+                    switchAction.OffAction();
 
 				m_IsToggleOn = !m_IsToggleOn;
 			}
 			else
 			{
-				// トグルスイッチじゃない場合
-				OnAction();
+                // トグルスイッチじゃない場合
+                switchAction.OnAction();
 			}
 			transform.localPosition = m_vPressedPosition;
 		}
@@ -140,7 +131,7 @@ public class GimmickSwitch : GimmickBase {
 			// スイッチが浮かんでいる途中
 			// 離してアクションするタイプならここでアクション
 			if ( m_IsPressed && m_IsActOnRelease)
-				OffAction();
+                switchAction.OffAction();
 
 			ReleaseThisFrame();
 			m_IsPressed = false;
@@ -190,37 +181,4 @@ public class GimmickSwitch : GimmickBase {
 		}
 	}
 
-	protected virtual void OnAction()
-	{
-		Debug.Log("Switch On");
-		var gimik = GimmickManager.GetGimmick(m_iActorGimmickID);
-		switch ( m_eGimmickType )
-		{
-			case Type.DOOR:
-				var door = gimik as GimmickDoor;
-				door.Open();
-				break;
-
-			case Type.ACTIVE:
-				gimik.gameObject.SetActive(true);
-				break;
-		}
-	}
-
-	protected virtual void OffAction()
-	{
-		Debug.Log("Switch Off");
-		var gimik = GimmickManager.GetGimmick(m_iActorGimmickID);
-		switch ( m_eGimmickType )
-		{
-			case Type.DOOR:
-				var door = gimik as GimmickDoor;
-				door.Close();
-				break;
-
-			case Type.ACTIVE:
-				gimik.gameObject.SetActive(false);
-				break;
-		}
-	}
 }
