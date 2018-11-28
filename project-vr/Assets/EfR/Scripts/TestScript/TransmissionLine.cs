@@ -2,44 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IOPoint
-{
-    Transform IOTransform;
-    string pointName;
-    public Vector3 Position
-    {
-        get
-        {
-            if (IOTransform == null)
-            {
-                IOTransform = ownerLine.transform.Find(pointName);
-            }
-            return IOTransform.position;
-        }
-    }
-    //自分を持っているライン
-    TransmissionLine ownerLine;
-    public TransmissionLine OwnerLine
-    {
-        get { return ownerLine; }
-    }
-    public bool IsPowerOn
-    {
-        get
-        {
-            return ownerLine.IsPowerOn;
-        }
-        set
-        {
-            ownerLine.IsPowerOn = value;
-        }
-    }
-    public IOPoint(string pointName,TransmissionLine ownerLine)
-    {
-        this.pointName = pointName;
-        this.ownerLine = ownerLine;
-    }
-}
 public class TransmissionLine : MonoBehaviour
 {
     LineRenderer lr;
@@ -54,7 +16,7 @@ public class TransmissionLine : MonoBehaviour
             return lr;
         }
     }
-    bool isPowerOn=false;
+    bool isPowerOn = false;
     public bool IsPowerOn
     {
         get { return isPowerOn; }
@@ -73,30 +35,29 @@ public class TransmissionLine : MonoBehaviour
             }
         }
     }
-    IOPoint point1;
-    public IOPoint Point1
+    [SerializeField]
+    List<IOPoint> ioPoints = new List<IOPoint>();
+    public List<IOPoint> IOPoints
     {
         get
         {
-            if (point1==null)
-            {
-                point1 = new IOPoint("Point1", this);
-            }
-            return point1;
+            return ioPoints;
         }
     }
-
-    IOPoint point2;
-    public IOPoint Point2
+    public void AddPoint()
     {
-        get
+        var obj = new GameObject("Point");
+        var p =obj.AddComponent<IOPoint>();
+        p.transform.parent = transform;
+        if (IOPoints.Count > 0)
         {
-            if (point2 == null)
-            {
-                point2 = new IOPoint("Point2", this);
-            }
-            return point2;
+            p.transform.position = IOPoints[IOPoints.Count-1].transform.position;
         }
+        else
+        {
+            p.transform.localPosition = Vector3.zero;
+        }
+        ioPoints.Add(p);
     }
     public bool havePower;
 
@@ -106,12 +67,35 @@ public class TransmissionLine : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
+        RemoveNullPoint();
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(Point1.Position, Point2.Position);   
+        IOPoint prePoint = null;
+        foreach (var p in ioPoints)
+        {
+            if (prePoint)
+            {
+                Gizmos.DrawLine(prePoint.Position, p.Position);
+            }
+            prePoint = p;
+        }
     }
     private void Update()
     {
-        lineRenderer.SetPosition(0, Point1.Position);
-        lineRenderer.SetPosition(1, Point2.Position);
+        RemoveNullPoint();
+        if (ioPoints.Count != lineRenderer.positionCount)
+        {
+            lineRenderer.positionCount = ioPoints.Count;
+        }
+        int num = 0;
+        foreach (var p in ioPoints)
+        {
+            lineRenderer.SetPosition(num, p.Position);
+            num++;
+        }
+    }
+
+    void RemoveNullPoint()
+    {
+        ioPoints.RemoveAll(x=>x==null);
     }
 }

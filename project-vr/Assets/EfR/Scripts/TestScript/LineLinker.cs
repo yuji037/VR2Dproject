@@ -12,14 +12,11 @@ public class LineLinker : SingletonMonoBehaviour<LineLinker>
         Z,
     }
     [SerializeField]
-    IgnoreAxis ignoreAxis=IgnoreAxis.Z;
+    IgnoreAxis ignoreAxis = IgnoreAxis.Z;
 
     List<TransmissionLine> allLineList = new List<TransmissionLine>();
 
     List<TransmissionLine> powerOffLineList = new List<TransmissionLine>();
-
-    [SerializeField]
-    float transmissionSpeed = 1.0f;
 
     [SerializeField]
     float sensingRange = 1.0f;
@@ -44,8 +41,10 @@ public class LineLinker : SingletonMonoBehaviour<LineLinker>
         {
             line.IsPowerOn = true;
             powerOffLineList.Remove(line);
-            LinkNearPoints(line.Point1);
-            LinkNearPoints(line.Point2);
+            foreach (var p in line.IOPoints)
+            {
+                LinkNearPoints(p);
+            }
         }
 
         foreach (var i in powerOffLineList)
@@ -58,22 +57,28 @@ public class LineLinker : SingletonMonoBehaviour<LineLinker>
     {
         foreach (var line in allLineList)
         {
-            if (LinkPoint(ioPoint, line.Point1))
+            foreach (var p in line.IOPoints)
             {
-                LinkNearPoints(line.Point2);
-            }
-            if (LinkPoint(ioPoint, line.Point2))
-            {
-                LinkNearPoints(line.Point1);
+                if (LinkPoint(ioPoint,p))
+                {
+                    //リンクが成功した点以外の点をリンクさせる。
+                    var otherPoints = line.IOPoints.FindAll(x=>x!=p);
+                    foreach (var op in otherPoints)
+                    {
+                        LinkNearPoints(op);
+                    }
+                }
             }
         }
     }
     bool LinkPoint(IOPoint powerOutPoint, IOPoint inPoint)
     {
-        bool ownerIsEqual = powerOutPoint.OwnerLine == inPoint.OwnerLine;
+        bool ownerIsEqual = (powerOutPoint.OwnerLine == inPoint.OwnerLine);
         bool canLink = CanLink(powerOutPoint.Position, inPoint.Position);
-        if (!ownerIsEqual && canLink)
+        bool isPowerOff = powerOffLineList.Contains(inPoint.OwnerLine);
+        if (!ownerIsEqual && canLink&&isPowerOff)
         {
+            Debug.Log("リンク");
             inPoint.IsPowerOn = true;
             powerOffLineList.Remove(inPoint.OwnerLine);
             return true;
@@ -90,11 +95,11 @@ public class LineLinker : SingletonMonoBehaviour<LineLinker>
         switch (ignoreAxis)
         {
             case IgnoreAxis.X:
-                return new Vector2(vector.y,vector.z);
+                return new Vector2(vector.y, vector.z);
             case IgnoreAxis.Y:
                 return new Vector2(vector.x, vector.z);
             case IgnoreAxis.Z:
-                return new Vector2(vector.x,vector.y);
+                return new Vector2(vector.x, vector.y);
         }
         return vector;
     }

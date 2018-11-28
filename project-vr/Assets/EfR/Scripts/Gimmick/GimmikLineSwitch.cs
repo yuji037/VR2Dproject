@@ -6,15 +6,16 @@ public class GimmikLineSwitch : GimmickBase {
     [SerializeField]
     SwitchAction switchAction;
 
+    //このLineがPowerOnになるとアクションを起こす
     [SerializeField]
-    TransmissionLine transmissionLine;
+    TransmissionLine SwitchTriggerLine;
 
     bool preLinePower=false;
     private void Update()
     {
-        if (transmissionLine.IsPowerOn!=preLinePower)
+        if (SwitchTriggerLine.IsPowerOn!=preLinePower)
         {
-            if (transmissionLine.IsPowerOn)
+            if (SwitchTriggerLine.IsPowerOn)
             {
                 switchAction.OnAction();
             }
@@ -23,6 +24,6 @@ public class GimmikLineSwitch : GimmickBase {
                 switchAction.OffAction();
             }
         }
-        preLinePower = transmissionLine.IsPowerOn;
+        preLinePower = SwitchTriggerLine.IsPowerOn;
     }
 }
