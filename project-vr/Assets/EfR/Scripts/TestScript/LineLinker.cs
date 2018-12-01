@@ -12,14 +12,14 @@ public class LineLinker : SingletonMonoBehaviour<LineLinker>
         Z,
     }
     [SerializeField]
-    IgnoreAxis ignoreAxis = IgnoreAxis.Z;
+    //IgnoreAxis ignoreAxis = IgnoreAxis.Z;
 
     List<TransmissionLine> allLineList = new List<TransmissionLine>();
 
     List<TransmissionLine> powerOffLineList = new List<TransmissionLine>();
 
     [SerializeField]
-    float sensingRange = 1.0f;
+    float sensingRange = 8.0f;
 
 
     Vector3 currentPos;
@@ -78,7 +78,6 @@ public class LineLinker : SingletonMonoBehaviour<LineLinker>
         bool isPowerOff = powerOffLineList.Contains(inPoint.OwnerLine);
         if (!ownerIsEqual && canLink&&isPowerOff)
         {
-            Debug.Log("リンク");
             inPoint.IsPowerOn = true;
             powerOffLineList.Remove(inPoint.OwnerLine);
             return true;
@@ -92,15 +91,18 @@ public class LineLinker : SingletonMonoBehaviour<LineLinker>
     //vector3→vector2変換をするためのラッパー
     Vector2 ConvertVector2(Vector3 vector)
     {
-        switch (ignoreAxis)
-        {
-            case IgnoreAxis.X:
-                return new Vector2(vector.y, vector.z);
-            case IgnoreAxis.Y:
-                return new Vector2(vector.x, vector.z);
-            case IgnoreAxis.Z:
-                return new Vector2(vector.x, vector.y);
-        }
-        return vector;
+        var _2dcamera=ViewSwitchPerformer.GetInstance().Get2DCamera();
+        return _2dcamera.WorldToScreenPoint(vector);
+
+        //switch (ignoreAxis)
+        //{
+        //    case IgnoreAxis.X:
+        //        return new Vector2(vector.y, vector.z);
+        //    case IgnoreAxis.Y:
+        //        return new Vector2(vector.x, vector.z);
+        //    case IgnoreAxis.Z:
+        //        return new Vector2(vector.x, vector.y);
+        //}
+        //return vector;
     }
 }

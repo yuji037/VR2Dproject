@@ -18,6 +18,13 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
             return gcAd;
         }
     }
+    Camera _2dCamera;
+    public Camera Get2DCamera()
+    {
+        if(!_2dCamera)_2dCamera= C2DAdjuster.GetComponent<Camera>();
+        return _2dCamera;
+    }
+
     ParticleSystem trp;
     ParticleSystem transRealParticle
     {
