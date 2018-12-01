@@ -9,18 +9,18 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1466698911950342}
+  m_RootGameObject: {fileID: 1985639732488662}
   m_IsPrefabParent: 1
---- !u!1 &1466698911950342
+--- !u!1 &1985639732488662
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4808329075336624}
-  - component: {fileID: 114238685686348632}
-  - component: {fileID: 120188152469774300}
+  - component: {fileID: 4989283504095810}
+  - component: {fileID: 114863277161237242}
+  - component: {fileID: 120384218454674830}
   m_Layer: 0
   m_Name: TransmissionLine
   m_TagString: Untagged
@@ -28,37 +28,38 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4808329075336624
+--- !u!4 &4989283504095810
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1466698911950342}
+  m_GameObject: {fileID: 1985639732488662}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.565414, y: 1.0538946, z: -13.251511}
+  m_LocalPosition: {x: 0, y: 9.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114238685686348632
+--- !u!114 &114863277161237242
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1466698911950342}
+  m_GameObject: {fileID: 1985639732488662}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f077358d2d32c94eb14a87ecccda3b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ioPoints: []
   havePower: 0
---- !u!120 &120188152469774300
+--- !u!120 &120384218454674830
 LineRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1466698911950342}
+  m_GameObject: {fileID: 1985639732488662}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1

@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 public class TransmissionLine : MonoBehaviour
 {
     LineRenderer lr;
@@ -44,10 +46,11 @@ public class TransmissionLine : MonoBehaviour
             return ioPoints;
         }
     }
+#if UNITY_EDITOR
     public void AddPoint()
     {
         var obj = new GameObject("Point");
-        var p =obj.AddComponent<IOPoint>();
+        var p =Undo.AddComponent<IOPoint>(obj);
         p.transform.parent = transform;
         if (IOPoints.Count > 0)
         {
@@ -58,7 +61,11 @@ public class TransmissionLine : MonoBehaviour
             p.transform.localPosition = Vector3.zero;
         }
         ioPoints.Add(p);
+        Undo.RecordObject(this, "AddPOint");
+        Undo.RegisterCreatedObjectUndo(obj,"CreateNewPoint");
+        
     }
+#endif
     public bool havePower;
 
     private void Start()

@@ -12,7 +12,13 @@ public abstract class GimmickBase : NetworkBehaviour {
     {
         get { return	m_iGimmickID; }
     }
+#if UNITY_EDITOR
+    public void SetGimmickID(int gimmickID)
+    {
+        m_iGimmickID = gimmickID;
+    }
 
+#endif
     protected	Action<int> m_aCollisionEnterAction;
     //protected Action<int> m_aCollisionStayAction;
     protected	Action<int> m_aCollisionExitAction;
