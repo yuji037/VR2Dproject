@@ -17,7 +17,7 @@ public class MirrorRayShooter : MonoBehaviour
     LayerMask layerMask;
 
     //このRayを飛ばしているGimmickBaseを持ったコライダー
-    //[SerializeField]
+    [SerializeField]
     Collider ownerCollider;
 
     int pointCount = 0;
