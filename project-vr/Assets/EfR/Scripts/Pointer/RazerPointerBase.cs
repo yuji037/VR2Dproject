@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class RazerPointerBase : MonoBehaviour
+public class RazerPointerBase : NetworkBehaviour
 {
     [SerializeField]
     Transform shooter;
@@ -14,6 +15,7 @@ public class RazerPointerBase : MonoBehaviour
     [SerializeField]
     LayerMask layerMask;
 
+    protected bool isLinePoistionClear = false;
     //このRayを飛ばしているGimmickBaseを持ったコライダー
     [SerializeField]
     protected Collider ownerCollider;
@@ -26,8 +28,8 @@ public class RazerPointerBase : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        OnFlameStart();
         lineRenderPositions.Clear();
+        OnFlameStart();
         ShootRay(shooter.position, shooter.forward);
         ApplyLineRenderPositions();
     }
@@ -40,11 +42,11 @@ public class RazerPointerBase : MonoBehaviour
         bool isHit = Physics.Raycast(ray, out hit, 1000f, layerMask);
         if (isHit)
         {
-            HitAction(hit,origin,direction);
+            HitAction(hit, origin, direction);
         }
         else
         {
-            NoHitAction(origin,direction);
+            NoHitAction(origin, direction);
         }
     }
     protected virtual void OnFlameStart()
@@ -63,7 +65,10 @@ public class RazerPointerBase : MonoBehaviour
     }
     void ApplyLineRenderPositions()
     {
-        lineRenderer.positionCount = lineRenderPositions.Count;
+        if (isLinePoistionClear)
+        {
+            lineRenderer.positionCount = lineRenderPositions.Count;
+        }
         for (int i = 0; i < lineRenderer.positionCount; i++)
         {
             lineRenderer.SetPosition(i, lineRenderPositions[i]);

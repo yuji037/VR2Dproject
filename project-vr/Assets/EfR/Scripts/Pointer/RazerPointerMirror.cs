@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class RazerPointerMirror : RazerPointerBase
 {
@@ -8,6 +9,10 @@ public class RazerPointerMirror : RazerPointerBase
     int maxReflection = 30;
     int reflectionCount = 0;
 
+    private void Awake()
+    {
+        isLinePoistionClear = true;
+    }
     protected override void HitAction(RaycastHit hit, Vector3 origin, Vector3 direction)
     {
         reflectionCount++;
