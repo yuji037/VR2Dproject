@@ -2,22 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MirrorRayShot : MonoBehaviour
+public class MirrorRayShooter : MonoBehaviour
 {
-    Transform sh;
     [SerializeField]
-    Transform shooter
-    {
-        get
-        {
-            if (!sh)
-            {
-                sh = GameObject.Find("R_HandRig").transform;
-            }
-            return sh;
-        }
-    }
-    [SerializeField]
+    Transform shooter;
     LineRenderer lineRenderer;
 
     [SerializeField]
@@ -29,10 +17,15 @@ public class MirrorRayShot : MonoBehaviour
     LayerMask layerMask;
 
     //このRayを飛ばしているGimmickBaseを持ったコライダー
-    [SerializeField]
+    //[SerializeField]
     Collider ownerCollider;
 
     int pointCount = 0;
+
+    private void Start()
+    {
+        lineRenderer = GetComponent<LineRenderer>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -40,7 +33,7 @@ public class MirrorRayShot : MonoBehaviour
         pointCount = 0;
         lineRenderPositions.Clear();
         RecursiveShootRay(shooter.position, shooter.forward);
-        ApplyLinRenderPositions();
+        ApplyLineRenderPositions();
     }
     //マックスカウントまで反射するrayを飛ばし続ける再起関数
     void RecursiveShootRay(Vector3 origin, Vector3 direction)
@@ -67,14 +60,15 @@ public class MirrorRayShot : MonoBehaviour
                 var reflectionDir = (reflectionPoint - hit.point).normalized;
                 RecursiveShootRay(hit.point, reflectionDir);
             }
-            else if ((gimmick = hit.collider.GetComponent<GimmickBase>()) != null)
-            {
-                SetPosition(hit.point);
-                gimmick.OnPointerHit(ownerCollider);
-            }
             else
             {
                 SetPosition(hit.point);
+                if ((gimmick = hit.collider.GetComponent<GimmickBase>()) != null
+                    && (PlayerManager.LocalPlayer.GetComponent<PlayerMove>().moveType != PlayerMove.MoveType._2D))
+                {
+                    gimmick.OnPointerHit(ownerCollider);
+                }
+
             }
         }
         else
@@ -84,17 +78,17 @@ public class MirrorRayShot : MonoBehaviour
         }
     }
 
+
     bool SetPosition(Vector3 position)
     {
         lineRenderPositions.Add(position);
         return maxReflection >= lineRenderPositions.Count;
     }
-    void ApplyLinRenderPositions()
+    void ApplyLineRenderPositions()
     {
         lineRenderer.positionCount = lineRenderPositions.Count;
         for (int i = 0; i < lineRenderer.positionCount; i++)
         {
-
             lineRenderer.SetPosition(i, lineRenderPositions[i]);
         }
     }
