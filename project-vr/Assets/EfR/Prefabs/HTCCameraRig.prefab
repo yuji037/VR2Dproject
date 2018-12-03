@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 114628329754980558}
   - component: {fileID: 114838424618217616}
   m_Layer: 9
-  m_Name: '[CameraRig]'
+  m_Name: HTCCameraRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -831,10 +831,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c50a91bbb43040c4b89be763c826a6d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetObject: {fileID: 0}
   rightHandRig: {fileID: 4479039611792472}
   handRotateSensi: 1
   cameraSensitivity: 10
+  userControllable: 1
+  centerCam: {fileID: 0}
 --- !u!114 &114244421735819446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1034,9 +1035,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8569c9630e6c6bb4bac6b66439d37c97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPos: {x: 7.16, y: 0, z: -27.5}
   targetTexture: {fileID: 8400000, guid: 73ce1b80d8c2ea545a8871cfc913845f, type: 2}
-  realCam: {fileID: 20934732245199450}
+  realWorldCameraParam:
+    ClearFlags: 0
+    CullingMask:
+      serializedVersion: 2
+      m_Bits: 0
+  videoGameWorldCameraParam:
+    ClearFlags: 0
+    CullingMask:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!114 &114636756494502674
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1115,7 +1124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9dbb932278a2304393db85462268996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shooter: {fileID: 4479039611792472}
   lineRenderer: {fileID: 120081298337333114}
   maxReflection: 30
   layerMask:
@@ -1134,8 +1142,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RCAdjuster: {fileID: 114628329754980558}
-  transRealParticle: {fileID: 0}
-  isReal: 1
 --- !u!114 &114890265025830834
 MonoBehaviour:
   m_ObjectHideFlags: 1
