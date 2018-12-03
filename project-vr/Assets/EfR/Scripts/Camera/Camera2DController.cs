@@ -15,10 +15,15 @@ public class Camera2DController : MonoBehaviour {
         }
     }
 
+	[SerializeField]
+	Vector3 offset;
+
     // Update is called once per frame
     void Update () {
         if ( !targetObject ) return;
-        Vector3 move = targetObject.transform.position - transform.position;
+
+
+        Vector3 move = targetObject.transform.position - transform.position + offset;
         move.z = 0;
 
         transform.position += move;
