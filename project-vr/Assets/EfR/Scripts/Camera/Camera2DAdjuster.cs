@@ -39,7 +39,7 @@ public class Camera2DAdjuster : MonoBehaviour
             if (!localPlayer) return;
             Target = localPlayer.transform;
             var offset = transform.position - Target.transform.position;
-            targetOffset = new Vector3(0, offset.y, -10.0f);
+            targetOffset = /*new Vector3(0, offset.y, -10.0f)*/offset;
         }
     }
     public void Trans2DPerspective()
