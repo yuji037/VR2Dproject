@@ -28,7 +28,7 @@ public class PushableObject : MonoBehaviour {
         //Debug.DrawLine
 
         // 押される方向に当たり判定がある物体があったら押されない
-        if ( Physics.BoxCast(transform.position + distance, Vector3.one * 0.4f, distance, Quaternion.identity, 0.1f) )
+        if ( Physics.BoxCast(transform.position + distance, Vector3.one * 0.4f, distance, Quaternion.identity, 0.09f) )
             return;
 
         transform.Translate(distance * pushStrength * Time.deltaTime);
