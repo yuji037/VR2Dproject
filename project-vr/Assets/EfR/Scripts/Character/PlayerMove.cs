@@ -140,8 +140,17 @@ public class PlayerMove : NetworkBehaviour {
 		}
 
 		// 着地判定
-		//RaycastHit hit;
-		isGrounded = Physics.Raycast(transform.position, Vector3.down/*, out hit*/, Pms.distanceToGround);
+		RaycastHit hit;
+		isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, Pms.distanceToGround);
+        if (isGrounded && hit.collider.gameObject.tag == "LaserPointerFloorCreate")
+        {
+            transform.parent = hit.collider.gameObject.transform;
+        }
+
+        if ( !isGrounded )
+        {
+            transform.parent = null;
+        }
 
 		// ジャンプ
 		if ( Pms.canJump && isGrounded && Input.GetKeyDown(KeyCode.Space) )
