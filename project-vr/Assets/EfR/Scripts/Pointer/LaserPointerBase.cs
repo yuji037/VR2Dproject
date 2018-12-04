@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class RazerPointerBase : NetworkBehaviour
+public class LaserPointerBase : NetworkBehaviour
 {
     [SerializeField]
     Transform shooter;

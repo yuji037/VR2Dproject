@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class RazerPointerMirror : RazerPointerBase
+public class LaserPointerMirror : LaserPointerBase
 {
     [SerializeField]
     int maxReflection = 30;
