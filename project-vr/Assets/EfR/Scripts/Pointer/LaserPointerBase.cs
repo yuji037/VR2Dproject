@@ -5,9 +5,9 @@ using UnityEngine.Networking;
 
 public class LaserPointerBase : NetworkBehaviour
 {
-    [SerializeField]
     Transform shooter;
 
+    [SerializeField]
     LineRenderer lineRenderer;
 
     List<Vector3> lineRenderPositions = new List<Vector3>();
@@ -16,13 +16,14 @@ public class LaserPointerBase : NetworkBehaviour
     LayerMask layerMask;
 
     protected bool isLinePoistionClear = false;
+
     //このRayを飛ばしているGimmickBaseを持ったコライダー
-    [SerializeField]
     protected Collider ownerCollider;
 
     private void Start()
     {
-        lineRenderer = GetComponent<LineRenderer>();
+        shooter = transform;
+        ownerCollider = GetComponent<Collider>();
     }
 
     // Update is called once per frame

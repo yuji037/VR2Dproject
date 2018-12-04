@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 #if UNITY_EDITOR
+using UnityEditor;
 public class GimmickObjectGenerator : Editor
 {
     static string assetPath = "Assets/EfR/Prefabs/Gimmick/";
@@ -20,39 +20,13 @@ public class GimmickObjectGenerator : Editor
         return prefabCopy;
     }
 
-    //被らないIDを取得
-    static int GetNotOverLapGimmickID(int needMinID = 1000)
-    {
-        var gimmicks = Object.FindObjectsOfType(typeof(GimmickBase));
-        var IDList = new List<int>();
-        foreach (GimmickBase g in gimmicks)
-        {
-            if (g.gameObject.activeInHierarchy)
-            {
-                IDList.Add(g.GimmickID);
-            }
-        }
-        for (int i = needMinID; i < 10000; i++)
-        {
-            if (!IDList.Contains(i))
-            {
-                Debug.Log("GimmickID" + i + "で作成");
-                return i;
-            }
-            else
-            {
-                Debug.Log("GimmickID" + i + "は既に存在します。");
-            }
-        }
-        Debug.LogError("新規ギミックIDの取得に失敗しました");
-        return -1;
-    }
+    
     static void InstantiateAndSetGimmickID(string prefabName, int minNeedID = 1000)
     {
         var obj = InstantiateGimmick(prefabName);
         var gb = obj.GetComponent<GimmickBase>();
         Undo.RecordObject(gb, "RegistGimmickID" + prefabName);
-        gb.SetGimmickID(GetNotOverLapGimmickID(minNeedID));
+        gb.SetGimmickID(GimmickIDManager.GetNotOverLapGimmickID(minNeedID));
     }
     [MenuItem("GameObject/EFR_Gimmicks/TransmissionLine", priority = 21)]
     static void CreateLine()

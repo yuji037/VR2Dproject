@@ -1,0 +1,19 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Networking;
+public enum FloorForm
+{
+    Normal,
+    LongX,
+    LongY,
+}
+public class GimmickFloor : GimmickBase
+{
+    public FloorForm floorForm;
+    private void Awake()
+    {
+        base.Awake();
+        GimmickFloorSpawner.GetInstance().RegisterFloor(this);
+    }
+}

@@ -4,37 +4,59 @@ using UnityEngine;
 using UnityEngine.Networking;
 public class LaserPointerFloorCreate : LaserPointerBase
 {
+    GimmickFloor currentControlFloor = null;
+    PointerHitScreen preHitScreen=null;
     protected override void HitAction(RaycastHit hit, Vector3 origin, Vector3 direction)
     {
         SetPosition(hit.point);
-        if (hit.collider.gameObject.tag != "Screen")
+        if (!isLocalPlayer) return;
+        PointerHitScreen hitScreen = hit.collider.GetComponent<PointerHitScreen>();
+        if (!hitScreen||(preHitScreen&&hitScreen!=preHitScreen))
         {
-            TerminateBox();
+            TerminateFloor();
             return;
         }
-
+        preHitScreen = hitScreen;
+        if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Z))
+        {
+            CreateFloor(hitScreen.GetFloorForm);
+        }
         if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Z))
         {
-            CreateBox(hit.point);
+            FollowPointerFloor(hit.point);
         }
-        else { TerminateBox(); }
+        else
+        {
+            TerminateFloor();
+        }
     }
 
     protected override void NoHitAction(Vector3 origin, Vector3 direction)
     {
-        TerminateBox();
+        base.NoHitAction(origin,direction);
+        TerminateFloor();
     }
 
-    void CreateBox(Vector3 pos)
+    void FollowPointerFloor(Vector3 pos)
     {
-        var obj = StageObjectPool.GetInstance().GetPoolStageObject();
-        obj.SetActive(true);
-        obj.transform.position = pos;
+        if (!currentControlFloor) return;
+        currentControlFloor.transform.position = pos+new Vector3(0,0,-0.1f);
+    }
+    void CreateFloor(FloorForm floorForm)
+    {
+        GimmickFloorSpawner.GetInstance().GetFloorObject(floorForm,
+              (x) =>
+              {
+                  currentControlFloor = x;
+              }
+          );
     }
 
-    private void TerminateBox()
+    void TerminateFloor()
     {
-        var obj = StageObjectPool.GetInstance().GetPoolStageObject();
-        obj.SetActive(false);
+        preHitScreen = null;
+        if (!currentControlFloor) return;
+        NetworkServer.Destroy(currentControlFloor.gameObject);
+        currentControlFloor = null;
     }
 }
