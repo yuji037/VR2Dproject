@@ -20,6 +20,8 @@ public class LaserPointerBase : NetworkBehaviour
     //このRayを飛ばしているGimmickBaseを持ったコライダー
     protected Collider ownerCollider;
 
+    //ToDo:後でplayermanagerにLocalPlayerMoveを持たせてもらう
+    PlayerMove localPlaerMove;
     private void Start()
     {
         shooter = transform;
@@ -29,12 +31,29 @@ public class LaserPointerBase : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!localPlaerMove)
+        {
+            localPlaerMove = PlayerManager.LocalPlayer.GetComponent<PlayerMove>();
+        }
         lineRenderPositions.Clear();
         OnFlameStart();
         ShootRay(shooter.position, shooter.forward);
         ApplyLineRenderPositions();
+
+        //if (localPlaerMove.moveType != PlayerMove.MoveType._2D)
+        //{
+        //    ShootRay(shooter.position, shooter.forward);
+        //    ApplyLineRenderPositions();
+        //}
+        //else
+        //{
+        //    if (lineRenderer.positionCount > 0)
+        //    {
+        //        lineRenderer.positionCount = 0;
+        //    }
+        //}
     }
-    //マックスカウントまで反射するrayを飛ばし続ける再起関数
+
     protected void ShootRay(Vector3 origin, Vector3 direction)
     {
         SetPosition(origin);

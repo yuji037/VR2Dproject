@@ -18,16 +18,28 @@ public class GimmickFloorSpawner : NetworkBehaviour
     Dictionary<int, GimmickFloor> floorDictionary = new Dictionary<int, GimmickFloor>();
    public void RegisterFloor(GimmickFloor floor)
     {
-        floorDictionary.Add((int)floor.floorForm, floor);
+        if (floorDictionary.ContainsKey((int)floor.floorForm)&&floorDictionary[(int)floor.floorForm] == null)
+        {
+            floorDictionary[(int)floor.floorForm] = floor;
+        }
+        else
+        {
+            floorDictionary.Add((int)floor.floorForm, floor);
+        }
     }
 
     [SerializeField]
-    GameObject[] TestObjects;
+    GameObject[] FloorPrefabObjects;
     [Command]
     void CmdSpawnFloor(FloorForm floorForm)
     {
-        var obj = Instantiate(TestObjects[(int)floorForm]);
+        var obj = Instantiate(FloorPrefabObjects[(int)floorForm]);
         NetworkServer.Spawn(obj);
+    }
+    [ClientRpc]
+    void RpcRemove(int floorForm)
+    {
+        floorDictionary.Remove(floorForm);
     }
     public void GetFloorObject(FloorForm floorForm, System.Action<GimmickFloor> callBack)
     {
@@ -41,7 +53,7 @@ public class GimmickFloorSpawner : NetworkBehaviour
             if (floorDictionary.ContainsKey((int)floorForm))
             {
                 callBack(floorDictionary[(int)floorForm]);
-                floorDictionary.Remove((int)floorForm);
+                RpcRemove((int)floorForm);
                 yield break;
             }
             yield return null;
