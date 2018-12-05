@@ -102,6 +102,11 @@
 			return c;
 		}
 
+		float Box(float2 p)
+		{
+			return max(0.5 - _gl_mod(p.y - p.x*0.4 + (_Time.y*0.3), 1.5), 0.0)*5.0;
+		}
+
 		float Hex(float2 p, float2 h)
 		{
 			float2 q = abs(p);
@@ -137,6 +142,7 @@
 			float3 center = IN.worldPos - _Center;
 			float trails = Rings(center);
 			float grid_d = HexGrid(center);
+			float box = Box(center);
 			float grid = grid_d > 0.0 ? 1.0 : 0.0;
 			float3 n = GuessNormal(center);
 			n = mul(UNITY_MATRIX_VP, float4(n,0.0)).xyz;
@@ -147,7 +153,7 @@
 			o.Emission = 0.0;
 			o.Emission += trails * (0.5 + _Spectra * _RingEmission);
 			//o.Albedo += _GridColor * grid * 0.1;
-			o.Emission += _GridColor * (grid * circle) * _GridEmission;
+			o.Emission += _GridColor * (grid * box) * _GridEmission;
 
 			const float blur_radius = 0.005;
 			float2 blur_coords[9] = {
