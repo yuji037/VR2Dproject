@@ -9,7 +9,14 @@ public class PushableObject : MonoBehaviour {
     [SerializeField]
     float pushStrength = 0.5f;
 
-    private void OnTriggerStay(Collider other)
+	Vector3 halfExtents;
+
+	private void Start()
+	{
+		halfExtents = transform.lossyScale * 0.49f;
+	}
+
+	private void OnTriggerStay(Collider other)
     {
         var otherLayerMask = 1 << other.gameObject.layer;
         // 選択したレイヤー以外のオブジェクトに当たっても押されない
@@ -23,12 +30,13 @@ public class PushableObject : MonoBehaviour {
         else { distance.x = 0; }
         distance.y = 0;
 
+		// 物体同士が近いほど押される距離を長くする
         distance /= distance.magnitude;
-
-        //Debug.DrawLine
+		
 
         // 押される方向に当たり判定がある物体があったら押されない
-        if ( Physics.BoxCast(transform.position + distance, Vector3.one * 0.4f, distance, Quaternion.identity, 0.09f) )
+        if ( Physics.BoxCast(transform.position, halfExtents, distance.normalized, transform.rotation, 
+			distance.magnitude * pushStrength * Time.deltaTime) )
             return;
 
         transform.Translate(distance * pushStrength * Time.deltaTime);

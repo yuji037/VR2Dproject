@@ -5,17 +5,19 @@ using UnityEngine;
 public class FallableCube : MonoBehaviour {
 
     private Rigidbody m_rRigidbody;
+	Vector3 halfExtents;
 
     // Use this for initialization
     void Start()
     {
         m_rRigidbody = GetComponent<Rigidbody>();
+		halfExtents = transform.lossyScale * 0.49f;
     }
 
     void FixedUpdate()
     {
 		// 落下判定
-        if ( Physics.BoxCast(transform.position, Vector3.one * 0.4f, Vector3.down, Quaternion.identity, 0.1f) ) {
+        if ( Physics.BoxCast(transform.position, halfExtents, Vector3.down, transform.rotation, 0.1f) ) {
 			// 落下しない
             m_rRigidbody.isKinematic = true;
         }
