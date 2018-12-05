@@ -103,6 +103,11 @@ public class CameraVRController : MonoBehaviour {
             //transform.position = targetObject.transform.position;
         }
 
+        if (playerMove.moveType == PlayerMove.MoveType.FPS)
+        {
+            Vector2 input = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
+            transform.Rotate(new Vector3(0, input.x));
+        }
 
         // TPS視点ならマウスの中ボタンでカメラをプレイヤーの周囲を回転
         if (    playerMove 
@@ -124,9 +129,9 @@ public class CameraVRController : MonoBehaviour {
             && hit.transform.tag == "GimmickCube"
             && changeCamera == null)
         {
-            playerMove.SwitchMoveType(PlayerMove.MoveType.TPS);
-            changeCamera = StartCoroutine(ChangeCamTPS());
-            playerStatus.RendererSwitchForPlayerMoveType(PlayerMove.MoveType.TPS);    
+            //playerMove.SwitchMoveType(PlayerMove.MoveType.TPS);
+            //changeCamera = StartCoroutine(ChangeCamTPS());
+            //playerStatus.RendererSwitchForPlayerMoveType(PlayerMove.MoveType.TPS);    
         }
 
         // TPS視点時、GimmickCubeを押していなかったら視点をFPSに変更する
@@ -140,9 +145,9 @@ public class CameraVRController : MonoBehaviour {
             && hit.transform.tag != "GimmickCube"
             && changeCamera == null))
         {
-            playerMove.SwitchMoveType(PlayerMove.MoveType.FPS);
-            changeCamera = StartCoroutine(ChangeCamFPS());
-            playerStatus.RendererSwitchForPlayerMoveType(PlayerMove.MoveType.FPS);
+            //playerMove.SwitchMoveType(PlayerMove.MoveType.FPS);
+            //changeCamera = StartCoroutine(ChangeCamFPS());
+            //playerStatus.RendererSwitchForPlayerMoveType(PlayerMove.MoveType.FPS);
         }
     }
 
