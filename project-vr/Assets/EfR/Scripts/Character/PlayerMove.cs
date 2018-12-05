@@ -46,8 +46,10 @@ public class PlayerMove : NetworkBehaviour {
     Transform				cam2DTransform;
 	float					inputHorizontal, inputVertical;
 	Vector3					velocity = Vector3.zero;
+	GameObject				moveFloorObject = null;
+	Vector3					moveFloorPrevPos = Vector3.zero;
 
-    [SerializeField]
+	[SerializeField]
     bool					isGrounded = true;
 
 
@@ -144,13 +146,17 @@ public class PlayerMove : NetworkBehaviour {
 		isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, Pms.distanceToGround);
         if (isGrounded && hit.collider.gameObject.tag == "LaserPointerFloorCreate")
         {
-            transform.parent = hit.collider.gameObject.transform;
-        }
+			//transform.parent = hit.collider.gameObject.transform;
+			moveFloorObject = hit.collider.gameObject;
+			moveFloorPrevPos = Vector3.zero;
+		}
 
         if ( !isGrounded )
         {
-            transform.parent = null;
-        }
+            //transform.parent = null;
+			moveFloorObject = null;
+
+		}
 
 		// ジャンプ
 		if ( Pms.canJump && isGrounded && Input.GetKeyDown(KeyCode.Space) )
@@ -232,7 +238,20 @@ public class PlayerMove : NetworkBehaviour {
 		}
 
 		// velocityに従って移動
-		characterController.Move(velocity * Time.deltaTime);
+		var deltaMove = velocity * Time.deltaTime;
+
+		// 動く床に乗っていればそれの移動量を加算
+		if ( moveFloorObject )
+		{
+			var moveFloorNowPos = moveFloorObject.transform.position;
+			var moveFloorDeltaPos = moveFloorNowPos - moveFloorPrevPos;
+			deltaMove += moveFloorDeltaPos;
+
+			moveFloorPrevPos = moveFloorObject.transform.position;
+		}
+
+		// キャラ移動
+		characterController.Move(deltaMove);
 	}
 
 	#endregion
