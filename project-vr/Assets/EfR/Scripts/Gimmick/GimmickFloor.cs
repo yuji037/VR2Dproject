@@ -11,9 +11,17 @@ public enum FloorForm
 public class GimmickFloor : GimmickBase
 {
     public FloorForm floorForm;
-    private void Awake()
+    //private new void Awake()
+    //{
+    //    base.Awake();
+    //    Debug.Log(playerID);
+    //}
+    [ClientRpc]
+    public void RpcInit(NetworkIdentity playerNetID)
     {
-        base.Awake();
-        GimmickFloorSpawner.GetInstance().RegisterFloor(this);
+        if (PlayerManager.LocalPlayer.GetComponent<NetworkIdentity>() == playerNetID)
+        {
+            GimmickFloorSpawner.GetInstance().RegisterFloor(this);
+        }
     }
 }

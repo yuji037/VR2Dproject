@@ -6,15 +6,15 @@ using UnityEngine.Networking;
 public class LaserPointerFloorCreate : LaserPointerBase
 {
     GimmickFloor currentControlFloor = null;
-    PointerHitScreen preHitScreen=null;
-    
+    PointerHitScreen preHitScreen = null;
+
     protected override void HitAction(RaycastHit hit, Vector3 origin, Vector3 direction)
     {
         SetPosition(hit.point);
         if (!isLocalPlayer) return;
         PointerHitScreen hitScreen = hit.collider.GetComponent<PointerHitScreen>();
-        if (!hitScreen) return;
-        if (!hitScreen || (preHitScreen && hitScreen != preHitScreen))
+
+        if (!hitScreen || (preHitScreen && hitScreen != preHitScreen) )
         {
             TerminateFloor();
             return;
@@ -26,24 +26,30 @@ public class LaserPointerFloorCreate : LaserPointerBase
         }
         if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Z))
         {
-            FollowPointerFloor(hit.point);
+            FollowPointerFloor(hit.point, hit.normal);
         }
         else
         {
             TerminateFloor();
         }
     }
-
+    //bool CanCreateFloor(PointerHitScreen hitScreen)
+    //{
+    //    if (PlayerManager.Players.Length <= (int)hitScreen.canCreatePlayerNumber) {
+    //        return false;
+    //    }
+    //    return PlayerManager.LocalPlayer == PlayerManager.Players[(int)hitScreen.canCreatePlayerNumber];
+    //}
     protected override void NoHitAction(Vector3 origin, Vector3 direction)
     {
-        base.NoHitAction(origin,direction);
+        base.NoHitAction(origin, direction);
         TerminateFloor();
     }
-    void FollowPointerFloor(Vector3 pos)
+    void FollowPointerFloor(Vector3 pos, Vector3 normal)
     {
         if (!currentControlFloor) return;
         //currentControlFloor.transform.position = Vector3.Lerp(currentControlFloor.transform.position, pos,0.01f);
-        currentControlFloor.transform.position = pos+new Vector3(0,0,-0.1f);
+        currentControlFloor.transform.position = pos + normal * 0.1f;
     }
     void CreateFloor(FloorForm floorForm)
     {

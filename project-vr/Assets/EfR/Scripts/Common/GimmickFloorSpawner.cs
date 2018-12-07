@@ -15,10 +15,11 @@ public class GimmickFloorSpawner : NetworkBehaviour
     {
         instance = this;
     }
+
     Dictionary<int, GimmickFloor> floorDictionary = new Dictionary<int, GimmickFloor>();
-   public void RegisterFloor(GimmickFloor floor)
+    public void RegisterFloor(GimmickFloor floor)
     {
-        if (floorDictionary.ContainsKey((int)floor.floorForm)&&floorDictionary[(int)floor.floorForm] == null)
+        if (floorDictionary.ContainsKey((int)floor.floorForm) && floorDictionary[(int)floor.floorForm] == null)
         {
             floorDictionary[(int)floor.floorForm] = floor;
         }
@@ -31,29 +32,32 @@ public class GimmickFloorSpawner : NetworkBehaviour
     [SerializeField]
     GameObject[] FloorPrefabObjects;
     [Command]
-    void CmdSpawnFloor(FloorForm floorForm)
+    void CmdSpawnFloor(int floorForm,NetworkIdentity spawnerNetID,NetworkIdentity playerNetID)
     {
-        var obj = Instantiate(FloorPrefabObjects[(int)floorForm]);
+        var obj = Instantiate(FloorPrefabObjects[(floorForm)]);
         NetworkServer.Spawn(obj);
+        obj.GetComponent<GimmickFloor>().RpcInit(playerNetID);
+
     }
-    [ClientRpc]
-    void RpcRemove(int floorForm)
-    {
-        floorDictionary.Remove(floorForm);
-    }
+
+
     public void GetFloorObject(FloorForm floorForm, System.Action<GimmickFloor> callBack)
     {
+        if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+        }
         StartCoroutine(SpawnFloorCoroutine(floorForm, callBack));
     }
     IEnumerator SpawnFloorCoroutine(FloorForm floorForm, System.Action<GimmickFloor> callBack)
     {
-        CmdSpawnFloor(floorForm);
+        CmdSpawnFloor((int)floorForm,GetComponent<NetworkIdentity>(),PlayerManager.LocalPlayer.GetComponent<NetworkIdentity>());
         while (true)
         {
             if (floorDictionary.ContainsKey((int)floorForm))
             {
                 callBack(floorDictionary[(int)floorForm]);
-                RpcRemove((int)floorForm);
+                floorDictionary.Remove((int)floorForm);
                 yield break;
             }
             yield return null;

@@ -2,10 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PointerHitScreen : MonoBehaviour {
+public class PointerHitScreen : MonoBehaviour
+{
+    public enum PlayerNumber{
+        Player1=0,
+        Player2=1,
+    }
     [SerializeField]
     FloorForm floorForm;
-	public FloorForm GetFloorForm
+    //[SerializeField]
+    //public PlayerNumber canCreatePlayerNumber;
+    
+
+    public FloorForm GetFloorForm
     {
         get { return floorForm; }
     }
