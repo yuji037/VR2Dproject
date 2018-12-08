@@ -148,7 +148,7 @@ public class PlayerMove : NetworkBehaviour {
         {
 			//transform.parent = hit.collider.gameObject.transform;
 			moveFloorObject = hit.collider.gameObject;
-			moveFloorPrevPos = Vector3.zero;
+			moveFloorPrevPos = moveFloorObject.transform.position;
 		}
 
         if ( !isGrounded )
@@ -245,13 +245,25 @@ public class PlayerMove : NetworkBehaviour {
 		{
 			var moveFloorNowPos = moveFloorObject.transform.position;
 			var moveFloorDeltaPos = moveFloorNowPos - moveFloorPrevPos;
-			deltaMove += moveFloorDeltaPos;
+			deltaMove += LimitSpeedMoveFloor(moveFloorDeltaPos);
 
 			moveFloorPrevPos = moveFloorObject.transform.position;
 		}
 
 		// キャラ移動
 		characterController.Move(deltaMove);
+	}
+
+	Vector3 LimitSpeedMoveFloor(Vector3 moveFloorDeltaPos)
+	{
+		float limitSpeed = 5f;
+		float limitDeltaLen = limitSpeed * Time.deltaTime;
+		if ( moveFloorDeltaPos.sqrMagnitude > limitDeltaLen * limitDeltaLen )
+		{
+			moveFloorDeltaPos = moveFloorDeltaPos.normalized * limitDeltaLen;
+			DebugTools.Log("速度制限：動く床");
+		}
+		return moveFloorDeltaPos;
 	}
 
 	#endregion
