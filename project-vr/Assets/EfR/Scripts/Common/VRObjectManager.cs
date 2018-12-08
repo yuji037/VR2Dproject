@@ -34,6 +34,7 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
         var trParent = GameObject.Find("VRCamParent").transform;
         VRCamObject = Instantiate(m_prefVRCams[(int)DeviceType]);
 
+		Debug.Log("VR Camera Spawn");
         VRCamObject.transform.parent = trParent;
     }
 
@@ -104,6 +105,9 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
 
     public GameObject GetBaseCameraObject()
     {
+		if ( VRCamObject == null )
+			return null;
+
         switch ( DeviceType )
         {
             case VRDeviceType.NO_DEVICE:
