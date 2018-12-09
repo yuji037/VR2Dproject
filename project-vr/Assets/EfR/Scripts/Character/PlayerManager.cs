@@ -5,57 +5,67 @@ using UnityEngine.Networking;
 using System.Linq;
 
 // MonoBehaviourなのはlocalPlayerをインスペクターで見るため
-public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
+public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
+{
 
-	const string PlayerPrefixName = "Player_";
+    const string PlayerPrefixName = "Player_";
 
-	[SerializeField]
-	GameObject localPlayer;
+    [SerializeField]
+    GameObject localPlayer;
 
-	// このPC端末のプレイヤー
+    // このPC端末のプレイヤー
     public static GameObject LocalPlayer { get { return GetInstance().localPlayer; } }
 
-	// 他のPC端末のプレイヤー
-	public static GameObject OtherPlayer { get
-		{
-			GameObject[]	otherPlayers = Players.Where(obj => obj != LocalPlayer).ToArray();
-			return			otherPlayers[0];
-		} }
+    // 他のPC端末のプレイヤー
+    public static GameObject OtherPlayer
+    {
+        get
+        {
+            GameObject[] otherPlayers = Players.Where(obj => obj != LocalPlayer).ToArray();
+            return otherPlayers[0];
+        }
+    }
 
-	// 接続中の全てのプレイヤー
-    public static GameObject[] Players { get
-		{
-			var playerNIs = ClientScene.objects.Values.Where(ni => 
-				ni.gameObject.name.Contains(PlayerPrefixName)).ToArray();
+    // 接続中の全てのプレイヤー
+    public static GameObject[] Players
+    {
+        get
+        {
+            var playerNIs = ClientScene.objects.Values.Where(ni =>
+            {
+                if (!ni) return false;
+                return ni.gameObject.name.Contains(PlayerPrefixName);
+            }
+            ).ToArray();
 
-			var players = new GameObject[playerNIs.Length];
-			for(int i = 0; i < players.Length; ++i )
-			{
-				players[i] = playerNIs[i].gameObject;
-			}
-			return players;
-		}
-	}
+            var players = new GameObject[playerNIs.Length];
+            for (int i = 0; i < players.Length; ++i)
+            {
+                players[i] = playerNIs[i].gameObject;
+            }
+            return players;
+        }
+    }
 
-	// プレイヤー座標が近い順に並べて取得
-	public static GameObject[] GetNearPlayers(Vector3 original)
-	{
-		var nearPlayers = Players.OrderBy(obj => ( obj.transform.position - original ).sqrMagnitude).ToArray();
+    // プレイヤー座標が近い順に並べて取得
+    public static GameObject[] GetNearPlayers(Vector3 original)
+    {
+        var nearPlayers = Players.OrderBy(obj => (obj.transform.position - original).sqrMagnitude).ToArray();
 
-		foreach(var pl in nearPlayers )
-		{
-			Debug.Log(pl.name);
-		}
+        foreach (var pl in nearPlayers)
+        {
+            Debug.Log(pl.name);
+        }
 
-		return nearPlayers;
-	}
+        return nearPlayers;
+    }
 
-	public static string GetPlayerName(short playerControllerId)
-	{
-		return PlayerPrefixName + playerControllerId.ToString("D2");
-	}
+    public static string GetPlayerName(short playerControllerId)
+    {
+        return PlayerPrefixName + playerControllerId.ToString("D2");
+    }
 
-	public static void SetLocalPlayer(GameObject _localPlayer)
+    public static void SetLocalPlayer(GameObject _localPlayer)
     {
         GetInstance().localPlayer = _localPlayer;
     }

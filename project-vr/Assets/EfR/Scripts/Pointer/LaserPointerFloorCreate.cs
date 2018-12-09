@@ -14,7 +14,7 @@ public class LaserPointerFloorCreate : LaserPointerBase
         if (!isLocalPlayer) return;
         PointerHitScreen hitScreen = hit.collider.GetComponent<PointerHitScreen>();
 
-        if (!hitScreen || (preHitScreen && hitScreen != preHitScreen) )
+        if (!hitScreen || (preHitScreen && hitScreen != preHitScreen)||!CanCreateFloor(hitScreen) )
         {
             TerminateFloor();
             return;
@@ -33,13 +33,14 @@ public class LaserPointerFloorCreate : LaserPointerBase
             TerminateFloor();
         }
     }
-    //bool CanCreateFloor(PointerHitScreen hitScreen)
-    //{
-    //    if (PlayerManager.Players.Length <= (int)hitScreen.canCreatePlayerNumber) {
-    //        return false;
-    //    }
-    //    return PlayerManager.LocalPlayer == PlayerManager.Players[(int)hitScreen.canCreatePlayerNumber];
-    //}
+    bool CanCreateFloor(PointerHitScreen hitScreen)
+    {
+        if (PlayerManager.Players.Length <= (int)hitScreen.canCreatePlayerNumber)
+        {
+            return false;
+        }
+        return PlayerManager.LocalPlayer == PlayerManager.Players[(int)hitScreen.canCreatePlayerNumber];
+    }
     protected override void NoHitAction(Vector3 origin, Vector3 direction)
     {
         base.NoHitAction(origin, direction);
@@ -67,7 +68,7 @@ public class LaserPointerFloorCreate : LaserPointerBase
     {
         preHitScreen = null;
         if (!currentControlFloor) return;
-        NetworkServer.Destroy(currentControlFloor.gameObject);
+        GimmickFloorSpawner.GetInstance().ReleaseFloor(currentControlFloor);
         currentControlFloor = null;
     }
 }

@@ -11,11 +11,10 @@ public enum FloorForm
 public class GimmickFloor : GimmickBase
 {
     public FloorForm floorForm;
-    //private new void Awake()
-    //{
-    //    base.Awake();
-    //    Debug.Log(playerID);
-    //}
+    private new void Awake()
+    {
+        base.Awake();
+    }
     [ClientRpc]
     public void RpcInit(NetworkIdentity playerNetID)
     {

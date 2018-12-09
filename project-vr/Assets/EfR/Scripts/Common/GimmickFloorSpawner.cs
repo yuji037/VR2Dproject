@@ -32,10 +32,12 @@ public class GimmickFloorSpawner : NetworkBehaviour
     [SerializeField]
     GameObject[] FloorPrefabObjects;
     [Command]
-    void CmdSpawnFloor(int floorForm,NetworkIdentity spawnerNetID,NetworkIdentity playerNetID)
+    void CmdSpawnFloor(int floorForm,NetworkIdentity playerNetID)
     {
         var obj = Instantiate(FloorPrefabObjects[(floorForm)]);
+        obj.transform.position = new Vector3(0,-1000.0f,0);
         NetworkServer.Spawn(obj);
+        obj.GetComponent<NetworkIdentity>().AssignClientAuthority(playerNetID.connectionToClient);
         obj.GetComponent<GimmickFloor>().RpcInit(playerNetID);
 
     }
@@ -49,9 +51,21 @@ public class GimmickFloorSpawner : NetworkBehaviour
         }
         StartCoroutine(SpawnFloorCoroutine(floorForm, callBack));
     }
+
+    public void ReleaseFloor(GimmickFloor floor)
+    {
+        var floorID = floor.netId;
+        CmdDestroyFloor(floorID);
+    }
+
+    [Command]
+    void CmdDestroyFloor(NetworkInstanceId floorID)
+    {
+        NetworkServer.Destroy(NetworkServer.FindLocalObject(floorID));
+    }
     IEnumerator SpawnFloorCoroutine(FloorForm floorForm, System.Action<GimmickFloor> callBack)
     {
-        CmdSpawnFloor((int)floorForm,GetComponent<NetworkIdentity>(),PlayerManager.LocalPlayer.GetComponent<NetworkIdentity>());
+        CmdSpawnFloor((int)floorForm,PlayerManager.LocalPlayer.GetComponent<NetworkIdentity>());
         while (true)
         {
             if (floorDictionary.ContainsKey((int)floorForm))

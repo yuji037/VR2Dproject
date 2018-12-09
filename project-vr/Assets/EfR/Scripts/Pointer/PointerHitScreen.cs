@@ -10,9 +10,9 @@ public class PointerHitScreen : MonoBehaviour
     }
     [SerializeField]
     FloorForm floorForm;
-    //[SerializeField]
-    //public PlayerNumber canCreatePlayerNumber;
-    
+    [SerializeField]
+    public PlayerNumber canCreatePlayerNumber;
+
 
     public FloorForm GetFloorForm
     {
