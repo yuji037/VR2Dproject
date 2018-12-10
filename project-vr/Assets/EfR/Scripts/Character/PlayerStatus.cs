@@ -9,9 +9,11 @@ public class PlayerStatus : NetworkBehaviour {
 
 	[SerializeField]
 	GameObject m_prefVRHand;
+    [SyncVar]
+    public int number;
 
 
-	public override void OnStartLocalPlayer()
+    public override void OnStartLocalPlayer()
     {
         if ( isLocalPlayer )
         {
@@ -23,6 +25,7 @@ public class PlayerStatus : NetworkBehaviour {
     private void Start()
     {
 		gameObject.name = PlayerManager.GetPlayerName(playerControllerId);
+        PlayerManager.Players[number] = gameObject;
         StageInit();
     }
 

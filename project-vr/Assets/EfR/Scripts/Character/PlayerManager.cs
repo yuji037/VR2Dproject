@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Linq;
-
+  public enum PlayerNumber
+    {
+        Player1 = 0,
+        Player2 = 1,
+    }
 // MonoBehaviourなのはlocalPlayerをインスペクターで見るため
 public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 {
-
+  
     const string PlayerPrefixName = "Player_";
 
     [SerializeField]
@@ -27,26 +31,12 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
     }
 
     // 接続中の全てのプレイヤー
-    public static GameObject[] Players
+    public static GameObject[] Players=new GameObject[2];
+  
+    public static bool CheckLocalPlayerNumber(PlayerNumber playerNumber)
     {
-        get
-        {
-            var playerNIs = ClientScene.objects.Values.Where(ni =>
-            {
-                if (!ni) return false;
-                return ni.gameObject.name.Contains(PlayerPrefixName);
-            }
-            ).ToArray();
-
-            var players = new GameObject[playerNIs.Length];
-            for (int i = 0; i < players.Length; ++i)
-            {
-                players[i] = playerNIs[i].gameObject;
-            }
-            return players;
-        }
+        return (Players[(int)playerNumber] == LocalPlayer);
     }
-
     // プレイヤー座標が近い順に並べて取得
     public static GameObject[] GetNearPlayers(Vector3 original)
     {

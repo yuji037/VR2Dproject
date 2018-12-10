@@ -77,6 +77,7 @@ public class EFRNetworkManager : NetworkManager {
 		NetworkServer.AddPlayerForConnection(conn, handR, (short)(playerControllerId + 2));
 		NetworkServer.AddPlayerForConnection(conn, handL, (short)(playerControllerId + 4));
 		Debug.Log("プレイヤー作成成功 : " + message.playerNum);
+        player.GetComponent<PlayerStatus>().number = (message.playerNum - 1);
 	}
 
 	public override void OnClientConnect(NetworkConnection conn)
