@@ -46,6 +46,7 @@ public class PlayerStatus : NetworkBehaviour {
 
             case PlayerMove.MoveType.TPS:
             case PlayerMove.MoveType._2D:
+            case PlayerMove.MoveType.FIXED:
                 foreach ( var ren in renderers )
                 {
                     ren.enabled = true;

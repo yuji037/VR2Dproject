@@ -12,6 +12,7 @@ public class PlayerMove : NetworkBehaviour {
         FPS,
         TPS,
         _2D,
+        FIXED,
     }
 	#endregion
 
@@ -122,46 +123,49 @@ public class PlayerMove : NetworkBehaviour {
 		this._moveType = _moveType;
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
-		if ( !isLocalPlayer ) return;
+    // Update is called once per frame
+    void Update()
+    {
+        if (!isLocalPlayer) return;
 
-		inputHorizontal		= Input.GetAxisRaw("Horizontal");
-		inputVertical		= Input.GetAxisRaw("Vertical");
+        inputHorizontal = Input.GetAxisRaw("Horizontal");
+        inputVertical = Input.GetAxisRaw("Vertical");
 
-		// 2DならZ方向移動なくす
-		if ( moveType == MoveType._2D ) inputVertical = 0f;
+        // 2DならZ方向移動なくす
+        if (moveType == MoveType._2D) inputVertical = 0f;
 
-		// イベント中など、操作できない状態
-		if ( !canMove )
-		{
-			inputHorizontal		= 0f;
-			inputVertical		= 0f;
-			return;
-		}
+        // イベント中など、操作できない状態
+        if (!canMove)
+        {
+            inputHorizontal = 0f;
+            inputVertical = 0f;
+            return;
+        }
 
-		// 着地判定
-		RaycastHit hit;
-		isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, Pms.distanceToGround);
+        // 着地判定
+        RaycastHit hit;
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, Pms.distanceToGround);
         if (isGrounded && hit.collider.gameObject.tag == "LaserPointerFloorCreate")
         {
-			//transform.parent = hit.collider.gameObject.transform;
-			moveFloorObject = hit.collider.gameObject;
-			moveFloorPrevPos = moveFloorObject.transform.position;
-		}
+            //transform.parent = hit.collider.gameObject.transform;
+            moveFloorObject = hit.collider.gameObject;
+            moveFloorPrevPos = moveFloorObject.transform.position;
+        }
 
-        if ( !isGrounded )
+        if (!isGrounded)
         {
             //transform.parent = null;
-			moveFloorObject = null;
+            moveFloorObject = null;
 
-		}
+        }
 
-		// ジャンプ
-		if ( Pms.canJump && isGrounded && Input.GetKeyDown(KeyCode.Space) )
-		{
-			velocity.y = Pms.jumpPower;
+        // ジャンプ
+        if (Pms.canJump && isGrounded)
+        {  
+            if (Input.GetKeyDown(KeyCode.Space) || OVRInput.GetDown(OVRInput.Button.Two))
+            {
+                velocity.y = Pms.jumpPower;
+            }
 		}
 	}
 
@@ -191,6 +195,10 @@ public class PlayerMove : NetworkBehaviour {
 			case MoveType._2D:
 				moveForwardXZ = cam2DTransform.right * inputHorizontal;
 				break;
+
+            case MoveType.FIXED:
+                moveForwardXZ = cameraForwardXZ * inputVertical + camVRTransform.right * inputHorizontal;
+                break;
 		}
 
 		// XZ平面移動
@@ -216,6 +224,10 @@ public class PlayerMove : NetworkBehaviour {
 					transform.rotation = Quaternion.LookRotation(moveForwardXZ);
 				}
 				break;
+
+            case MoveType.FIXED:
+                transform.rotation = Quaternion.LookRotation(cameraForwardXZ);
+                break;
 		}
 
 		// 重力（空中時に受ける）

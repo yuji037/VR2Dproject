@@ -94,6 +94,11 @@ public class CameraVRController : MonoBehaviour {
             rightHandRig.rotation   = Quaternion.LookRotation(lookVec);
         }
 
+        if ( playerMove && playerMove.moveType == PlayerMove.MoveType.FIXED )
+        {
+            return;
+        }
+
 
         if ( targetObject != null && playerMove.moveType!=PlayerMove.MoveType._2D )
         {
@@ -103,7 +108,7 @@ public class CameraVRController : MonoBehaviour {
             //transform.position = targetObject.transform.position;
         }
 
-        if (playerMove.moveType == PlayerMove.MoveType.FPS)
+        if (playerMove && playerMove.moveType == PlayerMove.MoveType.FPS)
         {
             Vector2 input = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
             transform.Rotate(new Vector3(0, input.x));
