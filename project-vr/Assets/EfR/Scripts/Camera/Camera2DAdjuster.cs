@@ -16,11 +16,6 @@ public class Camera2DAdjuster : MonoBehaviour
     [SerializeField]
     RenderTexture targetTexture;
 
-    Transform Target;
-
-    Vector3 targetOffset;
-
-    public Vector3 DefaultRot { private set; get; }
 
     float defaultFOV = 90.0f;
 
@@ -28,20 +23,14 @@ public class Camera2DAdjuster : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        DefaultRot = transform.eulerAngles;
         videoGameCamera = GetComponent<Camera>();
     }
-    private void Update()
+    public void SetDefaultFov(float fov)
     {
-        if (Target == null)
-        {
-            var localPlayer = PlayerManager.LocalPlayer;
-            if (!localPlayer) return;
-            Target = localPlayer.transform;
-            var offset = transform.position - Target.transform.position;
-            targetOffset = /*new Vector3(0, offset.y, -10.0f)*/offset;
-        }
+        defaultFOV = fov;
     }
+
+
     public void Trans2DPerspective()
     {
         StartCoroutine(Trans2DPerspectiveCoroutine());
@@ -50,7 +39,7 @@ public class Camera2DAdjuster : MonoBehaviour
 
     public Vector3 Get2DCameraPos()
     {
-        return Target.transform.position + targetOffset;
+        return transform.position;
     }
     public void Move2DPosition(Transform target)
     {
@@ -79,7 +68,6 @@ public class Camera2DAdjuster : MonoBehaviour
     public void Set2DPosition()
     {
         transform.position = Get2DCameraPos();
-        transform.eulerAngles = DefaultRot;
     }
     Vector3 GetLeftCenterPoint()
     {
@@ -104,10 +92,9 @@ public class Camera2DAdjuster : MonoBehaviour
         pointCenter = GetCenterPoint();
         videoGameCamera.orthographic = false;
         videoGameCamera.fieldOfView = defaultFOV;
-
-        //Debug.Log("Screen width : " + Screen.width);
-        //Debug.Log("pointLeftTop : " + pointLeftCenter);
-        //Debug.Log("pointCenter : " + pointCenter);
+        var startCameraPos = PlayerManager.LocalPlayer.transform.position;
+        startCameraPos.y = Get2DCameraPos().y;
+        Debug.Log(defaultFOV + "FOVで遷移");
         for (float t = 0; t < 1.0f; t += Time.deltaTime)
         {
             float fovCoeff = t;
@@ -119,10 +106,11 @@ public class Camera2DAdjuster : MonoBehaviour
             float fieldOfView = 1f + (defaultFOV - 1) * fovCoeff;
 
             videoGameCamera.fieldOfView = fieldOfView;
-
+            Debug.Log(fieldOfView);
             var z = Vector3.Magnitude(pointLeftCenter - pointCenter) / Mathf.Tan(Mathf.Deg2Rad * fieldOfView);
-
-            transform.position = Get2DCameraPos() + new Vector3(0, 0, depth) - new Vector3(0, 0, z);
+            var moveVec = new Vector3(0, 0, depth) + new Vector3(0, 0, z);
+            moveVec = Quaternion.Euler(0, transform.eulerAngles.y, 0) * moveVec;
+            transform.position = startCameraPos - moveVec;
 
 
             yield return null;

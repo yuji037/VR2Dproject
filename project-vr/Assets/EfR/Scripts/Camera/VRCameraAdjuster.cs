@@ -48,7 +48,12 @@ public class VRCameraAdjuster : MonoBehaviour
     [SerializeField]
     CameraParam videoGameWorldCameraParam;
 
+    [SerializeField]
+    Camera CenterEye;
+
+
     UnityEngine.PostProcessing.PostProcessingBehaviour postProcessing;
+
     public void Init()
     {
         var player = PlayerManager.LocalPlayer;
@@ -70,7 +75,12 @@ public class VRCameraAdjuster : MonoBehaviour
         Debug.Log("Camera Init");
     }
 
-    void SetAllVRCamsParam(CameraParam cameraParam)
+    public float GetCenterEyeFOV()
+    {
+        return CenterEye.fieldOfView;
+    }
+    
+        void SetAllVRCamsParam(CameraParam cameraParam)
     {
         foreach (var VRCam in VRCams)
             SetCameraParam(VRCam, cameraParam);
@@ -127,7 +137,7 @@ public class VRCameraAdjuster : MonoBehaviour
         //realCamのdefaultの設定に
         SetAllVRCamsParam(realWorldCameraParam);
         transform.position = NearTVObject.position;
-
+        transform.rotation = NearTVObject.rotation;
         //コントロールを無効に
         //GetComponent<ControlCamera>().enabled = false;
 
@@ -157,19 +167,19 @@ public class VRCameraAdjuster : MonoBehaviour
             yield return null;
         }
     }
-    public void TransPosition(Vector3 endPos)
+    public void TransPosAndRotToEqualize(Transform from,Transform to)
     {
-        StartCoroutine(AdjustPosition(transform, endPos));
+        StartCoroutine(AdjustPosition(transform, to));
     }
 
-    IEnumerator AdjustPosition(Transform adjustTarget, Vector3 endPos)
+    IEnumerator AdjustPosition(Transform adjustTarget, Transform to)
     {
         Vector3 defPos = adjustTarget.position;
-        //Vector3 defRot = adjustTarget.eulerAngles;
+        Vector3 defRot = adjustTarget.eulerAngles;
         for (float t = 0; t < 1; t += Time.deltaTime)
         {
-            adjustTarget.position = defPos * (1f - t) / 1f + endPos * t / 1f;
-            //adjustTarget.eulerAngles = defRot * (1f - t) / 1f + endRot * t / 1f;
+            adjustTarget.position = defPos * (1f - t) / 1f + to.position * t / 1f;
+            adjustTarget.eulerAngles = defRot * (1f - t) / 1f + to.eulerAngles * t / 1f;
             yield return null;
         }
     }

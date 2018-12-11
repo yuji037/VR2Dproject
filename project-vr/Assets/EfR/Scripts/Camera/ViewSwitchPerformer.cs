@@ -66,6 +66,14 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
         }
     }
 
+    bool isInitialized = false;
+    void Initialize()
+    {
+        C2DAdjuster.SetDefaultFov(RCAdjuster.GetCenterEyeFOV());
+        isInitialized = true;
+    }
+
+
     //遷移中
     public bool IsTranslation { get; private set; }
 
@@ -73,6 +81,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
     public void SwitchView(PlayerMove.MoveType switchType,System.Action callBack=null)
     {
         if (IsTranslation) return;
+        if (!isInitialized) Initialize();
         StartCoroutine(Translation(switchType, callBack));
     }
 
@@ -120,9 +129,11 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 RCAdjuster.PlayMotionBlur();
 
                 playerMove.RendererSwitchForPlayerMoveType(moveType);
+                
+                yield return new WaitForSeconds(1.0f);
 
-                //2ＤCamera位置にVRCamera移動
-                RCAdjuster.TransPosition(C2DAdjuster.GetPositionForDefaultFOV());
+                //2DCamera位置にVRCamera移動
+                RCAdjuster.TransPosAndRotToEqualize(RCAdjuster.transform,C2DAdjuster.transform);
                 yield return new WaitForSeconds(1.0f);
 
                 transRealParticle.Play();
