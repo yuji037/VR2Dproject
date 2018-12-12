@@ -145,22 +145,25 @@ public class PlayerMove : NetworkBehaviour {
         // 着地判定
         RaycastHit hit;
         isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, Pms.distanceToGround);
-        if (isGrounded && hit.collider.gameObject.tag == "LaserPointerFloorCreate")
+        if (!moveFloorObject && isGrounded && hit.collider.gameObject.tag == "LaserPointerFloorCreate")
         {
             //transform.parent = hit.collider.gameObject.transform;
             moveFloorObject = hit.collider.gameObject;
             moveFloorPrevPos = moveFloorObject.transform.position;
+			Debug.Log("floor");
         }
 
-        if (!isGrounded)
+        if ( moveFloorObject && !isGrounded)
         {
             //transform.parent = null;
             moveFloorObject = null;
 
-        }
+			Debug.Log("なし");
 
-        // ジャンプ
-        if (Pms.canJump && isGrounded)
+		}
+
+		// ジャンプ
+		if (Pms.canJump && isGrounded)
         {  
             if (Input.GetKeyDown(KeyCode.Space) || OVRInput.GetDown(OVRInput.Button.Two))
             {
@@ -258,7 +261,7 @@ public class PlayerMove : NetworkBehaviour {
 			var moveFloorNowPos = moveFloorObject.transform.position;
 			var moveFloorDeltaPos = moveFloorNowPos - moveFloorPrevPos;
 			deltaMove += LimitSpeedMoveFloor(moveFloorDeltaPos);
-
+			DebugTools.DisplayText("deltaMove", deltaMove);
 			moveFloorPrevPos = moveFloorObject.transform.position;
 		}
 
@@ -268,7 +271,7 @@ public class PlayerMove : NetworkBehaviour {
 
 	Vector3 LimitSpeedMoveFloor(Vector3 moveFloorDeltaPos)
 	{
-		float limitSpeed = 5f;
+		float limitSpeed = 500f;
 		float limitDeltaLen = limitSpeed * Time.deltaTime;
 		if ( moveFloorDeltaPos.sqrMagnitude > limitDeltaLen * limitDeltaLen )
 		{
