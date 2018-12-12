@@ -69,8 +69,8 @@ public class CameraVRController : MonoBehaviour {
 		var defaultCamPos = playerMove.GetComponent<ViewPointStorage>().GetCamPos(playerMove.moveType, 0);
 		transform.position = defaultCamPos.position;
 
-		if ( playerMove.moveType == PlayerMove.MoveType.FPS
-			|| playerMove.moveType == PlayerMove.MoveType.TPS )
+		if (	playerMove.moveType == PlayerMove.MoveType.FPS
+			||	playerMove.moveType == PlayerMove.MoveType.TPS )
         {
 			// 目標点をプレイヤーに
             targetPosition = targetObject.transform.position;
