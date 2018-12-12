@@ -50,7 +50,6 @@ public class LaserPointerFloorCreate : LaserPointerBase
     {
         if (!currentControlFloor) return;
         //currentControlFloor.transform.position = Vector3.Lerp(currentControlFloor.transform.position, pos,0.01f);
-        currentControlFloor.transform.forward = normal;
         currentControlFloor.GetComponent<Rigidbody>().MovePosition( pos + normal * 0.1f);
     }
     void CreateFloor(FloorForm floorForm)
