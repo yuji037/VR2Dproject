@@ -20,7 +20,7 @@ public class LaserPointerFloorCreate : LaserPointerBase
             return;
         }
         preHitScreen = hitScreen;
-        if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Z) || OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger))
         {
             CreateFloor(hitScreen.GetFloorForm);
         }
