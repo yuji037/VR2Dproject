@@ -68,7 +68,7 @@ public class CameraVRController : MonoBehaviour {
 		// カメラを初期位置にセット
 		if ( playerMove.moveType != PlayerMove.MoveType._2D )
         {
-            var defaultCamPos = playerMove.GetComponent<ViewPointStorage>().GetCamPos(playerMove.moveType);
+            var defaultCamPos = playerMove.GetComponent<ViewPointStorage>().GetCamPos(playerMove.moveType, 0);
             transform.position = defaultCamPos.position;
 
             targetPosition = targetObject.transform.position;
@@ -76,8 +76,10 @@ public class CameraVRController : MonoBehaviour {
 
         camPosParent = GameObject.Find("CamPosParent").transform;
         camPosParent.transform.localRotation = Quaternion.identity;
-        camChangeDis = targetObject.GetComponent<ViewPointStorage>().GetCamPos(PlayerMove.MoveType.TPS).position
-            - targetObject.GetComponent<ViewPointStorage>().GetCamPos(PlayerMove.MoveType.FPS).position;
+
+		var vps = targetObject.GetComponent<ViewPointStorage>();
+		camChangeDis = vps.GetCamPos(PlayerMove.MoveType.TPS).position 
+			- vps.GetCamPos(PlayerMove.MoveType.FPS).position;
 
     }
 
@@ -108,55 +110,76 @@ public class CameraVRController : MonoBehaviour {
             //transform.position = targetObject.transform.position;
         }
 
-        if (playerMove && playerMove.moveType == PlayerMove.MoveType.FPS)
-        {
-            Vector2 input = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
-            transform.Rotate(new Vector3(0, input.x));
-        }
+		PlayerRotate();
 
-        // TPS視点ならマウスの中ボタンでカメラをプレイヤーの周囲を回転
-        if (    playerMove 
-            &&  playerMove.moveType == PlayerMove.MoveType.TPS 
-            &&  Input.GetMouseButton(2))
-        {
-            float mouseInputX = Input.GetAxis("Mouse X");
-            float mouseInputY = -Input.GetAxis("Mouse Y");
-
-            transform.RotateAround(camPosParent.position, Vector3.up,       mouseInputX * cameraSensitivity);
-            transform.RotateAround(camPosParent.position, transform.right,  mouseInputY * cameraSensitivity);
-        }
-
-        // FPS視点時、GimmickCubeを押していたら視点をTPSに変更する
-        RaycastHit hit;
-        if (   playerMove
-            && playerMove.moveType == PlayerMove.MoveType.FPS
-            && Physics.Raycast(targetObject.transform.position, playerMove.GetVelocity(), out hit, 2.0f)
-            && hit.transform.tag == "GimmickCube"
-            && changeCamera == null)
-        {
-            //playerMove.SwitchMoveType(PlayerMove.MoveType.TPS);
-            //changeCamera = StartCoroutine(ChangeCamTPS());
-            //playerStatus.RendererSwitchForPlayerMoveType(PlayerMove.MoveType.TPS);    
-        }
-
-        // TPS視点時、GimmickCubeを押していなかったら視点をFPSに変更する
-        if ((   playerMove
-            && playerMove.moveType == PlayerMove.MoveType.TPS
-            && !Physics.Raycast(targetObject.transform.position,playerMove.GetVelocity(), 2.0f)
-            && changeCamera == null)
-            || playerMove
-            && playerMove.moveType == PlayerMove.MoveType.TPS
-            && (Physics.Raycast(targetObject.transform.position, playerMove.GetVelocity(),out hit, 2.0f)
-            && hit.transform.tag != "GimmickCube"
-            && changeCamera == null))
-        {
-            //playerMove.SwitchMoveType(PlayerMove.MoveType.FPS);
-            //changeCamera = StartCoroutine(ChangeCamFPS());
-            //playerStatus.RendererSwitchForPlayerMoveType(PlayerMove.MoveType.FPS);
-        }
+		TransitionViewWhilePushingObject();
     }
 
-    private IEnumerator ChangeCamTPS()
+	void PlayerRotate()
+	{
+		if ( playerMove == null ) return;
+
+		Vector2 inputRightStick = Vector2.zero;
+		switch ( vrObjectManager.DeviceType )
+		{
+			case VRDeviceType.NO_DEVICE:
+				if ( Input.GetMouseButton(2) )
+				{
+					inputRightStick = new Vector2(Input.GetAxis("Mouse X"), -Input.GetAxis("Mouse Y"));
+				}
+				break;
+			case VRDeviceType.OCULUS:
+				inputRightStick = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
+				break;
+			case VRDeviceType.HTC_VIVE:
+				break;
+		}
+
+		if ( playerMove.moveType == PlayerMove.MoveType.FPS )
+		{
+			transform.Rotate(new Vector3(0, inputRightStick.x));
+		}
+		else if ( playerMove.moveType == PlayerMove.MoveType.TPS )
+		{
+			// TPS視点ならマウスの中ボタンでカメラをプレイヤーの周囲を回転
+			transform.RotateAround(camPosParent.position, Vector3.up, inputRightStick.x * cameraSensitivity);
+			//transform.RotateAround(camPosParent.position, transform.right,  mouseInputY * cameraSensitivity);
+		}
+	}
+
+	void TransitionViewWhilePushingObject()
+	{
+		// FPS視点時、GimmickCubeを押していたら視点をTPSに変更する
+		RaycastHit hit;
+		if ( playerMove
+			&& playerMove.moveType == PlayerMove.MoveType.FPS
+			&& Physics.Raycast(targetObject.transform.position, playerMove.GetVelocity(), out hit, 2.0f)
+			&& hit.transform.tag == "GimmickCube"
+			&& changeCamera == null )
+		{
+			//playerMove.SwitchMoveType(PlayerMove.MoveType.TPS);
+			//changeCamera = StartCoroutine(ChangeCamTPS());
+			//playerStatus.RendererSwitchForPlayerMoveType(PlayerMove.MoveType.TPS);    
+		}
+
+		// TPS視点時、GimmickCubeを押していなかったら視点をFPSに変更する
+		if ( ( playerMove
+			&& playerMove.moveType == PlayerMove.MoveType.TPS
+			&& !Physics.Raycast(targetObject.transform.position, playerMove.GetVelocity(), 2.0f)
+			&& changeCamera == null )
+			|| playerMove
+			&& playerMove.moveType == PlayerMove.MoveType.TPS
+			&& ( Physics.Raycast(targetObject.transform.position, playerMove.GetVelocity(), out hit, 2.0f)
+			&& hit.transform.tag != "GimmickCube"
+			&& changeCamera == null ) )
+		{
+			//playerMove.SwitchMoveType(PlayerMove.MoveType.FPS);
+			//changeCamera = StartCoroutine(ChangeCamFPS());
+			//playerStatus.RendererSwitchForPlayerMoveType(PlayerMove.MoveType.FPS);
+		}
+	}
+
+	private IEnumerator ChangeCamTPS()
     {
         for (float f = 0; f < 1.0f; f += Time.deltaTime)
         {
