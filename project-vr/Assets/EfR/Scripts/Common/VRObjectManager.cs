@@ -84,19 +84,19 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
         var oPlayer = PlayerManager.LocalPlayer;
         var plMove = oPlayer.GetComponent<PlayerMove>();
 
-        // カメラのTransform設定
-        var camTr = oPlayer.GetComponent<ViewPointStorage>().GetCamPos(plMove.moveType);
-        VRCamObject.transform.position = camTr.position;
-        VRCamObject.transform.rotation = camTr.rotation;
+		//// カメラのTransform設定
+		//var camTr = oPlayer.GetComponent<ViewPointStorage>().GetCamPos(plMove.moveType);
+		//VRCamObject.transform.position = camTr.position;
+		//VRCamObject.transform.rotation = camTr.rotation;
 
-        //if ( moveType == MoveType._2D )
-        //{
-        //    // 2Dの場合のみ、カメラはZ軸の-方向から見る配置にする
-        //    var distanceVec = this.transform.position - camTr.position;
-        //    camRig.transform.position = this.transform.position - new Vector3(0, 0, distanceVec.magnitude);
-        //    camRig.transform.rotation = Quaternion.identity;
-        //}
-        var cc = VRCamObject.GetComponent<CameraVRController>();
+		//if ( moveType == MoveType._2D )
+		//{
+		//    // 2Dの場合のみ、カメラはZ軸の-方向から見る配置にする
+		//    var distanceVec = this.transform.position - camTr.position;
+		//    camRig.transform.position = this.transform.position - new Vector3(0, 0, distanceVec.magnitude);
+		//    camRig.transform.rotation = Quaternion.identity;
+		//}
+		var cc = VRCamObject.GetComponent<CameraVRController>();
         cc.Init();
 
         var vca = VRCamObject.GetComponent<VRCameraAdjuster>();

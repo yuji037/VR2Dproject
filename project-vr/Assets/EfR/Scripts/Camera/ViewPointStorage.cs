@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class ViewPointStorage : MonoBehaviour {
 
+	// 2Dだけはリアル世界のTVの前
     public Transform CamPosFPS;
     public Transform CamPosTPS;
     public Transform CamPos_2D;
-    public Transform CamPosFixed;
+    public Transform[] CamPosFixed = null;
 
-    public Transform GetCamPos(PlayerMove.MoveType moveType)
+    public Transform GetCamPos(PlayerMove.MoveType moveType, int sectionNumber = -1)
     {
-        // 2DだけプレイヤーのプレハブにないのでFindで取得
-        // Fixedの時はステージの設定次第と思われるのでFindで取得
+		Debug.Log(moveType);
+        // 2Dの時はプレイヤーのプレハブにないのでFindで取得
+        // Fixedの時はステージの設定次第と思われるのでFindしてその子を取得
         switch ( moveType )
         {
             case PlayerMove.MoveType.FPS:
@@ -22,9 +24,11 @@ public class ViewPointStorage : MonoBehaviour {
                 return CamPosTPS;
 
             case PlayerMove.MoveType.FIXED:
-                if ( !CamPosFixed )
-                    CamPosFixed = GameObject.Find("CamPosFixed").transform;
-                return CamPosFixed;
+				if ( CamPosFixed == null || CamPosFixed.Length == 0 )
+				{
+					CamPosFixed = GameObject.Find("CamPosFixed").GetTransformsOrderByNumber("Pos");
+				}
+                return CamPosFixed[sectionNumber];
 
             case PlayerMove.MoveType._2D:
             default:
