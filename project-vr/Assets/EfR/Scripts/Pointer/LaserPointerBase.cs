@@ -31,7 +31,7 @@ public class LaserPointerBase : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!localPlaerMove)
+        if (!localPlaerMove&&PlayerManager.LocalPlayer)
         {
             localPlaerMove = PlayerManager.LocalPlayer.GetComponent<PlayerMove>();
         }

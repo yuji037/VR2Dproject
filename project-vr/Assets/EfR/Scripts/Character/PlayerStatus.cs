@@ -9,9 +9,22 @@ public class PlayerStatus : NetworkBehaviour {
 
 	[SerializeField]
 	GameObject m_prefVRHand;
-    [SyncVar]
+
+    bool initialized = false;
+    public bool Initialized
+    {
+        get { return initialized; }
+    }
+
     public int number;
 
+    [ClientRpc]
+    public void RpcInit(int number)
+    {
+        this.number = number;
+        initialized = true;
+        PlayerManager.Players[number] = gameObject;
+    }
 
     public override void OnStartLocalPlayer()
     {
@@ -25,7 +38,6 @@ public class PlayerStatus : NetworkBehaviour {
     private void Start()
     {
 		gameObject.name = PlayerManager.GetPlayerName(playerControllerId);
-        PlayerManager.Players[number] = gameObject;
         StageInit();
     }
 
