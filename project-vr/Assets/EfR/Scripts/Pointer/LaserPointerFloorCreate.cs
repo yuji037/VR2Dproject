@@ -20,11 +20,11 @@ public class LaserPointerFloorCreate : LaserPointerBase
             return;
         }
         preHitScreen = hitScreen;
-        if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Z) || OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger))
+        if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Z) || OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))
         {
             CreateFloor(hitScreen.GetFloorForm);
         }
-        if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Z))
+        if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Z) || OVRInput.Get(OVRInput.RawButton.RIndexTrigger))
         {
             FollowPointerFloor(hit.point, hit.normal);
         }
