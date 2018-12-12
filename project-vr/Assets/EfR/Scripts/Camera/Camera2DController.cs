@@ -39,10 +39,6 @@ public class Camera2DController : MonoBehaviour
     private void Init()
     {
         if (isInitialized) return;
-        foreach (var i in PlayerManager.Players)
-        {
-            Debug.Log(i);
-        }
         if (PlayerManager.CheckLocalPlayerNumber(PlayerNumber.Player1))
         {
             ChangeCameraDirection(WorldDirection.Back);
