@@ -20,7 +20,8 @@ public class PlayerMove : NetworkBehaviour {
 	#region Public Variables
 
 	// 値をネットワーク同期させたいメンバ変数には[SyncVar]を付ける。
-	[SyncVar]
+	// 
+	//[SyncVar]
 	MoveType		_moveType; 
     public MoveType moveType { get
 		{
@@ -120,11 +121,17 @@ public class PlayerMove : NetworkBehaviour {
 	[Command]
 	void CmdSetMoveType(MoveType _moveType)
 	{
+		RpcSwitchMoveType(_moveType);
+	}
+	[ClientRpc]
+	void RpcSwitchMoveType(MoveType _moveType)
+	{
 		this._moveType = _moveType;
+		MaterialsManager.GetInstance().Change();
 	}
 
-    // Update is called once per frame
-    void Update()
+	// Update is called once per frame
+	void Update()
     {
         if (!isLocalPlayer) return;
 
