@@ -66,11 +66,13 @@ public class CameraVRController : MonoBehaviour {
         playerStatus = oPlayer.GetComponent<PlayerStatus>();
 
 		// カメラを初期位置にセット
-		if ( playerMove.moveType != PlayerMove.MoveType._2D )
-        {
-            var defaultCamPos = playerMove.GetComponent<ViewPointStorage>().GetCamPos(playerMove.moveType, 0);
-            transform.position = defaultCamPos.position;
+		var defaultCamPos = playerMove.GetComponent<ViewPointStorage>().GetCamPos(playerMove.moveType, 0);
+		transform.position = defaultCamPos.position;
 
+		if ( playerMove.moveType == PlayerMove.MoveType.FPS
+			|| playerMove.moveType == PlayerMove.MoveType.TPS )
+        {
+			// 目標点をプレイヤーに
             targetPosition = targetObject.transform.position;
         }
 

@@ -12,7 +12,7 @@ public class ViewPointStorage : MonoBehaviour {
 
     public Transform GetCamPos(PlayerMove.MoveType moveType, int sectionNumber = -1)
     {
-		Debug.Log(moveType);
+		Debug.Log(gameObject.name + moveType.ToString());
         // 2Dの時はプレイヤーのプレハブにないのでFindで取得
         // Fixedの時はステージの設定次第と思われるのでFindしてその子を取得
         switch ( moveType )
