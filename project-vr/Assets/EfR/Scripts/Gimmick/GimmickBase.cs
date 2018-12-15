@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 public abstract class GimmickBase : NetworkBehaviour {
 
     [SerializeField]
-    private		int		m_iGimmickID;
+    private int m_iGimmickID = -1;
     public		int		GimmickID
     {
         get { return	m_iGimmickID; }
@@ -23,18 +23,29 @@ public abstract class GimmickBase : NetworkBehaviour {
     //protected Action<int> m_aCollisionStayAction;
     protected	Action<int> m_aCollisionExitAction;
     protected	Action<int> m_aTriggerEnterAction;
+
     //protected Action<int> m_aTriggerStayAction;
-    protected	Action<int> m_aTriggerExitAction;
+    protected Action<int> m_aTriggerExitAction;
     protected	Action<int> m_aPointerHitAction;
 
-	// サーバーから全クライアントで呼び出す
-	// →ということは各クライアントでDoor.Open()などが起こるのでほんとは[Server]だけで起こるのが正しい？
-	// それか呼び出し元が[ServerCallback]でServerのみで呼ばれるのでこちらにAttributeは要らない？
-	void RpcCollisionEnterAction(	int otherGimmickID		){ m_aCollisionEnterAction(	otherGimmickID		); }
+    protected Action<Collision> m_acCollisionEnterAction;
+    protected Action<Collision> m_acCollisionExitAction;
+    protected Action<Collider> m_acTriggerEnterAction;
+    protected Action<Collider> m_acTriggerExitAction;
+
+    // サーバーから全クライアントで呼び出す
+    // →ということは各クライアントでDoor.Open()などが起こるのでほんとは[Server]だけで起こるのが正しい？
+    // それか呼び出し元が[ServerCallback]でServerのみで呼ばれるのでこちらにAttributeは要らない？
+    void RpcCollisionEnterAction(	int otherGimmickID		){ m_aCollisionEnterAction(	otherGimmickID		); }
 	void RpcCollisionExitAction(	int otherGimmickID		){ m_aCollisionExitAction(	otherGimmickID		); }
 	void RpcTriggerEnterAction(		int otherGimmickID		){ m_aTriggerEnterAction(	otherGimmickID		); }
 	void RpcTriggerExitAction(		int otherGimmickID		){ m_aTriggerExitAction(	otherGimmickID		); }
 	void RpcPointerHitAction(		int pointerGimmickID	){ m_aPointerHitAction(		pointerGimmickID	); }
+
+    void RpcCollisionEnterAction(	Collision other		){ m_acCollisionEnterAction(	other		); }
+	void RpcCollisionExitAction(	Collision other		){ m_acCollisionExitAction(	    other		); }
+	void RpcTriggerEnterAction(		Collider  other		){ m_acTriggerEnterAction(	    other		); }
+	void RpcTriggerExitAction(		Collider  other		){ m_acTriggerExitAction(	    other		); }
 
     //[RPC] void ActCollisionStayAction (int otherGimmickID  ) {  m_aCollisionStayAction(     otherGimmickID);     }
     //[RPC] void ActTriggerStayAction   (int otherGimmickID  ) {  m_aTriggerStayAction(       otherGimmickID);     }
@@ -59,6 +70,7 @@ public abstract class GimmickBase : NetworkBehaviour {
     [ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
+        if (m_acCollisionEnterAction != null && isServer) m_acCollisionEnterAction(collision);
         if ( m_aCollisionEnterAction == null ) return;
 
         var gmk = collision.gameObject.GetComponent<GimmickBase>();
@@ -81,6 +93,7 @@ public abstract class GimmickBase : NetworkBehaviour {
     [ServerCallback]
     private void OnCollisionExit(Collision collision)
     {
+        if (m_acCollisionExitAction != null && isServer) m_acCollisionExitAction(collision);
         if ( m_aCollisionExitAction == null ) return;
         if ( !isServer ) return;
 
@@ -93,6 +106,7 @@ public abstract class GimmickBase : NetworkBehaviour {
     [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
+        if (m_acTriggerEnterAction != null&&isServer) m_acTriggerEnterAction(other);
         if ( m_aTriggerEnterAction == null ) return;
         if ( !isServer ) return;
 
@@ -116,6 +130,7 @@ public abstract class GimmickBase : NetworkBehaviour {
     [ServerCallback]
     private void OnTriggerExit(Collider other)
     {
+        if (m_acTriggerExitAction != null && isServer) m_acTriggerExitAction(other);
         if ( m_aTriggerExitAction == null ) return;
         if ( !isServer ) return;
 
