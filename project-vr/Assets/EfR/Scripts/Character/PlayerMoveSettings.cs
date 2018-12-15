@@ -11,6 +11,7 @@ public class PlayerMoveSettings : ScriptableObject
 
     public bool canJump;
     public float jumpPower;
+	public float jumpingDuration = 0.5f;
     public float limitSpeed;
     public float groundMoveAccel;
     public float airMoveAccel;
@@ -20,5 +21,4 @@ public class PlayerMoveSettings : ScriptableObject
     public float groundRegistance;
     public float distanceToGround;
 
-	public float jumpingDuration = 0.5f;
 }
