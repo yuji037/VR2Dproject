@@ -28,6 +28,7 @@ GameObject:
   - component: {fileID: 114139559471986210}
   - component: {fileID: 114491218232206488}
   - component: {fileID: 114501710182717030}
+  - component: {fileID: 114939007668476662}
   m_Layer: 0
   m_Name: GimmickCube
   m_TagString: GimmickCube
@@ -42,7 +43,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1384197808529300}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.56, y: 6.04, z: 4.34}
+  m_LocalPosition: {x: 12.254505, y: 3.92, z: 3.62}
   m_LocalScale: {x: 0.99, y: 0.99, z: 0.99}
   m_Children: []
   m_Father: {fileID: 0}
@@ -207,3 +208,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1536
   pushStrength: 0.5
+--- !u!114 &114939007668476662
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1384197808529300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36f02ef94a8b97343a8b6cc51338d8b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

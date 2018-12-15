@@ -77,5 +77,12 @@ public class GimmickObjectGenerator : Editor
         InstantiateGimmick(screenPath + "LongYFloorScreen.prefab");
     }
 
+
+    [MenuItem("GameObject/EFR_Gimmick/SavePoint", priority = 29)]
+    static void CreateSavePoint()
+    {
+        InstantiateGimmick(gimmickPath + "SavePoint.prefab");
+    }
+
 }
 #endif
