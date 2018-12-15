@@ -127,7 +127,7 @@ public class PlayerMove : NetworkBehaviour {
 	void RpcSwitchMoveType(MoveType _moveType)
 	{
 		this._moveType = _moveType;
-		MaterialsManager.GetInstance().Change();
+		//MaterialsManager.GetInstance().Change();
 	}
 
 	// Update is called once per frame
@@ -157,7 +157,7 @@ public class PlayerMove : NetworkBehaviour {
             //transform.parent = hit.collider.gameObject.transform;
             moveFloorObject = hit.collider.gameObject;
             moveFloorPrevPos = moveFloorObject.transform.position;
-			Debug.Log("floor");
+			Debug.Log("床に乗った");
         }
 
         if ( moveFloorObject && !isGrounded)
@@ -165,7 +165,7 @@ public class PlayerMove : NetworkBehaviour {
             //transform.parent = null;
             moveFloorObject = null;
 
-			Debug.Log("なし");
+			Debug.Log("床から離れた");
 
 		}
 
