@@ -7,21 +7,20 @@ using System.Linq;
 // "ゲーム世界にいる"プレイヤーの情報
 public class PlayerStatus : NetworkBehaviour {
 
-	[SerializeField]
-	GameObject m_prefVRHand;
+    [SerializeField]
+    GameObject m_prefVRHand;
 
     bool initialized = false;
     public bool Initialized
     {
         get { return initialized; }
     }
-
-    public int number;
+    public PlayerNumber Number { get; private set; }
 
     [ClientRpc]
     public void RpcInit(int number)
     {
-        this.number = number;
+        this.Number = (PlayerNumber)number;
         initialized = true;
         PlayerManager.Players[number] = gameObject;
     }
