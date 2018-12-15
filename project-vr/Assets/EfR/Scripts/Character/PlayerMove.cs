@@ -54,6 +54,10 @@ public class PlayerMove : NetworkBehaviour {
 	[SerializeField]
     bool					isGrounded = true;
 
+	[SerializeField]
+	bool					isJumping = false;
+	[SerializeField]
+	float					jumpingTime = 0f;
 
 	#endregion
 
@@ -160,7 +164,7 @@ public class PlayerMove : NetworkBehaviour {
 			Debug.Log("床に乗った");
         }
 
-        if ( moveFloorObject && !isGrounded)
+		if ( moveFloorObject && !isGrounded)
         {
             //transform.parent = null;
             moveFloorObject = null;
@@ -169,13 +173,35 @@ public class PlayerMove : NetworkBehaviour {
 
 		}
 
-		// ジャンプ
-		if (Pms.canJump && isGrounded)
-        {  
-            if (Input.GetKeyDown(KeyCode.Space) || OVRInput.GetDown(OVRInput.Button.Two))
-            {
-                velocity.y = Pms.jumpPower;
-            }
+		// ジャンプ処理
+		bool inputTriggerJump	= Input.GetKeyDown(KeyCode.Space)	|| OVRInput.GetDown(OVRInput.Button.Two);
+		bool inputKeepJump		= Input.GetKey(KeyCode.Space)		|| OVRInput.Get(OVRInput.Button.Two);
+		// ジャンプ開始
+		if ( Pms.canJump && isGrounded && !isJumping )
+		{
+			if ( inputTriggerJump )
+			{
+				isJumping = true;
+			}
+		}
+		// ジャンプ中
+		if ( isJumping )
+		{
+			jumpingTime += Time.deltaTime;
+
+			velocity.y = Pms.jumpPower;
+		}
+		// ジャンプ停止
+		if ( ( !inputTriggerJump && !inputKeepJump ) || jumpingTime >= Pms.jumpingDuration )
+		{
+			isJumping = false;
+			jumpingTime = 0f;
+		}
+		// ジャンプ中に天井にぶつかったら
+		bool hitRoof = Physics.Raycast(transform.position, Vector3.up, out hit, Pms.distanceToGround);
+		if ( hitRoof )
+		{
+			isJumping = false;
 		}
 	}
 
@@ -225,7 +251,10 @@ public class PlayerMove : NetworkBehaviour {
 				break;
 
 			case MoveType.TPS:
-				transform.rotation = Quaternion.LookRotation(cameraForwardXZ);
+				if ( moveForwardXZ != Vector3.zero )
+				{
+					transform.rotation = Quaternion.LookRotation(moveForwardXZ);
+				}
 				break;
 
 			case MoveType._2D:
@@ -244,10 +273,10 @@ public class PlayerMove : NetworkBehaviour {
 		if ( !isGrounded )
 			velocity.y	-= Pms.gravity * Time.deltaTime;
 		// 空気抵抗（次第に減速するためのもの）
-		velocity.y		-= velocity.y * Pms.airVerticalResistance * Time.deltaTime;
-		// 摩擦（次第に減速するためのもの）
+		//velocity.y		-= velocity.y * Pms.airVerticalResistance * Time.deltaTime;
+		// 速度抵抗（次第に減速するためのもの）
 		if ( isGrounded )
-			velocity	-= velocity * Pms.groundFriction * Time.deltaTime;
+			velocity	-= velocity * Pms.groundRegistance * Time.deltaTime;
 		else
 			velocity	-= velocity * Pms.airResistance * Time.deltaTime;
 
@@ -268,7 +297,6 @@ public class PlayerMove : NetworkBehaviour {
 			var moveFloorNowPos = moveFloorObject.transform.position;
 			var moveFloorDeltaPos = moveFloorNowPos - moveFloorPrevPos;
 			deltaMove += LimitSpeedMoveFloor(moveFloorDeltaPos);
-			DebugTools.DisplayText("deltaMove", deltaMove);
 			moveFloorPrevPos = moveFloorObject.transform.position;
 		}
 

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Name: PlayerMoveSettings2D_
   m_EditorClassIdentifier: 
   canJump: 1
-  jumpPower: 25
+  jumpPower: 15
   limitSpeed: 19.2
   groundMoveAccel: 42.6
   airMoveAccel: 40
-  gravity: 43.4
-  airVerticalResistance: -2.58
+  gravity: 74.1
   airResistance: 4.08
-  groundFriction: 6.8
+  groundRegistance: 5
   distanceToGround: 0.75
+  jumpingDuration: 0.2
