@@ -38,7 +38,8 @@ public class Camera2DController : MonoBehaviour
     bool isInitialized=false;
     private void Init()
     {
-        if (isInitialized&&!PlayerManager.LocalPlayer.GetComponent<PlayerStatus>().Initialized) return;
+        if (isInitialized||!PlayerManager.LocalPlayer.GetComponent<PlayerStatus>().Initialized) return;
+        Debug.Log("Init "+this);
         if (PlayerManager.CheckLocalPlayerNumber(PlayerNumber.Player1))
         {
             ChangeCameraDirection(WorldDirection.Back);
