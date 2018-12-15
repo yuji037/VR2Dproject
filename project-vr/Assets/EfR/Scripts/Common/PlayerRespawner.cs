@@ -19,6 +19,7 @@ public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
     {
         Debug.Log("Respawn ローカルプレイヤー");
         PlayerManager.LocalPlayer.transform.position = LocalPlayerRespawnPoint;
+        PlayerManager.LocalPlayer.GetComponent<PlayerMove>().ResetVelocity();
     }
 
     public void SaveLocalPlayerRespawnPoint(Vector3 respawnPoint)

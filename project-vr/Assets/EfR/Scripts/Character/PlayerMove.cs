@@ -91,6 +91,11 @@ public class PlayerMove : NetworkBehaviour {
 		}
 	}
 
+    public void ResetVelocity()
+    {
+        velocity = Vector3.zero;
+    }
+
 	public void		RendererSwitchForPlayerMoveType(MoveType moveType)
 	{
 		playerStatus.RendererSwitchForPlayerMoveType(moveType);
