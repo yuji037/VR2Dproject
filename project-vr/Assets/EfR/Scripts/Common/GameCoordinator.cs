@@ -58,10 +58,11 @@ public class GameCoordinator : MonoBehaviour {
 
         yield return new WaitUntil(() => networkManager.IsClientSceneReady());
 		yield return new WaitUntil(() => networkManager.IsClientConnected());
-        networkManager.SpawnPlayer();
 		// ネットワーク接続完了
-		yield return new WaitForSeconds(1f);
 		// プレイヤースポーン
+        networkManager.SpawnPlayer();
+		yield return new WaitForSeconds(1f);
+		// プレイヤースポーン完了
 		yield return new WaitUntil(() => PlayerManager.LocalPlayer != null);
 
 

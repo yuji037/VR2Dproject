@@ -68,6 +68,7 @@ public class CameraVRController : MonoBehaviour {
 		// カメラを初期位置にセット
 		var defaultCamPos = playerMove.GetComponent<ViewPointStorage>().GetCamPos(playerMove.moveType, 0);
 		transform.position = defaultCamPos.position;
+		transform.rotation = defaultCamPos.rotation;
 
 		if (	playerMove.moveType == PlayerMove.MoveType.FPS
 			||	playerMove.moveType == PlayerMove.MoveType.TPS )
@@ -151,6 +152,7 @@ public class CameraVRController : MonoBehaviour {
 
 	void TransitionViewWhilePushingObject()
 	{
+		
 		// FPS視点時、GimmickCubeを押していたら視点をTPSに変更する
 		RaycastHit hit;
 		if ( playerMove
