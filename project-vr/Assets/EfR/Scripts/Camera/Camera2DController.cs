@@ -56,7 +56,7 @@ public class Camera2DController : MonoBehaviour
         if (!targetObject) return;
         Init();
         transform.position = targetObject.transform.position - currentOffset;
-
+        if(transform.eulerAngles!= new Vector3(0, cameraAngle, 0))transform.eulerAngles = new Vector3(0, cameraAngle, 0);
     }
 
     void ChangeCurrentOffset()

@@ -43,7 +43,7 @@ public class Camera2DAdjuster : MonoBehaviour
     }
     public void Move2DPosition(Transform target)
     {
-        StartCoroutine(AdjustPosition(target, Get2DCameraPos()));
+        StartCoroutine(AdjustPosition(target,transform));
     }
 
 
@@ -60,9 +60,9 @@ public class Camera2DAdjuster : MonoBehaviour
         StartCoroutine(AdjustPerspective(false));
     }
 
-    public void TransPosition(Transform endTransform, float duration)
+    public void TransPosition(Transform endTransform)
     {
-        StartCoroutine(AdjustPosition(transform, endTransform.position, duration));
+        StartCoroutine(AdjustPosition(transform, endTransform));
     }
 
     public void Set2DPosition()
@@ -116,15 +116,14 @@ public class Camera2DAdjuster : MonoBehaviour
             yield return null;
         }
     }
-
-    IEnumerator AdjustPosition(Transform adjustTarget, Vector3 endPos, float duration = 1.0f)
+    IEnumerator AdjustPosition(Transform adjustTarget, Transform to)
     {
         Vector3 defPos = adjustTarget.position;
-        //Vector3 defRot = adjustTarget.eulerAngles;
-        for (float t = 0; t < duration; t += Time.deltaTime)
+        Vector3 defForward = adjustTarget.forward;
+        for (float t = 0; t < 1; t += Time.deltaTime)
         {
-            adjustTarget.position = defPos * (duration - t) / duration + endPos * t / duration;
-            //adjustTarget.eulerAngles = defRot * (duration - t) / duration + endRot * t / duration;
+            adjustTarget.position = defPos * (1f - t) / 1f + to.position * t / 1f;
+            adjustTarget.forward = defForward * (1f - t) / 1f + to.forward * t / 1f;
             yield return null;
         }
     }

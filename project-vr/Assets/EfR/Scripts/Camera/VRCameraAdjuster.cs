@@ -110,12 +110,12 @@ public class VRCameraAdjuster : MonoBehaviour
         //SkyCam.transform.eulerAngles = Vector3.zero;
     }
     //VRCameraを2DCameraと同じにする状態にする。
-    public void ChangeVRCamParamTo2DCam(Vector3 Camera2DPos)
+    public void ChangeVRCamParamTo2DCam(Transform Camera2D)
     {
         //ゲームカメラにリアルカメラのポジションを合わせる
-        transform.position = Camera2DPos;
+        transform.position = Camera2D.position;
         //transform.eulerAngles = GameCam.transform.eulerAngles /*+ realCam.transform.eulerAngles*/;
-
+        transform.eulerAngles = Camera2D.transform.eulerAngles;
         //gameCamと同じものを見る設定
         SetAllVRCamsParam(videoGameWorldCameraParam);
 
@@ -175,11 +175,11 @@ public class VRCameraAdjuster : MonoBehaviour
     IEnumerator AdjustPosition(Transform adjustTarget, Transform to)
     {
         Vector3 defPos = adjustTarget.position;
-        Vector3 defRot = adjustTarget.eulerAngles;
+        Vector3 defForward = adjustTarget.forward;
         for (float t = 0; t < 1; t += Time.deltaTime)
         {
             adjustTarget.position = defPos * (1f - t) / 1f + to.position * t / 1f;
-            adjustTarget.eulerAngles = defRot * (1f - t) / 1f + to.eulerAngles * t / 1f;
+            adjustTarget.forward = defForward * (1f - t) / 1f + to.forward * t / 1f;
             yield return null;
         }
     }

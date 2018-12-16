@@ -92,7 +92,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
         {
             case PlayerMove.MoveType.FPS:
             case PlayerMove.MoveType.TPS:
-                Debug.Log("遷移開始Real→Virtual");
+                Debug.Log("遷移開始2D→VR");
 
                 RCAdjuster.PlayMotionBlur();
 
@@ -107,11 +107,11 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
 
 
                 //2dCameraを徐々にプレイヤー位置に近づける
-                C2DAdjuster.TransPosition(viewPointStorage.GetCamPos(moveType),1.0f);
+                C2DAdjuster.TransPosition(viewPointStorage.GetCamPos(moveType));
                 yield return new WaitForSeconds(1.0f);
 
                 //2dCameraがプレイヤー位置まで近づいたらVRCameraを同じ位置に
-                RCAdjuster.ChangeVRCamParamTo2DCam(viewPointStorage.GetCamPos(moveType).position);
+                RCAdjuster.ChangeVRCamParamTo2DCam(viewPointStorage.GetCamPos(moveType));
                 transRealParticle.Stop();
 
                 //2Dカメラを所定の位置に戻す
@@ -121,10 +121,10 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
 
                 playerMove.RendererSwitchForPlayerMoveType(moveType);
 
-                Debug.Log("遷移停止Real→Virtual");
+                Debug.Log("遷移停止2D→VR");
                 break;
             case PlayerMove.MoveType._2D:
-                Debug.Log("遷移開始Virtual→Real");
+                Debug.Log("遷移開始VR→2D");
 
                 RCAdjuster.PlayMotionBlur();
 
@@ -150,7 +150,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 RCAdjuster.StopMotionBlur();
                 transRealParticle.Stop();
 
-                Debug.Log("遷移停止Virtual→Real");
+                Debug.Log("遷移停止VR→2D");
                 break;
         }
         IsTranslation = false;
