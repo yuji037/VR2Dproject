@@ -84,5 +84,10 @@ public class GimmickObjectGenerator : Editor
         InstantiateGimmick(gimmickPath + "SavePoint.prefab");
     }
 
+    [MenuItem("GameObject/EFR_Gimmick/RespawnFloor", priority = 30)]
+    static void CreateRespawnFloor()
+    {
+        InstantiateGimmick(gimmickPath + "RespawnFloor.prefab");
+    }
 }
 #endif
