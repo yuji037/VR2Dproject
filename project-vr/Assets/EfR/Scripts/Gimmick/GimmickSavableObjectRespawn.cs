@@ -4,15 +4,16 @@ using UnityEngine;
 using UnityEngine.Networking;
 public class GimmickSavableObjectRespawn : GimmickBase{
 
-    [ServerCallback]
-    private void OnTriggerEnter(Collider other)
+    private void Start()
     {
-        if (!isServer) return;
+        m_acTriggerEnterAction += Respawn;
+    }
 
+    private void Respawn(Collider other)
+    {
         var savable = other.gameObject.GetComponent<SavableObject>();
         if (!savable) return;
         StageSaver.GetInstance().Respawn(savable);
-
     }
     
 }

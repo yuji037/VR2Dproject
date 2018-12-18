@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GimmickRespawnAllSavableObjects : GimmickBase {
+public class GimmickAllSavableObjectsRespawn : GimmickBase {
 
     [SerializeField]
     int[] triggerGimmickIDs;

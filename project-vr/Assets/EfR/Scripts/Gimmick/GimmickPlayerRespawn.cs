@@ -13,11 +13,17 @@ public class GimmickPlayerRespawn : GimmickBase
     {
         var pStatus = collider.GetComponent<PlayerStatus>();
         if (!pStatus) return;
-        RpcRespawn((int)pStatus.Number);
+        CmdRespawn((int)pStatus.Number);
+    }
+    [Command]
+    void CmdRespawn(int playerNumber)
+    {
+        RpcRespawn(playerNumber);
     }
     [ClientRpc]
     void RpcRespawn(int playerNumber)
     {
+        Debug.Log("LocalRespawn");
         if (PlayerManager.LocalPlayer.GetComponent<PlayerStatus>().Number == (PlayerNumber)playerNumber)
         {
             PlayerRespawner.GetInstance().RespawnLocalPlayer();
