@@ -88,10 +88,12 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
     IEnumerator Translation(PlayerMove.MoveType moveType,System.Action callBack)
     {
         IsTranslation = true;
+        RCAdjuster.GetComponent<CameraVRController>().enabled = false;  
         switch (moveType)
         {
             case PlayerMove.MoveType.FPS:
             case PlayerMove.MoveType.TPS:
+            case PlayerMove.MoveType.FIXED:
                 Debug.Log("遷移開始2D→VR");
 
                 RCAdjuster.PlayMotionBlur();
@@ -107,11 +109,11 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
 
 
                 //2dCameraを徐々にプレイヤー位置に近づける
-                C2DAdjuster.TransPosition(viewPointStorage.GetCamPos(moveType));
+                C2DAdjuster.TransPosition(viewPointStorage.GetCamPos(moveType,0));
                 yield return new WaitForSeconds(1.0f);
 
                 //2dCameraがプレイヤー位置まで近づいたらVRCameraを同じ位置に
-                RCAdjuster.ChangeVRCamParamTo2DCam(viewPointStorage.GetCamPos(moveType));
+                RCAdjuster.ChangeVRCamParamTo2DCam(viewPointStorage.GetCamPos(moveType,0));
                 transRealParticle.Stop();
 
                 //2Dカメラを所定の位置に戻す
@@ -133,6 +135,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 yield return new WaitForSeconds(1.0f);
 
                 //2DCamera位置にVRCamera移動
+                Debug.Log(RCAdjuster+":"+C2DAdjuster);
                 RCAdjuster.TransPosAndRotToEqualize(RCAdjuster.transform,C2DAdjuster.transform);
                 yield return new WaitForSeconds(1.0f);
 
@@ -153,6 +156,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 Debug.Log("遷移停止VR→2D");
                 break;
         }
+        RCAdjuster.GetComponent<CameraVRController>().enabled = true;
         IsTranslation = false;
         if (callBack!=null) callBack();
     }

@@ -171,15 +171,16 @@ public class VRCameraAdjuster : MonoBehaviour
     {
         StartCoroutine(AdjustPosition(transform, to));
     }
-
     IEnumerator AdjustPosition(Transform adjustTarget, Transform to)
     {
         Vector3 defPos = adjustTarget.position;
-        Vector3 defForward = adjustTarget.forward;
+        Quaternion defRot = adjustTarget.rotation;
+        float diffAngle = Vector3.Angle(adjustTarget.forward, to.forward);
+        Debug.Log(diffAngle);
         for (float t = 0; t < 1; t += Time.deltaTime)
         {
             adjustTarget.position = defPos * (1f - t) / 1f + to.position * t / 1f;
-            adjustTarget.forward = defForward * (1f - t) / 1f + to.forward * t / 1f;
+            adjustTarget.rotation = Quaternion.RotateTowards(defRot, to.rotation, diffAngle * t / 1.0f);
             yield return null;
         }
     }

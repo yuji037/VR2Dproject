@@ -43,7 +43,7 @@ public class Camera2DAdjuster : MonoBehaviour
     }
     public void Move2DPosition(Transform target)
     {
-        StartCoroutine(AdjustPosition(target,transform));
+        StartCoroutine(AdjustPosition(target, transform));
     }
 
 
@@ -106,7 +106,6 @@ public class Camera2DAdjuster : MonoBehaviour
             float fieldOfView = 1f + (defaultFOV - 1) * fovCoeff;
 
             videoGameCamera.fieldOfView = fieldOfView;
-            Debug.Log(fieldOfView);
             var z = Vector3.Magnitude(pointLeftCenter - pointCenter) / Mathf.Tan(Mathf.Deg2Rad * fieldOfView);
             var moveVec = new Vector3(0, 0, depth) + new Vector3(0, 0, z);
             moveVec = Quaternion.Euler(0, transform.eulerAngles.y, 0) * moveVec;
@@ -119,11 +118,13 @@ public class Camera2DAdjuster : MonoBehaviour
     IEnumerator AdjustPosition(Transform adjustTarget, Transform to)
     {
         Vector3 defPos = adjustTarget.position;
-        Vector3 defForward = adjustTarget.forward;
+        Quaternion defRot = adjustTarget.rotation;
+        float diffAngle = Vector3.Angle(adjustTarget.forward, to.forward);
+        Debug.Log(diffAngle);
         for (float t = 0; t < 1; t += Time.deltaTime)
         {
             adjustTarget.position = defPos * (1f - t) / 1f + to.position * t / 1f;
-            adjustTarget.forward = defForward * (1f - t) / 1f + to.forward * t / 1f;
+            adjustTarget.rotation = Quaternion.RotateTowards(defRot, to.rotation, diffAngle * t / 1.0f);
             yield return null;
         }
     }
