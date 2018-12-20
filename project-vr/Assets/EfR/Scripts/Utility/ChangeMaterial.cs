@@ -11,30 +11,31 @@ public class ChangeMaterial : NetworkBehaviour {
         _2D,
     }
 
-    private new MeshRenderer renderer;
+	[SerializeField]
+    private MeshRenderer meshRenderer;
 
     private void Start()
     {
-        renderer = GetComponent<MeshRenderer>();
-        if (renderer == null) { Debug.LogError("Can't get MeshRenderer component."); }
+        meshRenderer = GetComponent<MeshRenderer>();
+        if (meshRenderer == null) { Debug.LogError("Can't get MeshRenderer component."); }
 
-        var thisObject = renderer.gameObject;
+        var thisObject = meshRenderer.gameObject;
         if( !MaterialsManager.GetInstance().Add(thisObject) ) { Debug.LogError("Can't add list this object"); }
     }
 
     public void Change(PlayerMove.MoveType _moveType)
     {
-        if (renderer.materials.Length == 1) { return; }
+        if (meshRenderer.materials.Length == 1) { return; }
 
         switch ( _moveType )
         {
             case PlayerMove.MoveType.FPS:
             case PlayerMove.MoveType.TPS:
-                renderer.material = renderer.materials[(int)Elements._VR];
+                meshRenderer.material = meshRenderer.materials[(int)Elements._VR];
                 break;
 
             case PlayerMove.MoveType._2D:
-                renderer.material = renderer.materials[(int)Elements._2D];
+                meshRenderer.material = meshRenderer.materials[(int)Elements._2D];
                 break;
         }
     }
