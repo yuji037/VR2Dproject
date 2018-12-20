@@ -72,7 +72,8 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
         C2DAdjuster.SetDefaultFov(RCAdjuster.GetCenterEyeFOV());
         isInitialized = true;
     }
-
+    //仮でここに作る。
+    public static int sectionNumber = 0;
 
     //遷移中
     public bool IsTranslation { get; private set; }
@@ -109,11 +110,11 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
 
 
                 //2dCameraを徐々にプレイヤー位置に近づける
-                C2DAdjuster.TransPosition(viewPointStorage.GetCamPos(moveType,0));
+                C2DAdjuster.TransPosition(viewPointStorage.GetCamPos(moveType,sectionNumber));
                 yield return new WaitForSeconds(1.0f);
 
                 //2dCameraがプレイヤー位置まで近づいたらVRCameraを同じ位置に
-                RCAdjuster.ChangeVRCamParamTo2DCam(viewPointStorage.GetCamPos(moveType,0));
+                RCAdjuster.ChangeVRCamParamTo2DCam(viewPointStorage.GetCamPos(moveType,sectionNumber));
                 transRealParticle.Stop();
 
                 //2Dカメラを所定の位置に戻す
