@@ -256,22 +256,22 @@ public class PlayerMove : NetworkBehaviour {
 				break;
 
 			case MoveType.TPS:
-				if ( moveForwardXZ != Vector3.zero )
-				{
-					transform.rotation = Quaternion.LookRotation(moveForwardXZ);
-				}
-				break;
-
 			case MoveType._2D:
+            case MoveType.FIXED:
 				if ( moveForwardXZ != Vector3.zero )
 				{
 					transform.rotation = Quaternion.LookRotation(moveForwardXZ);
 				}
 				break;
 
-            case MoveType.FIXED:
-                transform.rotation = Quaternion.LookRotation(cameraForwardXZ);
-                break;
+				//if ( moveForwardXZ != Vector3.zero )
+				//{
+				//	transform.rotation = Quaternion.LookRotation(moveForwardXZ);
+				//}
+				//break;
+
+    //            transform.rotation = Quaternion.LookRotation(cameraForwardXZ);
+    //            break;
 		}
 
 		// 重力（空中時に受ける）
