@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class VRCameraAdjuster : MonoBehaviour
 {
     [System.Serializable]
@@ -164,23 +162,6 @@ public class VRCameraAdjuster : MonoBehaviour
         for (float t = 0; t < duration; t += Time.deltaTime)
         {
             transform.position = start * (duration - t) / duration + end * t / duration;
-            yield return null;
-        }
-    }
-    public void TransPosAndRotToEqualize(Transform from,Transform to)
-    {
-        StartCoroutine(AdjustPosition(transform, to));
-    }
-    IEnumerator AdjustPosition(Transform adjustTarget, Transform to)
-    {
-        Vector3 defPos = adjustTarget.position;
-        Quaternion defRot = adjustTarget.rotation;
-        float diffAngle = Vector3.Angle(adjustTarget.forward, to.forward);
-        Debug.Log(diffAngle);
-        for (float t = 0; t < 1; t += Time.deltaTime)
-        {
-            adjustTarget.position = defPos * (1f - t) / 1f + to.position * t / 1f;
-            adjustTarget.rotation = Quaternion.RotateTowards(defRot, to.rotation, diffAngle * t / 1.0f);
             yield return null;
         }
     }

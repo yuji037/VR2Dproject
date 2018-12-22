@@ -19,11 +19,13 @@ public class Camera2DAdjuster : MonoBehaviour
 
     float defaultFOV = 90.0f;
 
+    Camera2DController camera2DController;
 
     // Use this for initialization
     void Start()
     {
         videoGameCamera = GetComponent<Camera>();
+        camera2DController = GetComponent<Camera2DController>();
     }
     public void SetDefaultFov(float fov)
     {
@@ -41,10 +43,7 @@ public class Camera2DAdjuster : MonoBehaviour
     {
         return transform.position;
     }
-    public void Move2DPosition(Transform target)
-    {
-        StartCoroutine(AdjustPosition(target, transform));
-    }
+
 
 
     IEnumerator Trans2DPerspectiveCoroutine()
@@ -60,10 +59,6 @@ public class Camera2DAdjuster : MonoBehaviour
         StartCoroutine(AdjustPerspective(false));
     }
 
-    public void TransPosition(Transform endTransform)
-    {
-        StartCoroutine(AdjustPosition(transform, endTransform));
-    }
 
     public void Set2DPosition()
     {
@@ -115,17 +110,5 @@ public class Camera2DAdjuster : MonoBehaviour
             yield return null;
         }
     }
-    IEnumerator AdjustPosition(Transform adjustTarget, Transform to)
-    {
-        Vector3 defPos = adjustTarget.position;
-        Quaternion defRot = adjustTarget.rotation;
-        float diffAngle = Vector3.Angle(adjustTarget.forward, to.forward);
-        Debug.Log(diffAngle);
-        for (float t = 0; t < 1; t += Time.deltaTime)
-        {
-            adjustTarget.position = defPos * (1f - t) / 1f + to.position * t / 1f;
-            adjustTarget.rotation = Quaternion.RotateTowards(defRot, to.rotation, diffAngle * t / 1.0f);
-            yield return null;
-        }
-    }
+
 }
