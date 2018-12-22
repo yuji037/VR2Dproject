@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class MaterialsManager : SingletonMonoBehaviour<MaterialsManager>
 {
-    private List<GameObject> objects;
+    private List<GameObject> objects = new List<GameObject>();
 
-    // オブジェクトが自身をListに登録する関数
-    public bool Add(GameObject _object)
+	// オブジェクトが自身をListに登録する関数
+	public bool Add(GameObject _object)
     {
         objects.Add(_object);
         return true;
