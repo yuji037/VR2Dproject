@@ -8,8 +8,9 @@ public class TrackingTransform : NetworkBehaviour {
 	public string trackGameObjectName;
 	public Transform trackTransform;
 
-	// Update is called once per frame
-	void Update()
+
+    // 対象オブジェクトが動いてから追従したいのでFixedUpdate
+    void LateUpdate()
 	{
 		if ( !isLocalPlayer ) return;
 		if ( !trackTransform )

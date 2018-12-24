@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class Camera2DController : MonoBehaviour
+public class Camera2DController : CameraControllerBase
 {
     [System.Serializable]
     public struct CameraParam
@@ -21,24 +21,6 @@ public class Camera2DController : MonoBehaviour
         Left,
         Right
     }
-    GameObject _targetObj;
-    GameObject targetObject
-    {
-        get
-        {
-            if (!_targetObj)
-                _targetObj = PlayerManager.LocalPlayer;
-            return _targetObj;
-        }
-    }
-
-    [SerializeField]
-    CinemachineVirtualCamera[] vCamArray;
-
-    CinemachineVirtualCamera currentVCam;
-
-
-    bool isInitialized =false;
 
     void SetAngle()
     {
@@ -51,48 +33,19 @@ public class Camera2DController : MonoBehaviour
             ChangeCameraDirection(WorldDirection.Front);
         }
     }
-    private void Init()
-    {
-        if (isInitialized||!PlayerManager.LocalPlayer.GetComponent<PlayerStatus>().Initialized) return;
-        Debug.Log("Init "+this);
-        ChangeVirtualCamera(0);
-        isInitialized = true;
-    }
 
-    void ChangeVirtualCamera(int number)
+    protected override void OnChangedVirtualCamera()
     {
-        if (number < 0 || vCamArray.Length <= number) return;
-        if (currentVCam) currentVCam.Priority = 0;
-        currentVCam = vCamArray[number];
-        currentVCam.Priority = 1;
         SetAngle();
     }
+
     public void ChangeCameraParam(CameraParam param)
     {
-        var cft=currentVCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+        var cft=CurrentVCam.GetCinemachineComponent<CinemachineFramingTransposer>();
         cft.m_DeadZoneWidth = param.offSetWidth;
         cft.m_DeadZoneHeight = param.offSetHeight;
         cft.m_ScreenX = param.screenX;
         cft.m_ScreenY = param.screenY;
-    }
-
-    void Update()
-    {
-        if (!targetObject) return;
-        Init();
-        if (!isInitialized) return;
-    }
-
-    public bool HasCameraAuthority
-    {
-        get
-        {
-            return GetComponent<CinemachineBrain>().enabled;
-        }
-        set
-        {
-            GetComponent<CinemachineBrain>().enabled= value;
-        }
     }
 
     public void ChangeCameraDirection(WorldDirection cameraDirection)
@@ -102,7 +55,7 @@ public class Camera2DController : MonoBehaviour
 
     public void ChangeCameraDirection(float cameraAngle)
     {
-        currentVCam.transform.eulerAngles = new Vector3(0,cameraAngle,0);
+        CurrentVCam.transform.eulerAngles = new Vector3(0,cameraAngle,0);
     }
 
     float ConvertToAngle(WorldDirection direction)

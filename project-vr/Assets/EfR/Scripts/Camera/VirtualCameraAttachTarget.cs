@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class VirtualCameraSetUp : MonoBehaviour {
+public class VirtualCameraAttachTarget : MonoBehaviour {
     CinemachineVirtualCamera vCam;
     private void Start()
     {

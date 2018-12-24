@@ -77,7 +77,7 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
 		var cc = VRCamObject.GetComponent<CameraVRController>();
         cc.Init();
 
-        var vca = VRCamObject.GetComponent<VRCameraAdjuster>();
+        var vca = VRCamObject.GetComponent<CameraVRAdjuster>();
         vca.Init();
     }
 

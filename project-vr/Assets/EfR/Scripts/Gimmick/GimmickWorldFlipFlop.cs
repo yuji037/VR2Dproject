@@ -33,7 +33,6 @@ public class GimmickWorldFlipFlop : GimmickBase {
 			var otherPlayer = nearPlayers.Length > 1 ? nearPlayers[1] : null;
 
 			trigrPlayer.GetComponent<PlayerStatus>().RpcTransWorld(triggeredPlayerTransMoveTypeTo);
-            ViewSwitchPerformer.sectionNumber = 1;
 			if ( otherPlayer )
 				otherPlayer.GetComponent<PlayerStatus>().RpcTransWorld(otherPlayerTransMoveTypeTo);
 

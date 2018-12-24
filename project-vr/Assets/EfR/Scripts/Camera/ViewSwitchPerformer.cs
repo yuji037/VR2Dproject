@@ -8,8 +8,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
 {
 
     // Use this for initialization
-    [SerializeField]
-    VRCameraAdjuster RCAdjuster;
+    CameraVRAdjuster CVRAdjuster;
     Camera2DAdjuster gcAd;
     Camera2DAdjuster C2DAdjuster
     {
@@ -70,16 +69,18 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
     bool isInitialized = false;
     void Initialize()
     {
-        C2DAdjuster.SetDefaultFov(RCAdjuster.GetCenterEyeFOV());
+        C2DAdjuster.SetDefaultFov(CVRAdjuster.GetCenterEyeFOV());
         isInitialized = true;
     }
-    //仮でここに作る。
-    public static int sectionNumber = 0;
+
 
     //遷移中
     public bool IsTranslation { get; private set; }
 
-
+    private void Start()
+    {
+        CVRAdjuster = GetComponent<CameraVRAdjuster>();
+    }
     public void SwitchView(PlayerMove.MoveType switchType, System.Action callBack = null)
     {
         if (IsTranslation) return;
@@ -90,8 +91,10 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
     IEnumerator Translation(PlayerMove.MoveType moveType, System.Action callBack)
     {
         IsTranslation = true;
-        RCAdjuster.GetComponent<CameraVRController>().enabled = false;
+        CVRAdjuster.GetComponent<CameraVRController>().HasCameraAuthority = false;
+        CVRAdjuster.GetComponent<CameraVRController>().enabled = false;
         C2DAdjuster.GetComponent<Camera2DController>().HasCameraAuthority = false;
+       
         switch (moveType)
         {
             case PlayerMove.MoveType.FPS:
@@ -101,7 +104,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
 
                 transRealParticle.Play();
                 //TVにVRCameraを近づける
-                RCAdjuster.ApproachTV(1.0f);
+                CVRAdjuster.ApproachTV(1.0f);
                 yield return new WaitForSeconds(1.0f);
 
                 //realCamがTV画面まで近づいたら遠近感を出す。
@@ -111,17 +114,19 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
 
 
                 //2dCameraを徐々にプレイヤー位置に近づける
-               TransformUtility.TransPosAndRotToEqualize(C2DAdjuster.transform,viewPointStorage.GetCamPos(moveType, sectionNumber));
+               TransformUtility.TransPosAndRotToEqualize(C2DAdjuster.transform,viewPointStorage.GetCamPos(moveType));
                 yield return new WaitForSeconds(1.0f);
 
                 //2dCameraがプレイヤー位置まで近づいたらVRCameraを同じ位置に
-                RCAdjuster.ChangeVRCamParamTo2DCam(viewPointStorage.GetCamPos(moveType, sectionNumber));
+                CVRAdjuster.ChangeVRCamParamTo2DCam(viewPointStorage.GetCamPos(moveType));
                 transRealParticle.Stop();
 
                 //2Dカメラを所定の位置に戻す
                 C2DAdjuster.Set2DPosition();
 
                 playerMove.RendererSwitchForPlayerMoveType(moveType);
+
+                CVRAdjuster.GetComponent<CameraVRController>().HasCameraAuthority = true;
 
                 Debug.Log("遷移停止2D→VR");
                 break;
@@ -133,29 +138,29 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 yield return new WaitForSeconds(1.0f);
 
                 //2DCamera位置にVRCamera移動
-                Debug.Log(RCAdjuster + ":" + C2DAdjuster);
-                TransformUtility.TransPosAndRotToEqualize(RCAdjuster.transform, C2DAdjuster.transform);
+                Debug.Log(CVRAdjuster + ":" + C2DAdjuster);
+                TransformUtility.TransPosAndRotToEqualize(CVRAdjuster.transform, C2DAdjuster.transform);
                 yield return new WaitForSeconds(1.0f);
 
                 transRealParticle.Play();
                 //VRCameraをRealWorldに戻す
-                RCAdjuster.ChangeVRCamParamToDefault();
+                CVRAdjuster.ChangeVRCamParamToDefault();
 
                 //カメラを平行投影へ
                 C2DAdjuster.GetComponent<Camera>().orthographic = true;
-                C2DAdjuster.SetDefaultFov(RCAdjuster.GetCenterEyeFOV());
+                C2DAdjuster.SetDefaultFov(CVRAdjuster.GetCenterEyeFOV());
                 C2DAdjuster.Trans2DPerspective();
 
 
                 //ＴＶ画面から離れる
-                RCAdjuster.DepartTV(1.0f);
+                CVRAdjuster.DepartTV(1.0f);
                 yield return new WaitForSeconds(1.0f);
-                transRealParticle.Stop();
+                transRealParticle.Stop();      
 
                 Debug.Log("遷移停止VR→2D");
                 break;
         }
-        RCAdjuster.GetComponent<CameraVRController>().enabled = true;
+        CVRAdjuster.GetComponent<CameraVRController>().enabled = true;
         C2DAdjuster.GetComponent<Camera2DController>().HasCameraAuthority = true;
         IsTranslation = false;
         if (callBack != null) callBack();

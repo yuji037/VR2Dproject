@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VRCameraAdjuster : MonoBehaviour
+public class CameraVRAdjuster : MonoBehaviour
 {
     [System.Serializable]
     class CameraParam

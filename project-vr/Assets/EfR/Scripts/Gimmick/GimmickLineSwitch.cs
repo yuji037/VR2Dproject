@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GimmikLineSwitch : GimmickBase {
+public class GimmickLineSwitch : GimmickBase {
     [SerializeField]
     SwitchAction switchAction;
 

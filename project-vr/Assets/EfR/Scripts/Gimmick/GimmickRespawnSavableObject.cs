@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-public class GimmickSavableObjectRespawn : GimmickBase{
+public class GimmickRespawnSavableObject: GimmickBase{
 
     private void Start()
     {

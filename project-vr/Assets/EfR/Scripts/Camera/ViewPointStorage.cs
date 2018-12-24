@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ViewPointStorage : MonoBehaviour {
+public class ViewPointStorage : MonoBehaviour
+{
 
-	// 2Dだけはリアル世界のTVの前
+    // 2Dだけはリアル世界のTVの前
     public Transform CamPosFPS;
     public Transform CamPosTPS;
     public Transform CamPos_2D;
-    public Transform[] CamPosFixed = null;
+    public CameraVRController CamVRCon = null;
 
-    public Transform GetCamPos(PlayerMove.MoveType moveType, int sectionNumber = -1)
+    public Transform GetCamPos(PlayerMove.MoveType moveType)
     {
         // 2Dの時はプレイヤーのプレハブにないのでFindで取得
         // Fixedの時はステージの設定次第と思われるのでFindしてその子を取得
-        switch ( moveType )
+        switch (moveType)
         {
             case PlayerMove.MoveType.FPS:
                 return CamPosFPS;
@@ -23,15 +24,13 @@ public class ViewPointStorage : MonoBehaviour {
                 return CamPosTPS;
 
             case PlayerMove.MoveType.FIXED:
-				if ( CamPosFixed == null || CamPosFixed.Length == 0 )
-				{
-					CamPosFixed = GameObject.Find("CamPosFixed").GetTransformsOrderByNumber("Pos");
-				}
-                return CamPosFixed[sectionNumber];
+                if(!CamVRCon)
+                    CamVRCon = GameObject.Find(CameraUtility.CameraVRName).GetComponent<CameraVRController>();
+                return CamVRCon.CurrentVCam.transform;
 
             case PlayerMove.MoveType._2D:
             default:
-                if ( !CamPos_2D )
+                if (!CamPos_2D)
                     CamPos_2D = GameObject.Find("CamPos_2D").transform;
                 return CamPos_2D;
         }
