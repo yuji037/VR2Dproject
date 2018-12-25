@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Name: PlayerMoveSettingsTPS
   m_EditorClassIdentifier: 
   canJump: 1
-  jumpPower: 22
+  jumpPower: 15
+  jumpingDuration: 0.2
   limitSpeed: 16
   groundMoveAccel: 11.5
   airMoveAccel: 11.5
@@ -20,4 +21,3 @@ MonoBehaviour:
   airResistance: 1
   groundRegistance: 5
   distanceToGround: 0.75
-  jumpingDuration: 0.5

@@ -44,6 +44,7 @@ public class PlayerMove : NetworkBehaviour {
 	// 内部変数
 	PlayerStatus			playerStatus;
 	CharacterController		characterController;
+	Animator				animator;
     Transform				camVRTransform;
     Transform				cam2DTransform;
 	float					inputHorizontal, inputVertical;
@@ -64,7 +65,8 @@ public class PlayerMove : NetworkBehaviour {
 
 	#region Public Methods
 
-	public Vector3	GetVelocity() { return velocity; }
+	public Vector3	GetVelocity()	{ return velocity;		}
+	public bool		IsGrounded()	{ return isGrounded;	}
 
 	public void		StageInit()
 	{
@@ -114,6 +116,7 @@ public class PlayerMove : NetworkBehaviour {
 	{
 		playerStatus = GetComponent<PlayerStatus>();
 		characterController = GetComponent<CharacterController>();
+		animator = GetComponentInChildren<Animator>();
 
 		StageInit();
 	}
@@ -158,56 +161,9 @@ public class PlayerMove : NetworkBehaviour {
             return;
         }
 
-        // 着地判定
-        RaycastHit hit;
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, Pms.distanceToGround);
-        if (!moveFloorObject && isGrounded && hit.collider.gameObject.tag == "LaserPointerFloorCreate")
-        {
-            //transform.parent = hit.collider.gameObject.transform;
-            moveFloorObject = hit.collider.gameObject;
-            moveFloorPrevPos = moveFloorObject.transform.position;
-			Debug.Log("床に乗った");
-        }
+		CheckGround();
 
-		if ( moveFloorObject && !isGrounded)
-        {
-            //transform.parent = null;
-            moveFloorObject = null;
-
-			Debug.Log("床から離れた");
-
-		}
-
-		// ジャンプ処理
-		bool inputTriggerJump	= Input.GetKeyDown(KeyCode.Space)	|| OVRInput.GetDown(OVRInput.Button.Two);
-		bool inputKeepJump		= Input.GetKey(KeyCode.Space)		|| OVRInput.Get(OVRInput.Button.Two);
-		// ジャンプ開始
-		if ( Pms.canJump && isGrounded && !isJumping )
-		{
-			if ( inputTriggerJump )
-			{
-				isJumping = true;
-			}
-		}
-		// ジャンプ中
-		if ( isJumping )
-		{
-			jumpingTime += Time.deltaTime;
-
-			velocity.y = Pms.jumpPower;
-		}
-		// ジャンプ停止
-		if ( ( !inputTriggerJump && !inputKeepJump ) || jumpingTime >= Pms.jumpingDuration )
-		{
-			isJumping = false;
-			jumpingTime = 0f;
-		}
-		// ジャンプ中に天井にぶつかったら
-		bool hitRoof = Physics.Raycast(transform.position, Vector3.up, out hit, Pms.distanceToGround);
-		if ( hitRoof )
-		{
-			isJumping = false;
-		}
+		UpdateJump();
 	}
 
 	void FixedUpdate()
@@ -248,6 +204,8 @@ public class PlayerMove : NetworkBehaviour {
 		else
 			velocity += moveForwardXZ * Pms.airMoveAccel * Time.deltaTime;
 
+
+		var velocityXZ = new Vector3( velocity.x, 0, velocity.z );
 		// プレイヤーの向き
 		switch ( moveType )
 		{
@@ -260,7 +218,7 @@ public class PlayerMove : NetworkBehaviour {
             case MoveType.FIXED:
 				if ( moveForwardXZ != Vector3.zero )
 				{
-					transform.rotation = Quaternion.LookRotation(moveForwardXZ);
+					transform.rotation = Quaternion.LookRotation( velocityXZ );
 				}
 				break;
 
@@ -273,6 +231,8 @@ public class PlayerMove : NetworkBehaviour {
     //            transform.rotation = Quaternion.LookRotation(cameraForwardXZ);
     //            break;
 		}
+
+		animator.SetFloat( "Speed", velocityXZ.magnitude );
 
 		// 重力（空中時に受ける）
 		if ( !isGrounded )
@@ -319,6 +279,77 @@ public class PlayerMove : NetworkBehaviour {
 			DebugTools.Log("速度制限：動く床");
 		}
 		return moveFloorDeltaPos;
+	}
+
+	void CheckGround()
+	{
+		// 着地判定
+		RaycastHit hit;
+		var prevIsGrounded = isGrounded;
+		isGrounded = Physics.Raycast( transform.position, Vector3.down, out hit, Pms.distanceToGround );
+		if ( isGrounded && !prevIsGrounded )
+		{
+			// 着地した瞬間
+			animator.SetBool( "Jump", false );
+		}
+
+		CheckMoveFloor( hit );
+	}
+
+	void CheckMoveFloor(RaycastHit hit)
+	{
+
+		if ( !moveFloorObject && isGrounded && hit.collider.gameObject.tag == "LaserPointerFloorCreate" )
+		{
+			//transform.parent = hit.collider.gameObject.transform;
+			moveFloorObject = hit.collider.gameObject;
+			moveFloorPrevPos = moveFloorObject.transform.position;
+			Debug.Log( "床に乗った" );
+		}
+
+		if ( moveFloorObject && !isGrounded )
+		{
+			//transform.parent = null;
+			moveFloorObject = null;
+
+			Debug.Log( "床から離れた" );
+		}
+	}
+
+	void UpdateJump()
+	{
+		// ジャンプ処理
+		bool inputTriggerJump = Input.GetKeyDown( KeyCode.Space ) || OVRInput.GetDown( OVRInput.Button.Two );
+		bool inputKeepJump = Input.GetKey( KeyCode.Space ) || OVRInput.Get( OVRInput.Button.Two );
+		// ジャンプ開始
+		if ( Pms.canJump && isGrounded && !isJumping )
+		{
+			if ( inputTriggerJump )
+			{
+				isJumping = true;
+				animator.SetBool( "Jump", true );
+			}
+		}
+		// ジャンプ中
+		if ( isJumping )
+		{
+			jumpingTime += Time.deltaTime;
+
+			velocity.y = Pms.jumpPower;
+		}
+		// 長押しジャンプ停止
+		if ( ( !inputTriggerJump && !inputKeepJump ) || jumpingTime >= Pms.jumpingDuration )
+		{
+			isJumping = false;
+			jumpingTime = 0f;
+		}
+		// ジャンプ中に天井にぶつかったら
+		RaycastHit hit;
+		bool hitRoof = Physics.Raycast( transform.position, Vector3.up, out hit, Pms.distanceToGround );
+		if ( hitRoof )
+		{
+			isJumping = false;
+		}
 	}
 
 	#endregion
