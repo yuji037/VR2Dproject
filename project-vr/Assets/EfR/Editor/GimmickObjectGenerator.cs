@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
+using System;
 #if UNITY_EDITOR
 using UnityEditor;
 public class GimmickObjectGenerator : Editor
 {
     static string gimmickPath = "Assets/EfR/Prefabs/Gimmick/";
     static string screenPath = "Assets/EfR/Prefabs/Screen/";
+    static string cameraPath = "Assets/EfR/Prefabs/Camera/";
 
-    static GameObject InstantiateGimmick(string prefabPath)
+    static GameObject InstantiatePrefab(string prefabPath, bool isSelectPrefab = true)
     {
         GameObject prefabObject = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
         var prefabCopy = PrefabUtility.InstantiatePrefab(prefabObject) as GameObject;
@@ -16,16 +19,24 @@ public class GimmickObjectGenerator : Editor
         {
             prefabCopy.transform.parent = Selection.activeGameObject.transform;
         }
-        Selection.activeGameObject = prefabCopy;
+        if (isSelectPrefab) Selection.activeGameObject = prefabCopy;
         prefabCopy.transform.localPosition = Vector3.zero;
         Undo.RegisterCreatedObjectUndo(prefabCopy, "Create" + prefabCopy.name);
         return prefabCopy;
     }
 
+    static T InstantiateUniqueNamePrefab<T>(string prefabPath, bool isSelectPrefab = true)
+        where T : MonoBehaviour
+    {
+        var obj = InstantiatePrefab(prefabPath, isSelectPrefab);
+        Undo.RecordObject(obj, "Rename" + prefabPath);
+        obj.name = GenerateUniqueObjectName(typeof(T), obj.name);
+        return obj.GetComponent<T>();
+    }
 
     static void InstantiateAndSetGimmickID(string prefabPath, int minNeedID = 1000)
     {
-        var obj = InstantiateGimmick(prefabPath);
+        var obj = InstantiatePrefab(prefabPath);
         var gb = obj.GetComponent<GimmickBase>();
         Undo.RecordObject(gb, "RegistGimmickID" + prefabPath);
         gb.SetGimmickID(GimmickIDManager.GetNotOverLapGimmickID(minNeedID));
@@ -33,13 +44,13 @@ public class GimmickObjectGenerator : Editor
     [MenuItem("GameObject/EFR_Gimmick/TransmissionLine", priority = 21)]
     static void CreateLine()
     {
-        InstantiateGimmick(gimmickPath + "TransmissionLine.prefab");
+        InstantiatePrefab(gimmickPath + "TransmissionLine.prefab");
     }
 
     [MenuItem("GameObject/EFR_Gimmick/GimmickCube", priority = 22)]
     static void CreateGimmickCube()
     {
-        InstantiateGimmick(gimmickPath + "GimmickCube.prefab");
+        InstantiatePrefab(gimmickPath + "GimmickCube.prefab");
     }
 
     [MenuItem("GameObject/EFR_Gimmick/GimmickSwitch", priority = 23)]
@@ -62,32 +73,70 @@ public class GimmickObjectGenerator : Editor
     [MenuItem("GameObject/EFR_Screen/Normal", priority = 26)]
     static void CreateNoramlFloorScreen()
     {
-        InstantiateGimmick(screenPath + "NormalFloorScreen.prefab");
+        InstantiatePrefab(screenPath + "NormalFloorScreen.prefab");
     }
 
     [MenuItem("GameObject/EFR_Screen/LongX", priority = 27)]
     static void CreateLongXFloorScreen()
     {
-        InstantiateGimmick(screenPath + "LongXFloorScreen.prefab");
+        InstantiatePrefab(screenPath + "LongXFloorScreen.prefab");
     }
 
     [MenuItem("GameObject/EFR_Screen/LongY", priority = 28)]
     static void CreateLongYFloorScreen()
     {
-        InstantiateGimmick(screenPath + "LongYFloorScreen.prefab");
+        InstantiatePrefab(screenPath + "LongYFloorScreen.prefab");
     }
 
 
     [MenuItem("GameObject/EFR_Gimmick/SavePoint", priority = 29)]
     static void CreateSavePoint()
     {
-        InstantiateGimmick(gimmickPath + "SavePoint.prefab");
+        InstantiatePrefab(gimmickPath + "SavePoint.prefab");
     }
 
     [MenuItem("GameObject/EFR_Gimmick/RespawnFloor", priority = 30)]
     static void CreateRespawnFloor()
     {
-        InstantiateGimmick(gimmickPath + "RespawnFloor.prefab");
+        InstantiatePrefab(gimmickPath + "RespawnFloor.prefab");
+    }
+
+    [MenuItem("GameObject/EFR_Gimmick/VRCamChangeBox", priority = 30)]
+    static void CreateVirtualCameraChanger()
+    {
+        InstantiatePrefab(gimmickPath + "VRCamChangeBox.prefab");
+    }
+
+    [MenuItem("GameObject/EFR_Camera/FixedVcam", priority = 30)]
+    static void CreateFixedCamera()
+    {
+        InstantiateUniqueNamePrefab<CinemachineVirtualCamera>(cameraPath + "FixedVcam.prefab");
+    }
+
+    [MenuItem("GameObject/EFR_Camera/DollyVcam", priority = 30)]
+    static void CreateDollyCamera()
+    {
+        var vcam = InstantiateUniqueNamePrefab<CinemachineVirtualCamera>(cameraPath + "DollyVcam.prefab", false);
+        var path = InstantiateUniqueNamePrefab<CinemachineSmoothPath>(cameraPath + "DollyTrack.prefab");
+        var dolly = vcam.GetCinemachineComponent<CinemachineTrackedDolly>();
+        Undo.RecordObject(dolly, "create track");
+        dolly.m_Path = path;
+    }
+    public static string GenerateUniqueObjectName(Type type, string prefix)
+    {
+        int count = 0;
+        UnityEngine.Object[] all = Resources.FindObjectsOfTypeAll(type);
+        foreach (UnityEngine.Object o in all)
+        {
+            if (o != null && o.name.StartsWith(prefix))
+            {
+                string suffix = o.name.Substring(prefix.Length);
+                int i;
+                if (Int32.TryParse(suffix, out i) && i > count)
+                    count = i;
+            }
+        }
+        return prefix + (count + 1);
     }
 }
 #endif

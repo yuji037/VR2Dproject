@@ -27,18 +27,6 @@ public class CameraVRAdjuster : MonoBehaviour
 
     Camera[] VRCams;
 
-    Camera skyCam;
-    Camera SkyCam
-    {
-        get
-        {
-            if (!skyCam)
-            {
-                skyCam = GameObject.Find("SkyboxCamera").GetComponent<Camera>();
-            }
-            return skyCam;
-        }
-    }
 
     [SerializeField]
     CameraParam realWorldCameraParam;
@@ -47,7 +35,12 @@ public class CameraVRAdjuster : MonoBehaviour
     CameraParam videoGameWorldCameraParam;
 
     [SerializeField]
-    Camera CenterEye;
+    Camera centerEye;
+
+    public Camera CenterEye
+    {
+        get { return centerEye; }
+    }
 
 
     UnityEngine.PostProcessing.PostProcessingBehaviour postProcessing;
@@ -107,38 +100,26 @@ public class CameraVRAdjuster : MonoBehaviour
         yield return MoveThis(farTVPos, NearTVObject.position, duration);
         //SkyCam.transform.eulerAngles = Vector3.zero;
     }
-    //VRCameraを2DCameraと同じにする状態にする。
-    public void ChangeVRCamParamTo2DCam(Transform Camera2D)
+    public void ChangeVRCamPosRotTo(Transform target)
     {
-        //ゲームカメラにリアルカメラのポジションを合わせる
-        transform.position = Camera2D.position;
-        //transform.eulerAngles = GameCam.transform.eulerAngles /*+ realCam.transform.eulerAngles*/;
-        transform.eulerAngles = Camera2D.transform.eulerAngles;
-        //gameCamと同じものを見る設定
+        transform.position = target.position;
+        transform.eulerAngles = target.transform.eulerAngles;
+    }
+
+    //VRCameraを2DCameraと同じにする状態にする。
+    public void ChangeVRCamParamTo2DCam()
+    { 
         SetAllVRCamsParam(videoGameWorldCameraParam);
-
-        //skyCamのターゲットを外す
-        //SkyCam.targetTexture = null;
-
-        //GetComponent<ControlCameraOVRRig>().enabled = true;
     }
 
 
     //VRCamをデフォルトの値に変更
     public void ChangeVRCamParamToDefault()
     {
-
-
-        //skyCamのターゲット(TV画面)を入れなおす
-        //SkyCam.targetTexture = targetTexture;
-
         //realCamのdefaultの設定に
         SetAllVRCamsParam(realWorldCameraParam);
         transform.position = NearTVObject.position;
         transform.rotation = NearTVObject.rotation;
-        //コントロールを無効に
-        //GetComponent<ControlCamera>().enabled = false;
-
     }
 
 
@@ -150,11 +131,7 @@ public class CameraVRAdjuster : MonoBehaviour
 
     IEnumerator DepartTVCoroutine(float duration)
     {
-
-        //gameCamを平行投影にすると180度回転するので再度回転させる
-        //SkyCam.transform.eulerAngles = new Vector3(0, 0, 180);
         yield return StartCoroutine(MoveThis(NearTVObject.position, farTVPos, duration));
-
     }
 
     IEnumerator MoveThis(Vector3 start, Vector3 end,float duration)
