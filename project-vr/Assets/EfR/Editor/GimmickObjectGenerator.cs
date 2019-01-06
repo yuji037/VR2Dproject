@@ -107,6 +107,12 @@ public class GimmickObjectGenerator : Editor
         InstantiatePrefab(gimmickPath + "VRCamChangeBox.prefab");
     }
 
+    [MenuItem("GameObject/EFR_Gimmick/2DCamOffsetChanger", priority = 30)]
+    static void Create2DCamOffsetChanger()
+    {
+        InstantiatePrefab(gimmickPath + "2DCamOffsetChanger.prefab");
+    }
+
     [MenuItem("GameObject/EFR_Camera/FixedVcam", priority = 30)]
     static void CreateFixedCamera()
     {
@@ -122,6 +128,13 @@ public class GimmickObjectGenerator : Editor
         Undo.RecordObject(dolly, "create track");
         dolly.m_Path = path;
     }
+
+    [MenuItem("GameObject/EFR_Camera/2DVcam", priority = 30)]
+    static void Create2DCamera()
+    {
+        InstantiateUniqueNamePrefab<CinemachineVirtualCamera>(cameraPath + "2DVcam.prefab");
+    }
+
     public static string GenerateUniqueObjectName(Type type, string prefix)
     {
         int count = 0;

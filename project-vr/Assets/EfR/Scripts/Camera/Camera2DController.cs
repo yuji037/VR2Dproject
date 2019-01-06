@@ -8,10 +8,11 @@ public class Camera2DController : CameraControllerBase
     [System.Serializable]
     public struct CameraParam
     {
-      public float offSetWidth;
-      public float offSetHeight;
-      public float screenX;
-      public float screenY;
+        public float offSetWidth;
+        public float offSetHeight;
+        public float screenX;
+        public float screenY;
+        public float angle;
     }
 
     public enum WorldDirection
@@ -41,11 +42,12 @@ public class Camera2DController : CameraControllerBase
 
     public void ChangeCameraParam(CameraParam param)
     {
-        var cft=CurrentVCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+        var cft = CurrentVCam.GetCinemachineComponent<CinemachineFramingTransposer>();
         cft.m_DeadZoneWidth = param.offSetWidth;
         cft.m_DeadZoneHeight = param.offSetHeight;
         cft.m_ScreenX = param.screenX;
         cft.m_ScreenY = param.screenY;
+        ChangeCameraDirection(param.angle);
     }
 
     public void ChangeCameraDirection(WorldDirection cameraDirection)
@@ -55,7 +57,7 @@ public class Camera2DController : CameraControllerBase
 
     public void ChangeCameraDirection(float cameraAngle)
     {
-        CurrentVCam.transform.eulerAngles = new Vector3(0,cameraAngle,0);
+        CurrentVCam.transform.eulerAngles = new Vector3(0, cameraAngle, 0);
     }
 
     float ConvertToAngle(WorldDirection direction)

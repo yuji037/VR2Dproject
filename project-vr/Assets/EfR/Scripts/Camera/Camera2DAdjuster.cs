@@ -97,18 +97,21 @@ public class Camera2DAdjuster : MonoBehaviour
             {
                 fovCoeff = 1.0f - t;
             }
-
+            
             float fieldOfView = 1f + (defaultFOV - 1) * fovCoeff;
 
             videoGameCamera.fieldOfView = fieldOfView;
             var z = Vector3.Magnitude(pointLeftCenter - pointCenter) / Mathf.Tan(Mathf.Deg2Rad * fieldOfView);
             var moveVec = new Vector3(0, 0, depth) + new Vector3(0, 0, z);
             moveVec = Quaternion.Euler(0, transform.eulerAngles.y, 0) * moveVec;
+            videoGameCamera.nearClipPlane = Mathf.Abs(moveVec.z)-5.0f;
             transform.position = startCameraPos - moveVec;
+            Debug.Log(moveVec);
 
 
             yield return null;
         }
+        videoGameCamera.nearClipPlane = 0.1f;
     }
 
 }
