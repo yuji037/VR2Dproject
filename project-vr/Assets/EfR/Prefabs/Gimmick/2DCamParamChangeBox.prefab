@@ -22,8 +22,9 @@ GameObject:
   - component: {fileID: 65399541577444574}
   - component: {fileID: 114119392108207588}
   - component: {fileID: 114115837289302952}
+  - component: {fileID: 114568894152608250}
   m_Layer: 2
-  m_Name: 2DCamOffsetChanger
+  m_Name: 2DCamParamChangeBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,8 +70,9 @@ MonoBehaviour:
   cameraParam:
     offSetWidth: 0.2
     offSetHeight: 0.2
-    screenX: 0.4
-    screenY: 0.4
+    screenX: 0.5
+    screenY: 0.5
+    angle: 0
 --- !u!114 &114119392108207588
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -103,3 +105,16 @@ MonoBehaviour:
     i15: 70
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114568894152608250
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1996243095495616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709801c4c0278de4fb0279337b0eceee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GizmoColor: {r: 0.9926978, g: 1, b: 0.4705882, a: 0.534}
+  drawType: 0

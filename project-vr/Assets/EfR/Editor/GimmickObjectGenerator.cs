@@ -10,6 +10,7 @@ public class GimmickObjectGenerator : Editor
     static string gimmickPath = "Assets/EfR/Prefabs/Gimmick/";
     static string screenPath = "Assets/EfR/Prefabs/Screen/";
     static string cameraPath = "Assets/EfR/Prefabs/Camera/";
+    static string primitivePath = "Assets/EfR/Prefabs/Primitive/";
 
     static GameObject InstantiatePrefab(string prefabPath, bool isSelectPrefab = true)
     {
@@ -41,6 +42,9 @@ public class GimmickObjectGenerator : Editor
         Undo.RecordObject(gb, "RegistGimmickID" + prefabPath);
         gb.SetGimmickID(GimmickIDManager.GetNotOverLapGimmickID(minNeedID));
     }
+
+  
+
     [MenuItem("GameObject/EFR_Gimmick/TransmissionLine", priority = 21)]
     static void CreateLine()
     {
@@ -107,10 +111,10 @@ public class GimmickObjectGenerator : Editor
         InstantiatePrefab(gimmickPath + "VRCamChangeBox.prefab");
     }
 
-    [MenuItem("GameObject/EFR_Gimmick/2DCamOffsetChanger", priority = 30)]
+    [MenuItem("GameObject/EFR_Gimmick/2DCamParamChangeBox", priority = 30)]
     static void Create2DCamOffsetChanger()
     {
-        InstantiatePrefab(gimmickPath + "2DCamOffsetChanger.prefab");
+        InstantiatePrefab(gimmickPath + "2DCamParamChangeBox.prefab");
     }
 
     [MenuItem("GameObject/EFR_Camera/FixedVcam", priority = 30)]
@@ -150,6 +154,14 @@ public class GimmickObjectGenerator : Editor
             }
         }
         return prefix + (count + 1);
+    }
+
+
+    //primitive
+    [MenuItem("GameObject/Primitive/GlowCube",priority =30)]
+    static void CreateGlowCube()
+    {
+        InstantiatePrefab(primitivePath+"GlowCube.prefab");
     }
 }
 #endif

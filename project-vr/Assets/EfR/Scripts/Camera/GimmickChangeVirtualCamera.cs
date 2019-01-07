@@ -9,14 +9,7 @@ public class GimmickChangeVirtualCamera : GimmickBase
 
     CameraVRController vrCam;
 
-    [SerializeField]
-    Color CollisionBoxColor;
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = CollisionBoxColor;
-        Gizmos.DrawCube(transform.position,transform.lossyScale);
-    }
+   
 
     // Use this for initialization
     void Start()

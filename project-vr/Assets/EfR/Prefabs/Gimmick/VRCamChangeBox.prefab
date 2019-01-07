@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 65541140026179912}
   - component: {fileID: 114013201298370490}
   - component: {fileID: 114580446139085392}
+  - component: {fileID: 114865343929132744}
   m_Layer: 2
   m_Name: VRCamChangeBox
   m_TagString: Untagged
@@ -99,4 +100,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_iGimmickID: -1
   vCam: {fileID: 0}
-  CollisionBoxColor: {r: 1, g: 0.1544118, b: 0.69675463, a: 0.272}
+--- !u!114 &114865343929132744
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1882613711505542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709801c4c0278de4fb0279337b0eceee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GizmoColor: {r: 0.9936106, g: 0.53676474, b: 1, a: 0.397}
+  drawType: 0

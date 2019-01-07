@@ -23,23 +23,6 @@ public class Camera2DController : CameraControllerBase
         Right
     }
 
-    void SetAngle()
-    {
-        if (PlayerManager.CheckLocalPlayerNumber(PlayerNumber.Player1))
-        {
-            ChangeCameraDirection(WorldDirection.Back);
-        }
-        else
-        {
-            ChangeCameraDirection(WorldDirection.Front);
-        }
-    }
-
-    protected override void OnChangedVirtualCamera()
-    {
-        SetAngle();
-    }
-
     public void ChangeCameraParam(CameraParam param)
     {
         var cft = CurrentVCam.GetCinemachineComponent<CinemachineFramingTransposer>();
