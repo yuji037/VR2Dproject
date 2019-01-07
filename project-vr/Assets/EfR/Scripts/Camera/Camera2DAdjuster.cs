@@ -106,7 +106,6 @@ public class Camera2DAdjuster : MonoBehaviour
             moveVec = Quaternion.Euler(0, transform.eulerAngles.y, 0) * moveVec;
             videoGameCamera.nearClipPlane = Mathf.Abs(moveVec.z)-5.0f;
             transform.position = startCameraPos - moveVec;
-            Debug.Log(moveVec);
 
 
             yield return null;

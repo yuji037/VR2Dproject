@@ -130,6 +130,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                     CVRAdjuster.ChangeVRCamPosRotTo(C2DAdjuster.transform);
                     CVRAdjuster.ChangeVRCamParamTo2DCam();
                     TransformUtility.TransSamePosRot(CVRAdjuster.transform, viewPointStorage.GetCamPos(moveType));
+                    yield return new WaitForSeconds(1.0f);
                 }
                 else
                 {
@@ -142,18 +143,12 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                        },
                        () =>
                        {
-                           return viewPointStorage.GetCamPos(moveType).rotation;
+                           return viewPointStorage.GetCamPos(moveType).rotation*CVRAdjuster.CenterEye.transform.localRotation;
                        }
                         );
                     yield return new WaitForSeconds(1.0f);
                     CVRAdjuster.ChangeVRCamParamTo2DCam();
-                    CVRAdjuster.ChangeVRCamPosRotTo(C2DAdjuster.transform);
                 }
-
-
-
-                yield return new WaitForSeconds(1.0f);
-
 
                 transRealParticle.Stop();
 
