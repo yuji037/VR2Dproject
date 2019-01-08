@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 public class LaserPointerBase : NetworkBehaviour
 {
+    [SerializeField]
     Transform shooter;
 
     [SerializeField]
@@ -24,7 +25,6 @@ public class LaserPointerBase : NetworkBehaviour
     PlayerMove localPlaerMove;
     private void Start()
     {
-        shooter = transform;
         ownerCollider = GetComponent<Collider>();
     }
 

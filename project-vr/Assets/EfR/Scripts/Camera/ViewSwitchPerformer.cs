@@ -97,6 +97,10 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
         {
             isCameraVRTranslation = !isCameraVRTranslation;
         }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            Debug.Log(CVRAdjuster.CenterEye.transform.eulerAngles);
+        }
     }
 
     IEnumerator Translation(PlayerMove.MoveType moveType, System.Action callBack)
@@ -169,7 +173,6 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 yield return new WaitForSeconds(1.0f);
 
                 //2DCamera位置にVRCamera移動
-                Debug.Log(CVRAdjuster + ":" + C2DAdjuster);
                 TransformUtility.TransSamePosRot(CVRAdjuster.transform, C2DAdjuster.transform);
                 yield return new WaitForSeconds(1.0f);
 
