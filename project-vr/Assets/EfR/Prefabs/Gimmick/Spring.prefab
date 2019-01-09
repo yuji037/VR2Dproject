@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23083462600289650}
   - component: {fileID: 114700903705360298}
   - component: {fileID: 114671179194783244}
-  - component: {fileID: 64683365659364596}
+  - component: {fileID: 65898226693078680}
   m_Layer: 2
   m_Name: spring
   m_TagString: Untagged
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 23490778497556814}
   - component: {fileID: 64978966211914842}
   m_Layer: 0
-  m_Name: GimmickSpring
+  m_Name: Spring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56,7 +56,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1167446300373592}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.15, y: 4.07, z: -4.05}
+  m_LocalPosition: {x: -15.15, y: 4.101, z: -4.05}
   m_LocalScale: {x: 1.1999999, y: 0.2669, z: 1.1999999}
   m_Children:
   - {fileID: 4532463401564972}
@@ -158,20 +158,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1167446300373592}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &64683365659364596
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1112836155807762}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 1
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!64 &64978966211914842
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -186,6 +172,18 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &65898226693078680
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1112836155807762}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8, y: 2, z: 0.8}
+  m_Center: {x: -0.0000008940697, y: 0.5, z: -0.00000008940697}
 --- !u!114 &114671179194783244
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -198,7 +196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_iGimmickID: -1
-  jumpPower: 10
+  jumpPower: 20
 --- !u!114 &114700903705360298
 MonoBehaviour:
   m_ObjectHideFlags: 1

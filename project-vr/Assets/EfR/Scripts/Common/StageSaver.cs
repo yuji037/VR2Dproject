@@ -57,5 +57,6 @@ public class StageSaver : NetworkBehaviour
     {
         savableObject.transform.position = savableParams[savableObject].position;
         savableObject.transform.rotation = savableParams[savableObject].rotation;
+        savableObject.ExcuteRespawnAction();
     }
 }

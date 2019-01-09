@@ -239,9 +239,9 @@ public class PlayerMove : NetworkBehaviour {
 
 		animator.SetFloat( "Speed", velocityXZ.magnitude );
 
-		// 重力（空中時に受ける）
-		if ( !isGrounded )
-			velocity.y	-= Pms.gravity * Time.deltaTime;
+        // 重力（空中時に受ける）
+        if (!isGrounded)
+            velocity.y	-= Pms.gravity * Time.deltaTime;
 		// 空気抵抗（次第に減速するためのもの）
 		//velocity.y		-= velocity.y * Pms.airVerticalResistance * Time.deltaTime;
 		// 速度抵抗（次第に減速するためのもの）
@@ -287,7 +287,7 @@ public class PlayerMove : NetworkBehaviour {
 	}
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(transform.position,transform.position+Vector3.down*Pms.distanceToGround);
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * Pms.distanceToGround);
     }
     void CheckGround()
 	{

@@ -35,10 +35,10 @@ public class LaserPointerBase : NetworkBehaviour
         {
             localPlaerMove = PlayerManager.LocalPlayer.GetComponent<PlayerMove>();
         }
-        lineRenderPositions.Clear();
+        if(lineRenderer)lineRenderPositions.Clear();
         OnFlameStart();
         ShootRay(shooter.position, shooter.forward);
-        ApplyLineRenderPositions();
+        if(lineRenderer)ApplyLineRenderPositions();
 
         //if (localPlaerMove.moveType != PlayerMove.MoveType._2D)
         //{

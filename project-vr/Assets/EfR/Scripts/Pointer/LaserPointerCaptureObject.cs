@@ -9,7 +9,7 @@ public class LaserPointerCaptureObject : LaserPointerBase {
     float capturePower=10.0f;
     protected override void HitAction(RaycastHit hit, Vector3 origin, Vector3 direction)
     {
-        SetPosition(hit.point);
+        if (!isLocalPlayer) return;
         var wallBreaker=hit.transform.GetComponent<GimmickWallBreaker>();
         if (Input.GetKeyDown(KeyCode.Mouse0)&& wallBreaker)
         {

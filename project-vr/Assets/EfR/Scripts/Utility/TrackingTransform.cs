@@ -10,7 +10,7 @@ public class TrackingTransform : NetworkBehaviour {
 
 
     // 対象オブジェクトが動いてから追従したいのでFixedUpdate
-    void LateUpdate()
+    void FixedUpdate()
 	{
 		if ( !isLocalPlayer ) return;
 		if ( !trackTransform )

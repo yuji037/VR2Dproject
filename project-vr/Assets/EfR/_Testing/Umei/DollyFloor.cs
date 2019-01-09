@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
-public class DollyFloor : MonoBehaviour {
+public class DollyFloor : GimmickBase{
     [SerializeField]
     CinemachineSmoothPath path;
 
@@ -11,10 +11,11 @@ public class DollyFloor : MonoBehaviour {
 
     [SerializeField]
     float moveSpeed;
-	// Use this for initialization
-	void Start () {
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
         StartCoroutine(MoveCoroutine());
-	}
+    }
     IEnumerator MoveCoroutine()
     {
         float currentValue =defaultPos;

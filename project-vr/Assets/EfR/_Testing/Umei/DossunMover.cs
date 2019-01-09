@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DossunMover : MonoBehaviour {
+public class DossunMover : GimmickBase {
 
     [SerializeField]
     float upSpeed;
@@ -16,13 +16,12 @@ public class DossunMover : MonoBehaviour {
     bool isUp;
 
     Vector3 origin;
-
-    private void Start()
+    public override void OnStartServer()
     {
+        base.OnStartServer();
         origin = transform.position;
         StartCoroutine(MoveCorotuine());
     }
-
     // Update is called once per frame
     IEnumerator MoveCorotuine()
     {
