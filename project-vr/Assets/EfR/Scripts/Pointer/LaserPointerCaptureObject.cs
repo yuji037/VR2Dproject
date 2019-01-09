@@ -11,7 +11,7 @@ public class LaserPointerCaptureObject : LaserPointerBase {
     {
         if (!isLocalPlayer) return;
         var wallBreaker=hit.transform.GetComponent<GimmickWallBreaker>();
-        if (Input.GetKeyDown(KeyCode.Mouse0)&& wallBreaker)
+        if (Input.GetKeyDown(KeyCode.Mouse0) || OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger) && wallBreaker)
         {
             Debug.Log("キャプチャー"+hit.transform);
             captureObject=wallBreaker.GetComponent<Rigidbody>();
@@ -26,12 +26,12 @@ public class LaserPointerCaptureObject : LaserPointerBase {
     }
     void FollowOrigin(Vector3 currentOrigin)
     {
-        if (Input.GetKey(KeyCode.Mouse0)&&captureObject)
+        if (Input.GetKey(KeyCode.Mouse0) || OVRInput.Get(OVRInput.RawButton.RIndexTrigger) && captureObject)
         {
             var moveVec = currentOrigin - capturedPoint;
             captureObject.AddForce(moveVec*capturePower,ForceMode.Impulse);
         }
-        else if(Input.GetKeyUp(KeyCode.Mouse0))
+        else if(Input.GetKeyUp(KeyCode.Mouse0) || OVRInput.GetUp(OVRInput.RawButton.RIndexTrigger))
         {
             Debug.Log("キャプチャーオフ"+captureObject);
             captureObject = null;
