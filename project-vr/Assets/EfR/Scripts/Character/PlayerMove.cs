@@ -107,6 +107,11 @@ public class PlayerMove : NetworkBehaviour {
 		CmdSetMoveType(__moveType);
 		LoadMoveSettings(__moveType);
 	}
+
+    public void Jump(float jumpPower)
+    {
+        velocity.y = jumpPower;
+    }
 	#endregion
 
 
@@ -280,8 +285,11 @@ public class PlayerMove : NetworkBehaviour {
 		}
 		return moveFloorDeltaPos;
 	}
-
-	void CheckGround()
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position,transform.position+Vector3.down*Pms.distanceToGround);
+    }
+    void CheckGround()
 	{
 		// 着地判定
 		RaycastHit hit;

@@ -105,6 +105,15 @@ public class GimmickObjectGenerator : Editor
         InstantiatePrefab(gimmickPath + "RespawnFloor.prefab");
     }
 
+    [MenuItem("GameObject/EFR_Gimmick/Spring", priority = 30)]
+    static void CreateSpring()
+    {
+        InstantiatePrefab(gimmickPath + "Spring.prefab");
+    }
+
+
+
+    //カメラ系
     [MenuItem("GameObject/EFR_Gimmick/VRCamChangeBox", priority = 30)]
     static void CreateVirtualCameraChanger()
     {

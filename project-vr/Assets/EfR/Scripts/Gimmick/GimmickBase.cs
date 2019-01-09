@@ -34,16 +34,16 @@ public abstract class GimmickBase : NetworkBehaviour
     // サーバーから全クライアントで呼び出す
     // →ということは各クライアントでDoor.Open()などが起こるのでほんとは[Server]だけで起こるのが正しい？
     // それか呼び出し元が[ServerCallback]でServerのみで呼ばれるのでこちらにAttributeは要らない？
-    void RpcCollisionEnterAction(int otherGimmickID)    { if(m_aCollisionEnterAction != null)   m_aCollisionEnterAction(otherGimmickID);}
-    void RpcCollisionExitAction(int otherGimmickID)     { if(m_aCollisionExitAction!=null)      m_aCollisionExitAction(otherGimmickID); }
-    void RpcTriggerEnterAction(int otherGimmickID)      { if(m_aTriggerEnterAction!=null)       m_aTriggerEnterAction(otherGimmickID);  }
-    void RpcTriggerExitAction(int otherGimmickID)       { if(m_aTriggerExitAction != null)      m_aTriggerExitAction(otherGimmickID);   }
-    void RpcPointerHitAction(int pointerGimmickID)      { if(m_aPointerHitAction!=null)         m_aPointerHitAction(pointerGimmickID);  }
+    void CollisionEnterAction(int otherGimmickID)    { if(m_aCollisionEnterAction != null)   m_aCollisionEnterAction(otherGimmickID);}
+    void CollisionExitAction(int otherGimmickID)     { if(m_aCollisionExitAction!=null)      m_aCollisionExitAction(otherGimmickID); }
+    void TriggerEnterAction(int otherGimmickID)      { if(m_aTriggerEnterAction!=null)       m_aTriggerEnterAction(otherGimmickID);  }
+    void TriggerExitAction(int otherGimmickID)       { if(m_aTriggerExitAction != null)      m_aTriggerExitAction(otherGimmickID);   }
+    void PointerHitAction(int pointerGimmickID)      { if(m_aPointerHitAction!=null)         m_aPointerHitAction(pointerGimmickID);  }
 
-    void RpcCollisionEnterAction(Collision other)       { if(m_acCollisionEnterAction!=null)m_acCollisionEnterAction(other);}
-    void RpcCollisionExitAction(Collision other)        { if(m_acCollisionExitAction!=null) m_acCollisionExitAction(other); }
-    void RpcTriggerEnterAction(Collider other)          { if(m_acTriggerEnterAction!=null)  m_acTriggerEnterAction(other);  }
-    void RpcTriggerExitAction(Collider other)           { if(m_acTriggerExitAction!=null)   m_acTriggerExitAction(other);   }
+    void CollisionEnterAction(Collision other)       { if(m_acCollisionEnterAction!=null)m_acCollisionEnterAction(other);}
+    void CollisionExitAction(Collision other)        { if(m_acCollisionExitAction!=null) m_acCollisionExitAction(other); }
+    void TriggerEnterAction(Collider other)          { if(m_acTriggerEnterAction!=null)  m_acTriggerEnterAction(other);  }
+    void TriggerExitAction(Collider other)           { if(m_acTriggerExitAction!=null)   m_acTriggerExitAction(other);   }
 
     //サーバー上でのみ呼び出す時true
     protected bool isCallingWithServer=true;
@@ -68,31 +68,31 @@ public abstract class GimmickBase : NetworkBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (!CanCall()) return;
-
-        RpcCollisionEnterAction(collision);
+        Debug.Log(collision.gameObject+"当たった");
+        CollisionEnterAction(collision);
 
         var gmk = collision.gameObject.GetComponent<GimmickBase>();
-        if (gmk) RpcCollisionEnterAction(gmk.GimmickID);
+        if (gmk) CollisionEnterAction(gmk.GimmickID);
     }
 
     private void OnCollisionExit(Collision collision)
     {
         if (!CanCall()) return;
 
-        RpcCollisionExitAction(collision);
+        CollisionExitAction(collision);
 
         var gmk = collision.gameObject.GetComponent<GimmickBase>();
-        if (gmk) RpcCollisionExitAction(gmk.GimmickID);
+        if (gmk) CollisionExitAction(gmk.GimmickID);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (!CanCall()) return;
 
-        RpcTriggerEnterAction(other);
+        TriggerEnterAction(other);
 
         var gmk = other.gameObject.GetComponent<GimmickBase>();
-        if (gmk) RpcTriggerEnterAction(gmk.GimmickID);
+        if (gmk) TriggerEnterAction(gmk.GimmickID);
     }
 
 
@@ -100,10 +100,10 @@ public abstract class GimmickBase : NetworkBehaviour
     {
         if (!CanCall()) return;
 
-        RpcTriggerExitAction(other);
+        TriggerExitAction(other);
 
         var gmk = other.gameObject.GetComponent<GimmickBase>();
-        if (gmk) RpcTriggerExitAction(gmk.GimmickID);
+        if (gmk) TriggerExitAction(gmk.GimmickID);
     }
 
     public void OnPointerHit(Collider rayShooter)
@@ -111,7 +111,7 @@ public abstract class GimmickBase : NetworkBehaviour
         if (!CanCall()) return;
 
         var gmk = rayShooter.gameObject.GetComponent<GimmickBase>();
-        if (gmk) RpcPointerHitAction(gmk.GimmickID);
+        if (gmk) PointerHitAction(gmk.GimmickID);
     }
 
     bool CanCall()
