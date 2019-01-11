@@ -22,8 +22,35 @@ public class MirrorReflection : MonoBehaviour
 
   Camera cam = null;
 
+	public void OnWillRenderObject()
+	{
+		if (!enabled || !GetComponent<Renderer>() || !GetComponent<Renderer>().sharedMaterial || !GetComponent<Renderer>().enabled)
+			return;
 
-  public void OnWillRenderObject()
+		Camera cam = Camera.current;
+		if (!cam)
+			return;
+
+		// Safeguard from recursive reflections.
+		if (s_InsideRendering)
+			return;
+		s_InsideRendering = true;
+
+		Camera reflectionCamera;
+		CreateMirrorObjects(cam, out reflectionCamera);
+
+		// find out the reflection plane: position and normal in world space
+		Vector3 pos = transform.position;
+		Vector3 normal = transform.up;
+
+		// Optionally disable pixel lights for reflection
+		int oldPixelLightCount = QualitySettings.pixelLightCount;
+		if (m_DisablePixelLights)
+			QualitySettings.pixelLightCount = 0;
+
+		UpdateCameraModes(cam, reflectionCamera);
+
+		/*  public void OnWillRenderObject()
 	{
 		if (!enabled || !GetComponent<Renderer>() || !GetComponent<Renderer>().sharedMaterial || !GetComponent<Renderer>().enabled)
 			return;
@@ -60,7 +87,7 @@ public class MirrorReflection : MonoBehaviour
 		if (m_DisablePixelLights)
 			QualitySettings.pixelLightCount = 0;
 
-		UpdateCameraModes(cam, reflectionCamera);
+		UpdateCameraModes(cam, reflectionCamera);*/
 
 		// Render reflection
 		// Reflect camera around reflection plane
