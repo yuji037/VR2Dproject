@@ -168,6 +168,8 @@ float4 frag( v2f i ) : COLOR
 	float2 dg = boxcell(i.wpos, i.normal);
 	float fade = i.wpos.y+1.0 - _Time.y+dg.y*0.5;
 	if(fade>0.0) { discard; }
+
+
 	float s = max((0.8-modc(i.wpos.y + _Time.y*1.0 + 1.5, 3.33)), 0.0) * 10.0;
 	float pc = 1.0-clamp(1.0 - max(min(dg.x, 2.0)-1.0, 0.0)*2.0, 0.0, 1.0);
 	float na = pow(1.0 - abs(dot(i.normal, i.eyeDir.xyz)), 2.0);

@@ -3,7 +3,7 @@
 
 #include "foundation.cginc"
 
-float kaleidoscopic_IFS(float3 z)
+/*float kaleidoscopic_IFS(float3 z)
 {
     int FRACT_ITER      = 20;
     float FRACT_SCALE   = 1.8;
@@ -27,7 +27,7 @@ float kaleidoscopic_IFS(float3 z)
         z = z*FRACT_SCALE - FRACT_OFFSET*(FRACT_SCALE-1.0);
     }
     return (length(z) ) * pow(FRACT_SCALE, -float(FRACT_ITER));
-}
+}*/
 
 
 float tglad_formula(float3 z0)

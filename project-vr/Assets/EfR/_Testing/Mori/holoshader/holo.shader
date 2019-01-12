@@ -2,6 +2,8 @@
 {
 	Properties
 	{
+	_Pos("AppearBorderPos", Range(0.0, 10.0)) = 0.0
+
 		_Color("Main Color", Color) = (1, 1, 1, 1)
 		_ShadowColor("Shadow Color", Color) = (0.8, 0.8, 1, 1)
 		_SpecularPower("Specular Power", Float) = 20
