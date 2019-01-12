@@ -3,50 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StageSceneLoader : SingletonMonoBehaviour<StageSceneLoader> {
-
-    string nowSceneName;
-
-    [SerializeField]
-    string[] sceneNames;
-
-    int sceneCount = 0;
-
-    //// Use this for initialization
-    //void Start()
-    //{
-    //    StartCoroutine(LoadNextStage());
-    //}
-
-    // Update is called once per frame
-    void Update()
+[SerializeField]
+    string selectMenuSceneName;
+    public IEnumerator LoadSelectMenuStageScene()
     {
-        //if ( Input.GetKeyDown(KeyCode.H) )
-        //{
-        //    if ( SceneLoader.DestroyScene(nowSceneName) )
-        //    {
-        //        StartCoroutine(LoadNextStage());
-        //    }
-        //}
+        yield return LoadStageScene(selectMenuSceneName);
     }
-
-    public IEnumerator LoadNextStage()
+    public IEnumerator LoadStageScene(string currentLoadStageName)
     {
-        if(QuickStageStarter.firstStageName != "" )
+        if (QuickStageStarter.firstStageName != "")
         {
-            yield return StartCoroutine(LoadStageScene(QuickStageStarter.firstStageName));
+            yield return StartCoroutine(DirectLoadStageScene(QuickStageStarter.firstStageName));
             QuickStageStarter.firstStageName = "";
             yield break;
         }
-
-        yield return StartCoroutine(LoadStageScene(sceneNames[sceneCount]));
-        sceneCount++; if ( sceneCount >= sceneNames.Length ) sceneCount = 0;
+        yield return StartCoroutine(DirectLoadStageScene(currentLoadStageName));
     }
 
-    IEnumerator LoadStageScene(string _sceneName)
+    IEnumerator DirectLoadStageScene(string _sceneName)
     {
         yield return SceneLoader.IELoadScene(_sceneName);
         var scene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(_sceneName);
         UnityEngine.SceneManagement.SceneManager.SetActiveScene(scene);
-        nowSceneName = _sceneName;
     }
 }

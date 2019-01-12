@@ -49,7 +49,7 @@ public class GameCoordinator : MonoBehaviour {
         StartCoroutine(                 SceneLoader.IELoadScene("Root_UI")              );
         yield return StartCoroutine(    SceneLoader.IELoadScene("Root_Frame3D")         );
         yield return StartCoroutine(    SceneLoader.IELoadScene("Root_Stage")           );
-        yield return StartCoroutine(    StageSceneLoader.GetInstance().LoadNextStage()  );
+        yield return StartCoroutine(    StageSceneLoader.GetInstance().LoadSelectMenuStageScene()  );
         // 最初のステージロード完了
 
         vrObjectManager.SpawnVRCamObject();
