@@ -4,36 +4,55 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
-public class GameCoordinator : MonoBehaviour {
+public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
+{
 
     bool selectedVRDevice = false;
     VRObjectManager vrObjectManager;
     [SerializeField]
     EFRNetworkManager networkManager;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         StartCoroutine(GameStartCoroutine());
         vrObjectManager = VRObjectManager.GetInstance();
     }
 
     void OnGUI()
     {
-        if ( !selectedVRDevice )
+        if (!selectedVRDevice)
         {
             GUI.TextField(new Rect(10, 10, 150, 30), "Select VR Device");
 
-            if ( GUI.Button(new Rect(10, 50, 150, 30), "No Device") ) {
+            if (GUI.Button(new Rect(10, 50, 150, 30), "No Device"))
+            {
                 SelectVRDevice(VRDeviceType.NO_DEVICE);
             }
-            if ( GUI.Button(new Rect(10, 90, 150, 30), "Oculus")){
+            if (GUI.Button(new Rect(10, 90, 150, 30), "Oculus"))
+            {
                 SelectVRDevice(VRDeviceType.OCULUS);
             }
-            if ( GUI.Button(new Rect(10, 130, 150, 30), "HTC Vive")){
+            if (GUI.Button(new Rect(10, 130, 150, 30), "HTC Vive"))
+            {
                 SelectVRDevice(VRDeviceType.HTC_VIVE);
             }
         }
     }
+
+    public void ChangeStage(string sceneName)
+    {
+        StartCoroutine(ChangeStageCoroutine(sceneName));
+    }
+
+    IEnumerator ChangeStageCoroutine(string sceneName)
+    {
+        yield return StartCoroutine(StageSceneLoader.GetInstance().LoadStageScene(sceneName));
+        NetworkServer.SpawnObjects();
+        PlayerManager.LocalPlayer.GetComponent<PlayerMove>().StageInit();
+        PlayerManager.LocalPlayer.GetComponent<PlayerStatus>().StageInit();
+    }
+
 
     void SelectVRDevice(VRDeviceType deviceType)
     {
@@ -41,15 +60,16 @@ public class GameCoordinator : MonoBehaviour {
         selectedVRDevice = true;
     }
 
+
     IEnumerator GameStartCoroutine()
     {
         yield return new WaitUntil(() => selectedVRDevice);
         // VR機器種、選択完了
 
-        StartCoroutine(                 SceneLoader.IELoadScene("Root_UI")              );
-        yield return StartCoroutine(    SceneLoader.IELoadScene("Root_Frame3D")         );
-        yield return StartCoroutine(    SceneLoader.IELoadScene("Root_Stage")           );
-        yield return StartCoroutine(    StageSceneLoader.GetInstance().LoadSelectMenuStageScene()  );
+        StartCoroutine(SceneLoader.IELoadScene("Root_UI"));
+        yield return StartCoroutine(SceneLoader.IELoadScene("Root_Frame3D"));
+        yield return StartCoroutine(SceneLoader.IELoadScene("Root_Stage"));
+        yield return StartCoroutine(StageSceneLoader.GetInstance().LoadSelectMenuStageScene());
         // 最初のステージロード完了
 
         vrObjectManager.SpawnVRCamObject();
@@ -57,16 +77,18 @@ public class GameCoordinator : MonoBehaviour {
         // ネットワーク接続
 
         yield return new WaitUntil(() => networkManager.IsClientSceneReady());
-		yield return new WaitUntil(() => networkManager.IsClientConnected());
-		// ネットワーク接続完了
-		// プレイヤースポーン
+        yield return new WaitUntil(() => networkManager.IsClientConnected());
+
+        // ネットワーク接続完了
+
+        // プレイヤースポーン
         networkManager.SpawnPlayer();
-		yield return new WaitForSeconds(1f);
-		// プレイヤースポーン完了
-		yield return new WaitUntil(() => PlayerManager.LocalPlayer != null);
+        yield return new WaitForSeconds(1f);
+        // プレイヤースポーン完了
+        yield return new WaitUntil(() => PlayerManager.LocalPlayer != null);
 
+        OnPlayerSpawned();
 
-		OnPlayerSpawned();
     }
 
     public void OnPlayerSpawned()

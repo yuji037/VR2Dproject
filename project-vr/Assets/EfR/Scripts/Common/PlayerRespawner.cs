@@ -4,16 +4,7 @@ using UnityEngine;
 
 public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
 {
-    bool initialized = false;
     Vector3 LocalPlayerRespawnPoint;
-    private void Update()
-    {
-        if (!initialized&&PlayerManager.LocalPlayer)
-        {
-            SaveLocalPlayerRespawnPoint(PlayerManager.LocalPlayer.transform.position);
-            initialized = true;
-        }
-    }
 
     public void RespawnLocalPlayer()
     {

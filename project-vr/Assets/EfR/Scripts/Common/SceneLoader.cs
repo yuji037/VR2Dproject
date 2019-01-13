@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.Networking;
 public class SceneLoader : MonoBehaviour {
 
     // シーンの追加ロード IEnumerator型　StartCroutine(SceneLoader.LoadScene(シーン名))で呼び出し
@@ -36,6 +36,7 @@ public class SceneLoader : MonoBehaviour {
             if (scene.name == _sceneName)
             {
                 SceneManager.UnloadSceneAsync(_sceneName);
+                Debug.Log("UnLoad Scene"+_sceneName);
                 return true;
             }
         }

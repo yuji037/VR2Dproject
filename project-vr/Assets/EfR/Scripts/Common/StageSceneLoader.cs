@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class StageSceneLoader : SingletonMonoBehaviour<StageSceneLoader> {
-[SerializeField]
+    [SerializeField]
     string selectMenuSceneName;
+
     public IEnumerator LoadSelectMenuStageScene()
     {
         yield return LoadStageScene(selectMenuSceneName);
     }
+
     public IEnumerator LoadStageScene(string currentLoadStageName)
     {
         if (QuickStageStarter.firstStageName != "")
@@ -26,4 +28,6 @@ public class StageSceneLoader : SingletonMonoBehaviour<StageSceneLoader> {
         var scene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(_sceneName);
         UnityEngine.SceneManagement.SceneManager.SetActiveScene(scene);
     }
+
+    
 }

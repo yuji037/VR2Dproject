@@ -23,6 +23,7 @@ public class PlayerStatus : NetworkBehaviour {
         this.Number = (PlayerNumber)number;
         initialized = true;
         PlayerManager.Players[number] = gameObject;
+
     }
 
     public override void OnStartLocalPlayer()
@@ -83,6 +84,8 @@ public class PlayerStatus : NetworkBehaviour {
         {
             Debug.LogWarning("PlayerPopPos" + playerControllerId.ToString() + "が見つかりません");
         }
+
+        PlayerRespawner.GetInstance().SaveLocalPlayerRespawnPoint(transform.position);
     }
 
 	// 他端末のプレイヤーに影響する場合は[ClientRpc]を使う

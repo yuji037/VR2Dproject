@@ -27,7 +27,6 @@ GameObject:
   - component: {fileID: 114942924585390966}
   - component: {fileID: 114387552849765938}
   - component: {fileID: 114030831530164200}
-  - component: {fileID: 114478754765145034}
   m_Layer: 10
   m_Name: VR_Hand_R
   m_TagString: Untagged
@@ -269,23 +268,6 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 4294963707
---- !u!114 &114478754765145034
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1249610553312374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6014ebc183065e84785254a0542d7144, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shooter: {fileID: 4608637678531926}
-  lineRenderer: {fileID: 0}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 4294965499
-  capturePower: 0.2
 --- !u!114 &114585391275100186
 MonoBehaviour:
   m_ObjectHideFlags: 1

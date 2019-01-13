@@ -123,7 +123,7 @@ public class PlayerMove : NetworkBehaviour {
 		characterController = GetComponent<CharacterController>();
 		animator = GetComponentInChildren<Animator>();
 
-		StageInit();
+        StageInit();
 	}
 
 	void LoadMoveSettings(MoveType __moveType)
@@ -195,7 +195,7 @@ public class PlayerMove : NetworkBehaviour {
 				break;
 
 			case MoveType._2D:
-				moveForwardXZ = cam2DTransform.right * inputHorizontal;
+				if(cam2DTransform)moveForwardXZ = cam2DTransform.right * inputHorizontal;
 				break;
 
             case MoveType.FIXED:

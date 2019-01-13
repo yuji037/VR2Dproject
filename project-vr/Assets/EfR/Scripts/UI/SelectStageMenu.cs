@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class SelectStageMenu : MonoBehaviour
+using UnityEngine.Networking;
+public class SelectStageMenu :NetworkBehaviour 
 {
     [SerializeField]
     StageDataMaster stageDataMaster;
@@ -25,21 +25,18 @@ public class SelectStageMenu : MonoBehaviour
             var obj = Instantiate(stageDataUIPrefab,stageDataUIPrefab.transform.parent);
             var sd = stageDataMaster.stageDatas[i];
             obj.GetComponent<StageDataUI>().SetStageData(sd.StageDescription, sd.StageLevel, sd.StageImage);
-            obj.transform.parent = transform;
             stageDataUIs[i] = obj;
         }
         stageDataUIs[selectingStageIndexNumber].SetActive(true);
     }
-    private void Update()
-    {
 
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            //ここでロードしたい
-            //StartCoroutine(StageSceneLoader.GetInstance().LoadStageScene(stageDataMaster.stageDatas[selectingStageIndexNumber].StageSceneName));
-        }
+    public void GoToSelectStage()
+    {
+        GameCoordinator.GetInstance().ChangeStage(stageDataMaster.stageDatas[selectingStageIndexNumber].StageSceneName);
     }
-    public void StageChangeRight()
+
+    [ClientRpc]
+    public void RpcStageChangeRight()
     {
         stageDataUIs[selectingStageIndexNumber].SetActive(false);
 
@@ -52,7 +49,8 @@ public class SelectStageMenu : MonoBehaviour
         stageDataUIs[selectingStageIndexNumber].SetActive(true);
     }
 
-    public void StageChangeLeft()
+    [ClientRpc]
+    public void RpcStageChangeLeft()
     {
         stageDataUIs[selectingStageIndexNumber].SetActive(false);
 

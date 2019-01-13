@@ -75,17 +75,19 @@ public class EFRNetworkManager : NetworkManager {
 
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
 		NetworkServer.AddPlayerForConnection(conn, handR, (short)(playerControllerId + 2));
-		NetworkServer.AddPlayerForConnection(conn, handL, (short)(playerControllerId + 4));
-		Debug.Log("プレイヤー作成成功 : " + message.playerNum);
-        player.GetComponent<PlayerStatus>().RpcInit(message.playerNum - 1);
-	}
+        NetworkServer.AddPlayerForConnection(conn, handL, (short)(playerControllerId + 4));
 
-	public override void OnClientConnect(NetworkConnection conn)
+        Debug.Log("プレイヤー作成成功 : " + message.playerNum);
+        player.GetComponent<PlayerStatus>().RpcInit(message.playerNum - 1);
+
+    }
+
+    public override void OnClientConnect(NetworkConnection conn)
 	{
 		base.OnClientConnect(conn);
-	}
+    }
 
-	public override void OnServerConnect(NetworkConnection conn)
+    public override void OnServerConnect(NetworkConnection conn)
 	{
 		base.OnServerConnect(conn);
 	}
