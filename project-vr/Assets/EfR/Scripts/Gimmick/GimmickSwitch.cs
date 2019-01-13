@@ -6,7 +6,7 @@ public class GimmickSwitch : GimmickBase {
 
 
     [SerializeField]
-    SwitchAction switchAction;
+    SwitchActionBase switchAction;
 
     [SerializeField, Header("押せる物体のギミックID（プレイヤーの手、ブロックなど）")]
 

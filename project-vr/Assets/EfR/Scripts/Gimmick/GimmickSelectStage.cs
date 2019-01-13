@@ -28,10 +28,10 @@ public class GimmickSelectStage : GimmickBase {
             switch (select)
             {
                 case SelectChangeType.Right:
-                    stageMenu.StageChangeRight();
+                    stageMenu.RpcStageChangeRight();
                     break;
                 case SelectChangeType.Left:
-                    stageMenu.StageChangeLeft();
+                    stageMenu.RpcStageChangeLeft();
                     break;
             }
         }

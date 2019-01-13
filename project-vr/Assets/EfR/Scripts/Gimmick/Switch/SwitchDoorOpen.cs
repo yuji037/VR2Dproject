@@ -2,24 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class SwitchAction  {
+public class SwitchDoorOpen : SwitchActionBase {
     public enum Type
     {
         DOOR,
         BUTTON,
         ACTIVE,
     }
-
     [SerializeField, Header("押したときの影響先ギミックID")]
 
-    int m_iActorGimmickID;
+    protected int m_iActorGimmickID;
 
     [SerializeField, Header("スイッチを押したときの影響先タイプ")]
 
     Type m_eGimmickType;
-
-    public virtual void OnAction()
+    public override void OnAction()
     {
         Debug.Log("Switch On");
         var gimik = GimmickManager.GetGimmick(m_iActorGimmickID);
@@ -36,7 +33,7 @@ public class SwitchAction  {
         }
     }
 
-    public virtual void OffAction()
+    public override void OffAction()
     {
         Debug.Log("Switch Off");
         var gimik = GimmickManager.GetGimmick(m_iActorGimmickID);

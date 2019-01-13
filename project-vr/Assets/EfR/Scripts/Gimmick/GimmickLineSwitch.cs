@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GimmickLineSwitch : GimmickBase {
     [SerializeField]
-    SwitchAction switchAction;
+    SwitchActionBase switchAction;
 
     //このLineがPowerOnになるとアクションを起こす
     [SerializeField]
