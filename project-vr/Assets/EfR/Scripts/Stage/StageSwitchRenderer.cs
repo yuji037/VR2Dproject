@@ -20,6 +20,11 @@ public class StageSwitchRenderer : SingletonMonoBehaviour<StageSwitchRenderer> {
 				break;
 		}
 	}
+	public void SwitchRendererForVRMode()
+	{
+		SwitchRenderer(1, true);
+		SwitchRenderer(2, true);
+	}
 
 	public void SwitchRenderer(int playerNum, bool enabled)
 	{

@@ -157,7 +157,11 @@ public class PlayerMove : NetworkBehaviour {
 	{
 		this._moveType = _moveType;
 		//MaterialsManager.GetInstance().Change();
-		StageSwitchRenderer.GetInstance().SwitchRendererFor2DMode();
+		if ( _moveType == PlayerMove.MoveType._2D )
+			StageSwitchRenderer.GetInstance().SwitchRendererFor2DMode();
+		else
+			StageSwitchRenderer.GetInstance().SwitchRendererForVRMode();
+
 	}
 
 	// Update is called once per frame
