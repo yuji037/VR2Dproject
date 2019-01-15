@@ -90,6 +90,17 @@ public class PlayerMove : NetworkBehaviour {
 			playerStatus.RendererSwitchForPlayerMoveType(moveTypeOnStart);
 			camVRTransform = VRObjectManager.GetInstance().GetBaseCameraObject().transform;
 			cam2DTransform = GameObject.Find("Camera2D").transform;
+
+			//// 控室なら動けない状態にする
+			// 控室そもそも要らない。ステージ選択シーンをロビーとして使えばよい
+			//if ( UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "PlayerWaitingRoom" )
+			//{
+			//	canMove = false;
+			//}
+			//else
+			//{
+			//	canMove = true;
+			//}
 		}
 	}
 
@@ -124,6 +135,7 @@ public class PlayerMove : NetworkBehaviour {
 		animator = GetComponentInChildren<Animator>();
 
         StageInit();
+		
 	}
 
 	void LoadMoveSettings(MoveType __moveType)
@@ -145,6 +157,7 @@ public class PlayerMove : NetworkBehaviour {
 	{
 		this._moveType = _moveType;
 		//MaterialsManager.GetInstance().Change();
+		StageSwitchRenderer.GetInstance().SwitchRendererFor2DMode();
 	}
 
 	// Update is called once per frame
