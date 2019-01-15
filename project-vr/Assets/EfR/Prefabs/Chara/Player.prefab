@@ -1306,6 +1306,7 @@ GameObject:
   - component: {fileID: 114136217990632194}
   - component: {fileID: 114310386195277916}
   - component: {fileID: 114186949568712768}
+  - component: {fileID: 114375517117083222}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -3048,6 +3049,17 @@ MonoBehaviour:
   isGrounded: 1
   isJumping: 0
   jumpingTime: 0
+--- !u!114 &114375517117083222
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1891470671125086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66dcc35a7b32e6e4ea07005bbe950aa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &136121246088901482
 CapsuleCollider:
   m_ObjectHideFlags: 1

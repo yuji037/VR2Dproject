@@ -29,7 +29,10 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
             return otherPlayers[0];
         }
     }
-
+    public static int GetPlayerNumber()
+    {
+        return (int)LocalPlayer.GetComponent<PlayerStatus>().Number;
+    }
     // 接続中の全てのプレイヤー
     public static GameObject[] Players=new GameObject[2];
   

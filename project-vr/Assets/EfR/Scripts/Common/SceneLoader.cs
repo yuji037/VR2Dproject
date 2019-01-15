@@ -28,19 +28,18 @@ public class SceneLoader : MonoBehaviour {
     }
 
     // シーンの破棄
-    public static bool DestroyScene(string _sceneName)
+    public static IEnumerator DestroyScene(string _sceneName)
     {
        for (int aCnt = 0; aCnt < SceneManager.sceneCount; ++aCnt)
         {
             Scene scene = SceneManager.GetSceneAt(aCnt);
             if (scene.name == _sceneName)
             {
-                SceneManager.UnloadSceneAsync(_sceneName);
+                yield return SceneManager.UnloadSceneAsync(_sceneName);
                 Debug.Log("UnLoad Scene"+_sceneName);
-                return true;
+                yield break;
             }
         }
         Debug.LogError("Can't Destroy Scene" + _sceneName);
-       return false;
     }
 }

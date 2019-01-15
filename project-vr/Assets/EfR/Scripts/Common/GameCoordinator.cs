@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
 {
-  
+
     bool selectedVRDevice = false;
     VRObjectManager vrObjectManager;
     [SerializeField]
@@ -40,21 +40,34 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         }
     }
 
-    
+
     public void ChangeStage(string sceneName)
     {
         StartCoroutine(ChangeStageCoroutine(sceneName));
     }
     IEnumerator ChangeStageCoroutine(string sceneName)
     {
+        yield return StartCoroutine(StageSceneLoader.GetInstance().UnLoadCurrentStageScene());
+        //clientとserverでunloadしたことを確認
+        yield return new WaitUntil(() => "" == EFRNetworkManager.curretStageName[0] &&
+            "" == EFRNetworkManager.curretStageName[1]);
+
         yield return StartCoroutine(StageSceneLoader.GetInstance().LoadStageScene(sceneName));
+
+        //clientとserverでloadしたことを確認
+        yield return new WaitUntil(() => sceneName == EFRNetworkManager.curretStageName[0] &&
+            sceneName == EFRNetworkManager.curretStageName[1]);
 
         yield return new WaitUntil(() => networkManager.IsClientSceneReady());
         yield return new WaitUntil(() => networkManager.IsClientConnected());
 
-        networkManager.ServerChangeScene(sceneName);
-        yield return new WaitForSeconds(3.0f);
-        NetworkServer.SpawnObjects();
+        if (networkManager.isHost)
+        {
+            NetworkServer.SpawnObjects();
+        }
+        else
+        {
+        }
         DebugTools.Log("スポーンオブジェ");
         PlayerManager.LocalPlayer.GetComponent<PlayerMove>().StageInit();
         PlayerManager.LocalPlayer.GetComponent<PlayerStatus>().StageInit();
@@ -76,7 +89,7 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         yield return StartCoroutine(SceneLoader.IELoadScene("Root_Stage"));
         yield return StartCoroutine(StageSceneLoader.GetInstance().LoadSelectMenuStageScene());
 
-       
+
         // 最初のステージロード完了
 
         vrObjectManager.SpawnVRCamObject();

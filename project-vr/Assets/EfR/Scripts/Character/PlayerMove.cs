@@ -160,10 +160,10 @@ public class PlayerMove : NetworkBehaviour {
 		if ( isLocalPlayer )
 		{
 			//MaterialsManager.GetInstance().Change();
-			if ( _moveType == PlayerMove.MoveType._2D )
-				StageSwitchRenderer.GetInstance().SwitchRendererFor2DMode();
-			else
-				StageSwitchRenderer.GetInstance().SwitchRendererForVRMode();
+			//if ( _moveType == PlayerMove.MoveType._2D )
+			//	StageSwitchRenderer.GetInstance().SwitchRendererFor2DMode();
+			//else
+			//	StageSwitchRenderer.GetInstance().SwitchRendererForVRMode();
 		}
 	}
 

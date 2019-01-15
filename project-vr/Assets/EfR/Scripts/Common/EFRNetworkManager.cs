@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class EFRNetworkManager : NetworkManager {
 
     bool connected = false;
-    bool isHost = false;
+    public bool isHost = false;
 
     [SerializeField]
     GameObject m_EFRPlayerPrefab;
@@ -15,10 +15,13 @@ public class EFRNetworkManager : NetworkManager {
 	[SerializeField]
 	GameObject m_HandLPrefab;
 
+    public static string[] curretStageName=new string[2];
+
 	public class AddPlayerMessage : MessageBase {
         public int playerNum;
     }
 
+   
     private void OnGUI()
     {
         if ( !connected )
@@ -81,6 +84,11 @@ public class EFRNetworkManager : NetworkManager {
         player.GetComponent<PlayerStatus>().RpcInit(message.playerNum - 1);
 
     }
+    //public override void OnClientSceneChanged(NetworkConnection conn)
+    //{
+    //    base.OnClientSceneChanged(conn);
+    //    NetworkServer.SetClientReady(conn);
+    //}
 
     public override void OnClientConnect(NetworkConnection conn)
 	{

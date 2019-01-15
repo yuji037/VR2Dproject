@@ -123,4 +123,9 @@ public abstract class GimmickBase : NetworkBehaviour
     {
         NetworkServer.Destroy(this.gameObject);
     }
+
+    private void OnDestroy()
+    {
+        DestroyThisObject();
+    }
 }
