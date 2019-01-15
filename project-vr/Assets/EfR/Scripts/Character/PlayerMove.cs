@@ -156,12 +156,15 @@ public class PlayerMove : NetworkBehaviour {
 	void RpcSwitchMoveType(MoveType _moveType)
 	{
 		this._moveType = _moveType;
-		//MaterialsManager.GetInstance().Change();
-		if ( _moveType == PlayerMove.MoveType._2D )
-			StageSwitchRenderer.GetInstance().SwitchRendererFor2DMode();
-		else
-			StageSwitchRenderer.GetInstance().SwitchRendererForVRMode();
 
+		if ( isLocalPlayer )
+		{
+			//MaterialsManager.GetInstance().Change();
+			if ( _moveType == PlayerMove.MoveType._2D )
+				StageSwitchRenderer.GetInstance().SwitchRendererFor2DMode();
+			else
+				StageSwitchRenderer.GetInstance().SwitchRendererForVRMode();
+		}
 	}
 
 	// Update is called once per frame
