@@ -23,7 +23,6 @@ public class PlayerStatus : NetworkBehaviour {
         this.Number = (PlayerNumber)number;
         initialized = true;
         PlayerManager.Players[number] = gameObject;
-		DontDestroyOnLoad( gameObject );
     }
 
     public override void OnStartLocalPlayer()

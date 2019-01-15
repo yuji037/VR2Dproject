@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
 {
-
+  
     bool selectedVRDevice = false;
     VRObjectManager vrObjectManager;
     [SerializeField]
@@ -40,20 +40,25 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         }
     }
 
+    
     public void ChangeStage(string sceneName)
     {
         StartCoroutine(ChangeStageCoroutine(sceneName));
     }
-
     IEnumerator ChangeStageCoroutine(string sceneName)
     {
         yield return StartCoroutine(StageSceneLoader.GetInstance().LoadStageScene(sceneName));
+
+        yield return new WaitUntil(() => networkManager.IsClientSceneReady());
+        yield return new WaitUntil(() => networkManager.IsClientConnected());
+
+        networkManager.ServerChangeScene(sceneName);
+        yield return new WaitForSeconds(3.0f);
         NetworkServer.SpawnObjects();
+        DebugTools.Log("スポーンオブジェ");
         PlayerManager.LocalPlayer.GetComponent<PlayerMove>().StageInit();
         PlayerManager.LocalPlayer.GetComponent<PlayerStatus>().StageInit();
     }
-
-
     void SelectVRDevice(VRDeviceType deviceType)
     {
         vrObjectManager.SetDeviceType(deviceType);
@@ -70,6 +75,8 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         yield return StartCoroutine(SceneLoader.IELoadScene("Root_Frame3D"));
         yield return StartCoroutine(SceneLoader.IELoadScene("Root_Stage"));
         yield return StartCoroutine(StageSceneLoader.GetInstance().LoadSelectMenuStageScene());
+
+       
         // 最初のステージロード完了
 
         vrObjectManager.SpawnVRCamObject();

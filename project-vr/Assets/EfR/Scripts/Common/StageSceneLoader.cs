@@ -6,6 +6,8 @@ public class StageSceneLoader : SingletonMonoBehaviour<StageSceneLoader> {
     [SerializeField]
     string selectMenuSceneName;
 
+    string lastStageName="";
+
     public IEnumerator LoadSelectMenuStageScene()
     {
         yield return LoadStageScene(selectMenuSceneName);
@@ -13,6 +15,10 @@ public class StageSceneLoader : SingletonMonoBehaviour<StageSceneLoader> {
 
     public IEnumerator LoadStageScene(string currentLoadStageName)
     {
+        if (lastStageName != "")
+        {
+            SceneLoader.DestroyScene(lastStageName);
+        }
         if (QuickStageStarter.firstStageName != "")
         {
             yield return StartCoroutine(DirectLoadStageScene(QuickStageStarter.firstStageName));
@@ -27,7 +33,7 @@ public class StageSceneLoader : SingletonMonoBehaviour<StageSceneLoader> {
         yield return SceneLoader.IELoadScene(_sceneName);
         var scene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(_sceneName);
         UnityEngine.SceneManagement.SceneManager.SetActiveScene(scene);
+        lastStageName = _sceneName;
     }
-
     
 }
