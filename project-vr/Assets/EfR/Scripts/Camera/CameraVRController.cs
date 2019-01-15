@@ -58,7 +58,7 @@ public class CameraVRController : CameraControllerBase
     }
 
     // プレイヤースポーン後に呼ぶ
-    public void Init()
+    public void StageInit()
     {
 
         var oPlayer = PlayerManager.LocalPlayer;

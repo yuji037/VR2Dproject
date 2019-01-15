@@ -16,6 +16,8 @@ public class QuickStageStarter : MonoBehaviour {
         firstStageName = SceneManager.GetSceneAt(0).name;
         //var ao = SceneManager.UnloadSceneAsync(firstStageName);
         //ao.completed += (_ao) => { SceneLoader.AsyncLoadScene("Root_Common"); };
+
+		// このシーン自体は残す必要がないのでシングルシーンモード
         SceneManager.LoadScene("Root_Common");
-}
+	}
 }
