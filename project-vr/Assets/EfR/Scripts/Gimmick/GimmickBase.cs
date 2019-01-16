@@ -46,7 +46,7 @@ public abstract class GimmickBase : NetworkBehaviour
     void TriggerExitAction(Collider other)           { if(m_acTriggerExitAction!=null)   m_acTriggerExitAction(other);   }
 
     //サーバー上でのみ呼び出す時true
-    protected bool isCallingWithServer=true;
+    protected bool isCallOnlyServer=true;
 
     // ※継承先でAwakeを使いたい場合はbase.Awake()を呼ぶ。
     protected virtual void Awake()
@@ -116,7 +116,7 @@ public abstract class GimmickBase : NetworkBehaviour
 
     bool CanCall()
     {
-        return (!isCallingWithServer || isServer);
+        return (!isCallOnlyServer || isServer);
     }
 
     public void DestroyThisObject()

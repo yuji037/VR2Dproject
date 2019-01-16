@@ -8,7 +8,7 @@ public class GimmickBigJump : GimmickBase {
 
     // Use this for initialization
 	void Start () {
-        isCallingWithServer = false;
+        isCallOnlyServer = false;
         m_acTriggerEnterAction += BigJumpPlayer;
 	}
 
