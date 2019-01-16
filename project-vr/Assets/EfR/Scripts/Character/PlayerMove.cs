@@ -30,6 +30,8 @@ public class PlayerMove : NetworkBehaviour {
 
 	public bool canMove = true;
 
+	public bool debugInfiniteJump = false;
+
 	#endregion
 
 
@@ -350,7 +352,7 @@ public class PlayerMove : NetworkBehaviour {
 		bool inputTriggerJump = Input.GetKeyDown( KeyCode.Space ) || OVRInput.GetDown( OVRInput.Button.Two );
 		bool inputKeepJump = Input.GetKey( KeyCode.Space ) || OVRInput.Get( OVRInput.Button.Two );
 		// ジャンプ開始
-		if ( Pms.canJump && isGrounded && !isJumping )
+		if ( (Pms.canJump && isGrounded && !isJumping) || debugInfiniteJump )
 		{
 			if ( inputTriggerJump )
 			{
