@@ -13,7 +13,7 @@ public class GimmickChangeVirtualCameraParam : GimmickBase
     private void Start()
     {
         camera2D = GameObject.Find("Camera2D").GetComponent<Camera2DController>();
-        isCallingWithServer = false;
+        isCallOnlyServer = false;
         m_acTriggerEnterAction += ChangeParam;
     }
     void ChangeParam(Collider collider)

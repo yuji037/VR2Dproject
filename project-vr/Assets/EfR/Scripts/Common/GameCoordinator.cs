@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
 {
@@ -11,6 +12,9 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
     VRObjectManager vrObjectManager;
     [SerializeField]
     EFRNetworkManager networkManager;
+
+    [SerializeField]
+    string selectMenuStageName;
 
     // Use this for initialization
     void Start()
@@ -40,26 +44,75 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         }
     }
 
+
+    void OnStartStageChange()
+    {
+        if(PlayerManager.LocalPlayer)PlayerManager.playerMove.isReady = false;
+    }
+    public void ChangeStageSelectMenu()
+    {
+        Debug.Log(IsChangingStage);
+        if(!IsChangingStage)ChangeStage(selectMenuStageName);
+    }
     public void ChangeStage(string sceneName)
     {
+        OnStartStageChange();
         StartCoroutine(ChangeStageCoroutine(sceneName));
+    }
+    public bool IsChangingStage
+    {
+        get;
+        private set;
     }
 
     IEnumerator ChangeStageCoroutine(string sceneName)
     {
+        IsChangingStage = true;
+        FadeInOutController.GetInstance().StartBlackFadeOut(0.1f);
+        //unLoad
+        yield return StartCoroutine(StageSceneLoader.GetInstance().UnLoadCurrentStageScene());
+
+        DebugTools.Log("unLo");
+        //clientとserverでunloadしたことを確認
+        yield return new WaitUntil(() => {
+            Debug.Log(EFRNetworkManager.curretStageName[0] + "1=" + EFRNetworkManager.curretStageName[1]);
+            var aa="" == EFRNetworkManager.curretStageName[0] &&
+             "" == EFRNetworkManager.curretStageName[1];
+            Debug.Log(aa);
+            return aa;
+        });
+        Debug.Log("Load");
+        DebugTools.Log("Load");
+        //Load
         yield return StartCoroutine(StageSceneLoader.GetInstance().LoadStageScene(sceneName));
-        NetworkServer.SpawnObjects();
-        PlayerManager.LocalPlayer.GetComponent<PlayerMove>().StageInit();
-        PlayerManager.LocalPlayer.GetComponent<PlayerStatus>().StageInit();
+
+        //clientとserverでloadしたことを確認
+        yield return new WaitUntil(() => sceneName == EFRNetworkManager.curretStageName[0] &&
+            sceneName == EFRNetworkManager.curretStageName[1]);
+
+        DebugTools.Log("Ready");
+        if (networkManager.isHost)NetworkServer.SetAllClientsNotReady();
+        NetworkStageNameStorage.instance.CmdIamReady(PlayerManager.LocalPlayer.GetComponent<NetworkIdentity>());
+         if (networkManager.isHost)
+        {
+            NetworkServer.SpawnObjects();
+            DebugTools.Log("スポーンオブジェ");
+        }
+        
+        //上手くFind出来ないことがあるため待つ。
+        yield return new WaitForSeconds(0.5f);
+        OnEndStageChange();
+        //ガクっとカメラが切り替わると違和感があるので黒幕で隠す
+        yield return new WaitForSeconds(0.1f);
+        FadeInOutController.GetInstance().StartBlackFadeIn(1.0f);
+
+        IsChangingStage = false;
     }
-
-
     void SelectVRDevice(VRDeviceType deviceType)
     {
         vrObjectManager.SetDeviceType(deviceType);
         selectedVRDevice = true;
     }
-
 
     IEnumerator GameStartCoroutine()
     {
@@ -69,7 +122,9 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         StartCoroutine(SceneLoader.IELoadScene("Root_UI"));
         yield return StartCoroutine(SceneLoader.IELoadScene("Root_Frame3D"));
         yield return StartCoroutine(SceneLoader.IELoadScene("Root_Stage"));
-        yield return StartCoroutine(StageSceneLoader.GetInstance().LoadSelectMenuStageScene());
+        yield return StartCoroutine(StageSceneLoader.GetInstance().LoadStageScene(selectMenuStageName));
+
+
         // 最初のステージロード完了
 
         vrObjectManager.SpawnVRCamObject();
@@ -87,14 +142,17 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         // プレイヤースポーン完了
         yield return new WaitUntil(() => PlayerManager.LocalPlayer != null);
 
-        OnPlayerSpawned();
+        OnEndStageChange();
 
     }
 
-    public void OnPlayerSpawned()
+    public void OnEndStageChange()
     {
+        PlayerManager.playerMove.StageInit();
+        PlayerManager.playerStatus.StageInit();
         vrObjectManager.InitVRCamObject();
 
-        Debug.Log("Init VRCam");
+        Debug.Log("Stage End");
+
     }
 }

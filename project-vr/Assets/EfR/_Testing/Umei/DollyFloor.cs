@@ -14,6 +14,7 @@ public class DollyFloor : GimmickBase{
     public override void OnStartServer()
     {
         base.OnStartServer();
+        if (!isServer) return;
         StartCoroutine(MoveCoroutine());
     }
     IEnumerator MoveCoroutine()

@@ -35,10 +35,9 @@ public class GimmickSwitch : GimmickBase {
 	bool		m_IsToggle			= false;
 
 
+    #region 内部変数
 
-	#region 内部変数
-
-	[SerializeField]
+    [SerializeField]
 	bool		m_IsPushing			= false;
 	bool		m_IsPressed			= false;
 	bool		m_IsToggleOn		= false;
@@ -55,7 +54,6 @@ public class GimmickSwitch : GimmickBase {
 	// Use this for initialization
 	void Start()
 	{
-
 		m_aTriggerEnterAction		+= PushJudge;
 		// 光線でONになるかどうか
 		if ( m_IsActPointerHit )

@@ -30,6 +30,10 @@ public class PlayerMove : NetworkBehaviour {
 
 	public bool canMove = true;
 
+	public bool debugInfiniteJump = false;
+
+    //Stageが変わるとStageInit()が呼び出されるまでfalse
+    public bool isReady = false;
 	#endregion
 
 
@@ -40,6 +44,9 @@ public class PlayerMove : NetworkBehaviour {
 
     [SerializeField]
     PlayerMoveSettings		Pms;
+
+	[SerializeField]
+	LayerMask fieldLayerMask;
 
 	// 内部変数
 	PlayerStatus			playerStatus;
@@ -81,6 +88,8 @@ public class PlayerMove : NetworkBehaviour {
 
 				moveTypeOnStart = setting.playerMoveTypeOnStart[playerStatus.playerControllerId - 1];
 				SwitchMoveType(moveTypeOnStart);
+
+                Debug.Log("change"+moveTypeOnStart);
 			}
 			else
 			{
@@ -90,7 +99,18 @@ public class PlayerMove : NetworkBehaviour {
 			playerStatus.RendererSwitchForPlayerMoveType(moveTypeOnStart);
 			camVRTransform = VRObjectManager.GetInstance().GetBaseCameraObject().transform;
 			cam2DTransform = GameObject.Find("Camera2D").transform;
-		}
+            isReady = true;
+            //// 控室なら動けない状態にする
+            // 控室そもそも要らない。ステージ選択シーンをロビーとして使えばよい
+            //if ( UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "PlayerWaitingRoom" )
+            //{
+            //	canMove = false;
+            //}
+            //else
+            //{
+            //	canMove = true;
+            //}
+        }
 	}
 
     public void ResetVelocity()
@@ -104,6 +124,7 @@ public class PlayerMove : NetworkBehaviour {
 	}
 	public void		SwitchMoveType(MoveType __moveType)
 	{
+        _moveType = __moveType;
 		CmdSetMoveType(__moveType);
 		LoadMoveSettings(__moveType);
 	}
@@ -123,7 +144,8 @@ public class PlayerMove : NetworkBehaviour {
 		characterController = GetComponent<CharacterController>();
 		animator = GetComponentInChildren<Animator>();
 
-        StageInit();
+        //StageInit();
+		
 	}
 
 	void LoadMoveSettings(MoveType __moveType)
@@ -144,7 +166,15 @@ public class PlayerMove : NetworkBehaviour {
 	void RpcSwitchMoveType(MoveType _moveType)
 	{
 		this._moveType = _moveType;
-		//MaterialsManager.GetInstance().Change();
+
+		if ( isLocalPlayer )
+		{
+			//MaterialsManager.GetInstance().Change();
+			//if ( _moveType == PlayerMove.MoveType._2D )
+			//	StageSwitchRenderer.GetInstance().SwitchRendererFor2DMode();
+			//else
+			//	StageSwitchRenderer.GetInstance().SwitchRendererForVRMode();
+		}
 	}
 
 	// Update is called once per frame
@@ -173,7 +203,7 @@ public class PlayerMove : NetworkBehaviour {
 
 	void FixedUpdate()
 	{
-		if ( !isLocalPlayer ) return;
+		if ( !(isLocalPlayer && isReady)) return;
 
 		// カメラの前方向のXZ成分（ワールド座標）を計算
 		Vector3 cameraForwardXZ =	Vector3.Scale(camVRTransform.forward, new Vector3(1, 0, 1));
@@ -330,7 +360,7 @@ public class PlayerMove : NetworkBehaviour {
 		bool inputTriggerJump = Input.GetKeyDown( KeyCode.Space ) || OVRInput.GetDown( OVRInput.Button.Two );
 		bool inputKeepJump = Input.GetKey( KeyCode.Space ) || OVRInput.Get( OVRInput.Button.Two );
 		// ジャンプ開始
-		if ( Pms.canJump && isGrounded && !isJumping )
+		if ( (Pms.canJump && isGrounded && !isJumping) || debugInfiniteJump )
 		{
 			if ( inputTriggerJump )
 			{
@@ -343,21 +373,23 @@ public class PlayerMove : NetworkBehaviour {
 		{
 			jumpingTime += Time.deltaTime;
 
-			velocity.y = Pms.jumpPower;
+			velocity.y = Pms.jumpPower * ((Pms.jumpingDuration - jumpingTime) / Pms.jumpingDuration);
 		}
 		// 長押しジャンプ停止
 		if ( ( !inputTriggerJump && !inputKeepJump ) || jumpingTime >= Pms.jumpingDuration )
 		{
+			Debug.Log("長押しジャンプ停止");
 			isJumping = false;
 			jumpingTime = 0f;
 		}
-		// ジャンプ中に天井にぶつかったら
-		RaycastHit hit;
-		bool hitRoof = Physics.Raycast( transform.position, Vector3.up, out hit, Pms.distanceToGround );
-		if ( hitRoof )
-		{
-			isJumping = false;
-		}
+		//// ジャンプ中に天井にぶつかったら
+		//RaycastHit hit;
+		//bool hitRoof = Physics.Raycast( transform.position, Vector3.up, out hit, Pms.distanceToGround );
+		//if ( hitRoof )
+		//{
+		//	Debug.Log("天井ヒット");
+		//	isJumping = false;
+		//}
 	}
 
 	#endregion

@@ -17,19 +17,48 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
     [SerializeField]
     GameObject localPlayer;
 
-    // このPC端末のプレイヤー
-    public static GameObject LocalPlayer { get { return GetInstance().localPlayer; } }
-
-    // 他のPC端末のプレイヤー
-    public static GameObject OtherPlayer
+    static PlayerMove m_playerMove;
+    public static PlayerMove playerMove
     {
-        get
+        get {
+            if (!m_playerMove) m_playerMove = LocalPlayer.GetComponent<PlayerMove>();
+            return m_playerMove;
+        }
+        set
         {
-            GameObject[] otherPlayers = Players.Where(obj => obj != LocalPlayer).ToArray();
-            return otherPlayers[0];
+            m_playerMove = value;
         }
     }
 
+    static PlayerStatus m_playerStatus;
+    public static PlayerStatus playerStatus
+    {
+        get
+        {
+            if (!m_playerStatus) m_playerStatus = LocalPlayer.GetComponent<PlayerStatus>();
+            return m_playerStatus;
+        }
+        set
+        {
+            m_playerStatus = value;
+        }
+    }
+    // このPC端末のプレイヤー
+    public static GameObject LocalPlayer { get { return GetInstance().localPlayer; } }
+
+	// 他のPC端末のプレイヤー（1人プレイの時はnull）
+	public static GameObject OtherPlayer
+	{
+		get
+		{
+			GameObject otherPlayer = Players.Where(obj => obj != LocalPlayer).FirstOrDefault();
+			return otherPlayer;
+		}
+	}
+	public static int GetPlayerNumber()
+    {
+        return (int)LocalPlayer.GetComponent<PlayerStatus>().Number;
+    }
     // 接続中の全てのプレイヤー
     public static GameObject[] Players=new GameObject[2];
   

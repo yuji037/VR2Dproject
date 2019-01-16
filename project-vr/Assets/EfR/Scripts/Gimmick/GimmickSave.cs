@@ -10,6 +10,7 @@ public class GimmickSave : GimmickBase
 
     private void Start()
     {
+        isCallOnlyServer = false;
         m_acTriggerEnterAction += Save;
     }
 

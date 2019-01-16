@@ -14,6 +14,7 @@ public class GimmickChangeVirtualCamera : GimmickBase
     // Use this for initialization
     void Start()
     {
+		isCallOnlyServer = false;
         m_acTriggerEnterAction += ChangeVirtualCamera;
         this.GetGameObjectWithCoroutine(CameraUtility.CameraVRName, (GameObject go) => vrCam = go.GetComponent<CameraVRController>());
     }

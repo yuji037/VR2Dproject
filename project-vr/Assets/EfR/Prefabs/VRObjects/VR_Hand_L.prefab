@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114642062099932892}
   - component: {fileID: 114336754909654212}
   - component: {fileID: 114514601629948776}
+  - component: {fileID: 114544889258187926}
   m_Layer: 10
   m_Name: VR_Hand_L
   m_TagString: Untagged
@@ -178,6 +179,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trackGameObjectName: L_HandRig
   trackTransform: {fileID: 0}
+--- !u!114 &114544889258187926
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1733773370417792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d1c07a6449b0ca439ee6fac5f6f7d83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114642062099932892
 MonoBehaviour:
   m_ObjectHideFlags: 1

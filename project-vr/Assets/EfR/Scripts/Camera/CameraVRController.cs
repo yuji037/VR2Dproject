@@ -28,8 +28,7 @@ public class CameraVRController : CameraControllerBase
     [SerializeField]
     Camera centerCam;
 
-    private Vector3 camChangeDis;
-  
+
 
     // Use this for initialization
     void Start()
@@ -58,7 +57,7 @@ public class CameraVRController : CameraControllerBase
     }
 
     // プレイヤースポーン後に呼ぶ
-    public void Init()
+    public void StageInit()
     {
 
         var oPlayer = PlayerManager.LocalPlayer;
@@ -66,32 +65,28 @@ public class CameraVRController : CameraControllerBase
         playerMove = oPlayer.GetComponent<PlayerMove>();
         playerStatus = oPlayer.GetComponent<PlayerStatus>();
 
-        // カメラを初期位置にセット
-        //var defaultCamPos = playerMove.GetComponent<ViewPointStorage>().GetCamPos(playerMove.moveType);
-        //transform.position = defaultCamPos.position;
-        //transform.rotation = defaultCamPos.rotation;
-
-        if (playerMove.moveType == PlayerMove.MoveType._2D)
+        switch (playerMove.moveType)
         {
-            HasCameraAuthority = false;
-            var Cam2d = PlayerManager.LocalPlayer.GetComponent<ViewPointStorage>().GetCamPos(PlayerMove.MoveType._2D);
-            transform.position = Cam2d.position;
-            transform.rotation = Cam2d.rotation;
+            case PlayerMove.MoveType.FPS:
+            case PlayerMove.MoveType.TPS:
+                // 目標点をプレイヤーに
+                targetPosition = targetObject.transform.position;
+                break;
+            case PlayerMove.MoveType._2D:
+                HasCameraAuthority = false;
+                var Cam2d = PlayerManager.LocalPlayer.GetComponent<ViewPointStorage>().GetCamPos(PlayerMove.MoveType._2D);
+                transform.position = Cam2d.position;
+                transform.rotation = Cam2d.rotation;
+                break;
+            case PlayerMove.MoveType.FIXED:
+                HasCameraAuthority = true;
+                break;
         }
-
-        if (playerMove.moveType == PlayerMove.MoveType.FPS
-            || playerMove.moveType == PlayerMove.MoveType.TPS)
-        {
-            // 目標点をプレイヤーに
-            targetPosition = targetObject.transform.position;
-        }
-
+        Debug.Log("change"+playerMove.moveType);
         camPosParent = PlayerManager.LocalPlayer.FindFirstChildByName("CamPosParent").transform;
         camPosParent.transform.localRotation = Quaternion.identity;
 
         var vps = targetObject.GetComponent<ViewPointStorage>();
-        camChangeDis = vps.GetCamPos(PlayerMove.MoveType.TPS).position
-            - vps.GetCamPos(PlayerMove.MoveType.FPS).position;
 
     }
 
