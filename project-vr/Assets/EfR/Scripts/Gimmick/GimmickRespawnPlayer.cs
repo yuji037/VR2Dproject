@@ -8,7 +8,7 @@ public class GimmickRespawnPlayer : GimmickBase
     private void Start()
     {
         m_acTriggerEnterAction += Respawn;
-        isCallingWithServer = false;
+        isCallOnlyServer = false;
     }
     void Respawn(Collider collider)
     {
