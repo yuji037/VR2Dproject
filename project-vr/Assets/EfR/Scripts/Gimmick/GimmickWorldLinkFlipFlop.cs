@@ -63,6 +63,7 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 	{
 		FlipFlopPlayersWorld();
 		ResetFrags();
+		Deactivate();
 	}
 
 	public void Deactivate()
