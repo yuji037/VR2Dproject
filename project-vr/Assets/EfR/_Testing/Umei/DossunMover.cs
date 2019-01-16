@@ -19,6 +19,7 @@ public class DossunMover : GimmickBase {
     public override void OnStartServer()
     {
         base.OnStartServer();
+        if (!isServer) return;
         origin = transform.position;
         StartCoroutine(MoveCorotuine());
     }

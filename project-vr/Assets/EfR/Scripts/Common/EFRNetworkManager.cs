@@ -15,7 +15,7 @@ public class EFRNetworkManager : NetworkManager {
 	[SerializeField]
 	GameObject m_HandLPrefab;
 
-    public static string[] curretStageName=new string[2];
+    public static string[] curretStageName=new string[2] {"",""};
 
 	public class AddPlayerMessage : MessageBase {
         public int playerNum;
@@ -84,11 +84,13 @@ public class EFRNetworkManager : NetworkManager {
         player.GetComponent<PlayerStatus>().RpcInit(message.playerNum - 1);
 
     }
-    //public override void OnClientSceneChanged(NetworkConnection conn)
-    //{
-    //    base.OnClientSceneChanged(conn);
-    //    NetworkServer.SetClientReady(conn);
-    //}
+    public override void OnClientSceneChanged(NetworkConnection conn)
+    {
+        base.OnClientSceneChanged(conn);
+        NetworkServer.SetClientReady(conn);
+        Debug.Log("ClientSceneChanged");
+
+    }
 
     public override void OnClientConnect(NetworkConnection conn)
 	{

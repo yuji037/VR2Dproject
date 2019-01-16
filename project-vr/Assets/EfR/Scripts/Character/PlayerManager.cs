@@ -17,6 +17,32 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
     [SerializeField]
     GameObject localPlayer;
 
+    static PlayerMove m_playerMove;
+    public static PlayerMove playerMove
+    {
+        get {
+            if (!m_playerMove) m_playerMove = LocalPlayer.GetComponent<PlayerMove>();
+            return m_playerMove;
+        }
+        set
+        {
+            m_playerMove = value;
+        }
+    }
+
+    static PlayerStatus m_playerStatus;
+    public static PlayerStatus playerStatus
+    {
+        get
+        {
+            if (!m_playerStatus) m_playerStatus = LocalPlayer.GetComponent<PlayerStatus>();
+            return m_playerStatus;
+        }
+        set
+        {
+            m_playerStatus = value;
+        }
+    }
     // このPC端末のプレイヤー
     public static GameObject LocalPlayer { get { return GetInstance().localPlayer; } }
 

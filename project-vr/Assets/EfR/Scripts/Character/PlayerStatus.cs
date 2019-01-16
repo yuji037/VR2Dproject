@@ -37,7 +37,7 @@ public class PlayerStatus : NetworkBehaviour {
     private void Start()
     {
 		gameObject.name = PlayerManager.GetPlayerName(playerControllerId);
-        StageInit();
+        //StageInit();
     }
 
     public void StageInit()
@@ -76,6 +76,7 @@ public class PlayerStatus : NetworkBehaviour {
         var trPopPos = GameObject.Find("PlayerPopPos" + playerControllerId.ToString());
 
         if ( trPopPos ) {
+            Debug.Log(trPopPos.transform.position);
             transform.position = trPopPos.transform.position;
             transform.rotation = trPopPos.transform.rotation;
         }

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-public class NetworkStageNameStorage :  NetworkBehaviour{
+public class NetworkStageNameStorage : NetworkBehaviour
+{
     [Command]
     public void CmdSetCurrentStageName(int playerNum, string stageName)
     {
@@ -14,8 +15,14 @@ public class NetworkStageNameStorage :  NetworkBehaviour{
         EFRNetworkManager.curretStageName[playerNum] = stageName;
     }
     public static NetworkStageNameStorage instance;
-    public void Start()
+    public override void  OnStartClient()
     {
+        base.OnStartClient();
         instance = this;
+    }
+    [Command]
+    public void CmdIamReady(NetworkIdentity networkIdentity)
+    {
+        NetworkServer.SetClientReady(networkIdentity.connectionToClient);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
 {
@@ -41,43 +42,61 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
     }
 
 
+    void OnStartStageChange()
+    {
+        if(PlayerManager.LocalPlayer)PlayerManager.playerMove.isReady = false;
+    }
     public void ChangeStage(string sceneName)
     {
+        OnStartStageChange();
         StartCoroutine(ChangeStageCoroutine(sceneName));
     }
     IEnumerator ChangeStageCoroutine(string sceneName)
     {
+        FadeInOutController.GetInstance().StartBlackFadeOut(0.1f);
+        //unLoad
         yield return StartCoroutine(StageSceneLoader.GetInstance().UnLoadCurrentStageScene());
-        //clientとserverでunloadしたことを確認
-        yield return new WaitUntil(() => "" == EFRNetworkManager.curretStageName[0] &&
-            "" == EFRNetworkManager.curretStageName[1]);
 
+        DebugTools.Log("unLo");
+        //clientとserverでunloadしたことを確認
+        yield return new WaitUntil(() => {
+            Debug.Log(EFRNetworkManager.curretStageName[0] + "1=" + EFRNetworkManager.curretStageName[1]);
+            var aa="" == EFRNetworkManager.curretStageName[0] &&
+             "" == EFRNetworkManager.curretStageName[1];
+            Debug.Log(aa);
+            return aa;
+        });
+        Debug.Log("Load");
+        DebugTools.Log("Load");
+        //Load
         yield return StartCoroutine(StageSceneLoader.GetInstance().LoadStageScene(sceneName));
 
         //clientとserverでloadしたことを確認
         yield return new WaitUntil(() => sceneName == EFRNetworkManager.curretStageName[0] &&
             sceneName == EFRNetworkManager.curretStageName[1]);
 
-        yield return new WaitUntil(() => networkManager.IsClientSceneReady());
-        yield return new WaitUntil(() => networkManager.IsClientConnected());
+        DebugTools.Log("Ready");
+        if (networkManager.isHost)NetworkServer.SetAllClientsNotReady();
+        NetworkStageNameStorage.instance.CmdIamReady(NetworkStageNameStorage.instance.GetComponent<NetworkIdentity>());
 
-        if (networkManager.isHost)
+         if (networkManager.isHost)
         {
             NetworkServer.SpawnObjects();
+            DebugTools.Log("スポーンオブジェ");
         }
-        else
-        {
-        }
-        DebugTools.Log("スポーンオブジェ");
-        PlayerManager.LocalPlayer.GetComponent<PlayerMove>().StageInit();
-        PlayerManager.LocalPlayer.GetComponent<PlayerStatus>().StageInit();
+        
+        //上手くFind出来ないことがあるため待つ。
+        yield return new WaitForSeconds(0.5f);
+        OnEndStageChange();
+        //ガクっとカメラが切り替わると違和感があるので黒幕で隠す
+        yield return new WaitForSeconds(0.1f);
+        FadeInOutController.GetInstance().StartBlackFadeIn(1.0f);
     }
     void SelectVRDevice(VRDeviceType deviceType)
     {
         vrObjectManager.SetDeviceType(deviceType);
         selectedVRDevice = true;
     }
-
 
     IEnumerator GameStartCoroutine()
     {
@@ -107,14 +126,17 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         // プレイヤースポーン完了
         yield return new WaitUntil(() => PlayerManager.LocalPlayer != null);
 
-        OnPlayerSpawned();
+        OnEndStageChange();
 
     }
 
-    public void OnPlayerSpawned()
+    public void OnEndStageChange()
     {
+        PlayerManager.playerMove.StageInit();
+        PlayerManager.playerStatus.StageInit();
         vrObjectManager.InitVRCamObject();
 
-        Debug.Log("Init VRCam");
+        Debug.Log("Stage End");
+
     }
 }
