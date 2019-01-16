@@ -45,6 +45,9 @@ public class PlayerMove : NetworkBehaviour {
     [SerializeField]
     PlayerMoveSettings		Pms;
 
+	[SerializeField]
+	LayerMask fieldLayerMask;
+
 	// 内部変数
 	PlayerStatus			playerStatus;
 	CharacterController		characterController;
@@ -370,21 +373,23 @@ public class PlayerMove : NetworkBehaviour {
 		{
 			jumpingTime += Time.deltaTime;
 
-			velocity.y = Pms.jumpPower;
+			velocity.y = Pms.jumpPower * ((Pms.jumpingDuration - jumpingTime) / Pms.jumpingDuration);
 		}
 		// 長押しジャンプ停止
 		if ( ( !inputTriggerJump && !inputKeepJump ) || jumpingTime >= Pms.jumpingDuration )
 		{
+			Debug.Log("長押しジャンプ停止");
 			isJumping = false;
 			jumpingTime = 0f;
 		}
-		// ジャンプ中に天井にぶつかったら
-		RaycastHit hit;
-		bool hitRoof = Physics.Raycast( transform.position, Vector3.up, out hit, Pms.distanceToGround );
-		if ( hitRoof )
-		{
-			isJumping = false;
-		}
+		//// ジャンプ中に天井にぶつかったら
+		//RaycastHit hit;
+		//bool hitRoof = Physics.Raycast( transform.position, Vector3.up, out hit, Pms.distanceToGround );
+		//if ( hitRoof )
+		//{
+		//	Debug.Log("天井ヒット");
+		//	isJumping = false;
+		//}
 	}
 
 	#endregion
