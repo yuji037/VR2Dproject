@@ -51,16 +51,23 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
     }
     public void ChangeStageSelectMenu()
     {
-        ChangeStage(selectMenuStageName);
+        Debug.Log(IsChangingStage);
+        if(!IsChangingStage)ChangeStage(selectMenuStageName);
     }
     public void ChangeStage(string sceneName)
     {
         OnStartStageChange();
         StartCoroutine(ChangeStageCoroutine(sceneName));
     }
+    public bool IsChangingStage
+    {
+        get;
+        private set;
+    }
 
     IEnumerator ChangeStageCoroutine(string sceneName)
     {
+        IsChangingStage = true;
         FadeInOutController.GetInstance().StartBlackFadeOut(0.1f);
         //unLoad
         yield return StartCoroutine(StageSceneLoader.GetInstance().UnLoadCurrentStageScene());
@@ -85,8 +92,7 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
 
         DebugTools.Log("Ready");
         if (networkManager.isHost)NetworkServer.SetAllClientsNotReady();
-        NetworkStageNameStorage.instance.CmdIamReady(NetworkStageNameStorage.instance.GetComponent<NetworkIdentity>());
-
+        NetworkStageNameStorage.instance.CmdIamReady(PlayerManager.LocalPlayer.GetComponent<NetworkIdentity>());
          if (networkManager.isHost)
         {
             NetworkServer.SpawnObjects();
@@ -99,6 +105,8 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         //ガクっとカメラが切り替わると違和感があるので黒幕で隠す
         yield return new WaitForSeconds(0.1f);
         FadeInOutController.GetInstance().StartBlackFadeIn(1.0f);
+
+        IsChangingStage = false;
     }
     void SelectVRDevice(VRDeviceType deviceType)
     {
