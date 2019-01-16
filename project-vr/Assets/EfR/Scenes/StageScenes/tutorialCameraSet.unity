@@ -904,7 +904,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 2038417650}
+    m_TransformParent: {fileID: 1814280484}
     m_Modifications:
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_LocalPosition.x
@@ -936,7 +936,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_LocalScale.x
@@ -973,7 +973,7 @@ Prefab:
     - target: {fileID: 114115837289302952, guid: cabf8b113b0446547bc47e0e01b14646,
         type: 2}
       propertyPath: cameraParam.angle
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
@@ -7609,6 +7609,7 @@ Transform:
   - {fileID: 385118105}
   - {fileID: 1700084985}
   - {fileID: 1900772904}
+  - {fileID: 1023370684}
   m_Father: {fileID: 748005780}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8342,8 +8343,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1023370684}
+  m_Children: []
   m_Father: {fileID: 748005780}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
