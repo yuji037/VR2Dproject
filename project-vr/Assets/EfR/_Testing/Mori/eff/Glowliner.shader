@@ -2,7 +2,7 @@
 		Properties
 		{
 			_ReflectionTex("Base (RGB)", 2D) = "white" {}
-		_Spectra("Spectra", Vector) = (0, 0, 0, 0)
+			_Spectra("Spectra", Vector) = (0, 0, 0, 0)
 
 			_Center("Center", Vector) = (0.0, 0.0, 0.0)
 			_RingSrtide("Stride", Float) = 0.2
@@ -24,7 +24,7 @@
 #pragma glsl
 #pragma target 3.0
 
-			sampler2D _ReflectionTex;
+		sampler2D _ReflectionTex;
 		sampler2D _ReflectionDepthTex;
 		float4x4 _ViewProjectInverse;
 		float4 _Spectra;
@@ -140,7 +140,7 @@
 			float2 coord = (IN.screenPos.xy / IN.screenPos.w);
 
 			float3 center = IN.worldPos - _Center;
-			float trails = Rings(center);
+			//float trails = Rings(center);
 			float grid_d = HexGrid(center);
 			float box = Box(center);
 			float grid = grid_d > 0.0 ? 1.0 : 0.0;
@@ -151,8 +151,8 @@
 			o.Albedo = 0.0;
 			o.Alpha = 1.0;
 			o.Emission = 0.0;
-			o.Emission += trails * (0.5 + _Spectra * _RingEmission);
-			//o.Albedo += _GridColor * grid * 0.1;
+			//o.Emission += trails * (0.5 + _Spectra * _RingEmission);
+			o.Albedo += _GridColor * grid * 0.1;
 			o.Emission += _GridColor * (grid * box) * _GridEmission;
 
 			const float blur_radius = 0.005;
@@ -185,8 +185,7 @@
 			coord += n.xz * (g>0.0 && g<1.0 ? 1.0 : 0.0) * 0.02;
 			for (int i = 0; i<9; ++i) {
 				refcolor += tex2D(_ReflectionTex, coord + blur_coords[i] * ((1.0 - fade_by_depth)*0.75 + 0.25)).rgb * 0.1111;
-				//refcolor += tex2D(_ReflectionTex, coord+blur_coords[i]).rgb * 0.1111;
-			}
+				}
 
 			o.Emission += refcolor * _ReflectionStrength * fade_by_depth * (1.0 - grid * 0.9);
 
