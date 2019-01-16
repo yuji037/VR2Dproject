@@ -13,6 +13,9 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
     [SerializeField]
     EFRNetworkManager networkManager;
 
+    [SerializeField]
+    string selectMenuStageName;
+
     // Use this for initialization
     void Start()
     {
@@ -46,11 +49,16 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
     {
         if(PlayerManager.LocalPlayer)PlayerManager.playerMove.isReady = false;
     }
+    public void ChangeStageSelectMenu()
+    {
+        ChangeStage(selectMenuStageName);
+    }
     public void ChangeStage(string sceneName)
     {
         OnStartStageChange();
         StartCoroutine(ChangeStageCoroutine(sceneName));
     }
+
     IEnumerator ChangeStageCoroutine(string sceneName)
     {
         FadeInOutController.GetInstance().StartBlackFadeOut(0.1f);
@@ -106,7 +114,7 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         StartCoroutine(SceneLoader.IELoadScene("Root_UI"));
         yield return StartCoroutine(SceneLoader.IELoadScene("Root_Frame3D"));
         yield return StartCoroutine(SceneLoader.IELoadScene("Root_Stage"));
-        yield return StartCoroutine(StageSceneLoader.GetInstance().LoadSelectMenuStageScene());
+        yield return StartCoroutine(StageSceneLoader.GetInstance().LoadStageScene(selectMenuStageName));
 
 
         // 最初のステージロード完了
