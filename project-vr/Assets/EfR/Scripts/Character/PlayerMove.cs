@@ -32,6 +32,8 @@ public class PlayerMove : NetworkBehaviour {
 
 	public bool debugInfiniteJump = false;
 
+    //Stageが変わるとStageInit()が呼び出されるまでfalse
+    public bool isReady = false;
 	#endregion
 
 
@@ -86,6 +88,8 @@ public class PlayerMove : NetworkBehaviour {
 
 				moveTypeOnStart = setting.playerMoveTypeOnStart[playerStatus.playerControllerId - 1];
 				SwitchMoveType(moveTypeOnStart);
+
+                Debug.Log("change"+moveTypeOnStart);
 			}
 			else
 			{
@@ -95,18 +99,18 @@ public class PlayerMove : NetworkBehaviour {
 			playerStatus.RendererSwitchForPlayerMoveType(moveTypeOnStart);
 			camVRTransform = VRObjectManager.GetInstance().GetBaseCameraObject().transform;
 			cam2DTransform = GameObject.Find("Camera2D").transform;
-
-			//// 控室なら動けない状態にする
-			// 控室そもそも要らない。ステージ選択シーンをロビーとして使えばよい
-			//if ( UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "PlayerWaitingRoom" )
-			//{
-			//	canMove = false;
-			//}
-			//else
-			//{
-			//	canMove = true;
-			//}
-		}
+            isReady = true;
+            //// 控室なら動けない状態にする
+            // 控室そもそも要らない。ステージ選択シーンをロビーとして使えばよい
+            //if ( UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "PlayerWaitingRoom" )
+            //{
+            //	canMove = false;
+            //}
+            //else
+            //{
+            //	canMove = true;
+            //}
+        }
 	}
 
     public void ResetVelocity()
@@ -120,6 +124,7 @@ public class PlayerMove : NetworkBehaviour {
 	}
 	public void		SwitchMoveType(MoveType __moveType)
 	{
+        _moveType = __moveType;
 		CmdSetMoveType(__moveType);
 		LoadMoveSettings(__moveType);
 	}
@@ -139,7 +144,7 @@ public class PlayerMove : NetworkBehaviour {
 		characterController = GetComponent<CharacterController>();
 		animator = GetComponentInChildren<Animator>();
 
-        StageInit();
+        //StageInit();
 		
 	}
 
@@ -198,7 +203,7 @@ public class PlayerMove : NetworkBehaviour {
 
 	void FixedUpdate()
 	{
-		if ( !isLocalPlayer ) return;
+		if ( !(isLocalPlayer && isReady)) return;
 
 		// カメラの前方向のXZ成分（ワールド座標）を計算
 		Vector3 cameraForwardXZ =	Vector3.Scale(camVRTransform.forward, new Vector3(1, 0, 1));

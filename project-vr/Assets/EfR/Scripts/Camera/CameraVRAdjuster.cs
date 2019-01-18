@@ -52,11 +52,11 @@ public class CameraVRAdjuster : MonoBehaviour
         postProcessing = GetComponentInChildren<UnityEngine.PostProcessing.PostProcessingBehaviour>();
         farTVPos = player.GetComponent<ViewPointStorage>().GetCamPos(PlayerMove.MoveType._2D).position;
         var moveType = player.GetComponent<PlayerMove>().moveType;
-
         switch (moveType)
         {
             case PlayerMove.MoveType.FPS:
             case PlayerMove.MoveType.TPS:
+            case PlayerMove.MoveType.FIXED:
                 SetAllVRCamsParam(videoGameWorldCameraParam);
                 break;
             case PlayerMove.MoveType._2D:

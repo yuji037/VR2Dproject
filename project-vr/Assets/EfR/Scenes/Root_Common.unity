@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1273174, g: 0.13414761, b: 0.12107885, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -217,6 +217,7 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
+  isHost: 0
   m_EFRPlayerPrefab: {fileID: 1891470671125086, guid: 60419c1ec5b34964fb9b4068af4f0f58,
     type: 2}
   m_HandRPrefab: {fileID: 1733773370417792, guid: 4af21c67db63bcf4ab25d43cc4aff9ed,
@@ -959,6 +960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkManager: {fileID: 86879180}
+  selectMenuStageName: SelectMenu
 --- !u!1 &1610414773
 GameObject:
   m_ObjectHideFlags: 1

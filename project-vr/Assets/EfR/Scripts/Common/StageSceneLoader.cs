@@ -5,15 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 public class StageSceneLoader : SingletonMonoBehaviour<StageSceneLoader>
 {
-    [SerializeField]
-    string selectMenuSceneName;
-
     string lastStageSceneName;
-
-    public IEnumerator LoadSelectMenuStageScene()
-    {
-        yield return LoadStageScene(selectMenuSceneName);
-    }
 
     public IEnumerator UnLoadCurrentStageScene()
     {
