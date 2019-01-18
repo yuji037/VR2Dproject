@@ -31,7 +31,7 @@ Shader "Custom/PointerFloor" {
 			//ZTest LEqual
 			//ZWrite On
 	        //Blend One One
-
+			Cull Off
 
             Stencil {
                 Ref 2
