@@ -1,8 +1,8 @@
-﻿Shader "Custom/Glowliner" {
+﻿Shader "Custom/holeglow2" {
 		Properties
 		{
 			_MainTex("Texture", 2D) = "white" {}
-			_Spectra("Spectra", Vector) = (0, 0, 0, 0)
+		_Spectra("Spectra", Vector) = (0, 0, 0, 0)
 
 			_Center("Center", Vector) = (0.0, 0.0, 0.0)
 			_RingSrtide("Stride", Float) = 0.2
@@ -17,14 +17,14 @@
 		}
 			SubShader
 		{
-			Tags{ "RenderType" = "Opaque"}
+			Tags{ "RenderType" = "Opaque" }
 
 			CGPROGRAM
 #pragma surface surf SimpleLambert
 #pragma glsl
 #pragma target 3.0
 
-		sampler2D _MainTex;
+			sampler2D _MainTex;
 		sampler2D _ReflectionDepthTex;
 		float4x4 _ViewProjectInverse;
 		float4 _Spectra;
@@ -160,12 +160,11 @@
 			n = mul(UNITY_MATRIX_VP, float4(n,0.0)).xyz;
 			float circle = Circle(center);
 
-			o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb;
+			//o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb;
 			o.Alpha = 1.0;
 			o.Emission = 0.0;
 			//o.Emission += trails * (0.5 + _Spectra * _RingEmission);
-			//o.Albedo += _GridColor * grid * 0.1;
-			o.Emission += _GridColor * (grid * box);
+			//o.Emission += float3(0.0,0.0,0.0) * (grid * box);
 
 			//const float blur_radius = 0.005;
 			//float2 blur_coords[9] = {
@@ -199,7 +198,8 @@
 			//	refcolor += tex2D(_ReflectionTex, coord + blur_coords[i] * ((1.0 - fade_by_depth)*0.75 + 0.25)).rgb * 0.1111;
 			//	}
 
-			//o.Albedo +=(1.0 - grid * 0.9);
+			o.Emission += grid * box * float3(0.3,0.3,0.6);
+			o.Emission += float3(0.5, 0.5, 2.0);
 		}
 
 

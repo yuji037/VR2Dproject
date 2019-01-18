@@ -1,7 +1,7 @@
-﻿Shader "Custom/glowlinertest" {
+﻿Shader "Custom/glowlinerBoxcell" {
 		Properties
 		{
-			_ReflectionTex("Base (RGB)", 2D) = "white" {}
+			_MainTex("Texture", 2D) = "white" {}
 		_Spectra("Spectra", Vector) = (0, 0, 0, 0)
 
 			_Center("Center", Vector) = (0.0, 0.0, 0.0)
@@ -11,7 +11,7 @@
 			_RingEmission("RingEmission", Float) = 10.0
 			_RingSpeedMin("RingSpeedMin", Float) = 0.2
 			_RingSpeedMax("RingSpeedMin", Float) = 0.5
-			_GridColor("GridColor", Vector) = (0.0, 0.0, 0.0)
+			_GridColor("GridColor", Vector) = (0.0, 0.0, 0.1)
 			_GridEmission("GridEmission", Float) = 12.0
 			_ReflectionStrength("ReflectionStrength", Float) = 0.2
 		}
@@ -24,7 +24,7 @@
 #pragma glsl
 #pragma target 3.0
 
-			sampler2D _ReflectionTex;
+			sampler2D _MainTex;
 		sampler2D _ReflectionDepthTex;
 		float4x4 _ViewProjectInverse;
 		float4 _Spectra;
@@ -190,47 +190,47 @@
 			float3 n = GuessNormal(center);
 			n = mul(UNITY_MATRIX_VP, float4(n, 0.0)).xyz;
 			
-			o.Albedo = 0.0;
+			o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb;;
 			o.Alpha = 1.0;
 			o.Emission = 0.0;
-			o.Albedo += _GridColor * boxfold * 0.1;
-			o.Emission += _GridColor * boxfold * box * _GridEmission;
+			//o.Albedo += _GridColor * boxfold;
+			o.Emission += _GridColor * boxfold * box * 2.0;
 
 			//o.Emission += grid * 0.0;
 
-			const float blur_radius = 0.05;
-			float2 blur_coords[9] = {
-				float2(0.000,  0.000),
-				float2(0.1080925165271518,  -0.9546740999616308)*blur_radius,
-				float2(-0.4753686437884934,  -0.8417212473681748)*blur_radius,
-				float2(0.7242715177221273,  -0.6574584801064549)*blur_radius,
-				float2(-0.023355087558461607, 0.7964400038854089)*blur_radius,
-				float2(-0.8308210026544296,  -0.7015103725420933)*blur_radius,
-				float2(0.3243705688309195,   0.2577797517167695)*blur_radius,
-				float2(0.31851240326305463, -0.2220789454739755)*blur_radius,
-				float2(-0.36307729185097637, -0.7307245945773899)*blur_radius
-			};
-			float depth = 1.0;
-			depth = tex2D(_ReflectionDepthTex, coord).r;
-			for (int i = 1; i<9; ++i) {
-				depth = min(depth, tex2D(_ReflectionDepthTex, coord + blur_coords[i]).r);
-			}
+			//const float blur_radius = 0.05;
+			//float2 blur_coords[9] = {
+			//	float2(0.000,  0.000),
+			//	float2(0.1080925165271518,  -0.9546740999616308)*blur_radius,
+			//	float2(-0.4753686437884934,  -0.8417212473681748)*blur_radius,
+			//	float2(0.7242715177221273,  -0.6574584801064549)*blur_radius,
+			//	float2(-0.023355087558461607, 0.7964400038854089)*blur_radius,
+			//	float2(-0.8308210026544296,  -0.7015103725420933)*blur_radius,
+			//	float2(0.3243705688309195,   0.2577797517167695)*blur_radius,
+			//	float2(0.31851240326305463, -0.2220789454739755)*blur_radius,
+			//	float2(-0.36307729185097637, -0.7307245945773899)*blur_radius
+			//};
+			//float depth = 1.0;
+			//depth = tex2D(_ReflectionDepthTex, coord).r;
+			//for (int i = 1; i<9; ++i) {
+			//	depth = min(depth, tex2D(_ReflectionDepthTex, coord + blur_coords[i]).r);
+			//}
 
-			float4 H = float4((coord.x) * 2 - 1, (coord.y) * 2 - 1, depth, 1.0);
-			float4 D = mul(_ViewProjectInverse, H);
-			float3 refpos = D.xyz / D.w;
+			//float4 H = float4((coord.x) * 2 - 1, (coord.y) * 2 - 1, depth, 1.0);
+			//float4 D = mul(_ViewProjectInverse, H);
+			//float3 refpos = D.xyz / D.w;
 
-			float fade_by_depth = 1.0;
-			fade_by_depth = max(1.0 - refpos.y*0.3, 0.0);
-			float3 refcolor = 0.0;
+			//float fade_by_depth = 1.0;
+			//fade_by_depth = max(1.0 - refpos.y*0.3, 0.0);
+			//float3 refcolor = 0.0;
 
-			float g = saturate((boxfold + 0.02)*50.0);
-			coord += n.xz * (g>0.0 && g<1.0 ? 1.0 : 0.0) * 0.02;
-			for (int i = 0; i<9; ++i) {
-				refcolor += tex2D(_ReflectionTex, coord + blur_coords[i] * ((1.0 - fade_by_depth)*0.75 + 0.25)).rgb * 0.1111;
-			}
+			//float g = saturate((boxfold + 0.02)*50.0);
+			//coord += n.xz * (g>0.0 && g<1.0 ? 1.0 : 0.0) * 0.02;
+			//for (int i = 0; i<9; ++i) {
+			//	refcolor += tex2D(_ReflectionTex, coord + blur_coords[i] * ((1.0 - fade_by_depth)*0.75 + 0.25)).rgb * 0.1111;
+			//}
 
-			o.Emission += refcolor * fade_by_depth * (1.0 - box * boxfold * 0.9);
+			//o.Albedo = (1.0 - box * boxfold * 0.9);
 
 		}
 		ENDCG
