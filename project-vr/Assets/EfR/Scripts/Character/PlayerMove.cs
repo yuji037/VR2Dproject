@@ -131,7 +131,14 @@ public class PlayerMove : NetworkBehaviour {
 
     public void Jump(float jumpPower)
     {
-        velocity.y = jumpPower;
+		var powerRate = 1f;
+		if ( InputKeepJump() )
+		{
+			powerRate = 2.5f;
+			animator.SetBool("Jump", true);
+		}
+
+		velocity.y = jumpPower * powerRate;
     }
 	#endregion
 
@@ -144,8 +151,9 @@ public class PlayerMove : NetworkBehaviour {
 		characterController = GetComponent<CharacterController>();
 		animator = GetComponentInChildren<Animator>();
 
-        //StageInit();
-		
+		//StageInit();
+
+		DebugTools.RegisterDebugAction(KeyCode.J, () => debugInfiniteJump = !debugInfiniteJump, "無限ジャンプON/OFF");
 	}
 
 	void LoadMoveSettings(MoveType __moveType)
@@ -170,10 +178,10 @@ public class PlayerMove : NetworkBehaviour {
 		if ( isLocalPlayer )
 		{
 			//MaterialsManager.GetInstance().Change();
-			//if ( _moveType == PlayerMove.MoveType._2D )
-			//	StageSwitchRenderer.GetInstance().SwitchRendererFor2DMode();
-			//else
-			//	StageSwitchRenderer.GetInstance().SwitchRendererForVRMode();
+			if ( _moveType == PlayerMove.MoveType._2D )
+				StageSwitchRenderer.GetInstance().SwitchRendererFor2DMode();
+			else
+				StageSwitchRenderer.GetInstance().SwitchRendererForVRMode();
 		}
 	}
 
@@ -354,15 +362,23 @@ public class PlayerMove : NetworkBehaviour {
 		}
 	}
 
+	bool InputTriggerJump()
+	{
+		return Input.GetKeyDown(KeyCode.Space) || OVRInput.GetDown(OVRInput.Button.Two);
+	}
+
+	bool InputKeepJump()
+	{
+		return Input.GetKey(KeyCode.Space) || OVRInput.Get(OVRInput.Button.Two);
+	}
+
+	// ジャンプ処理
 	void UpdateJump()
 	{
-		// ジャンプ処理
-		bool inputTriggerJump = Input.GetKeyDown( KeyCode.Space ) || OVRInput.GetDown( OVRInput.Button.Two );
-		bool inputKeepJump = Input.GetKey( KeyCode.Space ) || OVRInput.Get( OVRInput.Button.Two );
 		// ジャンプ開始
 		if ( (Pms.canJump && isGrounded && !isJumping) || debugInfiniteJump )
 		{
-			if ( inputTriggerJump )
+			if ( InputTriggerJump() )
 			{
 				isJumping = true;
 				animator.SetBool( "Jump", true );
@@ -376,9 +392,9 @@ public class PlayerMove : NetworkBehaviour {
 			velocity.y = Pms.jumpPower * ((Pms.jumpingDuration - jumpingTime) / Pms.jumpingDuration);
 		}
 		// 長押しジャンプ停止
-		if ( ( !inputTriggerJump && !inputKeepJump ) || jumpingTime >= Pms.jumpingDuration )
+		if ( ( !InputTriggerJump() && !InputKeepJump() ) || jumpingTime >= Pms.jumpingDuration )
 		{
-			Debug.Log("長押しジャンプ停止");
+			//Debug.Log("長押しジャンプ停止");
 			isJumping = false;
 			jumpingTime = 0f;
 		}

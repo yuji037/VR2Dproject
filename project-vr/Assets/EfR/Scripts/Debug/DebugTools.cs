@@ -9,8 +9,28 @@ using System;
 /// </summary>
 public class DebugTools : SingletonMonoBehaviour<DebugTools> {
 
+	#region Public Variables
+	#endregion
+
+
+	#region Private Variables
+
 	[SerializeField]
 	DebugDisplay debugDisplay;
+
+	[SerializeField]
+	bool isDebugMenuOn = false;
+
+	//[SerializeField]
+	//GameObject debugMenuCanvas;
+
+	Dictionary<KeyCode, System.Action> debugActions = new Dictionary<KeyCode, Action>();
+	Dictionary<KeyCode, string> debugActionDescriptions = new Dictionary<KeyCode, string>();
+
+	#endregion
+
+
+	#region Public Methods
 
 	/// <summary>
 	/// 実機上で表示し続けたい情報を表示。
@@ -28,6 +48,10 @@ public class DebugTools : SingletonMonoBehaviour<DebugTools> {
 	{
 		GetInstance().debugDisplay.UpdateDisplayText(tagName, GetString(message), displayPriority);
 	}
+	public static void UnregisterDisplayText(string tagName)
+	{
+		GetInstance().debugDisplay.UnregisterDisplayText(tagName);
+	}
 
 	/// <summary>
 	/// 実機上のDebug.Log()。タイムラインのように流れていく。
@@ -42,10 +66,76 @@ public class DebugTools : SingletonMonoBehaviour<DebugTools> {
 		GetInstance().debugDisplay.AddLog(GetString(message));
 	}
 
+	/// <summary>
+	/// キー入力で発動したいデバッグ機能を追加する。
+	/// </summary>
+	/// <param name="keyCode"></param>
+	/// <param name="action"></param>
+	public static void RegisterDebugAction(KeyCode keyCode, System.Action action, string description)
+	{
+		GetInstance().debugActions				.Add(keyCode, action);
+		GetInstance().debugActionDescriptions	.Add(keyCode, description);
+	}
+
+	#endregion
+
+
+	#region Private Methods & Callback
+
+	private void Start()
+	{
+		UpdateGuideText();
+	}
+
+	private void Update()
+	{
+		if ( Input.GetKeyDown(KeyCode.F3) )
+		{
+			isDebugMenuOn = !isDebugMenuOn;
+			//SwitchDebugMenuCanvas();
+			UpdateGuideText();
+		}
+
+		if ( isDebugMenuOn )
+		{
+			foreach ( var debugAction in debugActions )
+			{
+				if ( Input.GetKeyDown(debugAction.Key) )
+				{
+					debugAction.Value();
+				}
+			}
+		}
+	}
+
+	void UpdateGuideText()
+	{
+		DisplayText("デバッグ案内", "デバッグメニューON/OFF：F3 　現在：" + (isDebugMenuOn?"ON":"OFF"), 10000);
+		if ( isDebugMenuOn )
+		{
+			foreach(var pair in debugActionDescriptions )
+			{
+				DisplayText(			"Debug " + pair.Key,	pair.Key.ToString() + " : " + pair.Value, 9000);
+			}
+		}
+		else
+		{
+			foreach ( var pair in debugActionDescriptions )
+			{
+				UnregisterDisplayText(	"Debug " + pair.Key);
+			}
+		}
+	}
+
+	void SwitchDebugMenuCanvas()
+	{
+		//debugMenuCanvas.SetActive(isDebugMenuOn);
+	}
+
 	static string GetString(object obj)
 	{
 		string str = null;
-		if(obj is string )
+		if ( obj is string )
 		{
 			str = obj as string;
 		}
@@ -55,5 +145,9 @@ public class DebugTools : SingletonMonoBehaviour<DebugTools> {
 		}
 		return str;
 	}
+
+	#endregion
+
+
 }
 

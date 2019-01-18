@@ -50,6 +50,11 @@ public class DebugDisplay : MonoBehaviour {
 		UpdateRemainTextDictionary(tagName, message, displayPriority);
 	}
 
+	public void UnregisterDisplayText(string tagName)
+	{
+		UnregisterRemainText(tagName);
+	}
+
 	public void AddLog(string message)
 	{
 		// 登録
@@ -98,6 +103,21 @@ public class DebugDisplay : MonoBehaviour {
 
 		m_lsSortedUpdateTexts.Add(newText);
 		SortRemainTextList();
+	}
+
+	void UnregisterRemainText(string tagName)
+	{
+		DebugDisplayTextIns target = null;
+		if(m_dicRemainTexts.TryGetValue(tagName, out target) )
+		{
+			m_dicRemainTexts.Remove(tagName);
+			m_lsSortedUpdateTexts.Remove(target);
+			UpdateRemainTextUI();
+		}
+		else
+		{
+			Debug.LogError(tagName + "というデバッグテキストは見つかりませんでした");
+		}
 	}
 
 	void UpdateRemainTextDictionary(string tagName, string displayText, int displayPriority)
