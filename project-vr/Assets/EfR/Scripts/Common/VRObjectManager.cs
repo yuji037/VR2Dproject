@@ -100,4 +100,22 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
                 return htcCam[0].gameObject;
         }
     }
+
+	private void Update()
+	{
+		if ( Input.GetKeyDown(KeyCode.L) )
+		{
+			var vrChatObjs = ClientScene.objects.Where(pair => pair.Value.gameObject.name.Contains("VR"));
+
+			foreach(var pair in vrChatObjs )
+			{
+				var vrChatSetter = pair.Value.GetComponent<VRChatObjectSetter>();
+				if ( vrChatSetter == null ) {
+					Debug.Log("ない");
+					continue;
+				}
+				vrChatSetter.Init();
+			}
+		}
+	}
 }

@@ -14,8 +14,10 @@ public class EFRNetworkManager : NetworkManager {
 	GameObject m_HandRPrefab;
 	[SerializeField]
 	GameObject m_HandLPrefab;
+	[SerializeField]
+	GameObject m_GazePointPrefab;
 
-    public static string[] curretStageName=new string[2] {"",""};
+	public static string[] curretStageName=new string[2] {"",""};
 
 	public class AddPlayerMessage : MessageBase {
         public int playerNum;
@@ -75,12 +77,14 @@ public class EFRNetworkManager : NetworkManager {
         var player = Instantiate(m_EFRPlayerPrefab);
 		var handR = Instantiate(m_HandRPrefab);
 		var handL = Instantiate(m_HandLPrefab);
+		var gazeObj = Instantiate(m_GazePointPrefab);
 
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
 		NetworkServer.AddPlayerForConnection(conn, handR, (short)(playerControllerId + 2));
         NetworkServer.AddPlayerForConnection(conn, handL, (short)(playerControllerId + 4));
+        NetworkServer.AddPlayerForConnection(conn, gazeObj, (short)(playerControllerId + 6));
 
-        Debug.Log("プレイヤー作成成功 : " + message.playerNum);
+		Debug.Log("プレイヤー作成成功 : " + message.playerNum);
         player.GetComponent<PlayerStatus>().RpcInit(message.playerNum - 1);
 
     }

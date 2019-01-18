@@ -31,7 +31,7 @@ public class ViewPointStorage : MonoBehaviour
             case PlayerMove.MoveType._2D:
             default:
                 if (!CamPos_2D)
-                    CamPos_2D = GameObject.Find("CamPos_2D").transform;
+                    CamPos_2D = GameObject.Find("CamPos_2D_" + (PlayerManager.GetPlayerNumber() + 1)).transform;
                 return CamPos_2D;
         }
     }
