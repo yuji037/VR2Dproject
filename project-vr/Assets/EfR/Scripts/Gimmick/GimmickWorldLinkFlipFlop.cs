@@ -112,7 +112,7 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 	{
 		if ( otherGimmick )
 		{
-			Gizmos.color = Color.yellow;
+			Gizmos.color = Color.green;
 			Gizmos.DrawLine(transform.position, otherGimmick.transform.position);
 		}
 	}
