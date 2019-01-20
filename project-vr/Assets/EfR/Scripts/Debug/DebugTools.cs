@@ -73,8 +73,8 @@ public class DebugTools : SingletonMonoBehaviour<DebugTools> {
 	/// <param name="action"></param>
 	public static void RegisterDebugAction(KeyCode keyCode, System.Action action, string description)
 	{
-		GetInstance().debugActions				.Add(keyCode, action);
-		GetInstance().debugActionDescriptions	.Add(keyCode, description);
+		GetInstance().debugActions				[keyCode] = action;
+		GetInstance().debugActionDescriptions	[keyCode] = description;
 	}
 
 	#endregion
@@ -102,6 +102,7 @@ public class DebugTools : SingletonMonoBehaviour<DebugTools> {
 			{
 				if ( Input.GetKeyDown(debugAction.Key) )
 				{
+					Log(debugAction.Key.ToString() + "を押下 : " + debugActionDescriptions[debugAction.Key]);
 					debugAction.Value();
 				}
 			}
