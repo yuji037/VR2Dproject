@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 65272104575960498}
   - component: {fileID: 23806203550784140}
   - component: {fileID: 114421390314231398}
+  - component: {fileID: 114901876577288046}
   m_Layer: 0
   m_Name: LongYFloorScreen
   m_TagString: Screen
@@ -181,3 +182,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorForm: 2
   canCreatePlayerNumber: 0
+--- !u!114 &114901876577288046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1403460634429678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab75a5f1eca3e746b145b09fb7eb198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

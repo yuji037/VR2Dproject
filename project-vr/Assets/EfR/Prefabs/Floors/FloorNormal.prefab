@@ -26,6 +26,8 @@ GameObject:
   - component: {fileID: 23484547377733156}
   - component: {fileID: 33665487741758426}
   - component: {fileID: 54256872477787870}
+  - component: {fileID: 114436294576683354}
+  - component: {fileID: 114215169919283400}
   m_Layer: 11
   m_Name: FloorNormal
   m_TagString: LaserPointerFloorCreate
@@ -146,6 +148,17 @@ MonoBehaviour:
     i15: 151
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114215169919283400
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1650253433395238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fd34fffb7a2c014bb4ae14e3f7155f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114345208953340366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -159,6 +172,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_iGimmickID: 0
   floorForm: 0
+--- !u!114 &114436294576683354
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1650253433395238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab75a5f1eca3e746b145b09fb7eb198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114774901560779796
 MonoBehaviour:
   m_ObjectHideFlags: 1
