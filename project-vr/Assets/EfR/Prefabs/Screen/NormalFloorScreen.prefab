@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 65004952835881616}
   - component: {fileID: 23570618236884404}
   - component: {fileID: 114575976936302412}
+  - component: {fileID: 114376617015799224}
   m_Layer: 0
   m_Name: NormalFloorScreen
   m_TagString: Screen
@@ -168,6 +169,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114376617015799224
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1141293669562748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab75a5f1eca3e746b145b09fb7eb198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114575976936302412
 MonoBehaviour:
   m_ObjectHideFlags: 1

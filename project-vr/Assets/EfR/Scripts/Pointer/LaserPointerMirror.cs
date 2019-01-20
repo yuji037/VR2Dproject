@@ -31,7 +31,7 @@ public class LaserPointerMirror : LaserPointerBase
         }
         else
         {
-            SetPosition(hit.point);
+            SetLineRenderPosition(hit.point);
             GimmickBase gimmick=null;
             if ((gimmick = hit.collider.GetComponent<GimmickBase>()) != null
                 && (PlayerManager.LocalPlayer.GetComponent<PlayerMove>().moveType != PlayerMove.MoveType._2D))

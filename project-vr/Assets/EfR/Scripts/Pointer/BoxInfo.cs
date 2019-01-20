@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoxColliderInfo : MonoBehaviour
+public class BoxInfo : MonoBehaviour
 {
     private void OnDrawGizmos()
     {
@@ -15,16 +15,23 @@ public class BoxColliderInfo : MonoBehaviour
         var right = RightSide;
         var left = LeftSide;
         var lower = BottomSide;
-        Gizmos.DrawLine(new Vector3(right, upper, transform.position.z - correct), new Vector3(left, upper, transform.position.z - correct));
 
-        Gizmos.DrawLine(new Vector3(right, lower, transform.position.z - correct), new Vector3(left, lower, transform.position.z - correct));
+        //top
+        Gizmos.DrawLine(RightUp,LeftUp);
 
-        Gizmos.DrawLine(new Vector3(right, upper, transform.position.z - correct), new Vector3(right, lower, transform.position.z - correct));
+        //bot
+        Gizmos.DrawLine(RightDown,LeftDown);
 
-        Gizmos.DrawLine(new Vector3(left, lower, transform.position.z - correct), new Vector3(left, upper, transform.position.z - correct));
+        //right
+        Gizmos.DrawLine(RightUp,RightDown);
+
+        //left
+        Gizmos.DrawLine(LeftUp,LeftDown);
 
 
     }
+
+
     public float HalfWidth
     {
         get { return transform.lossyScale.x * 0.5f; }
@@ -97,28 +104,28 @@ public class BoxColliderInfo : MonoBehaviour
     {
         get
         {
-            return transform.position + new Vector3(HalfWidth, HalfHeight);
+            return transform.position + transform.rotation * new Vector3(HalfWidth, HalfHeight);
         }
     }
     Vector3 LeftUp
     {
         get
         {
-            return transform.position + new Vector3(-HalfWidth, HalfHeight);
+            return transform.position + transform.rotation * new Vector3(-HalfWidth, HalfHeight);
         }
     }
     Vector3 RightDown
     {
         get
         {
-            return transform.position + new Vector3(HalfWidth, -HalfHeight);
+            return transform.position + transform.rotation*new Vector3(HalfWidth, -HalfHeight);
         }
     }
     Vector3 LeftDown
     {
         get
         {
-            return transform.position + new Vector3(-HalfWidth, -HalfHeight);
+            return transform.position + transform.rotation * new Vector3(-HalfWidth, -HalfHeight);
         }
     }
 

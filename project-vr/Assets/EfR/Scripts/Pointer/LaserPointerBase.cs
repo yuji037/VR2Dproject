@@ -21,6 +21,11 @@ public class LaserPointerBase : NetworkBehaviour
     //このRayを飛ばしているGimmickBaseを持ったコライダー
     protected Collider ownerCollider;
 
+    protected bool isFixPointer;
+
+    Vector3 preShooterPos;
+    Vector3 preShooterForward;
+    
     //ToDo:後でplayermanagerにLocalPlayerMoveを持たせてもらう
     PlayerMove localPlaerMove;
     private void Start()
@@ -37,26 +42,22 @@ public class LaserPointerBase : NetworkBehaviour
         }
         if(lineRenderer)lineRenderPositions.Clear();
         OnFlameStart();
-        ShootRay(shooter.position, shooter.forward);
+        if (isFixPointer)
+        {
+            ShootRay(preShooterPos,preShooterForward);
+        }
+        else
+        {
+            ShootRay(shooter.position, shooter.forward);
+            preShooterPos = shooter.position;
+            preShooterForward = shooter.forward;
+        }
         if(lineRenderer)ApplyLineRenderPositions();
-
-        //if (localPlaerMove.moveType != PlayerMove.MoveType._2D)
-        //{
-        //    ShootRay(shooter.position, shooter.forward);
-        //    ApplyLineRenderPositions();
-        //}
-        //else
-        //{
-        //    if (lineRenderer.positionCount > 0)
-        //    {
-        //        lineRenderer.positionCount = 0;
-        //    }
-        //}
     }
 
     protected void ShootRay(Vector3 origin, Vector3 direction)
     {
-        SetPosition(origin);
+        SetLineRenderPosition(origin);
         RaycastHit hit;
         Ray ray = new Ray(origin, direction);
         bool isHit = Physics.Raycast(ray, out hit, 1000f, layerMask);
@@ -77,9 +78,9 @@ public class LaserPointerBase : NetworkBehaviour
     }
     protected virtual void NoHitAction(Vector3 origin, Vector3 direction)
     {
-        SetPosition(origin + direction * 10);
+        SetLineRenderPosition(origin + direction * 10);
     }
-    protected void SetPosition(Vector3 position)
+    protected void SetLineRenderPosition(Vector3 position)
     {
         lineRenderPositions.Add(position);
     }

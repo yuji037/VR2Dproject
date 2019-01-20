@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4178635364841576}
   - component: {fileID: 212972818244309692}
+  - component: {fileID: 114858586129941868}
+  - component: {fileID: 114289991304732120}
   m_Layer: 11
   m_Name: PredictionFloorLongX
   m_TagString: Untagged
@@ -40,6 +42,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114289991304732120
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1747541813018020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab75a5f1eca3e746b145b09fb7eb198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114858586129941868
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1747541813018020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b843895ad3f7cc4ba46d5565796e691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212972818244309692
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -74,8 +98,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 89c5c6a2a398d0c45bac9498836291dc, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Color: {r: 0.5955882, g: 0.5955882, b: 0.5955882, a: 0.316}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1

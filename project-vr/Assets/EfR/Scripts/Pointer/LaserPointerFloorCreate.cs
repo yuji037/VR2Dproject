@@ -5,69 +5,105 @@ using UnityEngine.Networking;
 //ToDo:Root_Commonに置く
 public class LaserPointerFloorCreate : LaserPointerBase
 {
-    GimmickFloor currentControlFloor = null;
-    PointerHitScreen preHitScreen = null;
+    GimmickFloor controllingFloor = null;
+
+    [SerializeField]
+    FloorPredictionActiveController floorPredictionActiveController;
+
+    bool isAlwaysPressingTrigger=false;
+    private void Awake()
+    {
+        DebugTools.RegisterDebugAction(
+                KeyCode.G,
+            () => {
+                isFixPointer = !isFixPointer;
+                isAlwaysPressingTrigger = !isAlwaysPressingTrigger;
+            },
+            "常に床生成のトリガーを押した状態にする"
+            );
+
+    }
 
     protected override void HitAction(RaycastHit hit, Vector3 origin, Vector3 direction)
     {
-        SetPosition(hit.point);
+        SetLineRenderPosition(hit.point);
         if (!isLocalPlayer) return;
         PointerHitScreen hitScreen = hit.collider.GetComponent<PointerHitScreen>();
-
-        if (!hitScreen || (preHitScreen && hitScreen != preHitScreen)||!CanCreateFloor(hitScreen) )
+        if (!(hitScreen &&
+            CanCreateFloor(hitScreen)))
         {
-            TerminateFloor();
+            DeleteFloor();
             return;
         }
-        preHitScreen = hitScreen;
-        if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Z) || OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))
+
+        if (IsPressDownTrigger())
         {
-            CreateFloor(hitScreen.GetFloorForm);
+            CreateFloor(hitScreen.GetFloorForm, hitScreen);
         }
-        if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Z) || OVRInput.Get(OVRInput.RawButton.RIndexTrigger))
+
+        if (controllingFloor)
         {
-            FollowPointerFloor(hit.point, hit.normal);
+            ControlFloor(hit.point, hit.normal, hitScreen);
         }
         else
         {
-            TerminateFloor();
+            floorPredictionActiveController.SetView(hit.point +hit.normal* 0.1f, hitScreen);
         }
+
+    }
+    void ControlFloor(Vector3 hitPoint, Vector3 hitNoraml, PointerHitScreen hitScreen)
+    {
+        bool floorFormEqual = controllingFloor.floorForm == hitScreen.GetFloorForm;
+        if (IsPressingTrigger()&&floorFormEqual)
+        {
+            floorPredictionActiveController.AllInactive();
+            FollowPointerFloor(hitPoint, hitNoraml);
+        }
+        else
+        {
+            DeleteFloor();
+        }
+
+    }
+    bool IsPressDownTrigger()
+    {
+        return Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Z) || OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger);
+    }
+    bool IsPressingTrigger()
+    {
+        return Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Z) || OVRInput.Get(OVRInput.RawButton.RIndexTrigger) ||isAlwaysPressingTrigger;
     }
     bool CanCreateFloor(PointerHitScreen hitScreen)
     {
-        if (PlayerManager.Players.Length <= (int)hitScreen.canCreatePlayerNumber)
-        {
-            return false;
-        }
-        return PlayerManager.LocalPlayer == PlayerManager.Players[(int)hitScreen.canCreatePlayerNumber];
+        return PlayerManager.GetPlayerNumber()== (int)hitScreen.canCreatePlayerNumber;
     }
     protected override void NoHitAction(Vector3 origin, Vector3 direction)
     {
         base.NoHitAction(origin, direction);
-        TerminateFloor();
+        floorPredictionActiveController.AllInactive();
+        DeleteFloor();
     }
     void FollowPointerFloor(Vector3 pos, Vector3 normal)
     {
-        if (!currentControlFloor) return;
-        //currentControlFloor.transform.position = Vector3.Lerp(currentControlFloor.transform.position, pos,0.01f);
-        currentControlFloor.GetComponent<Rigidbody>().MovePosition( pos + normal * 0.1f);
+        if (!controllingFloor) return;
+        controllingFloor.GetComponent<Rigidbody>().MovePosition(pos + normal * 0.1f);
     }
-    void CreateFloor(FloorForm floorForm)
+    void CreateFloor(FloorForm floorForm, PointerHitScreen pointerHitScreen)
     {
-        TerminateFloor();
+        DeleteFloor();
         GimmickFloorSpawner.GetInstance().GetFloorObject(floorForm,
               (x) =>
               {
-                  currentControlFloor = x;
+                  controllingFloor = x;
               }
           );
     }
 
-    void TerminateFloor()
+
+    void DeleteFloor()
     {
-        preHitScreen = null;
-        if (!currentControlFloor) return;
-        GimmickFloorSpawner.GetInstance().ReleaseFloor(currentControlFloor);
-        currentControlFloor = null;
+        if (!controllingFloor) return;
+        GimmickFloorSpawner.GetInstance().ReleaseFloor(controllingFloor);
+        controllingFloor = null;
     }
 }
