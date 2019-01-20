@@ -24,6 +24,28 @@ public class LaserPointerFloorCreate : LaserPointerBase
 
     }
 
+    bool CanCreateFloor(Vector3 hitPos,PointerHitScreen hitScreen)
+    {
+        var prefab=GimmickFloorSpawner.GetInstance().GetFloorPrefabObjects[(int)hitScreen.GetFloorForm];
+        var scale=prefab.transform.lossyScale;
+        var col = prefab.GetComponent<BoxCollider>();
+        scale.x *= col.size.x;
+        scale.y *= col.size.y;
+        scale.z *= col.size.z;
+
+        scale *= 0.5f;
+
+        var colliders = Physics.OverlapBox(hitPos, scale, transform.rotation);
+        foreach (var i in colliders)
+        {
+            if (i.GetComponent<PlayerMove>())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     protected override void HitAction(RaycastHit hit, Vector3 origin, Vector3 direction)
     {
         SetLineRenderPosition(hit.point);
@@ -35,8 +57,9 @@ public class LaserPointerFloorCreate : LaserPointerBase
             DeleteFloor();
             return;
         }
+        var canCreateFloor = CanCreateFloor(hit.point,hitScreen);
 
-        if (IsPressDownTrigger())
+        if (IsPressDownTrigger()&&canCreateFloor)
         {
             CreateFloor(hitScreen.GetFloorForm, hitScreen);
         }
@@ -47,7 +70,7 @@ public class LaserPointerFloorCreate : LaserPointerBase
         }
         else
         {
-            floorPredictionActiveController.SetView(hit.point +hit.normal* 0.1f, hitScreen);
+            floorPredictionActiveController.SetView(hit.point +hit.normal* 0.1f, hitScreen,canCreateFloor);
         }
 
     }

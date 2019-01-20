@@ -5,16 +5,29 @@ using UnityEngine;
 public class FloorPredictionView : MonoBehaviour {
     BoxInfo m_boxColliderInfo;
     SpriteRenderer m_spriteRenderer;
+
+    [SerializeField]
+    GameObject cantCreateFloorPredictionObject;
+
     // Use this for initialization
 	void Start () {
         m_boxColliderInfo = GetComponent<BoxInfo>();
         m_spriteRenderer = GetComponent<SpriteRenderer>();
     }
-	
-    public void ActiveView(Vector3 hitPos,PointerHitScreen pointerHitScreen)
+
+    public void ActiveView(Vector3 hitPos,PointerHitScreen pointerHitScreen,bool canCreate)
     {
         transform.position = hitPos;
         transform.rotation = pointerHitScreen.transform.rotation;
+        if (!canCreate)
+        {
+            cantCreateFloorPredictionObject.SetActive(true);
+            m_spriteRenderer.enabled = false;
+            return;
+        }
+        m_spriteRenderer.enabled = true;
+        cantCreateFloorPredictionObject.SetActive(false);
+
         Vector2 boxSize = new Vector2(1,1);
         Vector3 boxPos = Vector3.zero;
         //screenBox
@@ -66,5 +79,6 @@ public class FloorPredictionView : MonoBehaviour {
         }
         m_spriteRenderer.size= boxSize;
         transform.position += boxPos;
+        return;
     }
 }

@@ -17,7 +17,9 @@ public class FloorPredictionActiveController: MonoBehaviour
             floorPredictions[i] = Instantiate(PredictionFloorsPrefab[i]).GetComponent<FloorPredictionView>();
         }
     }
-    public void SetView(Vector3 hitPos, PointerHitScreen pointerHitScreen)
+
+
+    public void SetView(Vector3 hitPos, PointerHitScreen pointerHitScreen,bool canCreate)
     {
         FloorPredictionView activePredictionFloor=null;
 
@@ -29,7 +31,7 @@ public class FloorPredictionActiveController: MonoBehaviour
             floorPredictions[i].gameObject.SetActive(active);
             if (active) activePredictionFloor = floorPredictions[i];
         }
-        activePredictionFloor.ActiveView(hitPos,pointerHitScreen);
+        activePredictionFloor.ActiveView(hitPos,pointerHitScreen,canCreate);
 
     }
 

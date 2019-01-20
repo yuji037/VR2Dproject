@@ -31,6 +31,12 @@ public class GimmickFloorSpawner : NetworkBehaviour
 
     [SerializeField]
     GameObject[] FloorPrefabObjects;
+
+    public GameObject[] GetFloorPrefabObjects
+    {
+        get { return FloorPrefabObjects; }
+    }
+
     [Command]
     void CmdSpawnFloor(int floorForm,NetworkIdentity playerNetID)
     {
