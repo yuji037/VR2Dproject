@@ -6,13 +6,12 @@ using UnityEngine.Networking;
 public class LaserPointerFloorCreate : LaserPointerBase
 {
     GimmickFloor controllingFloor = null;
-
-    [SerializeField]
     FloorPredictionActiveController floorPredictionActiveController;
 
     bool isAlwaysPressingTrigger=false;
     private void Awake()
     {
+        floorPredictionActiveController=FloorPredictionActiveController.GetInstance();
         DebugTools.RegisterDebugAction(
                 KeyCode.G,
             () => {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FloorPredictionActiveController: MonoBehaviour
+public class FloorPredictionActiveController: SingletonMonoBehaviour<FloorPredictionActiveController>
 {
   
     [SerializeField]

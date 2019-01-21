@@ -29,7 +29,6 @@ GameObject:
   - component: {fileID: 114030831530164200}
   - component: {fileID: 114533903749231792}
   - component: {fileID: 114743927641833186}
-  - component: {fileID: 114963356147063740}
   m_Layer: 10
   m_Name: VR_Hand_R
   m_TagString: Untagged
@@ -271,7 +270,6 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 4294963707
-  floorPredictionActiveController: {fileID: 114963356147063740}
 --- !u!114 &114533903749231792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -341,21 +339,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trackGameObjectName: R_HandRig
   trackTransform: {fileID: 0}
---- !u!114 &114963356147063740
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1249610553312374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65d483ae337d3b741bd562a3b0f2015c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PredictionFloorsPrefab:
-  - {fileID: 1757986501460178, guid: e08772f3e0e07a94c98074325a3ea72b, type: 2}
-  - {fileID: 1747541813018020, guid: c7f0c94a483f13543b79c1d710edaba2, type: 2}
-  - {fileID: 1391061260758922, guid: d83a36c66af01464a917e94996325242, type: 2}
 --- !u!120 &120097141667474312
 LineRenderer:
   m_ObjectHideFlags: 1
