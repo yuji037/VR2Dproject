@@ -9,8 +9,9 @@ public class LaserPointerFloorCreate : LaserPointerBase
     FloorPredictionActiveController floorPredictionActiveController;
 
     bool isAlwaysPressingTrigger=false;
-    private void Awake()
+    public override void OnStartLocalPlayer()
     {
+        base.OnStartLocalPlayer();
         floorPredictionActiveController=FloorPredictionActiveController.GetInstance();
         DebugTools.RegisterDebugAction(
                 KeyCode.G,
@@ -103,6 +104,7 @@ public class LaserPointerFloorCreate : LaserPointerBase
     protected override void NoHitAction(Vector3 origin, Vector3 direction)
     {
         base.NoHitAction(origin, direction);
+        if (!isLocalPlayer) return;
         floorPredictionActiveController.AllInactive();
         DeleteFloor();
     }
