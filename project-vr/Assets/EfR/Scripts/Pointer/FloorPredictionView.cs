@@ -39,7 +39,6 @@ public class FloorPredictionView : MonoBehaviour {
         var srDis = (sBox.RightPoint - pivot).magnitude;
         var srVec = (sBox.RightPoint - pivot).normalized;
         var frDis = Vector3.Dot(srVec, (fBox.RightPoint - pivot));
-        Debug.Log(srDis);
         var rSub = (frDis - srDis) / transform.lossyScale.x;
         if (rSub > 0)
         {

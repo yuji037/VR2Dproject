@@ -9,12 +9,14 @@ public class FloorPredictionActiveController: MonoBehaviour
     GameObject[] PredictionFloorsPrefab;
 
     FloorPredictionView[] floorPredictions; 
-  private void Start()
+    private void Start()
     {
         floorPredictions = new FloorPredictionView[PredictionFloorsPrefab.Length];
         for (int i = 0; i < PredictionFloorsPrefab.Length; i++)
         {
-            floorPredictions[i] = Instantiate(PredictionFloorsPrefab[i]).GetComponent<FloorPredictionView>();
+            var obj = Instantiate(PredictionFloorsPrefab[i]);
+            floorPredictions[i]=obj.GetComponent<FloorPredictionView>();
+            DontDestroyOnLoad(obj);
         }
     }
 

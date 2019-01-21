@@ -55,6 +55,7 @@ public class LaserPointerFloorCreate : LaserPointerBase
             CanCreateFloor(hitScreen)))
         {
             DeleteFloor();
+            floorPredictionActiveController.AllInactive();
             return;
         }
         var canCreateFloor = CanCreateFloor(hit.point,hitScreen);
