@@ -4,6 +4,9 @@
 			_MainTex("Texture", 2D) = "white" {}
 		_Spectra("Spectra", Vector) = (0, 0, 0, 0)
 
+			_PlMv("IsPlayerMoved",Int) = 0
+			_PlPos("PlayerPos",Vector) = (0.0,0.0,0.0)
+
 			_Center("Center", Vector) = (0.0, 0.0, 0.0)
 			_RingSrtide("Stride", Float) = 0.2
 			_RingThicknessMin("ThicknessMin", Float) = 0.1
@@ -39,6 +42,9 @@
 		float _GridEmission;
 		float _ReflectionStrength;
 
+		int _PlMv;
+		float3 _PlPos;
+
 		struct Input {
 			float2 uv_MainTex;
 			float3 worldPos;
@@ -55,6 +61,24 @@
 		float3 _gl_mod(float3 a, float3 b) { return a - b * floor(a / b); }
 		float4 _gl_mod(float4 a, float4 b) { return a - b * floor(a / b); }
 
+		float3 rotate(float3 p, float angle, float3 axis) {
+			float3 a = normalize(axis);
+			float s = sin(angle);
+			float c = cos(angle);
+			float r = 1.0 - c;
+			float3x3 m = float3x3(
+				a.x * a.x * r + c,
+				a.y * a.x * r + a.z * s,
+				a.z * a.x * r - a.y * s,
+				a.x * a.y * r - a.z * s,
+				a.y * a.y * r + c,
+				a.z * a.y * r + a.x * s,
+				a.x * a.z * r + a.y * s,
+				a.y * a.z * r - a.x * s,
+				a.z * a.z * r + c
+			);
+			return mul(m,p);
+		}
 
 		//float Grid(float3 pos)
 		//{
@@ -125,28 +149,19 @@
 			return min(c1, c2);
 		}
 
-		//float Circle(float2 pos,float r)
-		//{
-		//	return length(pos) - r;
-		//}
-
-		//float CircleGrid(float3 p) {
-		//	float scale = 1.2;
-		//	float2 grid = float2(1.0, 1.0)*scale;
-		//	float radius = 0.22 * scale;
-
-
-		//	float2 p1 = _gl_mod(p.xz, grid) - grid * 0.5;
-		//	float c1 = Circle(p1, radius);
-
-		//	float2 p2 = _gl_mod(p.xz + grid * 0.5, grid) - grid * 0.5;
-		//	float c2 = Circle(p2, radius);
-		//	return min(c1, c2);
-		//}
+		float Circle(float3 pos)
+		{
+			float o_radius = 5.0;
+			float i_radius = 1.0;
+			float d = length(pos.xz);
+			float c = max(o_radius - (o_radius - _gl_mod(d - _Time.y*1.0, o_radius)) - i_radius, 0.0);
+			return c;
+		}
 
 		float Box(float2 p)
 		{
-			return max(0.5 - _gl_mod(p.y - p.x*0.4 + (_Time.y*0.3), 1.5), 0.0);
+			//p = rotate(float3(p.x, 0.0, p.y), 0.25, float3(0.0, 1.0, 0.0)).xz;
+			return max(0.8 - _gl_mod(p.y - p.x*0.4 + (_Time.y*0.3), 1.5), 0.0);
 		}
 
 		float Hex(float2 p, float2 h)
@@ -155,19 +170,21 @@
 			return max(q.x - h.y,max(q.x + q.y*0.57735,q.y*1.1547) - h.x);
 		}
 
-		//float HexGrid(float3 p)
-		//{
-		//	float scale = 1.2;
-		//	float2 grid = float2(0.692, 0.4) * scale;
-		//	float radius = 0.22 * scale;
+		float HexGrid(float3 p)
+		{
+			float scale = 1.2;
+			float2 grid = float2(0.692, 0.4) * scale;
+			float radius = 0.22 * scale;
 
-		//	float2 p1 = _gl_mod(p.xz, grid) - grid * 0.5;
-		//	float c1 = Hex(p1, radius);
+			float2 p1 = _gl_mod(p.xz, grid) - grid * 0.5;
+			float c1 = Hex(p1, radius);
 
-		//	float2 p2 = _gl_mod(p.xz + grid * 0.5, grid) - grid * 0.5;
-		//	float c2 = Hex(p2, radius);
-		//	return min(c1, c2);
-		//}
+			float2 p2 = _gl_mod(p.xz + grid * 0.5, grid) - grid * 0.5;
+			float c2 = Hex(p2, radius);
+			return min(c1, c2);
+		}
+
+
 		float3 GuessNormal(float3 p)
 		{
 			const float d = 0.01;
@@ -183,10 +200,11 @@
 		{
 			float2 coord = (IN.screenPos.xy / IN.screenPos.w);
 			float3 center = IN.worldPos - _Center;
-			//float grid_d = HexGrid(center);
+			float grid_d = HexGrid(center);
 			float box = Box(center);
 			float boxfold = BoxfoldGrid(center);
-			//float grid = BoxfoldGrid(center) > 0.0 ? 1.0 : 0.0;
+			float circle = Circle(center);
+			float grid = grid_d > 0.0 ? 1.0 : 0.0;
 			float3 n = GuessNormal(center);
 			n = mul(UNITY_MATRIX_VP, float4(n, 0.0)).xyz;
 			
@@ -194,7 +212,12 @@
 			o.Alpha = 1.0;
 			o.Emission = 0.0;
 			//o.Albedo += _GridColor * boxfold;
-			o.Emission += _GridColor * boxfold * box * 2.0;
+			o.Emission += _GridColor * boxfold * box * 1.0;
+
+
+			if (_PlMv == 1) {
+				o.Emission += float3(0.5, 0.5, 2.0) * (grid * (Circle(IN.worldPos - _PlPos)));
+			}
 
 			//o.Emission += grid * 0.0;
 

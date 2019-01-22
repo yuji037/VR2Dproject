@@ -4,6 +4,9 @@
 			_MainTex("Texture", 2D) = "white" {}
 			_Spectra("Spectra", Vector) = (0, 0, 0, 0)
 
+			_PlMv("IsPlayerMoved",Int) = 0
+			_PlPos("PlayerPos",Vector) = (0.0,0.0,0.0)
+
 			_Center("Center", Vector) = (0.0, 0.0, 0.0)
 			_RingSrtide("Stride", Float) = 0.2
 			_RingThicknessMin("ThicknessMin", Float) = 0.1
@@ -38,6 +41,9 @@
 		float4 _GridColor;
 		float _GridEmission;
 		float _ReflectionStrength;
+
+		int _PlMv;
+		float3 _PlPos;
 
 
 
@@ -82,6 +88,60 @@
 			return a;
 		}
 
+		float Boxfold(float2 p)
+		{
+			p = frac(p);
+			float r = 0.123;
+			float v = 0.0, g = 0.0;
+			r = frac(r * 9184.928);
+			float cp, d;
+
+			d = p.x;
+			g += pow(clamp(1.0 - abs(d), 0.0, 1.0), 1000.0);
+			d = p.y;
+			g += pow(clamp(1.0 - abs(d), 0.0, 1.0), 1000.0);
+			d = p.x - 1.0;
+			g += pow(clamp(3.0 - abs(d), 0.0, 1.0), 1000.0);
+			d = p.y - 1.0;
+			g += pow(clamp(1.0 - abs(d), 0.0, 1.0), 10000.0);
+
+			const int ITER = 11;
+			for (int i = 0; i < ITER; i++)
+			{
+				cp = 0.5 + (r - 0.5) * 0.9;
+				d = p.x - cp;
+				//g += pow(clamp(1.0 - abs(d), 0.0, 1.0), 200.0);
+				g += clamp(1.0 - abs(d), 0.0, 1.0) > 0.999 - (0.00075*i) ? 1.0 : 0.0;
+				if (d > 0.0) {
+					r = frac(r * 4829.013);
+					p.x = (p.x - cp) / (1.0 - cp);
+					v += 1.0;
+				}
+				else {
+					r = frac(r * 1239.528);
+					p.x = p.x / cp;
+				}
+				p = p.yx;
+			}
+			v /= float(ITER);
+
+			return max(g - 1.0, 0.0);
+		}
+
+		float BoxfoldGrid(float3 p) {
+			float scale = 100.0;
+			float2 grid = float2(1.0, 1.0)*scale;
+
+			p /= 15;
+
+			float2 p1 = _gl_mod(p.xz, grid) - grid * 0.5;
+			float c1 = Boxfold(p1);
+
+			float2 p2 = _gl_mod(p.xz + grid * 5, grid) - grid * 0.5;
+			float c2 = Boxfold(p2);
+			return min(c1, c2);
+		}
+
 		float Grid(float3 pos)
 		{
 			float grid_size = 0.4;
@@ -98,9 +158,9 @@
 		float Circle(float3 pos)
 		{
 			float o_radius = 5.0;
-			float i_radius = 4.0;
+			float i_radius = 3.0;
 			float d = length(pos.xz);
-			float c = max(o_radius - (o_radius - _gl_mod(d - _Time.y*1.5, o_radius)) - i_radius, 0.0);
+			float c = max(o_radius - (o_radius - _gl_mod(d - _Time.y*2.0, o_radius)) - i_radius, 0.0);
 			return c;
 		}
 
@@ -160,12 +220,19 @@
 			n = mul(UNITY_MATRIX_VP, float4(n,0.0)).xyz;
 			float circle = Circle(center);
 
+			float boxfold = BoxfoldGrid(center);
+
 			o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb;
 			o.Alpha = 1.0;
 			o.Emission = 0.0;
 			//o.Emission += trails * (0.5 + _Spectra * _RingEmission);
 			//o.Albedo += _GridColor * grid * 0.1;
 			o.Emission += _GridColor * (grid * box);
+
+			if (_PlMv == 1) {
+				o.Emission += float3(0.5,0.5,2.0) * (boxfold * (Circle(IN.worldPos - _PlPos)));
+			}
+			
 
 			//const float blur_radius = 0.005;
 			//float2 blur_coords[9] = {
