@@ -17,6 +17,7 @@ sampler2D _EnvMapSampler;
 sampler2D _NormalMapSampler;
 
 half _Pos;
+half _App;
 
 // Constants
 #define FALLOFF_POWER 0.3
@@ -241,10 +242,11 @@ float4 frag( v2f i ) : COLOR
 	combinedColor += falloffU * lightColor;
 #endif
 
+if(_App == 1){
 	float2 dg = boxcell(i.wpos, i.normal);
 	float fade = i.wpos.y+1.0 - _Time.y+dg.y*0.5;
 	//if(fade>0.0) { discard; }
-		if (_Pos < i.wpos.y ) {
+		if (_Pos< i.wpos.y ) {
 			discard;
 		}
 	float s = max((0.8-modc(i.wpos.y + _Time.y*1.0 + 1.5, 3.33)), 0.0) * 10.0;
@@ -255,6 +257,7 @@ float4 frag( v2f i ) : COLOR
 	combinedColor *= float3(0.5, 0.6, 1.8) * 1.5 * (modc(_Time.y, 0.0073)*100.0+1.0) * (pc*s*na+1.0);
 	combinedColor *= scanline;
 	if(fade>-0.15) { combinedColor.rgb *= 5.0; }
+	}
 
 	return float4( combinedColor, opacity);
 }
