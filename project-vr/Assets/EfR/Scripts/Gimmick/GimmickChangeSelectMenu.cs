@@ -16,10 +16,11 @@ public class GimmickChangeSelectMenu : GimmickBase
         private set;
     }
     // Use this for initialization
-    void Start()
+    public override void OnStartServer()
     {
+        base.OnStartServer();
         m_aTriggerEnterAction += PlayerWithInArea;
-        m_aTriggerExitAction += PlayerWithOutArea;
+        m_aTriggerExitAction  += PlayerWithOutArea;
     }
     void PlayerWithInArea(int id)
     {
@@ -30,7 +31,7 @@ public class GimmickChangeSelectMenu : GimmickBase
         if (ContainsPlayersInArea())
         {
             Debug.Log("gotoMenu");
-            RpcGoToMenu();
+            CmdGoToMenu();
         }
 
     }
@@ -49,7 +50,11 @@ public class GimmickChangeSelectMenu : GimmickBase
         Debug.Log(count);
         return count > 1;
     }
-
+    [Command]
+    void CmdGoToMenu()
+    {
+        RpcGoToMenu();
+    }
     [ClientRpc]
     void RpcGoToMenu()
     {

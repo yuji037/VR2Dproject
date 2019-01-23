@@ -11,7 +11,7 @@ public class StageSceneLoader : SingletonMonoBehaviour<StageSceneLoader>
     {
         yield return SceneLoader.DestroyScene(lastStageSceneName);
         NetworkStageNameStorage.instance.CmdSetCurrentStageName(PlayerManager.GetPlayerNumber(), "");
-        //clientがつながっていないとき
+        //clientがいる時
         if (PlayerManager.Players[1] == null) NetworkStageNameStorage.instance.CmdSetCurrentStageName(1, "");
 
     }
@@ -37,7 +37,7 @@ public class StageSceneLoader : SingletonMonoBehaviour<StageSceneLoader>
         if (PlayerManager.LocalPlayer)
         {
             NetworkStageNameStorage.instance.CmdSetCurrentStageName(PlayerManager.GetPlayerNumber(), loadStageName);
-            //clientがつながっていないとき
+            //clientがいる時
             if (PlayerManager.Players[1] == null) NetworkStageNameStorage.instance.CmdSetCurrentStageName(1, loadStageName);
         }
         lastStageSceneName = loadStageName;

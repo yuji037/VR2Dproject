@@ -17,6 +17,13 @@ public class PlayerStatus : NetworkBehaviour {
     }
     public PlayerNumber Number { get; private set; }
 
+    bool active=true;
+    public bool Active
+    {
+        get { return active;}
+    }
+
+
     [ClientRpc]
     public void RpcInit(int number)
     {
@@ -24,7 +31,19 @@ public class PlayerStatus : NetworkBehaviour {
         initialized = true;
         PlayerManager.Players[number] = gameObject;
     }
-
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if (!isLocalPlayer&&!PlayerManager.Players[0])
+        {
+            Debug.Log("ro-kasaa");
+            PlayerManager.Players[0] = gameObject;
+            var stageSettingObj = GameObject.Find("StageSettings");
+            bool settingActive= stageSettingObj.GetComponent<StageSettings>().playerActiveOnStart[0];
+            Debug.Log(settingActive);
+            SetActiveOnLocal(settingActive);
+        }
+    }
     public override void OnStartLocalPlayer()
     {
         if ( isLocalPlayer )
@@ -36,6 +55,7 @@ public class PlayerStatus : NetworkBehaviour {
 
     private void Start()
     {
+        Debug.Log("preConID"+playerControllerId);
 		gameObject.name = PlayerManager.GetPlayerName(playerControllerId);
         //StageInit();
     }
@@ -86,6 +106,28 @@ public class PlayerStatus : NetworkBehaviour {
         }
 
         PlayerRespawner.GetInstance().SaveLocalPlayerRespawnPoint(transform.position);
+    }
+
+    [Command]
+    public void CmdSetActive(bool isActive)
+    {
+        RpcSetActive(isActive);
+    }
+    [ClientRpc]
+    public void RpcSetActive(bool isActive)
+    {
+        SetActiveOnLocal(isActive);
+    } 
+    void SetActiveOnLocal(bool isActive)
+    {
+        Debug.Log(gameObject.name + "のアクティブを" + isActive);
+        var children = GetComponentsInChildren<Renderer>();
+        foreach (var c in children)
+        {
+            c.enabled = isActive;
+        }
+        GetComponent<PlayerMove>().canMove = isActive;
+        active = isActive;
     }
 
 	// 他端末のプレイヤーに影響する場合は[ClientRpc]を使う

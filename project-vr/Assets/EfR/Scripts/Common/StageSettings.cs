@@ -6,4 +6,6 @@ using UnityEngine;
 public class StageSettings : MonoBehaviour {
 
     public PlayerMove.MoveType[] playerMoveTypeOnStart;
+    public bool[] playerActiveOnStart = new bool[] { true, true };
+    
 }

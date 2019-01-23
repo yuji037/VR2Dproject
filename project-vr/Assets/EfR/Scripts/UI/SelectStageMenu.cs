@@ -29,10 +29,50 @@ public class SelectStageMenu :NetworkBehaviour
         }
         stageDataUIs[selectingStageIndexNumber].SetActive(true);
     }
-
+    [Command]
+    void CmdGoToSelectStage()
+    {
+        RpcGoToSelectStage();
+    }
+    [ClientRpc]
+    void RpcGoToSelectStage()
+    {
+        GoToSelectStage();
+    }
     public void GoToSelectStage()
     {
         GameCoordinator.GetInstance().ChangeStage(stageDataMaster.stageDatas[selectingStageIndexNumber].StageSceneName);
+    }
+
+    float stageUIChangeTimer = 0.4f;
+    float stageUIChangeInterval = 0.4f;
+    private void Update()
+    {
+        //サーバーのみインプット可能
+        if (!isServer) return;
+
+        stageUIChangeTimer += Time.deltaTime;
+        if (stageUIChangeTimer <= stageUIChangeInterval) return;
+
+        var inputeEnter= Input.GetKeyDown(KeyCode.Space) || OVRInput.GetDown(OVRInput.Button.Two);
+        var inputHorizontal = Input.GetAxisRaw("Horizontal");
+        var inputRight = (inputHorizontal > 0.3f);
+        var inputLeft =  (inputHorizontal < -0.3f);
+        if (inputeEnter)
+        {
+            CmdGoToSelectStage();
+            stageUIChangeTimer = 0f;
+        }
+        else if (inputRight)
+        {
+            RpcStageChangeRight();
+            stageUIChangeTimer = 0f;
+        }
+        else if (inputLeft)
+        {
+            RpcStageChangeLeft();
+            stageUIChangeTimer = 0f;
+        }
     }
 
     [ClientRpc]

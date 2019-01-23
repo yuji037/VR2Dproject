@@ -16,11 +16,16 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
     [SerializeField]
     string selectMenuStageName;
 
+    Camera2DController camera2D;
     // Use this for initialization
     void Start()
     {
         StartCoroutine(GameStartCoroutine());
         vrObjectManager = VRObjectManager.GetInstance();
+        this.GetGameObjectWithCoroutine(
+            CameraUtility.Camera2DName
+            , x => camera2D = x.GetComponent<Camera2DController>()
+            );
     }
 
     void OnGUI()
@@ -101,7 +106,7 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         
         //上手くFind出来ないことがあるため待つ。
         yield return new WaitForSeconds(0.5f);
-        OnEndStageChange();
+        StageChangeOnEnd();
         //ガクっとカメラが切り替わると違和感があるので黒幕で隠す
         yield return new WaitForSeconds(0.1f);
         FadeInOutController.GetInstance().StartBlackFadeIn(1.0f);
@@ -142,17 +147,17 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         // プレイヤースポーン完了
         yield return new WaitUntil(() => PlayerManager.LocalPlayer != null);
 
-        OnEndStageChange();
+        StageChangeOnEnd();
 
     }
 
-    public void OnEndStageChange()
+    public void StageChangeOnEnd()
     {
         PlayerManager.playerMove.StageInit();
         PlayerManager.playerStatus.StageInit();
         vrObjectManager.InitVRCamObject();
 
-        Debug.Log("Stage End");
+        Debug.Log("ChangeStage End");
 
     }
 }
