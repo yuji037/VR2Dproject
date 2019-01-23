@@ -97,10 +97,7 @@ public class PlayerMove : NetworkBehaviour
 
                 playerStatus.CmdSetActive(setting.playerActiveOnStart[playerNumber]);
                 DebugTools.Log("プレイヤアク"+playerNumber+ setting.playerActiveOnStart[playerNumber]);
-                if (playerNumber==(int)PlayerNumber.Player2)
-                {
-                    //PlayerManager.OtherPlayer.GetComponent<PlayerStatus>().CmdSetActive(setting.playerActiveOnStart[0]);
-                }
+               
 
                 Debug.Log("change" + moveTypeOnStart);
             }
@@ -193,7 +190,7 @@ public class PlayerMove : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer) return;
+        if (!isLocalPlayer||!playerStatus.Active) return;
 
         inputHorizontal = Input.GetAxisRaw("Horizontal");
         inputVertical = Input.GetAxisRaw("Vertical");

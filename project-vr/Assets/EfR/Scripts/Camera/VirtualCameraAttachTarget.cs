@@ -22,8 +22,8 @@ public class VirtualCameraAttachTarget : MonoBehaviour
             }
             else if(AttachTarget(PlayerManager.OtherPlayer))
             {
-                StageSwitchRenderer.GetInstance().SwitchRenderer(0,true);
-                StageSwitchRenderer.GetInstance().SwitchRenderer(1, false);
+                StageSwitchRenderer.GetInstance().SwitchRenderer(1,true);
+                StageSwitchRenderer.GetInstance().SwitchRenderer(2, false);
             }
         }
     }

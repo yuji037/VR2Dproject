@@ -126,7 +126,6 @@ public class PlayerStatus : NetworkBehaviour {
         {
             c.enabled = isActive;
         }
-        GetComponent<PlayerMove>().canMove = isActive;
         active = isActive;
     }
 

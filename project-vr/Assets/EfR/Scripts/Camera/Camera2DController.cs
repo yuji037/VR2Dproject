@@ -33,6 +33,11 @@ public class Camera2DController : CameraControllerBase
         ChangeCameraDirection(param.angle);
     }
 
+    public void ChangeTargetToLocalPlayer()
+    {
+        if (CurrentVCam) CurrentVCam.Follow = PlayerManager.LocalPlayer.transform;
+    }
+
     public void ChangeCameraDirection(WorldDirection cameraDirection)
     {
         ChangeCameraDirection(ConvertToAngle(cameraDirection));
