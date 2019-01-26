@@ -261,6 +261,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraType: 0
+--- !u!114 &385118108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 385118104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df1f32bb3bdea73409f0de08fb064113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &419061740
 Prefab:
   m_ObjectHideFlags: 0
@@ -1991,6 +2002,43 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2036666511 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1153074644311928, guid: e4d5ac13adc923f44b05fdad85151a3e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1640959756}
+--- !u!114 &2036666515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2036666511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 228
+    i1: 213
+    i2: 172
+    i3: 19
+    i4: 173
+    i5: 201
+    i6: 35
+    i7: 244
+    i8: 75
+    i9: 5
+    i10: 253
+    i11: 173
+    i12: 133
+    i13: 21
+    i14: 26
+    i15: 62
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1 &2038417649
 GameObject:
   m_ObjectHideFlags: 0

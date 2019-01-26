@@ -2,23 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+//Host側でのみ判定
 public class GimmickChangeSelectMenu : GimmickBase
 {
     [SerializeField]
     int triggerID = 1;
 
-    [SerializeField]
-    GimmickChangeSelectMenu linkGimmick;
+    static int isAreaInPlayerCount;
 
-    public int IsAreaInPlayerCount
-    {
-        get;
-        private set;
-    }
+    int requiredPlayerCount;
+
     // Use this for initialization
     public override void OnStartServer()
     {
         base.OnStartServer();
+        isAreaInPlayerCount = 0;
+        requiredPlayerCount = (PlayerManager.OtherPlayer)?2:1;
         m_aTriggerEnterAction += PlayerWithInArea;
         m_aTriggerExitAction  += PlayerWithOutArea;
     }
@@ -26,7 +25,7 @@ public class GimmickChangeSelectMenu : GimmickBase
     {
         if (id == triggerID)
         {
-            IsAreaInPlayerCount++;
+            isAreaInPlayerCount++;
         }
         if (ContainsPlayersInArea())
         {
@@ -39,16 +38,15 @@ public class GimmickChangeSelectMenu : GimmickBase
     {
         if (id == triggerID)
         {
-            IsAreaInPlayerCount--;
+            isAreaInPlayerCount--;
         }
     }
 
     bool ContainsPlayersInArea()
     {
-        var count = IsAreaInPlayerCount;
-        if (linkGimmick) count += linkGimmick.IsAreaInPlayerCount;
+        var count = isAreaInPlayerCount;
         Debug.Log(count);
-        return count > 1;
+        return count >= requiredPlayerCount;
     }
     [Command]
     void CmdGoToMenu()

@@ -36,11 +36,9 @@ public class PlayerStatus : NetworkBehaviour {
         base.OnStartClient();
         if (!isLocalPlayer&&!PlayerManager.Players[0])
         {
-            Debug.Log("ro-kasaa");
             PlayerManager.Players[0] = gameObject;
             var stageSettingObj = GameObject.Find("StageSettings");
             bool settingActive= stageSettingObj.GetComponent<StageSettings>().playerActiveOnStart[0];
-            Debug.Log(settingActive);
             SetActiveOnLocal(settingActive);
         }
     }

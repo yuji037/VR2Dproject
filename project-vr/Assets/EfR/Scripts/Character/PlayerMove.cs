@@ -327,14 +327,15 @@ public class PlayerMove : NetworkBehaviour
     }
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * Pms.distanceToGround);
+        Gizmos.DrawLine(transform.position + new Vector3(0, Pms.distanceToGround, 0), transform.position + Vector3.down * Pms.distanceToGround);
     }
     void CheckGround()
     {
         // 着地判定
         RaycastHit hit;
         var prevIsGrounded = isGrounded;
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, Pms.distanceToGround);
+        //床に埋まっている場合、足元から出してもレイが当たらないので、原点を足元から少し浮かす
+        isGrounded = Physics.Raycast(transform.position+new Vector3(0,Pms.distanceToGround,0), Vector3.down, out hit, Pms.distanceToGround*2);
         if (isGrounded && !prevIsGrounded)
         {
             // 着地した瞬間

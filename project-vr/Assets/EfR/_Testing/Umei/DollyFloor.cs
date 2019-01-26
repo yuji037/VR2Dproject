@@ -2,29 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
-public class DollyFloor : GimmickBase{
+
+//プレイヤーが同じ床に乗ることは無いはずなので、位置同期は行わない。
+public class DollyFloor : MonoBehaviour{
     [SerializeField]
-    CinemachineSmoothPath path;
+    public CinemachineSmoothPath path;
 
     [SerializeField]
-    float defaultPos;
+    float defaultPathValue;
 
     [SerializeField]
     float moveSpeed;
-    public override void OnStartServer()
+
+    Rigidbody rigidbody;
+
+    float currentPathValue;
+
+    void Start()
     {
-        base.OnStartServer();
-        if (!isServer) return;
-        StartCoroutine(MoveCoroutine());
+        rigidbody = GetComponent<Rigidbody>();
+        currentPathValue = defaultPathValue;
     }
-    IEnumerator MoveCoroutine()
+    private void FixedUpdate()
     {
-        float currentValue =defaultPos;
-        while(true)
-        {
-            transform.position=path.EvaluatePosition(currentValue);
-            currentValue += Time.deltaTime*moveSpeed;
-            yield return null;
-        }
+         var next= path.EvaluatePosition(currentPathValue);
+        rigidbody.MovePosition(next);
+        currentPathValue += moveSpeed*Time.fixedDeltaTime;
     }
 }

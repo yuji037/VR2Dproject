@@ -111,6 +111,21 @@ public class GimmickObjectGenerator : Editor
         InstantiatePrefab(gimmickPath + "Spring.prefab");
     }
 
+    [MenuItem("GameObject/EFR_Gimmick/Dossun", priority = 30)]
+    static void CreateDossun()
+    {
+        InstantiatePrefab(gimmickPath + "Dossun.prefab");
+    }
+
+    [MenuItem("GameObject/EFR_Gimmick/DollyFloor", priority = 30)]
+    static void CreateDollyFloor()
+    {
+        var path = InstantiateUniqueNamePrefab<CinemachineSmoothPath>(gimmickPath + "LoopDollyTrack.prefab");
+        var dollyFloorObj=InstantiatePrefab(gimmickPath + "DollyFloor.prefab");
+        var dollyFloor = dollyFloorObj.GetComponent<DollyFloor>();
+        Undo.RecordObject(dollyFloor, "create track");
+        dollyFloor.path= path;
+    }
 
 
     //カメラ系
