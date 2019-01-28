@@ -90,7 +90,7 @@ public class PlayerMove : NetworkBehaviour
             {
                 var setting = stageSettingObj.GetComponent<StageSettings>();
 
-                var playerNumber = playerStatus.playerControllerId - 1;
+                var playerNumber = playerStatus.playerControllerId;
 
                 moveTypeOnStart = setting.playerMoveTypeOnStart[playerNumber];
                 SwitchMoveType(moveTypeOnStart);

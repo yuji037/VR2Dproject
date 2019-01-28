@@ -91,7 +91,9 @@ public class PlayerStatus : NetworkBehaviour {
     {
         if ( !isLocalPlayer ) return;
 
-        var trPopPos = GameObject.Find("PlayerPopPos" + playerControllerId.ToString());
+		int posNum = playerControllerId + 1;
+
+		var trPopPos = GameObject.Find("PlayerPopPos" + posNum.ToString());
 
         if ( trPopPos ) {
             Debug.Log(trPopPos.transform.position);
@@ -100,7 +102,7 @@ public class PlayerStatus : NetworkBehaviour {
         }
         else
         {
-            Debug.LogWarning("PlayerPopPos" + playerControllerId.ToString() + "が見つかりません");
+            Debug.LogWarning("PlayerPopPos" + posNum.ToString() + "が見つかりません");
         }
 
         PlayerRespawner.GetInstance().SaveLocalPlayerRespawnPoint(transform.position);

@@ -19,8 +19,10 @@ public class VRChatObjectSetter : NetworkBehaviour {
 
 	public void Init()
 	{
+		// 0,1
 		int playerNum = PlayerManager.GetPlayerNumber() + 1;
 
+		// 1,2
 		int[] nums = new int[] { 1, 2 };
 		if ( !isLocalPlayer )
 			playerNum = nums.Where(num => num != playerNum).First();

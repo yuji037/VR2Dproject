@@ -56,10 +56,10 @@ public class EFRNetworkManager : NetworkManager {
     public void SpawnPlayer()
     {
         var message = new AddPlayerMessage();
-        message.playerNum = isHost ? 1 : 2;
+        message.playerNum = isHost ? 0 : 1;
         if(ClientScene.AddPlayer(ClientScene.readyConnection, (short)message.playerNum, message) == false)
         {
-            Debug.LogError("プレイヤー作成失敗 : " + message.playerNum);
+            Debug.LogError("プレイヤー作成失敗 : " + (message.playerNum+1));
             return;
         }
     }
@@ -84,8 +84,8 @@ public class EFRNetworkManager : NetworkManager {
         NetworkServer.AddPlayerForConnection(conn, handL, (short)(playerControllerId + 4));
         NetworkServer.AddPlayerForConnection(conn, gazeObj, (short)(playerControllerId + 6));
 
-		Debug.Log("プレイヤー作成成功 : " + message.playerNum);
-        player.GetComponent<PlayerStatus>().RpcInit(message.playerNum - 1);
+		Debug.Log("プレイヤー作成成功 : " + (message.playerNum+1));
+        player.GetComponent<PlayerStatus>().RpcInit(message.playerNum);
 
     }
     public override void OnClientSceneChanged(NetworkConnection conn)

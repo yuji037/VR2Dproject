@@ -81,7 +81,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 
     public static string GetPlayerName(short playerControllerId)
     {
-        return PlayerPrefixName + playerControllerId.ToString("D2");
+        return PlayerPrefixName + (playerControllerId + 1).ToString("D2");
     }
 
     public static void SetLocalPlayer(GameObject _localPlayer)
