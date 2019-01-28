@@ -20,13 +20,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4344117448512638}
   - component: {fileID: 33626919819978632}
-  - component: {fileID: 65322435174597148}
   - component: {fileID: 23918611237183210}
   - component: {fileID: 114909738369748630}
   - component: {fileID: 54919570475865272}
   - component: {fileID: 114485442275928636}
   - component: {fileID: 114587305220777310}
   - component: {fileID: 114457119072680408}
+  - component: {fileID: 136968975893164820}
   m_Layer: 0
   m_Name: GimmickSwitch
   m_TagString: Untagged
@@ -41,8 +41,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1728618673667674}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.26, y: 3.98, z: 8.26}
-  m_LocalScale: {x: 2, y: 0.5, z: 2}
+  m_LocalPosition: {x: 51.482, y: 9.693, z: 8.088472}
+  m_LocalScale: {x: 1.2, y: 0.3, z: 1.2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -61,7 +61,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: a348c539c0ac47f43a6edaf8f391c9de, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -87,7 +87,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1728618673667674}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &54919570475865272
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -103,18 +103,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65322435174597148
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1728618673667674}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114457119072680408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -201,3 +189,16 @@ MonoBehaviour:
   m_fPerformSpeed: 2
   m_IsToggle: 0
   m_IsPushing: 0
+--- !u!136 &136968975893164820
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1728618673667674}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5000001
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
