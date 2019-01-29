@@ -68,7 +68,6 @@ public abstract class GimmickBase : NetworkBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (!CanCall()) return;
-        Debug.Log(collision.gameObject+"当たった");
         CollisionEnterAction(collision);
 
         var gmk = collision.gameObject.GetComponent<GimmickBase>();

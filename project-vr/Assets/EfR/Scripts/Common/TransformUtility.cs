@@ -32,6 +32,8 @@ public class TransformUtility : SingletonMonoBehaviour<TransformUtility>
             from.rotation = Quaternion.RotateTowards(defRot, toRot, diffAngle * t / duration);
             yield return null;
         }
+        from.position = toPos;
+        from.rotation = toRot;
     }
     //動的にposとrotが変わる場合こっち使う
     IEnumerator TransSamePosRotCoroutine(Transform from, Func<Vector3> getPos, Func<Quaternion> getRot, float duration)
