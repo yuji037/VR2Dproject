@@ -77,7 +77,7 @@ public class FloorPredictionView : MonoBehaviour {
             boxPos = new Vector3(boxPos.x, (bSub / 2) * transform.lossyScale.y, boxPos.z);
         }
         m_spriteRenderer.size= boxSize;
-        transform.position += boxPos;
+        transform.position += transform.rotation*boxPos;
         return;
     }
 }
