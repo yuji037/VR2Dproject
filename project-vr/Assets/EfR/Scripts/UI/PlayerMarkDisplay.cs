@@ -23,7 +23,7 @@ public class PlayerMarkDisplay : MonoBehaviour
     }
     void DisplayMark()
     {
-        if (targetCamera && PlayerManager.LocalPlayer)
+        if (targetCamera && PlayerManager.LocalPlayer &&PlayerManager.playerMove.moveType==PlayerMove.MoveType.FIXED)
         {
             var pPos = PlayerManager.LocalPlayer.transform.position;
             var viewPos = targetCamera.WorldToViewportPoint(pPos);
