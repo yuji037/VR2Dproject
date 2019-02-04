@@ -7,21 +7,29 @@ public class GimmickChangeVirtualCamera : GimmickBase
     [SerializeField]
     CinemachineVirtualCamera vCam;
 
-    CameraVRController vrCam;
+    [SerializeField]
+    CameraType cameraType=CameraType.CameraVR;
 
-   
-
+    CameraControllerBase camCon;
     // Use this for initialization
     void Start()
     {
 		isCallOnlyServer = false;
         m_acTriggerEnterAction += ChangeVirtualCamera;
-        this.GetGameObjectWithCoroutine(CameraUtility.CameraVRName, (GameObject go) => vrCam = go.GetComponent<CameraVRController>());
+        switch (cameraType)
+        {
+            case CameraType.Camera2D:
+                this.GetGameObjectWithCoroutine(CameraUtility.Camera2DName, (GameObject go) => camCon = go.GetComponent<CameraControllerBase>());
+                break;
+            case CameraType.CameraVR:
+                this.GetGameObjectWithCoroutine(CameraUtility.CameraVRName, (GameObject go) => camCon = go.GetComponent<CameraControllerBase>());
+                break;
+        }
     }
     void ChangeVirtualCamera(Collider collider)
     {
-        if (collider.gameObject != PlayerManager.LocalPlayer || !vrCam) return;
-        vrCam.ChangeVirtualCamera(vCam);
+        if (collider.gameObject != PlayerManager.LocalPlayer || !camCon) return;
+        camCon.ChangeVirtualCamera(vCam);
     }
 
 }

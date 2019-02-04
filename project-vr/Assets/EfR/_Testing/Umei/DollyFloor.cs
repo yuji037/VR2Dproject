@@ -18,15 +18,26 @@ public class DollyFloor : MonoBehaviour{
 
     float currentPathValue;
 
+    [SerializeField]
+    bool autoMove;
+
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
         currentPathValue = defaultPathValue;
+        Move(1.0f);
     }
     private void FixedUpdate()
     {
-         var next= path.EvaluatePosition(currentPathValue);
+        if (autoMove)
+        {
+            Move(1.0f);
+        }
+    }
+    public void Move(float multiPlySpeed)
+    {
+        currentPathValue += moveSpeed *multiPlySpeed* Time.fixedDeltaTime;
+        var next = path.EvaluatePosition(currentPathValue);
         rigidbody.MovePosition(next);
-        currentPathValue += moveSpeed*Time.fixedDeltaTime;
     }
 }

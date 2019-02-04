@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class CameraControllerBase : MonoBehaviour {
+public class CameraControllerBase : MonoBehaviour
+{
 
     public CinemachineVirtualCamera CurrentVCam { get; private set; }
 

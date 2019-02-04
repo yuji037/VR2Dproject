@@ -16,8 +16,10 @@ public class FallableCube : MonoBehaviour {
 
     void FixedUpdate()
     {
+        RaycastHit hit;
 		// 落下判定
-        if ( Physics.BoxCast(transform.position, halfExtents, Vector3.down, transform.rotation, 0.1f) ) {
+        if ( Physics.BoxCast(transform.position, halfExtents, Vector3.down, out  hit, transform.rotation, 0.1f)&&
+            !hit.collider.isTrigger) {
 			// 落下しない
             m_rRigidbody.isKinematic = true;
         }

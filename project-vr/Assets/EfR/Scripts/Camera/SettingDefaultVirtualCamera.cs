@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SettingDefaultVirtualCamera : MonoBehaviour {
-    [System.Serializable]
-    enum CameraType
-    {
-        Camera2D,
-        CameraVR,
-    }
 
     [SerializeField]
     CameraType cameraType;

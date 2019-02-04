@@ -28,7 +28,10 @@ public class CameraVRController : CameraControllerBase
     [SerializeField]
     Camera centerCam;
 
-
+   public Camera CenterCam
+    {
+        get { return centerCam; }
+    }
 
     // Use this for initialization
     void Start()
