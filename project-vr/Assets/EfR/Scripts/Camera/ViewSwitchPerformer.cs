@@ -110,7 +110,9 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
         CVRAdjuster.GetComponent<CameraVRController>().enabled = false;
         C2DAdjuster.GetComponent<Camera2DController>().HasCameraAuthority = false;
 
-        switch (moveType)
+		var se = SoundManager.GetInstance().Play("flipflop");
+
+		switch ( moveType)
         {
             case PlayerMove.MoveType.FPS:
             case PlayerMove.MoveType.TPS:
@@ -198,5 +200,8 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
         C2DAdjuster.GetComponent<Camera2DController>().HasCameraAuthority = true;
         IsTranslation = false;
         if (callBack != null) callBack();
-    }
+
+		se.FadeoutAndDestroy();
+		SoundManager.GetInstance().SetBGMSpeakerPosition();
+	}
 }

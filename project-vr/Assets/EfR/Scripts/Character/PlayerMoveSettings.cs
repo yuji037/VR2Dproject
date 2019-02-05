@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// FPS時、2D時など視点によってプレイヤーの動き方を決めるもの。
 /// </summary>
-[CreateAssetMenu(fileName = "PlayerMoveSettings", menuName = "Create PlayerMoveSettings", order = 0)]
+[CreateAssetMenu(fileName = "PlayerMoveSettings", menuName = "PlayerMoveSettings", order = 0)]
 public class PlayerMoveSettings : ScriptableObject
 {
 

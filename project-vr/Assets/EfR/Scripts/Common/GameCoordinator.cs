@@ -110,6 +110,7 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         //ガクっとカメラが切り替わると違和感があるので黒幕で隠す
         yield return new WaitForSeconds(0.1f);
         FadeInOutController.GetInstance().StartBlackFadeIn(1.0f);
+		SoundManager.GetInstance().PlayStageBGM(sceneName);
 
         IsChangingStage = false;
     }
