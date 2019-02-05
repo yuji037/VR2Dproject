@@ -33,7 +33,18 @@ public class SoundPlayIns : MonoBehaviour{
 
 	public void FadeoutAndDestroy(float duration = 1.0f)
 	{
-		StartCoroutine( ChangeVolumeCoroutine( 0f, duration ) );
+		StartCoroutine( ChangeVolumeCoroutine( 0f, duration, () => Destroy(gameObject) ) );
+	}
+
+	public void StopAndDestroy()
+	{
+		Stop();
+		Destroy(gameObject);
+	}
+
+	public void Stop()
+	{
+		m_AudioSource.Stop();
 	}
 
 	IEnumerator ChangeVolumeCoroutine(float afterVolume, float duration, Action onEnd = null)

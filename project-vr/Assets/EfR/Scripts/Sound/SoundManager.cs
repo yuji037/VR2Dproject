@@ -9,26 +9,26 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager> {
 	[SerializeField, Header("音を持たせるオブジェクト")]
 	GameObject m_prefSound;
 
+	[SerializeField]
+	BGMSetting m_BGMSetting;
+
+	SoundPlayIns m_cStageSingleBGM = null;
 
 	protected override void Awake()
 	{
 		base.Awake();
 
-		var audioClips = Resources.LoadAll<AudioClip>( "BGM" );
+		var audioClips = Resources.LoadAll<AudioClip>( "Sound" );
 		foreach(var ac in audioClips )
 		{
 			m_AudioClips[ac.name] = ac;
-			Debug.Log(ac.name);
+			Debug.Log("Sound ロード：" + ac.name);
 		}
 	}
 
-	public void Play(string name, Vector3? position = null, bool isLoop = false, bool playIn3DVolume = true)
+	public SoundPlayIns Play(string name, Vector3? position = null, bool isLoop = false, bool playIn3DVolume = true)
 	{
-		if( position == null )
-		{
-			position = Vector3.zero;
-		}
-		var obj = Instantiate( m_prefSound, transform.position, Quaternion.identity, transform );
+		var obj = Instantiate( m_prefSound, position??Vector3.zero, Quaternion.identity, transform );
 		var soundPlayIns = obj.GetComponent<SoundPlayIns>();
 		soundPlayIns.Init();
 
@@ -42,15 +42,16 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager> {
 			StartCoroutine( DestroyOnClipEndCoroutine( soundPlayIns ) );
 		}
 
-		if ( !playIn3DVolume )
-		{
-			audioSource.spatialBlend = 0f;
-		}
+		audioSource.spatialBlend = playIn3DVolume ? 1f: 0f;
 
 		audioSource.Play();
+		Debug.Log("Play : " + audioSource.clip.name);
+
+		return soundPlayIns;
 	}
 
-	public void PlayOnAttachedTransform(string name, Transform attachPoint, bool isLoop = false)
+	// オブジェクトに追従して再生する
+	public SoundPlayIns PlayOnAttachedTransform(string name, Transform attachPoint, bool isLoop = false)
 	{
 		var obj = Instantiate( m_prefSound, attachPoint.position, attachPoint.rotation, attachPoint );
 		var soundPlayIns = obj.GetComponent<SoundPlayIns>();
@@ -68,6 +69,63 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager> {
 		}
 
 		audioSource.Play();
+
+		return soundPlayIns;
+	}
+
+	public void PlayStageBGM(string stageName)
+	{
+		var list = m_BGMSetting.stageBGMNameList;
+
+		foreach(var pair in list )
+		{
+			if(pair.StageName == stageName )
+			{
+				if ( m_cStageSingleBGM )
+					FadeoutStageBGM();
+
+				m_cStageSingleBGM = Play(pair.BGMName, null, true);
+				SetBGMSpeakerPosition();
+				return;
+			}
+		}
+
+		Debug.Log("Stage[" + stageName + "]に対応するBGMを探しましたがありませんでした");
+	}
+
+	public void SetBGMSpeakerPosition()
+	{
+		// スピーカー場所に移動
+		var playerMoveType = PlayerManager.LocalPlayer.GetComponent<PlayerMove>().moveType;
+		Transform speaker = null;
+		switch ( playerMoveType )
+		{
+			case PlayerMove.MoveType._2D:
+				speaker = GameObject.Find("BGM2DSpeaker").transform;
+				break;
+			case PlayerMove.MoveType.FIXED:
+				speaker = GameObject.Find("BGMVRSpeaker").transform;
+				break;
+			default:
+				break;
+		}
+		if ( speaker )
+		{
+			m_cStageSingleBGM.transform.position = speaker.position;
+			m_cStageSingleBGM.transform.rotation = speaker.rotation;
+		}
+	}
+
+	public void FadeoutStageBGM(float duration = 1f)
+	{
+		m_cStageSingleBGM.FadeoutAndDestroy(duration);
+		m_cStageSingleBGM = null;
+	}
+
+	public void StopStageBGM()
+	{
+		m_cStageSingleBGM.StopAndDestroy();
+		m_cStageSingleBGM = null;
 	}
 
 	IEnumerator DestroyOnClipEndCoroutine(SoundPlayIns soundPlayIns)
@@ -77,16 +135,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager> {
 		yield return new WaitForSeconds( clipLength + 0.5f );
 
 		Destroy( soundPlayIns.gameObject );
-	}
-
-	public void StopAndDestroy(SoundPlayIns soundPlayIns)
-	{
-
-	}
-
-	public void FadeOut()
-	{
-		//StartCoroutine(FadeOutCoroutine());
 	}
 
 }
