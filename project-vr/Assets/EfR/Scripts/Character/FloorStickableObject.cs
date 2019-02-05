@@ -19,7 +19,6 @@ public class FloorStickableObject : MonoBehaviour {
         if (Physics.BoxCast(transform.position, halfExtents, Vector3.down,out hit, transform.rotation, 0.1f)&&
             hit.collider.gameObject.tag=="LaserPointerFloorCreate")
         {
-            Debug.Log("床に着地");
             transform.parent = hit.transform;
         }
         else

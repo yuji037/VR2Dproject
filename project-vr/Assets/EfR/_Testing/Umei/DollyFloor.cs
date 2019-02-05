@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.Networking;
 
-//プレイヤーが同じ床に乗ることは無いはずなので、位置同期は行わない。
-public class DollyFloor : MonoBehaviour{
+public class DollyFloor : NetworkBehaviour{
     [SerializeField]
     public CinemachineSmoothPath path;
 
@@ -14,20 +14,21 @@ public class DollyFloor : MonoBehaviour{
     [SerializeField]
     float moveSpeed;
 
-    Rigidbody rigidbody;
-
     float currentPathValue;
 
     [SerializeField]
     bool autoMove;
 
-    void Start()
+    public bool StartedServer { get; private set; }
+
+    public override void OnStartServer()
     {
-        rigidbody = GetComponent<Rigidbody>();
         currentPathValue = defaultPathValue;
+        StartedServer = true;
         Move(1.0f);
     }
-    private void FixedUpdate()
+
+    private void Update()
     {
         if (autoMove)
         {
@@ -36,8 +37,11 @@ public class DollyFloor : MonoBehaviour{
     }
     public void Move(float multiPlySpeed)
     {
-        currentPathValue += moveSpeed *multiPlySpeed* Time.fixedDeltaTime;
-        var next = path.EvaluatePosition(currentPathValue);
-        rigidbody.MovePosition(next);
+        if (StartedServer && isServer)
+        {
+            currentPathValue += moveSpeed * multiPlySpeed * Time.fixedDeltaTime;
+            var next = path.EvaluatePosition(currentPathValue);
+            transform.position = next;
+        }
     }
 }

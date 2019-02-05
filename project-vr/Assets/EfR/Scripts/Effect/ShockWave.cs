@@ -9,11 +9,37 @@ public class ShockWave : MonoBehaviour
     void Start()
     {
         particleSystem = GetComponent<ParticleSystem>();
-    }
-    public void GenerateShowkWave()
-    {
         particleSystem.Play();
     }
+
+    //public void GenerateShowkWave()
+    //{
+    //    particleSystem.Play();
+    //    //StartCoroutine(ShockWaveCoroutine());
+    //}
+
+    //IEnumerator ShockWaveCoroutine()
+    //{
+    //    particleSystem.Play();
+    //    //particleSystem.GetComponent<Renderer>().enabled = false;
+    //    //　MaxParticlesを超えるパーティクルを生成するまでシミュレーションスピードを上げる
+    //    var main = particleSystem.main;
+    //    main.simulationSpeed = 10f;
+    //    var a = particleSystem.limitVelocityOverLifetime;
+    //    a.space = 0f;
+    //    while (true)
+    //    {
+    //        //Debug.Log(particleSystem.particleCount+"/"+particleSystem.main.maxParticles);
+    //        if (particleSystem.particleCount>=particleSystem.main.maxParticles)
+    //        {
+    //            Debug.Log("発射");
+    //            main.simulationSpeed = 1f;
+    //            //particleSystem.GetComponent<Renderer>().enabled = true;
+    //            break;
+    //        }
+    //        yield return null;
+    //    }
+    //}
     //IEnumerator ShockWaveCoroutine()
     //{
     //    var main = particleSystem.main;
@@ -32,6 +58,15 @@ public class ShockWave : MonoBehaviour
     //    }
     //}
 
+    //private void onparticletrigger()
+    //{
+    //    list<particlesystem.particle> enters = new list<particlesystem.particle>();
+    //    int numenter = particlesystem.gettriggerparticles(particlesystemtriggereventtype.enter, enters);
+    //    if (numenter != 0)
+    //    {
+    //        playerrespawner.getinstance().respawnlocalplayer();
+    //    }
+    //}
     private void OnParticleCollision(GameObject other)
     {
         Debug.Log("Hit" + other);

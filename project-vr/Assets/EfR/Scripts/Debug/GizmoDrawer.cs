@@ -12,7 +12,7 @@ public class GizmoDrawer : MonoBehaviour {
         isDrawing = !isDrawing;
     }
 #endif
-    static bool isDrawing=true;
+    static bool isDrawing=false;
     [System.Serializable]
     enum DrawType
     {

@@ -14,7 +14,7 @@ public class VirtualCameraAttachTarget : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isAttached)
+        if (!isAttached&&PlayerManager.LocalPlayer)
         {
             if (AttachTarget(PlayerManager.LocalPlayer))
             {

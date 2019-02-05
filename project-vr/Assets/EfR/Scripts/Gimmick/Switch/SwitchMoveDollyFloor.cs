@@ -11,7 +11,6 @@ public class SwitchMoveDollyFloor : SwitchActionBase {
     {
         if (isPushing)
         {
-            Debug.Log("Move");
             dollyFloor.Move(1.0f);
         }
     }

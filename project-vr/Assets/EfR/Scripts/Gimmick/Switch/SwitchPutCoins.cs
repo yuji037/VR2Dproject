@@ -105,7 +105,7 @@ public class SwitchPutCoins : SwitchActionBase {
         screen.SetActive(false);
         if (PlayerManager.playerMove.moveType == PlayerMove.MoveType._2D)
         {
-            PlayerManager.playerStatus.RpcTransWorld(PlayerMove.MoveType.FIXED);
+            PlayerManager.playerStatus.TransWorld(PlayerMove.MoveType.FIXED);
         }
     }
 }

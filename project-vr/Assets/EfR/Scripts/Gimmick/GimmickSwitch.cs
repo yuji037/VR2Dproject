@@ -71,6 +71,7 @@ public class GimmickSwitch : GimmickBase {
 
 	private void Update()
 	{
+        if (!isServer) return;
 		if ( m_IsPushing )
 		{
 			OnPushing();

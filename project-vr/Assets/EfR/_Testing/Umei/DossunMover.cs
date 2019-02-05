@@ -19,8 +19,6 @@ public class DossunMover : GimmickBase {
 
     bool wasHit;
 
-    Rigidbody m_rigidbody;
-
     [SerializeField]
     LayerMask hitLayerMask;
 
@@ -30,7 +28,6 @@ public class DossunMover : GimmickBase {
         if (!isServer) return;
         origin = transform.position;
         StartCoroutine(MoveCorotuine());
-        m_rigidbody = GetComponent<Rigidbody>();
     }
     // Update is called once per frame
     IEnumerator MoveCorotuine()
@@ -43,7 +40,7 @@ public class DossunMover : GimmickBase {
             while (!Physics.CheckBox(transform.position,transform.lossyScale*0.5f,transform.rotation, hitLayerMask) && sumFall < 10.0f)
             {
                 var fallValue = 1.0f * fallSpeed * Time.fixedDeltaTime;
-                m_rigidbody.MovePosition(transform.position+new Vector3(0, -fallValue, 0));
+                transform.Translate(new Vector3(0, -fallValue, 0));
                 sumFall += fallValue;
                 yield return new WaitForFixedUpdate();
             }
@@ -53,7 +50,7 @@ public class DossunMover : GimmickBase {
             while (dis>=sumUp)
             {
                 var upvalue = 1.0f * upSpeed* Time.fixedDeltaTime;
-                m_rigidbody.MovePosition(transform.position+new Vector3(0, upvalue , 0));
+                transform.Translate(new Vector3(0, upvalue , 0));
                 sumUp += upvalue;
                 yield return new WaitForFixedUpdate();
             }

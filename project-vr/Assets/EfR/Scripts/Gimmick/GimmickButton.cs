@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GimmickButton : GimmickBase {
     [SerializeField]
-    int triggerID;
+    int[] triggerIDs;
     bool isPushd;
 
     [SerializeField]
@@ -18,11 +18,14 @@ public class GimmickButton : GimmickBase {
 
     void Pushd(int id)
     {
-        if (id==triggerID&&!isPushd)
+        foreach (var triggerID in triggerIDs)
         {
-            isPushd = true;
-            switchAction.OnAction();
-            transform.Translate(new Vector3(0, -transform.lossyScale.y * 0.9f, 0));
+            if (id == triggerID && !isPushd)
+            {
+                isPushd = true;
+                switchAction.OnAction();
+                transform.Translate(new Vector3(0, -transform.lossyScale.y * 0.9f, 0));
+            }
         }
     }
 

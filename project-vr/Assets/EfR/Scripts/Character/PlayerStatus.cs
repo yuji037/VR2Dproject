@@ -135,15 +135,20 @@ public class PlayerStatus : NetworkBehaviour {
 	public void RpcTransWorld(PlayerMove.MoveType transMoveTypeTo)
 	{
 		if ( !hasAuthority ) return;
-
-		var pm = GetComponent<PlayerMove>();
-		Debug.Log(pm.gameObject.name + " : " + pm.moveType + " → " + transMoveTypeTo);
-
-		//既に移行したいMoveTypeだった場合か移行中の場合return
-		if ( transMoveTypeTo == pm.moveType || ViewSwitchPerformer.GetInstance().IsTranslation ) return;
-		pm.SwitchMoveType(transMoveTypeTo);
-		pm.canMove = false;
-		ViewSwitchPerformer.GetInstance().SwitchView(transMoveTypeTo, () => pm.canMove = true);
+        TransWorld(transMoveTypeTo);
+		
 	}
 
+    public void TransWorld(PlayerMove.MoveType transMoveTypeTo)
+    {
+        var pm = GetComponent<PlayerMove>();
+        Debug.Log(pm.gameObject.name + " : " + pm.moveType + " → " + transMoveTypeTo);
+
+        //既に移行したいMoveTypeだった場合か移行中の場合return
+        if (transMoveTypeTo == pm.moveType || ViewSwitchPerformer.GetInstance().IsTranslation) return;
+        Debug.Log("移行!!");
+        pm.SwitchMoveType(transMoveTypeTo);
+        pm.canMove = false;
+        ViewSwitchPerformer.GetInstance().SwitchView(transMoveTypeTo, () => pm.canMove = true);
+    }
 }
