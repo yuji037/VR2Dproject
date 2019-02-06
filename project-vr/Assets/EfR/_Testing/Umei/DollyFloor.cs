@@ -39,7 +39,7 @@ public class DollyFloor : NetworkBehaviour{
     {
         if (StartedServer && isServer)
         {
-            currentPathValue += moveSpeed * multiPlySpeed * Time.fixedDeltaTime;
+            currentPathValue += moveSpeed * multiPlySpeed * Time.deltaTime;
             var next = path.EvaluatePosition(currentPathValue);
             transform.position = next;
         }
