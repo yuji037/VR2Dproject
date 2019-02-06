@@ -6,9 +6,13 @@ using UnityEngine.Networking;
 public class LaserPointerFloorCreate : LaserPointerBase
 {
     GimmickFloor controllingFloor = null;
+
     FloorPredictionActiveController floorPredictionActiveController;
 
     bool isAlwaysPressingTrigger=false;
+
+    PointerHitScreen currentHitScreen;
+
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
@@ -115,7 +119,10 @@ public class LaserPointerFloorCreate : LaserPointerBase
     }
     void CreateFloor(FloorForm floorForm, PointerHitScreen pointerHitScreen)
     {
+        
         DeleteFloor();
+        SetScreenStencilEnable(pointerHitScreen,true);
+         currentHitScreen = pointerHitScreen;
         GimmickFloorSpawner.GetInstance().GetFloorObject(floorForm,
               (x) =>
               {
@@ -128,7 +135,29 @@ public class LaserPointerFloorCreate : LaserPointerBase
     void DeleteFloor()
     {
         if (!controllingFloor) return;
+        SetScreenStencilEnable(currentHitScreen,false);
+        currentHitScreen = null;
         GimmickFloorSpawner.GetInstance().ReleaseFloor(controllingFloor);
         controllingFloor = null;
+    }
+
+    void SetScreenStencilEnable(PointerHitScreen screen,bool active)
+    {
+        if (screen)
+        {
+            var screenRenderer = screen.GetComponent<Renderer>();
+            var meshRenderers = screen.GetComponentsInChildren<MeshRenderer>();
+            foreach (var meshrenderer in meshRenderers)
+            {
+                Debug.Log(meshrenderer);
+                //スクリーン本体のrendererは無視
+                if (meshrenderer == screenRenderer)
+                {
+                    Debug.Log(screenRenderer+"一緒");
+                    continue;
+                }
+                meshrenderer.enabled = active;
+            }
+        }
     }
 }
