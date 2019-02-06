@@ -33,13 +33,18 @@ public class SoundPlayIns : MonoBehaviour{
 
 	public void FadeoutAndDestroy(float duration = 1.0f)
 	{
-		StartCoroutine( ChangeVolumeCoroutine( 0f, duration, () => Destroy(gameObject) ) );
+		StartCoroutine( ChangeVolumeCoroutine( 0f, duration, DestroyIfExists) );
+	}
+
+	public void Fadeout(float duration = 1.0f)
+	{
+		StartCoroutine(ChangeVolumeCoroutine(0f, duration));
 	}
 
 	public void StopAndDestroy()
 	{
 		Stop();
-		Destroy(gameObject);
+		DestroyIfExists();
 	}
 
 	public void Stop()
@@ -76,4 +81,9 @@ public class SoundPlayIns : MonoBehaviour{
 
 	}
 
+	void DestroyIfExists()
+	{
+		if ( gameObject )
+			Destroy(gameObject);
+	}
 }

@@ -201,7 +201,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
         IsTranslation = false;
         if (callBack != null) callBack();
 
-		se.FadeoutAndDestroy();
+		se.Fadeout();
 		SoundManager.GetInstance().SetBGMSpeakerPosition();
 	}
 }
