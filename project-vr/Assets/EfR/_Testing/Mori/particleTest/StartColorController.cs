@@ -6,6 +6,7 @@ public class StartColorController : MonoBehaviour {
 
   ParticleSystem myParticleSystem;
   ParticleSystem.EmissionModule RateModule;
+	[SerializeField]
   float Rate = 50;
 
   void Start()
