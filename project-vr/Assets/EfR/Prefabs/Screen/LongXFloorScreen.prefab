@@ -24,6 +24,8 @@ GameObject:
   - component: {fileID: 23556561496451882}
   - component: {fileID: 114900006661896532}
   - component: {fileID: 114531234403194608}
+  - component: {fileID: 114431984034085464}
+  - component: {fileID: 114660213508879672}
   m_Layer: 0
   m_Name: LongXFloorScreen
   m_TagString: Screen
@@ -169,6 +171,38 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114431984034085464
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1471816308937906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 253
+    i1: 116
+    i2: 174
+    i3: 152
+    i4: 70
+    i5: 17
+    i6: 67
+    i7: 4
+    i8: 250
+    i9: 108
+    i10: 27
+    i11: 27
+    i12: 75
+    i13: 216
+    i14: 48
+    i15: 9
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114531234403194608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -180,6 +214,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab75a5f1eca3e746b145b09fb7eb198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114660213508879672
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1471816308937906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66652fcdeb26e544b88cdf572ae73128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_iGimmickID: -1
 --- !u!114 &114900006661896532
 MonoBehaviour:
   m_ObjectHideFlags: 1

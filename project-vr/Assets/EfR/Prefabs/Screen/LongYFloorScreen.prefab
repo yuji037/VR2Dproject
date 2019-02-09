@@ -24,6 +24,8 @@ GameObject:
   - component: {fileID: 23806203550784140}
   - component: {fileID: 114421390314231398}
   - component: {fileID: 114901876577288046}
+  - component: {fileID: 114598413550576802}
+  - component: {fileID: 114487448363792614}
   m_Layer: 0
   m_Name: LongYFloorScreen
   m_TagString: Screen
@@ -182,6 +184,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorForm: 2
   canCreatePlayerNumber: 0
+--- !u!114 &114487448363792614
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1403460634429678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66652fcdeb26e544b88cdf572ae73128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_iGimmickID: -1
+--- !u!114 &114598413550576802
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1403460634429678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 35
+    i1: 168
+    i2: 24
+    i3: 47
+    i4: 16
+    i5: 146
+    i6: 151
+    i7: 132
+    i8: 26
+    i9: 240
+    i10: 109
+    i11: 213
+    i12: 243
+    i13: 164
+    i14: 15
+    i15: 128
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114901876577288046
 MonoBehaviour:
   m_ObjectHideFlags: 1

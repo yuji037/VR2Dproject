@@ -55,8 +55,9 @@ public class LaserPointerFloorCreate : LaserPointerBase
         SetLineRenderPosition(hit.point);
         if (!isLocalPlayer) return;
         PointerHitScreen hitScreen = hit.collider.GetComponent<PointerHitScreen>();
-        if (!(hitScreen &&
-            CanCreateFloor(hitScreen)))
+
+        //スクリーンにヒット&&床を生成できる状態でなければ削除してリターン
+        if (!(hitScreen &&CanCreateFloor(hitScreen)))
         {
             DeleteFloor();
             floorPredictionActiveController.AllInactive();
@@ -93,18 +94,27 @@ public class LaserPointerFloorCreate : LaserPointerBase
         }
 
     }
+
+    bool IsChangedHitScreen(PointerHitScreen hitScreen)
+    {
+        return currentHitScreen && (hitScreen);
+    }
+
     bool IsPressDownTrigger()
     {
         return Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Z) || OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger);
     }
+
     bool IsPressingTrigger()
     {
         return Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Z) || OVRInput.Get(OVRInput.RawButton.RIndexTrigger) ||isAlwaysPressingTrigger;
     }
+
     bool CanCreateFloor(PointerHitScreen hitScreen)
     {
         return PlayerManager.GetPlayerNumber()== (int)hitScreen.canCreatePlayerNumber;
     }
+
     protected override void NoHitAction(Vector3 origin, Vector3 direction)
     {
         base.NoHitAction(origin, direction);
@@ -112,16 +122,18 @@ public class LaserPointerFloorCreate : LaserPointerBase
         floorPredictionActiveController.AllInactive();
         DeleteFloor();
     }
+
     void FollowPointerFloor(Vector3 pos, Vector3 normal)
     {
         if (!controllingFloor) return;
         controllingFloor.GetComponent<Rigidbody>().MovePosition(pos + normal * 0.1f);
     }
+
     void CreateFloor(FloorForm floorForm, PointerHitScreen pointerHitScreen)
     {
         
         DeleteFloor();
-        SetScreenStencilEnable(pointerHitScreen,true);
+        CmdSetScreenStencilActive(pointerHitScreen.GetComponent<NetworkIdentity>(),true);
          currentHitScreen = pointerHitScreen;
         GimmickFloorSpawner.GetInstance().GetFloorObject(floorForm,
               (x) =>
@@ -135,13 +147,13 @@ public class LaserPointerFloorCreate : LaserPointerBase
     void DeleteFloor()
     {
         if (!controllingFloor) return;
-        SetScreenStencilEnable(currentHitScreen,false);
+        CmdSetScreenStencilActive(currentHitScreen.GetComponent<NetworkIdentity>(),false);
         currentHitScreen = null;
         GimmickFloorSpawner.GetInstance().ReleaseFloor(controllingFloor);
         controllingFloor = null;
     }
 
-    void SetScreenStencilEnable(PointerHitScreen screen,bool active)
+    void SetScreenStencilActive(PointerHitScreen screen,bool active)
     {
         if (screen)
         {
@@ -149,15 +161,26 @@ public class LaserPointerFloorCreate : LaserPointerBase
             var meshRenderers = screen.GetComponentsInChildren<MeshRenderer>();
             foreach (var meshrenderer in meshRenderers)
             {
-                Debug.Log(meshrenderer);
                 //スクリーン本体のrendererは無視
                 if (meshrenderer == screenRenderer)
                 {
-                    Debug.Log(screenRenderer+"一緒");
                     continue;
                 }
                 meshrenderer.enabled = active;
             }
         }
+    }
+
+    [Command]
+    void CmdSetScreenStencilActive(NetworkIdentity networkIdentity,bool active)
+    {
+        RpcSetScreenStencilActive(networkIdentity,active);
+    }
+
+    [ClientRpc]
+    void RpcSetScreenStencilActive(NetworkIdentity networkIdentity,bool active)
+    {
+        Debug.Log("YOOO");
+        SetScreenStencilActive(networkIdentity.GetComponent<PointerHitScreen>(), active);
     }
 }

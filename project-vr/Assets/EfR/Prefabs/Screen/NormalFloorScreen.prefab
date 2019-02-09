@@ -24,6 +24,8 @@ GameObject:
   - component: {fileID: 23570618236884404}
   - component: {fileID: 114575976936302412}
   - component: {fileID: 114376617015799224}
+  - component: {fileID: 114136731429442694}
+  - component: {fileID: 114715179080499342}
   m_Layer: 0
   m_Name: NormalFloorScreen
   m_TagString: Screen
@@ -169,6 +171,38 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114136731429442694
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1141293669562748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 66
+    i1: 207
+    i2: 146
+    i3: 114
+    i4: 131
+    i5: 226
+    i6: 109
+    i7: 212
+    i8: 9
+    i9: 8
+    i10: 45
+    i11: 252
+    i12: 250
+    i13: 148
+    i14: 80
+    i15: 124
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114376617015799224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -193,3 +227,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorForm: 0
   canCreatePlayerNumber: 0
+--- !u!114 &114715179080499342
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1141293669562748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66652fcdeb26e544b88cdf572ae73128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_iGimmickID: -1
