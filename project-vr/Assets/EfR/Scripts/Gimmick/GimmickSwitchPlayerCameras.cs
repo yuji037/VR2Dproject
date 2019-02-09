@@ -14,14 +14,20 @@ public class GimmickSwitchPlayerCameras : GimmickBase{
         if (!excuted&&collider.gameObject==PlayerManager.LocalPlayer)
         {
             Debug.Log("Excuted");
-            if(PlayerManager.OtherPlayer)PlayerManager.OtherPlayer.GetComponent<PlayerStatus>().CmdSetActive(true);
-            RpcChangeP2CameraTargetToLocalPlayer();
-            TransP1WorldToFixed();
+			StartCoroutine(EnterVRCoroutine());
             excuted = true;
         }
     }
-   
-    [ClientRpc]
+
+	IEnumerator EnterVRCoroutine()
+	{
+		yield return StartCoroutine(TransP1WorldToFixed());
+
+		if ( PlayerManager.OtherPlayer ) PlayerManager.OtherPlayer.GetComponent<PlayerStatus>().CmdSetActive(true);
+		RpcChangeP2CameraTargetToLocalPlayer();
+	}
+
+	[ClientRpc]
     void RpcChangeP2CameraTargetToLocalPlayer()
     {
         if (!PlayerManager.CheckLocalPlayerNumber(PlayerNumber.Player2)) return;
@@ -30,12 +36,17 @@ public class GimmickSwitchPlayerCameras : GimmickBase{
         cam2Dcon.ChangeTargetToLocalPlayer();
         StageSwitchRenderer.GetInstance().SwitchRenderer(2, true);
         StageSwitchRenderer.GetInstance().SwitchRenderer(1, false);
-        StartCoroutine(VRCharaHoloController.GetInstance().P1VRChatCharaFadeOut());
+        StartCoroutine(VRCharaHoloController.GetInstance().VRChatCharaFade(0, false));
     }
   
-    void TransP1WorldToFixed()
+    IEnumerator TransP1WorldToFixed()
     {
+		var vrChatCharaPos = VRCharaHoloController.GetInstance().chatCharas[0].transform.position;
+		EffectManager.GetInstance().Play("CharaParticleAttract3", vrChatCharaPos, true, null, "TV");
+		StartCoroutine(VRCharaHoloController.GetInstance().VRChatCharaFade(0, false));
+		//yield return new WaitForSeconds(3f);
         //特別な演出を入れる。
         PlayerManager.playerStatus.RpcTransWorld(PlayerMove.MoveType.FIXED);
+		yield return null;
     }
 }

@@ -9,6 +9,8 @@ public class PlayerStatus : NetworkBehaviour {
 
     [SerializeField]
     GameObject m_prefVRHand;
+	[SerializeField]
+	float m_fFadeHeight = 1.5f;
 
     bool initialized = false;
     public bool Initialized
@@ -22,6 +24,8 @@ public class PlayerStatus : NetworkBehaviour {
     {
         get { return active;}
     }
+
+	public bool IsPerforming = false;
 
 
     [ClientRpc]
@@ -151,4 +155,35 @@ public class PlayerStatus : NetworkBehaviour {
         pm.canMove = false;
         ViewSwitchPerformer.GetInstance().SwitchView(transMoveTypeTo, () => pm.canMove = true);
     }
+
+	[Command]
+	public void CmdHoloFade(bool fadeIn)
+	{
+		RpcHoloFade(fadeIn);
+	}
+
+	[ClientRpc]
+	public void RpcHoloFade(bool fadeIn)
+	{
+		StartCoroutine(HoloFadeCoroutine(fadeIn));
+	}
+
+	IEnumerator HoloFadeCoroutine(bool fadeIn)
+	{
+		var renderer = GetComponentInChildren<SkinnedMeshRenderer>();
+		var wPosY = renderer.transform.position.y;
+		var holoMat = renderer.material;
+		var speed = 1.0f;
+		holoMat.SetFloat("_App", 1);
+
+		for ( float t = 0; t <= m_fFadeHeight; t += Time.deltaTime * speed )
+		{
+			holoMat.SetFloat("_Pos", wPosY + ( fadeIn ? t : m_fFadeHeight - t ));
+			yield return null;
+		}
+		if(fadeIn) holoMat.SetFloat("_App", 0);
+
+		holoMat.SetFloat("_Pos", wPosY + ( fadeIn ? 1000 : -1000 ));
+		IsPerforming = false;
+	}
 }

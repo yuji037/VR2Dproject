@@ -101,10 +101,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager> {
 		switch ( playerMoveType )
 		{
 			case PlayerMove.MoveType._2D:
-				speaker = GameObject.Find("BGM2DSpeaker").transform;
+				speaker = GameObject.Find("BGM2DSpeakerPos").transform;
 				break;
 			case PlayerMove.MoveType.FIXED:
-				speaker = GameObject.Find("BGMVRSpeaker").transform;
+				speaker = GameObject.Find("BGMVRSpeakerPos").transform;
 				break;
 			default:
 				break;

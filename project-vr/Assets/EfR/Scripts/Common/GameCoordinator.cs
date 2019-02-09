@@ -144,6 +144,7 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
 
         // プレイヤースポーン
         networkManager.SpawnPlayer();
+		//NetworkServer.Spawn(EffectManager.GetInstance().gameObject);
         yield return new WaitForSeconds(1f);
         // プレイヤースポーン完了
         yield return new WaitUntil(() => PlayerManager.LocalPlayer != null);
