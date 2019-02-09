@@ -131,6 +131,13 @@ public class PlayerMove : NetworkBehaviour
         LoadMoveSettings(__moveType);
     }
 
+    [ClientRpc]
+    public void RpcRespawn()
+    {
+        if (!isLocalPlayer) return;
+        PlayerRespawner.GetInstance().RespawnLocalPlayer();
+    }
+
     public void Jump(float jumpPower)
     {
         var powerRate = 1f;
