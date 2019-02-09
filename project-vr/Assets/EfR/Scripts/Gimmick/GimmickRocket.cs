@@ -1,20 +1,59 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class GimmickRocket : GimmickBase {
 
     [SerializeField]
-    int triggerID = 1;
-	// Use this for initialization
-	void Start () {
-        m_aTriggerEnterAction += Suicide;
-	}
-	void Suicide(int id)
-    {
-        if (id==triggerID)
-        {
+    float playerJumpPower;
 
+    [SerializeField]
+    float moveSpeed;
+
+    [SerializeField]
+    GimmickRocketParts top;
+
+    [SerializeField]
+    GimmickRocketParts bot;
+
+    [SerializeField]
+    float deathTime = 10.0f;
+
+    float timer = 0f;
+ 
+    // Use this for initialization
+    void Start () {
+        top.Initialize(Jump);
+        bot.Initialize(PlayerRespawnAndSuicide);
+    }
+    private void Update()
+    {
+        timer += Time.deltaTime;
+        transform.Translate(transform.forward*moveSpeed*Time.deltaTime,Space.World);
+        if (timer > deathTime)
+        {
+            DestroyThisObject();
+        }
+    }
+    void Jump(Collider collider)
+    {
+        var pm = collider.GetComponent<PlayerMove>();
+        if (pm)
+        {
+            Debug.Log("jump!");
+            pm.Jump(playerJumpPower);
+            DestroyThisObject();
+        }
+    }
+
+    void PlayerRespawnAndSuicide(Collider collider)
+    {
+        var pm = collider.GetComponent<PlayerMove>();
+        if (pm)
+        {
+            pm.RpcRespawn();
+            DestroyThisObject();
         }
     }
 	
