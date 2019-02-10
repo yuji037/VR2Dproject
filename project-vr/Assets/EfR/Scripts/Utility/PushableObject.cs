@@ -39,6 +39,6 @@ public class PushableObject : MonoBehaviour {
 			distance.magnitude * pushStrength * Time.deltaTime) )
             return;
 
-        transform.Translate(distance * pushStrength * Time.deltaTime);
+        transform.position += (distance * pushStrength * Time.deltaTime);
     }
 }
