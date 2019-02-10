@@ -78,6 +78,12 @@ public class PlayerMove : NetworkBehaviour
 
     public Vector3 GetVelocity() { return velocity; }
     public bool IsGrounded() { return isGrounded; }
+	public bool IsInputDescentFloor()
+	{
+		// ローカルプレイヤーなら床の当たり判定なくさないと他クライアントから変に見える
+		//if ( !isLocalPlayer ) return true;
+		return isGrounded && inputVertical < -0.4f;
+	}
 
     public void StageInit()
     {
@@ -202,8 +208,8 @@ public class PlayerMove : NetworkBehaviour
         inputHorizontal = Input.GetAxisRaw("Horizontal");
         inputVertical = Input.GetAxisRaw("Vertical");
 
-        // 2DならZ方向移動なくす
-        if (moveType == MoveType._2D) inputVertical = 0f;
+        // 2DならZ方向入力なくす
+        //if (moveType == MoveType._2D) inputVertical = 0f;
 
         // イベント中など、操作できない状態
         if (!canMove)
@@ -220,7 +226,13 @@ public class PlayerMove : NetworkBehaviour
 
     void FixedUpdate()
     {
-        if (!(isLocalPlayer && isReady)) return;
+        if (!isLocalPlayer || !isReady) return;
+
+		if ( !canMove )
+		{
+			velocity = Vector3.zero;
+			return;
+		}
 
         // カメラの前方向のXZ成分（ワールド座標）を計算
         Vector3 cameraForwardXZ = Vector3.Scale(camVRTransform.forward, new Vector3(1, 0, 1));
@@ -342,7 +354,12 @@ public class PlayerMove : NetworkBehaviour
         RaycastHit hit;
         var prevIsGrounded = isGrounded;
         //床に埋まっている場合、足元から出してもレイが当たらないので、原点を足元から少し浮かす
-        isGrounded = Physics.Raycast(transform.position+new Vector3(0,Pms.distanceToGround,0), Vector3.down, out hit, Pms.distanceToGround*2);
+        isGrounded = Physics.Raycast(
+			transform.position+new Vector3(0,Pms.distanceToGround,0), 
+			Vector3.down, 
+			out hit, 
+			Pms.distanceToGround*2,
+			fieldLayerMask);
         if (isGrounded && !prevIsGrounded)
         {
             // 着地した瞬間
