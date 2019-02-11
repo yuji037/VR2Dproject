@@ -38,6 +38,6 @@ public class GimmickBossHeart : GimmickBase{
         GetComponent<Collider>().enabled = false;
         GetComponent<Renderer>().enabled = false;
         lineRenderer.enabled = false ;
-        linkLeg.Death();
+        //linkLeg.Death();
     }
 }

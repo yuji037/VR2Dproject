@@ -9,13 +9,13 @@ public class GimmickRocket : GimmickBase {
     float playerJumpPower;
 
     [SerializeField]
-    float moveSpeed;
+    public float moveSpeed;
 
     [SerializeField]
-    GimmickRocketParts top;
+    HitNotifier top;
 
     [SerializeField]
-    GimmickRocketParts bot;
+    HitNotifier bot;
 
     [SerializeField]
     float deathTime = 10.0f;

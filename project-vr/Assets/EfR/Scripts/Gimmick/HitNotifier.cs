@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GimmickRocketParts : MonoBehaviour{
+public class HitNotifier : MonoBehaviour{
 
     System.Action<Collider> hitAction;
     public void Initialize(System.Action<Collider> hitAction)

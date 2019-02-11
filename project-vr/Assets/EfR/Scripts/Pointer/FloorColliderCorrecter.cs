@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class FloorColliderCorrecter : MonoBehaviour
+using UnityEngine.Networking;
+public class FloorColliderCorrecter : NetworkBehaviour
 {
-    bool wasScreenBind = false;
+    bool isBindedScreen = false;
     BoxInfo fBox;
     Vector3 defaultBoxSize;
     Vector3 defaultBoxCenter;
@@ -18,15 +19,15 @@ public class FloorColliderCorrecter : MonoBehaviour
         defaultBoxCenter = boxCollider.center;
     }
 
-    void BindScreen(PointerHitScreen screen)
+    void BindScreen(PointerHitScreen screen,Vector3 normal)
     {
-        wasScreenBind = true;
+        isBindedScreen = true;
         this.stickScreen = screen;
-        transform.rotation = stickScreen.transform.rotation;
+        transform.forward=normal;
     }
     PointerHitScreen FindNearScreen()
     {
-        var colliders=Physics.OverlapBox(transform.position,defaultBoxSize,transform.rotation);
+        var colliders = Physics.OverlapBox(transform.position, defaultBoxSize, transform.rotation);
         foreach (var i in colliders)
         {
             var screen = i.GetComponent<PointerHitScreen>();
@@ -37,20 +38,29 @@ public class FloorColliderCorrecter : MonoBehaviour
         }
         return null;
     }
+
+    [Command]
+    public void CmdInitialize(NetworkIdentity screenNetIdentity,Vector3 normal)
+    {
+        RpcInitialize(screenNetIdentity,normal);
+    }
+
+    [ClientRpc]
+    void RpcInitialize(NetworkIdentity screenNetIdentity, Vector3 normal)
+    {
+        var screen = screenNetIdentity.GetComponent<PointerHitScreen>();
+        if (screen)
+        {
+            BindScreen(screen,normal);
+        }
+    }
+
     private void Update()
     {
 
-        if (wasScreenBind)
+        if (isBindedScreen)
         {
             CorrectCollider();
-        }
-        else
-        {
-            var screen=FindNearScreen();
-            if (screen)
-            {
-                BindScreen(screen);
-            }
         }
     }
     void CorrectCollider()

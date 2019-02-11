@@ -67,7 +67,7 @@ public class LaserPointerFloorCreate : LaserPointerBase
 
         if (IsPressDownTrigger()&&canCreateFloor)
         {
-            CreateFloor(hitScreen.GetFloorForm, hitScreen);
+            CreateFloor(hitScreen.GetFloorForm, hitScreen,hit.normal);
         }
 
         if (controllingFloor)
@@ -129,16 +129,18 @@ public class LaserPointerFloorCreate : LaserPointerBase
         controllingFloor.GetComponent<Rigidbody>().MovePosition(pos + normal * 0.1f);
     }
 
-    void CreateFloor(FloorForm floorForm, PointerHitScreen pointerHitScreen)
+    void CreateFloor(FloorForm floorForm, PointerHitScreen pointerHitScreen,Vector3 screenHitNormal)
     {
         
         DeleteFloor();
-        CmdSetScreenStencilActive(pointerHitScreen.GetComponent<NetworkIdentity>(),true);
-         currentHitScreen = pointerHitScreen;
+        var screenNetIdentity = pointerHitScreen.GetComponent<NetworkIdentity>();
+        CmdSetScreenStencilActive(screenNetIdentity,true);
+        currentHitScreen = pointerHitScreen;
         GimmickFloorSpawner.GetInstance().GetFloorObject(floorForm,
               (x) =>
-              {
+              { 
                   controllingFloor = x;
+                  x.GetComponent<FloorColliderCorrecter>().CmdInitialize(screenNetIdentity,screenHitNormal);
               }
           );
     }
@@ -180,7 +182,6 @@ public class LaserPointerFloorCreate : LaserPointerBase
     [ClientRpc]
     void RpcSetScreenStencilActive(NetworkIdentity networkIdentity,bool active)
     {
-        Debug.Log("YOOO");
         SetScreenStencilActive(networkIdentity.GetComponent<PointerHitScreen>(), active);
     }
 }

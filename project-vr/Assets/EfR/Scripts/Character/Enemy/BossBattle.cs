@@ -14,7 +14,7 @@ public class BossBattle : SingletonMonoBehaviour<BossBattle> {
     {
         foreach(var leg in legs)
         {
-            leg.deathAction += () => LegOnDied(leg);
+            //leg.deathAction += () => LegOnDied(leg);
         }
     }
 
@@ -37,7 +37,7 @@ public class BossBattle : SingletonMonoBehaviour<BossBattle> {
         while (legs.Count >0)
         {
             var num=Random.Range(0,legs.Count);
-            legs[num].GenerateShowkWave();
+            legs[num].RpcStartStamp();
             yield return new WaitForSeconds(attackInterval);
         }
         
