@@ -18,7 +18,7 @@ public class GimmickRocket : GimmickBase {
     HitNotifier bot;
 
     [SerializeField]
-    float deathTime = 10.0f;
+    public float deathTime = 10.0f;
 
     float timer = 0f;
  

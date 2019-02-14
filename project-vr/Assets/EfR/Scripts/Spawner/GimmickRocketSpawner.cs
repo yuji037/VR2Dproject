@@ -12,6 +12,9 @@ public class GimmickRocketSpawner : NetworkBehaviour{
     [SerializeField]
     float rocketMoveSpeed = 5.0f;
 
+    [SerializeField]
+    float rocketDeathTime;
+
     public override void OnStartServer() {
         StartCoroutine(SpawnCoroutine());
 	}
@@ -25,11 +28,12 @@ public class GimmickRocketSpawner : NetworkBehaviour{
     }
     void Spawn()
     {
-        Debug.Log("spawn");
         var obj = Instantiate(rocketPrefab);
         obj.transform.position = transform.position;
         obj.transform.rotation = transform.rotation;
-        obj.GetComponent<GimmickRocket>().moveSpeed = rocketMoveSpeed;
+        var rocket = obj.GetComponent<GimmickRocket>();
+        rocket.moveSpeed = rocketMoveSpeed;
+        rocket.deathTime = rocketDeathTime;
         NetworkServer.Spawn(obj);
     }
 }
