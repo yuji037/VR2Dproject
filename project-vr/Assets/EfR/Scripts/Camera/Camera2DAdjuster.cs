@@ -50,7 +50,6 @@ public class Camera2DAdjuster : MonoBehaviour
     {
         yield return AdjustPerspective(true);
         videoGameCamera.transform.position = Get2DCameraPos();
-        videoGameCamera.orthographic = true;
 
     }
 
