@@ -183,7 +183,6 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 CVRAdjuster.ChangeVRCamParamToDefault();
 
                 //カメラを平行投影へ
-                C2DAdjuster.GetComponent<Camera>().orthographic = true;
                 C2DAdjuster.SetDefaultFov(CVRAdjuster.GetCenterEyeFOV());
                 C2DAdjuster.Trans2DPerspective();
 
