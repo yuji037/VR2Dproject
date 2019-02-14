@@ -42,7 +42,7 @@ public class GimmickRocket : GimmickBase {
         if (pm)
         {
             Debug.Log("jump!");
-            pm.Jump(playerJumpPower);
+            pm.FloatPlayer(playerJumpPower);
             DestroyThisObject();
         }
     }

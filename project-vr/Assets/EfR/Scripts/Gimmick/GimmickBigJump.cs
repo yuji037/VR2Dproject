@@ -17,7 +17,7 @@ public class GimmickBigJump : GimmickBase {
         if (collision.gameObject == PlayerManager.LocalPlayer)
         {
             var pm = collision.gameObject.GetComponent<PlayerMove>();
-            pm.Jump(jumpPower);
+            pm.FloatPlayer(jumpPower);
         }
     }
 }

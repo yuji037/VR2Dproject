@@ -144,7 +144,7 @@ public class PlayerMove : NetworkBehaviour
         PlayerRespawner.GetInstance().RespawnLocalPlayer();
     }
 
-    public void Jump(float jumpPower)
+    public void FloatPlayer(float floatPower)
     {
         var powerRate = 1f;
         if (InputKeepJump())
@@ -153,7 +153,7 @@ public class PlayerMove : NetworkBehaviour
             animator.SetBool("Jump", true);
         }
 
-        velocity.y = jumpPower * powerRate;
+        velocity.y = floatPower * powerRate;
     }
     #endregion
 
@@ -387,6 +387,7 @@ public class PlayerMove : NetworkBehaviour
 
             Debug.Log("床から離れた");
         }
+        Debug.Log(isGrounded);
     }
 
     bool InputTriggerJump()
