@@ -370,7 +370,7 @@ public class PlayerMove : NetworkBehaviour
 				var deltaPos = transform.position - fixedPosition;
 				var deltaFreezedAxis = Vector3.Scale(deltaPos, freezeAxis);
 				deltaMove -= deltaFreezedAxis;
-				Debug.Log("位置補正：" + -deltaFreezedAxis);
+				//Debug.Log("位置補正：" + -deltaFreezedAxis);
 			}
 		}
 
@@ -432,7 +432,7 @@ public class PlayerMove : NetworkBehaviour
 
             Debug.Log("床から離れた");
         }
-        Debug.Log(isGrounded);
+        //Debug.Log(isGrounded);
     }
 
     bool InputTriggerJump()

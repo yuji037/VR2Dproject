@@ -4,7 +4,9 @@ using UnityEngine;
 public class particleAttractorSpherical : EffectBehaviour {
 	ParticleSystem[] m_aryParticleSystems;
 	ParticleSystem.Particle[] m_Particles;
+	Renderer refRenderer;
 	public Transform endPoint;
+	public Vector3 endPosition = new Vector3(-1,-1,-1);
 	public float speed = 5f;
 	int numParticlesAlive;
 	GameObject player;
@@ -15,6 +17,9 @@ public class particleAttractorSpherical : EffectBehaviour {
 		//if (!GetComponent<Transform>()){
 		//	GetComponent<Transform>();
 		//}
+		// パーティクルの開始位置はキャラの頭を追いかけさせる
+		float posY = refRenderer.material.GetFloat("_Pos");
+		transform.position = new Vector3(transform.position.x, posY, transform.position.z);
 	}
 	void Update () {
 		foreach ( var ps in m_aryParticleSystems )
@@ -24,13 +29,14 @@ public class particleAttractorSpherical : EffectBehaviour {
 			float step = speed * Time.deltaTime;
 			for ( int i = 0; i < numParticlesAlive; i++ )
 			{
-				m_Particles[i].position = Vector3.SlerpUnclamped(m_Particles[i].position, endPoint.position - transform.position, step);
+				var endPos = ( endPosition != new Vector3(-1, -1, -1) ) ? endPosition : endPoint.position;
+				m_Particles[i].position = Vector3.SlerpUnclamped(m_Particles[i].position, endPos - transform.position, step);
 			}
 			ps.SetParticles(m_Particles, numParticlesAlive);
 
-			// パーティクルの開始位置はキャラの頭を追いかけさせる
-			float posY = VRCharaHoloController.GetInstance().GetCharaBorderPos(playerNum);
-			transform.position = new Vector3(transform.position.x, posY, transform.position.z);
+			//// パーティクルの開始位置はキャラの頭を追いかけさせる
+			//float posY = refRenderer.material.GetFloat("_Pos");
+			//transform.position = new Vector3(transform.position.x, posY, transform.position.z);
 		}
 	}
 
@@ -39,13 +45,29 @@ public class particleAttractorSpherical : EffectBehaviour {
 		switch ( num )
 		{
 			case 1:
-				playerNum = ( targetName == "0" ) ? 0 : 1;
-				//player = PlayerManager.Players[playerNum];
+				if ( targetName == "0" || targetName == "1" )
+				{
+					playerNum = ( targetName == "0" ) ? 0 : 1;
+					var player = PlayerManager.Players[playerNum];
+					refRenderer = player.GetComponentInChildren<SkinnedMeshRenderer>();
+				}
+				else
+				{
+					var vrChara = GameObject.Find(targetName);
+					if ( vrChara )
+						refRenderer = vrChara.GetComponentInChildren<SkinnedMeshRenderer>();
+					else
+						Debug.Log("見つからず");
+				}
 				break;
-
 			case 2:
 				endPoint = GameObject.Find(targetName).transform;
 				break;
 		}
+	}
+
+	public override void SetEndPosition(Vector3 endPos)
+	{
+		endPosition = endPos;
 	}
 }

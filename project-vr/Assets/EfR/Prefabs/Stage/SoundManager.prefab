@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1339014111577644}
+  m_IsPrefabParent: 1
+--- !u!1 &1339014111577644
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4315256513773956}
+  - component: {fileID: 114885604296800446}
+  - component: {fileID: 114606258812965910}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4315256513773956
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1339014111577644}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114606258812965910
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1339014111577644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f0623ff4b066ae428199e4587185cf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_iChannelMax: 20
+  m_prefSound: {fileID: 1840425182341016, guid: 7052ea696f46d7b4285a799a5d40ea6c,
+    type: 2}
+  m_BGMSetting: {fileID: 11400000, guid: a52300b9db375694587f6663b8d5cd64, type: 2}
+  m_SoundSetting: {fileID: 11400000, guid: d687fd7aee8401f42b5ba5dcc064abf8, type: 2}
+--- !u!114 &114885604296800446
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1339014111577644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 122
+    i1: 109
+    i2: 197
+    i3: 201
+    i4: 193
+    i5: 120
+    i6: 190
+    i7: 132
+    i8: 170
+    i9: 179
+    i10: 200
+    i11: 131
+    i12: 80
+    i13: 209
+    i14: 63
+    i15: 34
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0

@@ -32,8 +32,12 @@ public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
 		playerStatus.IsPerforming = true;
 		playerStatus.CmdHoloFade(false);
 
+		// エフェクト再生
+		var effChannel = EffectManager.GetInstance().Play("CharaParticleAttractWarp", respawnPlayer.transform.position, true,
+			"0", null, LocalPlayerRespawnPoint);
+
 		// 動けないように
-        PlayerManager.LocalPlayer.GetComponent<PlayerMove>().ResetVelocity();
+		PlayerManager.LocalPlayer.GetComponent<PlayerMove>().ResetVelocity();
 		playerMove.canMove = false;
 
 		yield return new WaitUntil(() => playerStatus.IsPerforming == false);
@@ -48,6 +52,8 @@ public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
 		yield return new WaitUntil(() => playerStatus.IsPerforming == false);
 
 		playerMove.canMove = true;
+
+		EffectManager.GetInstance().Stop(effChannel);
 
         isRespawning = false;
 		Debug.Log("Respawn完了");

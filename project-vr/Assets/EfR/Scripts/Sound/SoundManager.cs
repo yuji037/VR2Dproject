@@ -28,6 +28,7 @@ public class SoundManager : NetworkBehaviour {
 	PlayerMove m_cLocalPlayerMove = null;
 
 	Transform m_trTVSpeakerPos = null;
+	Transform m_trVRSpeakerPos = null;
 
 	int m_iStageBGMChannel = -1;
 
@@ -57,6 +58,11 @@ public class SoundManager : NetworkBehaviour {
 		{
 			m_trTVSpeakerPos = obj.transform;
 		});
+		this.GetGameObjectWithCoroutine("BGMVRSpeakerPos",
+			(obj) =>
+			{
+				m_trVRSpeakerPos = obj.transform;
+			});
 	}
 
 	//public override void OnStartClient()
@@ -165,6 +171,7 @@ public class SoundManager : NetworkBehaviour {
 			if(specialSoundSetting != -1 )
 			{
 				AudioCustomizeModel audioCustomizeSetting = null;
+				Debug.Log("m_cLocalPlayerMove.moveType : " + m_cLocalPlayerMove.moveType);
 				switch ( m_cLocalPlayerMove.moveType )
 				{
 					case PlayerMove.MoveType.FIXED:
@@ -178,6 +185,13 @@ public class SoundManager : NetworkBehaviour {
 				audioSource.rolloffMode = audioCustomizeSetting.rollOffMode;
 				audioSource.maxDistance = audioCustomizeSetting.maxDistance;
 				audioSource.minDistance = audioCustomizeSetting.minDistance;
+			}
+
+			if( m_cLocalPlayerMove.moveType == PlayerMove.MoveType._2D )
+			{
+				// TVの位置から再生するとデカすぎる音を弱める
+				audioSource.volume *= 0.4f;
+				Debug.Log("2Dのため音量調整");
 			}
 		}
 		else
@@ -202,7 +216,20 @@ public class SoundManager : NetworkBehaviour {
 				if ( m_iStageBGMChannel != -1 )
 					FadeoutStageBGM();
 
-				m_iStageBGMChannel = Play(pair.BGMName, null, true, true);
+				var playerMoveType = PlayerManager.LocalPlayer.GetComponent<PlayerMove>().moveType;
+				Vector3 bgmPosition = Vector3.zero;
+				switch ( playerMoveType )
+				{
+					case PlayerMove.MoveType._2D:
+						bgmPosition = m_trTVSpeakerPos.position;
+						break;
+					case PlayerMove.MoveType.FIXED:
+						bgmPosition = m_trVRSpeakerPos.position;
+						break;
+				}
+				m_iStageBGMChannel = Play(pair.BGMName,
+					bgmPosition, 
+					true, true);
 				SetBGMSpeakerPosition();
 				return;
 			}
@@ -222,7 +249,7 @@ public class SoundManager : NetworkBehaviour {
 				speaker = m_trTVSpeakerPos;
 				break;
 			case PlayerMove.MoveType.FIXED:
-				speaker = GameObject.Find("BGMVRSpeakerPos").transform;
+				speaker = m_trVRSpeakerPos;
 				break;
 			default:
 				break;
@@ -232,6 +259,10 @@ public class SoundManager : NetworkBehaviour {
 			m_oPlayingSounds[m_iStageBGMChannel].transform.position = speaker.position;
 			m_oPlayingSounds[m_iStageBGMChannel].transform.rotation = speaker.rotation;
 		}
+	}
+	public void ChangeBGMVolume(float afterVolume, float duration = 1f)
+	{
+		ChangeVolume(m_iStageBGMChannel, afterVolume, duration);
 	}
 
 	public void FadeoutStageBGM(float duration = 1f)
