@@ -16,6 +16,9 @@ public class EffectManager : NetworkBehaviour {
 
 	private void Awake()
 	{
+		instance = this;
+
+		// プレハブのロード
 		var effObjects = Resources.LoadAll<GameObject>("Effect");
 		foreach ( var eff in effObjects )
 		{
@@ -23,6 +26,7 @@ public class EffectManager : NetworkBehaviour {
 			Debug.Log("Effect ロード：" + eff.name);
 		}
 
+		// チャネルの確保
 		m_oChannelParents = new GameObject[m_iChannelMax];
 		for(int i = 0; i < m_iChannelMax; ++i )
 		{
@@ -34,15 +38,14 @@ public class EffectManager : NetworkBehaviour {
 	}
 
 
-
-	public override void OnStartClient()
-	{
-		if(instance != null )
-		{
-			Debug.LogError(GetType() + "が２つ作られた");
-		}
-		instance = this;
-	}
+	//public override void OnStartClient()
+	//{
+	//	if(instance != null )
+	//	{
+	//		Debug.LogError(GetType() + "が２つ作られた");
+	//	}
+	//	instance = this;
+	//}
 
 	public static EffectManager GetInstance()
 	{

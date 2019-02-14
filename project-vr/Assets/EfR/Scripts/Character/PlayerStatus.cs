@@ -65,6 +65,7 @@ public class PlayerStatus : NetworkBehaviour {
     public void StageInit()
     {
         SetPlayerPopPosition();
+		GetComponent<PlayerMove>().SetFixedPosition(transform.position);
     }
 
     public void RendererSwitchForPlayerMoveType(PlayerMove.MoveType moveType)
@@ -153,8 +154,12 @@ public class PlayerStatus : NetworkBehaviour {
         Debug.Log("移行!!");
         pm.SwitchMoveType(transMoveTypeTo);
         pm.canMove = false;
-        ViewSwitchPerformer.GetInstance().SwitchView(transMoveTypeTo, () => pm.canMove = true);
-    }
+        ViewSwitchPerformer.GetInstance().SwitchView(transMoveTypeTo, () =>
+		{
+			pm.canMove = true;
+			pm.SetFixedPosition(pm.transform.position);
+		});
+	}
 
 	[Command]
 	public void CmdHoloFade(bool fadeIn)

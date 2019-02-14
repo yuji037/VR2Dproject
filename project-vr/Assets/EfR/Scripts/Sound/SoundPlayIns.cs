@@ -16,6 +16,11 @@ public class SoundPlayIns : MonoBehaviour{
 
 	private void Update()
 	{
+		UpdatePosition();
+	}
+
+	private void UpdatePosition()
+	{
 		if ( m_trAttachedTarget )
 		{
 			transform.position = m_trAttachedTarget.position;
@@ -78,7 +83,14 @@ public class SoundPlayIns : MonoBehaviour{
 	// 音の再生位置をオブジェクトに追従させる
 	public void AttachTarget(Transform targetTransform)
 	{
+		if(targetTransform == null )
+		{
+			Debug.LogError("attachTargetがnull : " + targetTransform);
+			return;
+		}
+		m_trAttachedTarget = targetTransform;
 
+		UpdatePosition();
 	}
 
 	void DestroyIfExists()

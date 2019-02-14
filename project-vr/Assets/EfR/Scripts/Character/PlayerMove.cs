@@ -71,12 +71,15 @@ public class PlayerMove : NetworkBehaviour
     [SerializeField]
     float jumpingTime = 0f;
 
-    #endregion
+	Vector3 freezeAxis = Vector3.zero;
+	Vector3 fixedPosition = Vector3.zero;
+
+	#endregion
 
 
-    #region Public Methods
+	#region Public Methods
 
-    public Vector3 GetVelocity() { return velocity; }
+	public Vector3 GetVelocity() { return velocity; }
     public bool IsGrounded() { return isGrounded; }
 	public bool IsInputDescentFloor()
 	{
@@ -119,9 +122,14 @@ public class PlayerMove : NetworkBehaviour
             isReady = true;
      
         }
-    }
+	}
 
-    public void ResetVelocity()
+	public void SetFixedPosition(Vector3 position)
+	{
+		fixedPosition = position;
+	}
+
+	public void ResetVelocity()
     {
         velocity = Vector3.zero;
     }
@@ -197,8 +205,10 @@ public class PlayerMove : NetworkBehaviour
                 StageSwitchRenderer.GetInstance().SwitchRendererFor2DMode();
             else
                 StageSwitchRenderer.GetInstance().SwitchRendererForVRMode();
-        }
-    }
+
+			freezeAxis = Vector3.zero;
+		}
+	}
 
     // Update is called once per frame
     void Update()
@@ -329,8 +339,43 @@ public class PlayerMove : NetworkBehaviour
             moveFloorPrevPos = moveFloorObject.transform.position;
         }
 
-        // キャラ移動
-        characterController.Move(deltaMove);
+		if ( isReady && _moveType == MoveType._2D )
+		{
+			if ( freezeAxis == Vector3.zero )
+			{
+				// カメラ2Dの向きから勝手に移動させたくない座標軸を計算
+				// カメラ2Dの前方向とのなす角が0°または180°に近い軸移動は「奥行き方向」なので移動させない
+				// 実際にはカメラ2Dをやや下に向けたりなど角度調整あるので判定はやや甘め。
+				float angleZ = Vector3.Angle(cam2DTransform.forward, new Vector3(0, 0, 1));
+				float angleX = Vector3.Angle(cam2DTransform.forward, new Vector3(1, 0, 0));
+				if ( angleZ < 45f || angleZ > 135f )
+				{
+					freezeAxis = new Vector3(0, 0, 1);
+				}
+				if ( angleX < 45f || angleX > 135f )
+				{
+					freezeAxis = new Vector3(1, 0, 0);
+				}
+				Debug.Log("PlayerMove.freezePosition : " + freezeAxis);
+			}
+			if ( fixedPosition == Vector3.zero && Time.realtimeSinceStartup > 15f )
+			{
+				fixedPosition = transform.position;
+				return;
+			}
+
+			if ( freezeAxis != Vector3.zero && fixedPosition != Vector3.zero )
+			{
+				// 何かに押された、まずい移動量を戻したい
+				var deltaPos = transform.position - fixedPosition;
+				var deltaFreezedAxis = Vector3.Scale(deltaPos, freezeAxis);
+				deltaMove -= deltaFreezedAxis;
+				Debug.Log("位置補正：" + -deltaFreezedAxis);
+			}
+		}
+
+		// キャラ移動
+		characterController.Move(deltaMove);
     }
 
     Vector3 LimitSpeedMoveFloor(Vector3 moveFloorDeltaPos)

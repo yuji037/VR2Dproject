@@ -27,6 +27,7 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 			var trigrPlayer = collider.gameObject;
 			int fragNum = ( trigrPlayer == PlayerManager.LocalPlayer ) ? 0 : 1;
 			CmdSetFrag(fragNum, true);
+			GetComponentInChildren<MeshRenderer>().transform.localScale = new Vector3(1, 5, 1);
 		}
 	}
 
@@ -37,6 +38,7 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 			var trigrPlayer = collider.gameObject;
 			int fragNum = ( trigrPlayer == PlayerManager.LocalPlayer ) ? 0 : 1;
 			CmdSetFrag(fragNum, false);
+			GetComponentInChildren<MeshRenderer>().transform.localScale = new Vector3(1, 1, 1);
 		}
 	}
 
