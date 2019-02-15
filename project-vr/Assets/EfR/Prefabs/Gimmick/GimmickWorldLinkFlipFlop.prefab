@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114126196310464932}
   - component: {fileID: 114804435189018582}
   - component: {fileID: 114645819704984852}
+  - component: {fileID: 114835641648940626}
   m_Layer: 0
   m_Name: GimmickWorldLinkFlipFlop
   m_TagString: Untagged
@@ -67,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1112601600788400}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.561, y: 5.401, z: -0.008}
+  m_LocalPosition: {x: 7.561, y: 5.401, z: -0.90800005}
   m_LocalScale: {x: 0.2, y: 1, z: 0.2}
   m_Children:
   - {fileID: 4501064059428932}
@@ -186,3 +187,19 @@ MonoBehaviour:
   m_iGimmickID: -1
   deactivateOnTrigger: 1
   otherGimmick: {fileID: 0}
+--- !u!114 &114835641648940626
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1112601600788400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d0cdfe9b61b94546adad15fac2457e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_iGimmickID: -1
+  triggerID: 1
+  toScale: {x: 1, y: 5, z: 1}
+  scaleChangeTarget: {fileID: 4501064059428932}
+  changeDuration: 1
