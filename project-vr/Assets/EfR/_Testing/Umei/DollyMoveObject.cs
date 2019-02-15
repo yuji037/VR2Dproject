@@ -4,7 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using UnityEngine.Networking;
 
-public class DollyFloor : NetworkBehaviour{
+public class DollyMoveObject : NetworkBehaviour{
     [SerializeField]
     public CinemachineSmoothPath path;
 
@@ -18,6 +18,9 @@ public class DollyFloor : NetworkBehaviour{
 
     [SerializeField]
     bool autoMove;
+
+    [SerializeField]
+    bool isChangeDirectionToMoveVec;
 
     public bool StartedServer { get; private set; }
 
@@ -41,6 +44,10 @@ public class DollyFloor : NetworkBehaviour{
         {
             currentPathValue += moveSpeed * multiPlySpeed * Time.deltaTime;
             var next = path.EvaluatePosition(currentPathValue);
+            if (isChangeDirectionToMoveVec)
+            {
+                transform.forward=next - transform.position;
+            }
             transform.position = next;
         }
     }

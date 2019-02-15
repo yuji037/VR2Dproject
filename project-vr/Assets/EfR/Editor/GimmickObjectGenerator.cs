@@ -122,7 +122,7 @@ public class GimmickObjectGenerator : Editor
     {
         var path = InstantiateUniqueNamePrefab<CinemachineSmoothPath>(gimmickPath + "LoopDollyTrack.prefab");
         var dollyFloorObj=InstantiatePrefab(gimmickPath + "DollyFloor.prefab");
-        var dollyFloor = dollyFloorObj.GetComponent<DollyFloor>();
+        var dollyFloor = dollyFloorObj.GetComponent<DollyMoveObject>();
         Undo.RecordObject(dollyFloor, "create track");
         dollyFloor.path= path;
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SwitchMoveDollyFloor : SwitchActionBase {
     [SerializeField]
-    DollyFloor dollyFloor;
+    DollyMoveObject dollyFloor;
     bool isPushing=false;
 
     private void FixedUpdate()

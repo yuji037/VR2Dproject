@@ -5,7 +5,7 @@ using UnityEngine;
 public class AttachmentDollyFloorChild : MonoBehaviour
 {
     [SerializeField]
-    DollyFloor target;
+    DollyMoveObject target;
 
     Vector3 preTargetPos;
     private void Awake()
