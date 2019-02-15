@@ -13,10 +13,10 @@ public class MeteoBossSkill : BossSkillBase {
     [SerializeField]
     GameObject meteoPrefab;
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireCube(fallCenter.position,new Vector3(fallRange.x,0,fallRange.y));
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawWireCube(fallCenter.position,new Vector3(fallRange.x,0,fallRange.y));
+    //}
 
     Vector3 GetFallPos()
     {

@@ -22,6 +22,15 @@ public class BossLeg : NetworkBehaviour
     [SerializeField]
     ParticleSystem breakEffect;
 
+    [SerializeField]
+    MeteoFaller meteoFaller;
+
+    [SerializeField]
+    int minFall=1;
+
+    [SerializeField]
+    int maxFall=10;
+
     public bool isStampFalling;
 
     public bool IsBreak { get; private set; }
@@ -29,6 +38,9 @@ public class BossLeg : NetworkBehaviour
     Coroutine currentStampRoutine;
 
     Transform shockWavePoint;
+
+    [SerializeField]
+    float stampEndTime=3.0f;
 
     private void Start()
     {
@@ -41,13 +53,18 @@ public class BossLeg : NetworkBehaviour
     }
 
 
-    //下に指定したIDのギミックがある場合踏み付け停止
+    //下に指定したIDのギミックがある場合踏み付け停止、プレイヤーだった場合はリスポーン
     void CheckHitBottomObject(Collider collider)
     {
         if (!isServer||!isStampFalling) return;
+
         var Gimmick = collider.GetComponent<GimmickBase>();
         if (Gimmick)
         {
+            if (Gimmick.GimmickID==1)
+            {
+                Gimmick.GetComponent<PlayerMove>().RpcRespawn();
+            }
             foreach (var i in stampStoppableIDs)
             {
                 if (Gimmick.GimmickID == i)
@@ -80,10 +97,20 @@ public class BossLeg : NetworkBehaviour
     IEnumerator ShockWaveRoutine()
     {
         animator.CrossFade("Stamp", 0f);
-        yield return new WaitForSeconds(3.0f);
-        var obj = Instantiate(shockWavePrefab);
-        obj.transform.position = shockWavePoint.position;
-        obj.transform.rotation = Quaternion.identity;
+        yield return new WaitForSeconds(stampEndTime);
+        if (isServer)
+        {
+            var rand = Random.Range(minFall,maxFall+1);
+            for(int i=0;i<=rand;i++)
+            {
+                meteoFaller.FallMeteo();
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        //エフェクト発生
+        //var obj = Instantiate(shockWavePrefab);
+        //obj.transform.position = shockWavePoint.position;
+        //obj.transform.rotation = Quaternion.identity;
     }
 
 }

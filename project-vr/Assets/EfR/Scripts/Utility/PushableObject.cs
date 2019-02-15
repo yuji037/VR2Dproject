@@ -8,7 +8,8 @@ public class PushableObject : MonoBehaviour {
     LayerMask triggerLayerMask = -1;
     [SerializeField]
     float pushStrength = 0.5f;
-
+    [SerializeField]
+    LayerMask stoppableLayerMask;
 	Vector3 halfExtents;
 
 	private void Start()
@@ -36,7 +37,9 @@ public class PushableObject : MonoBehaviour {
 
         // 押される方向に当たり判定がある物体があったら押されない
         if ( Physics.BoxCast(transform.position, halfExtents, distance.normalized, transform.rotation, 
-			distance.magnitude * pushStrength * Time.deltaTime) )
+			distance.magnitude * pushStrength * Time.deltaTime,
+            stoppableLayerMask
+            ) )
             return;
 
         transform.position += (distance * pushStrength * Time.deltaTime);
