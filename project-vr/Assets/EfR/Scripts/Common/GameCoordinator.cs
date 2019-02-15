@@ -119,14 +119,31 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         vrObjectManager.SetDeviceType(deviceType);
         selectedVRDevice = true;
     }
+    void SetSceneIds(Scene scene)
+    {
+        var gameObjects=scene.GetRootGameObjects();
+        foreach (var i in gameObjects)
+        {
+            var setters=i.transform.GetComponentsInChildren<SceneIDSetter>();
+            foreach (var k in setters )
+            {
+                k.SetForceSceneID();
+            }
+        }
+    }
 
     IEnumerator GameStartCoroutine()
     {
         yield return new WaitUntil(() => selectedVRDevice);
         // VR機器種、選択完了
+        //シーンIDセット
+        SetSceneIds(SceneManager.GetSceneByName("Root_Common"));
 
         StartCoroutine(SceneLoader.IELoadScene("Root_UI"));
         yield return StartCoroutine(SceneLoader.IELoadScene("Root_Frame3D"));
+        //シーンIDセット
+        SetSceneIds(SceneManager.GetSceneByName("Root_Frame3D"));
+
         yield return StartCoroutine(SceneLoader.IELoadScene("Root_Stage"));
         yield return StartCoroutine(StageSceneLoader.GetInstance().LoadStageScene(selectMenuStageName));
 
@@ -141,6 +158,7 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         yield return new WaitUntil(() => networkManager.IsClientConnected());
 
         // ネットワーク接続完了
+
 
         // プレイヤースポーン
         networkManager.SpawnPlayer();
