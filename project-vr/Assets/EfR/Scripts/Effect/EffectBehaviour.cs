@@ -32,4 +32,9 @@ public class EffectBehaviour : MonoBehaviour {
 		//		break;
 		//}
 	}
+
+	public virtual void SetEndPosition(Vector3 endPos)
+	{
+
+	}
 }

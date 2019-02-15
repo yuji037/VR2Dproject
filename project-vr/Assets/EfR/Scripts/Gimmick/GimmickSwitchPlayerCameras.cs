@@ -42,11 +42,14 @@ public class GimmickSwitchPlayerCameras : GimmickBase{
     IEnumerator TransP1WorldToFixed()
     {
 		var vrChatCharaPos = VRCharaHoloController.GetInstance().chatCharas[0].transform.position;
-		EffectManager.GetInstance().Play("CharaParticleAttract3", vrChatCharaPos, true, null, "TV");
+		var effChannel = EffectManager.GetInstance().Play("CharaParticleAttract3", vrChatCharaPos, true, "VRChatCharaPos1", "TV");
+		//yield return new WaitForSeconds(2f);
 		StartCoroutine(VRCharaHoloController.GetInstance().VRChatCharaFade(0, false));
-		//yield return new WaitForSeconds(3f);
         //特別な演出を入れる。
         PlayerManager.playerStatus.RpcTransWorld(PlayerMove.MoveType.FIXED);
+
+		yield return new WaitForSeconds(0.5f);
+		EffectManager.GetInstance().Stop(effChannel, 2f);
 		yield return null;
     }
 }
