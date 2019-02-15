@@ -43,13 +43,13 @@ public class SelectStageMenu :NetworkBehaviour
     {
         GameCoordinator.GetInstance().ChangeStage(stageDataMaster.stageDatas[selectingStageIndexNumber].StageSceneName);
     }
-
+    public bool isReady;
     float stageUIChangeTimer = 0.4f;
     float stageUIChangeInterval = 0.4f;
     private void Update()
     {
         //サーバーのみインプット可能
-        if (!isServer) return;
+        if (!isServer||!isReady) return;
 
         stageUIChangeTimer += Time.deltaTime;
         if (stageUIChangeTimer <= stageUIChangeInterval) return;
