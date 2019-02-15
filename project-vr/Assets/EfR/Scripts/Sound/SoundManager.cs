@@ -230,7 +230,7 @@ public class SoundManager : NetworkBehaviour {
 				m_iStageBGMChannel = Play(pair.BGMName,
 					bgmPosition, 
 					true, true);
-				SetBGMSpeakerPosition();
+				//SetBGMSpeakerPosition();
 				return;
 			}
 		}
