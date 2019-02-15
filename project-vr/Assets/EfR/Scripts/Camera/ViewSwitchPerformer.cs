@@ -89,7 +89,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
     }
 
     //trueだと遷移時VRカメラが動く
-    bool isCameraVRTranslation = true;
+    bool isCameraVRTranslation = false;
     private void Update()
     {
         //test用
@@ -121,15 +121,11 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
 
                 transRealParticle.Play();
                 //TVにVRCameraを近づける
-                CVRAdjuster.ApproachTV(1.0f);
-                yield return new WaitForSeconds(1.0f);
-
-                //realCamがTV画面まで近づいたら遠近感を出す。
+                CVRAdjuster.ApproachTV(2.0f);
                 C2DAdjuster.SetDefaultFov(CVRAdjuster.GetCenterEyeFOV());
+
                 C2DAdjuster.Trans3DPerspective();
                 yield return new WaitForSeconds(1.0f);
-                var x = 150;
-                var par = 100 +(x/100);
                 if (isCameraVRTranslation)
                 {
                     //VRCameraを2Dカメラの位置から、徐々にmoveTypeの視点の位置に近づける
