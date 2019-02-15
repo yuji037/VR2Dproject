@@ -167,7 +167,12 @@ public class PlayerMove : NetworkBehaviour
         animator = GetComponentInChildren<Animator>();
 
         //StageInit();
-
+        DebugTools.RegisterDebugAction(KeyCode.P, () =>
+            {
+                 if(moveType==MoveType._2D)playerStatus.RpcTransWorld(MoveType.FIXED);
+                else if(moveType==MoveType.FIXED)playerStatus.RpcTransWorld(MoveType._2D);
+            }
+         ,"視点遷移");
         DebugTools.RegisterDebugAction(KeyCode.J, () => debugInfiniteJump = !debugInfiniteJump, "無限ジャンプON/OFF");
     }
 
