@@ -42,7 +42,8 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
 		Debug.Log("VR Camera Spawn");
         VRCamObject.transform.parent = trParent;
 
-		LocalAvatar = Instantiate(m_prefLocalAvatar, VRCamObject.transform.position, VRCamObject.transform.rotation, trParent);
+		if ( DeviceType == VRDeviceType.OCULUS )
+			LocalAvatar = Instantiate(m_prefLocalAvatar, VRCamObject.transform.position, VRCamObject.transform.rotation, trParent);
     }
 
     NetworkIdentity[] handObjIDs;
