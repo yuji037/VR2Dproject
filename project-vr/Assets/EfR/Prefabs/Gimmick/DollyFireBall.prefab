@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4559602484053226}
   - component: {fileID: 198214282227559972}
   - component: {fileID: 199961586251076356}
-  m_Layer: 2
+  m_Layer: 16
   m_Name: Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,8 @@ GameObject:
   - component: {fileID: 135144676917868272}
   - component: {fileID: 114367878653028798}
   - component: {fileID: 114970098983948984}
-  m_Layer: 2
+  - component: {fileID: 114082818635247276}
+  m_Layer: 16
   m_Name: DollyFireBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,6 +75,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114082818635247276
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1681472928736956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.033333335
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114166787084790764
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -121,7 +143,8 @@ MonoBehaviour:
   triggerID: 5
   layerMask:
     serializedVersion: 2
-    m_Bits: 4294917627
+    m_Bits: 4294852091
+  deathTime: 10
 --- !u!114 &114970098983948984
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -138,6 +161,7 @@ MonoBehaviour:
   moveSpeed: 0.5
   autoMove: 1
   isChangeDirectionToMoveVec: 0
+  selfTurn: 0
 --- !u!135 &135144676917868272
 SphereCollider:
   m_ObjectHideFlags: 1
