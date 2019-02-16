@@ -25,7 +25,9 @@ public class LaserPointerBase : NetworkBehaviour
 
     Vector3 preShooterPos;
     Vector3 preShooterForward;
-    
+
+    GimmickBase preHitGimmick;
+
     //ToDo:後でplayermanagerにLocalPlayerMoveを持たせてもらう
     PlayerMove localPlaerMove;
     private void Start()
@@ -69,17 +71,43 @@ public class LaserPointerBase : NetworkBehaviour
         {
             NoHitAction(origin, direction);
         }
+        CheckHitGimmick(hit,isHit);
     }
     protected virtual void OnFlameStart()
     {
     }
     protected virtual void HitAction(RaycastHit hit, Vector3 origin, Vector3 direction)
     {
+    
     }
     protected virtual void NoHitAction(Vector3 origin, Vector3 direction)
     {
         SetLineRenderPosition(origin + direction * 10);
     }
+
+
+    void CheckHitGimmick(RaycastHit hit,bool isHit)
+    {
+        if (!isLocalPlayer) return;
+
+        GimmickBase hitGimmick = (isHit)?hitGimmick= hit.collider.GetComponent<GimmickBase>():null;
+
+        //Exit処理
+        if (preHitGimmick &&
+            (!isHit||preHitGimmick!=hitGimmick))
+        {
+            preHitGimmick.OnPointerExit(ownerCollider);
+        }
+
+        //Hit処理
+        if (hitGimmick && hitGimmick!=preHitGimmick&&
+            (PlayerManager.playerMove.moveType != PlayerMove.MoveType._2D))
+        {
+            hitGimmick.OnPointerEnter(ownerCollider);
+        }
+        preHitGimmick = hitGimmick;
+    }
+
     protected void SetLineRenderPosition(Vector3 position)
     {
         lineRenderPositions.Add(position);

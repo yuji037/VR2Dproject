@@ -12,15 +12,19 @@ public class particleAttractorSpherical : EffectBehaviour {
 	GameObject player;
 	int playerNum;
 
-	void Start () {
-		m_aryParticleSystems = GetComponentsInChildren<ParticleSystem>();
-		//if (!GetComponent<Transform>()){
-		//	GetComponent<Transform>();
-		//}
-		// パーティクルの開始位置はキャラの頭を追いかけさせる
-		float posY = refRenderer.material.GetFloat("_Pos");
-		transform.position = new Vector3(transform.position.x, posY, transform.position.z);
-	}
+    void Start()
+    {
+        m_aryParticleSystems = GetComponentsInChildren<ParticleSystem>();
+        //if (!GetComponent<Transform>()){
+        //	GetComponent<Transform>();
+        //}
+        // パーティクルの開始位置はキャラの頭を追いかけさせる
+        if (refRenderer)
+        {
+            float posY = refRenderer.material.GetFloat("_Pos");
+            transform.position = new Vector3(transform.position.x, posY, transform.position.z);
+        }
+    }
 	void Update () {
 		foreach ( var ps in m_aryParticleSystems )
 		{

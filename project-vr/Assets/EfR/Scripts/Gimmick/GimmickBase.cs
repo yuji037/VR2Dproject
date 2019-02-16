@@ -24,7 +24,8 @@ public abstract class GimmickBase : NetworkBehaviour
     protected Action<int> m_aCollisionExitAction;
     protected Action<int> m_aTriggerEnterAction;
     protected Action<int> m_aTriggerExitAction;
-    protected Action<int> m_aPointerHitAction;
+    public event Action<int> m_aPointerExitAction;
+    public event Action<int> m_aPointerHitAction;
 
     protected Action<Collision> m_acCollisionEnterAction;
     protected Action<Collision> m_acCollisionExitAction;
@@ -39,6 +40,8 @@ public abstract class GimmickBase : NetworkBehaviour
     void TriggerEnterAction(int otherGimmickID)      { if(m_aTriggerEnterAction!=null)       m_aTriggerEnterAction(otherGimmickID);  }
     void TriggerExitAction(int otherGimmickID)       { if(m_aTriggerExitAction != null)      m_aTriggerExitAction(otherGimmickID);   }
     void PointerHitAction(int pointerGimmickID)      { if(m_aPointerHitAction!=null)         m_aPointerHitAction(pointerGimmickID);  }
+    void PointerExitAction(int pointerGimmickID)     { if(m_aPointerExitAction != null) m_aPointerExitAction(pointerGimmickID); }
+
 
     void CollisionEnterAction(Collision other)       { if(m_acCollisionEnterAction!=null)m_acCollisionEnterAction(other);}
     void CollisionExitAction(Collision other)        { if(m_acCollisionExitAction!=null) m_acCollisionExitAction(other); }
@@ -105,12 +108,19 @@ public abstract class GimmickBase : NetworkBehaviour
         if (gmk) TriggerExitAction(gmk.GimmickID);
     }
 
-    public void OnPointerHit(Collider rayShooter)
+    public void OnPointerEnter(Collider rayShooter)
     {
         if (!CanCall()) return;
 
         var gmk = rayShooter.gameObject.GetComponent<GimmickBase>();
         if (gmk) PointerHitAction(gmk.GimmickID);
+    }
+    public void OnPointerExit(Collider rayShooter)
+    {
+        if (!CanCall()) return;
+
+        var gmk = rayShooter.gameObject.GetComponent<GimmickBase>();
+        if (gmk) PointerExitAction(gmk.GimmickID);
     }
 
     bool CanCall()

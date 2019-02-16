@@ -63,7 +63,6 @@ public class MeteoFaller :  NetworkBehaviour{
             RpcFallMeteo(pos);
         }
 
-        Debug.Log("メテオ");
     }
     [ClientRpc]
     void RpcFallMeteo(Vector3 fallPos)

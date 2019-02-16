@@ -8,6 +8,10 @@ public class SwitchDoorOpen : SwitchActionBase
     [SerializeField, Header("押したときの影響先ギミックID")]
 
     protected int m_iActorGimmickID;
+    public int IActorGimmickID
+    {
+        get { return m_iActorGimmickID; }
+    }
 
     public override void OnAction()
     {
