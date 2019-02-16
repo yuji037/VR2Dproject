@@ -22,10 +22,10 @@ public class Meteo : MonoBehaviour {
     IEnumerator MeteoRoutine()
     {
         yield return new WaitForSeconds(delay);
-        var colliders=Physics.OverlapSphere(transform.position,radius * transform.lossyScale.x);
+        var colliders = Physics.OverlapSphere(transform.position, radius * transform.lossyScale.x);
         foreach (var i in colliders)
         {
-            if (i.gameObject==PlayerManager.LocalPlayer)
+            if (i.gameObject == PlayerManager.LocalPlayer)
             {
                 Debug.Log("HitMeteo");
                 PlayerRespawner.GetInstance().RespawnLocalPlayer();

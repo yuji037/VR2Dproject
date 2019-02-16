@@ -9,11 +9,14 @@ public class BossBehavior :  NetworkBehaviour{
     [SerializeField]
     ShockWaveBossSkill shockWave;
 
-    [SerializeField]
-    MeteoBossSkill meteo;
+    //[SerializeField]
+    //MeteoBossSkill meteo;
 
     [SerializeField]
     BeamBossSkill beem;
+
+    [SerializeField]
+    FireBallBossSkill fireBall;
 
     bool isPlaying;
 
@@ -36,7 +39,7 @@ public class BossBehavior :  NetworkBehaviour{
     IEnumerator BehaviorRoutine()
     {
         StartCoroutine(SkillRoutine(shockWave));
-
+        StartCoroutine(SkillRoutine(fireBall));
         //片足が壊れた時
         yield return new WaitUntil(()=>
             {
@@ -50,8 +53,7 @@ public class BossBehavior :  NetworkBehaviour{
                 return false;
             }
         );
-
-        StartCoroutine(SkillRoutine(meteo));
+        //StartCoroutine(SkillRoutine(meteo));
         StartCoroutine(SkillRoutine(beem));
 
     }

@@ -7,7 +7,10 @@ public class BossKillPerformer : MonoBehaviour {
     ParticleSystem killEffect;
 
     [SerializeField]
-    BossBehavior bossBehavior; 
+    BossBehavior bossBehavior;
+
+    [SerializeField]
+    BlockTransitioner blockTransitioner;
 
 	public void Kill()
     {
@@ -25,5 +28,12 @@ public class BossKillPerformer : MonoBehaviour {
         {
             mesh.enabled = false;
         }
+        PlayerManager.playerStatus.RpcTransWorld(PlayerMove.MoveType.FIXED);
+        StartCoroutine(DelayTransBlock());
+    }
+    IEnumerator DelayTransBlock()
+    {
+        yield return new WaitForSeconds(2.0f);
+        blockTransitioner.StartTransBlocks();
     }
 }

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class TitlePerformer : MonoBehaviour {
+public class TitlePerformer :  NetworkBehaviour{
     [SerializeField]
-    Image pressAnyButton;
+    Image pressAnyButtonImage;
 
     [SerializeField]
     GameObject titlePanel;
@@ -14,25 +15,42 @@ public class TitlePerformer : MonoBehaviour {
     SelectStageMenu selectStageMenu;
 
     [SerializeField]
-    float tenmetuTime;
+    float pressAnyButtonActiveinterval;
+
+    bool pressedAnyButton = false;
+
     private void Start()
     {
         StartCoroutine(PerformerCoroutine());
-        StartCoroutine(Tenmetu());
+        StartCoroutine(LoopingActive());
     }
+    private void Update()
+    {
+        if (!isServer||!TVSwitch.IsOn) return;
+        if (Input.GetKeyDown(KeyCode.Space) || OVRInput.GetDown(OVRInput.Button.Any))
+        {
+            RpcPressed();
+            selectStageMenu.isReady = true;
+        }
+    }
+    [ClientRpc]
+    void RpcPressed()
+    {
+        pressedAnyButton= true;
+    }
+
     IEnumerator PerformerCoroutine()
     {
-         yield return new WaitUntil(()=>Input.GetKeyDown(KeyCode.Space) || OVRInput.GetDown(OVRInput.Button.Two));
-        selectStageMenu.isReady = true;
+        yield return new WaitUntil(()=>pressedAnyButton);
         titlePanel.SetActive(false);
     }
 
-    IEnumerator Tenmetu()
+    IEnumerator LoopingActive()
     {
         while (true)
         {
-            pressAnyButton.enabled = !pressAnyButton.enabled;
-            yield return new WaitForSeconds(tenmetuTime);
+            pressAnyButtonImage.enabled = !pressAnyButtonImage.enabled;
+            yield return new WaitForSeconds(pressAnyButtonActiveinterval);
         }
     }
 
