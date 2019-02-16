@@ -34,7 +34,7 @@ public class GimmickFallableObject : GimmickBase {
 			// 落下しない
 			m_rRigidbody.isKinematic = true;
 		}
-		else
+		else if(!gameObject.isStatic)
 		{
 			// 落下する
 			m_rRigidbody.isKinematic = false;

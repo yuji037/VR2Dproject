@@ -116,7 +116,7 @@ public class DebugDisplay : MonoBehaviour {
 		}
 		else
 		{
-			Debug.LogError(tagName + "というデバッグテキストは見つかりませんでした");
+			//Debug.LogError(tagName + "というデバッグテキストは見つかりませんでした");
 		}
 	}
 
