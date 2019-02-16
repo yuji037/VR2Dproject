@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// 2Dがパースカメラになったため必要なくなった
 public class StageSwitchRenderer : SingletonMonoBehaviour<StageSwitchRenderer> {
 	
 	public void SwitchRendererFor2DMode()
 	{
-		var playerStatus = PlayerManager.LocalPlayer.GetComponent<PlayerStatus>();
+		//var playerStatus = PlayerManager.LocalPlayer.GetComponent<PlayerStatus>();
 
-		switch ( playerStatus.Number )
-		{
-			case PlayerNumber.Player1:
-				SwitchRenderer(1, true);
-				SwitchRenderer(2, false);
-				break;
-			case PlayerNumber.Player2:
-				SwitchRenderer(1, false);
-				SwitchRenderer(2, true);
-				break;
-		}
+		//switch ( playerStatus.Number )
+		//{
+		//	case PlayerNumber.Player1:
+		//		SwitchRenderer(1, true);
+		//		SwitchRenderer(2, false);
+		//		break;
+		//	case PlayerNumber.Player2:
+		//		SwitchRenderer(1, false);
+		//		SwitchRenderer(2, true);
+		//		break;
+		//}
 	}
 	public void SwitchRendererForVRMode()
 	{
@@ -28,11 +29,11 @@ public class StageSwitchRenderer : SingletonMonoBehaviour<StageSwitchRenderer> {
 
 	public void SwitchRenderer(int playerNum, bool enabled)
 	{
-		var renderers = GameObject.Find("P" + playerNum + "Objects").GetComponentsInChildren<Renderer>();
+		//var renderers = GameObject.Find("P" + playerNum + "Objects").GetComponentsInChildren<Renderer>();
 
-		foreach(var ren in renderers )
-		{
-			ren.enabled = enabled;
-		}
+		//foreach(var ren in renderers )
+		//{
+		//	ren.enabled = enabled;
+		//}
 	}
 }
