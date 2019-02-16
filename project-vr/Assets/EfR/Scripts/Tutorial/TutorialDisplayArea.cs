@@ -6,6 +6,9 @@ public class TutorialDisplayArea : MonoBehaviour {
 
 	LayerMask playerLayer;
 
+	[Header("チュートリアルを表示させたいプレイヤー番号"), SerializeField]
+	PlayerNumber displayPlayerNumber;
+
 	[SerializeField]
 	TutorialObject tutorialObject;
 
@@ -16,21 +19,20 @@ public class TutorialDisplayArea : MonoBehaviour {
 		playerLayer = LayerMask.NameToLayer("Player");
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
 	private void OnTriggerEnter(Collider other)
 	{
-		if(!tutorialObjectIns && other.gameObject == PlayerManager.LocalPlayer )
+		// 両クライアントで起こる
+		if(!tutorialObjectIns && other.gameObject.layer == playerLayer )
 		{
-			var obj = Instantiate(tutorialObject.gameObject);
-			tutorialObjectIns = obj.GetComponent<TutorialObject>();
-			tutorialObjectIns.SetParent();
-            tutorialObjectIns.Init();
-            tutorialObjectIns.transform.localPosition = Vector3.zero;
-            tutorialObjectIns.transform.localRotation = Quaternion.identity;
+			if ( PlayerManager.GetPlayerNumber() == (int)displayPlayerNumber )
+			{
+				var obj = Instantiate(tutorialObject.gameObject);
+				tutorialObjectIns = obj.GetComponent<TutorialObject>();
+				tutorialObjectIns.SetParent();
+				tutorialObjectIns.Init();
+				tutorialObjectIns.transform.localPosition = Vector3.zero;
+				tutorialObjectIns.transform.localRotation = Quaternion.identity;
+			}
         }
 	}
 

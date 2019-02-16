@@ -10,6 +10,9 @@ public class TutorialObject : MonoBehaviour {
     [SerializeField]
     GameObject inactiveObjInPlayMode;
 
+	[SerializeField]
+	bool isLocalPlayerCanMove = true;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -25,6 +28,9 @@ public class TutorialObject : MonoBehaviour {
         // コントローラの試作モデルは非表示
         if (inactiveObjInPlayMode)
             inactiveObjInPlayMode.SetActive(false);
+
+		// プレイヤーが操作できるかの設定
+		PlayerManager.LocalPlayer.GetComponent<PlayerMove>().canMove = isLocalPlayerCanMove;
 	}
 
 	public void SetParent()
