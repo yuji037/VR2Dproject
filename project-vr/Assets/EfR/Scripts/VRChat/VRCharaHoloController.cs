@@ -24,26 +24,6 @@ public class VRCharaHoloController : SingletonMonoBehaviour<VRCharaHoloControlle
 		}
 	}
 
-	//private void Update()
- //   {
-
- //   }
- //   public IEnumerator P1VRChatCharaFadeOut()
- //   {
- //       Debug.Log("Holo Start");
-
- //       var renderer = chatCharas[1].GetComponentInChildren<SkinnedMeshRenderer>();
- //       var wPosY = renderer.transform.position.y;
- //       var holoMat = renderer.material;
- //       var speed = 1.0f;
- //       holoMat.SetFloat("_App", 1);
- //       for (float t = 0; t <= 10.0f; t += Time.deltaTime * speed)
- //       {
- //           holoMat.SetFloat("_Pos", wPosY + t);
- //           yield return null;
- //       }
- //   }
-
 	public IEnumerator VRChatCharaFade(int playerNum, bool fadeIn)
 	{
 		if ( playerNum != 0 && playerNum != 1 )
@@ -58,16 +38,18 @@ public class VRCharaHoloController : SingletonMonoBehaviour<VRCharaHoloControlle
 		var wPosY = renderer.transform.position.y;
 		var holoMat = renderer.material;
 		var speed = 1.0f;
-		holoMat.SetFloat("_App", 1);
 
-		Debug.Log("wPosY : " + wPosY);
-		for ( float t = 0; t <= fadeLength; t += Time.deltaTime * speed )
-		{
-			float setPosY = wPosY + ( fadeLength - t );
-			Debug.Log("SetMaterialFloat : " + setPosY);
-			holoMat.SetFloat("_Pos", setPosY);
-			yield return null;
-		}
+		yield return StartCoroutine(MaterialsManager.HoloFadeCoroutine(
+			holoMat, fadeIn, renderer.transform.position, null, fadeLength, speed));
+
+		//holoMat.SetFloat("_App", 1);
+
+		//for ( float t = 0; t <= fadeLength; t += Time.deltaTime * speed )
+		//{
+		//	float setPosY = wPosY + ( fadeLength - t );
+		//	holoMat.SetFloat("_Pos", setPosY);
+		//	yield return null;
+		//}
 	}
 
 	public float GetCharaBorderPos(int playerNum)

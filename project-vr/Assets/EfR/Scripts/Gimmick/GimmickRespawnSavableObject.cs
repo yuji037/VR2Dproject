@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+
+// 当たったものをリスポーンさせる
 public class GimmickRespawnSavableObject: GimmickBase{
 
     private void Start()
@@ -14,6 +16,6 @@ public class GimmickRespawnSavableObject: GimmickBase{
         var savable = other.gameObject.GetComponent<SavableObject>();
         if (!savable) return;
         StageSaver.GetInstance().Respawn(savable);
+
     }
-    
 }
