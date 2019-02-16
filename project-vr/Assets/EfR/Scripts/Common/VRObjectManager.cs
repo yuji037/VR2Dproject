@@ -23,6 +23,11 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
 	[SerializeField]
 			GameObject		m_prefVRHand;
 
+	[SerializeField]
+			GameObject		m_prefLocalAvatar;
+
+	public	GameObject		LocalAvatar { get; private set; }
+
 
     public  void            SetDeviceType(VRDeviceType deviceType)
     {
@@ -36,6 +41,8 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
 
 		Debug.Log("VR Camera Spawn");
         VRCamObject.transform.parent = trParent;
+
+		LocalAvatar = Instantiate(m_prefLocalAvatar, VRCamObject.transform.position, VRCamObject.transform.rotation, trParent);
     }
 
     NetworkIdentity[] handObjIDs;

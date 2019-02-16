@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - component: {fileID: 448722}
   - component: {fileID: 11477770}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: controller_right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 11437430}
   - component: {fileID: 8254050}
   - component: {fileID: 11441414}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LocalAvatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400938}
   - component: {fileID: 11405130}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: controller_left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -210,7 +210,7 @@ MonoBehaviour:
   HandRight: {fileID: 114000010372160784}
   RecordPackets: 0
   UseSDKPackets: 1
-  StartWithControllers: 0
+  StartWithControllers: 1
   FirstPersonLayer:
     layerIndex: 0
   ThirdPersonLayer:
@@ -280,7 +280,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000011212216358}
   - component: {fileID: 114000010372160784}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: hand_right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000010416372058}
   - component: {fileID: 114000010884708534}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -312,7 +312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013364346644}
   - component: {fileID: 114000011404857786}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: hand_left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,7 +328,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000014100970646}
   - component: {fileID: 114000012186362028}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -344,7 +344,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4581494204247758}
   - component: {fileID: 114949324920430652}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DefaultBodyMaterialManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -360,7 +360,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4468369968689664}
   - component: {fileID: 114029231360713414}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DefaultHandMaterialManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}

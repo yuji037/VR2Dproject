@@ -147,7 +147,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1743543660479352
 GameObject:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -171,6 +171,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4905535059177708}
+  - component: {fileID: 114797467836465666}
   m_Layer: 8
   m_Name: Tutorial_Left
   m_TagString: Untagged
@@ -270,13 +271,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1743543660479352}
-  m_LocalRotation: {x: 0.40737423, y: 0, z: 0, w: 0.91326135}
+  m_LocalRotation: {x: 0.40737423, y: -0, z: -0, w: 0.91326135}
   m_LocalPosition: {x: 0.013, y: 0.026, z: 0.104}
-  m_LocalScale: {x: 0.15, y: 0.10000002, z: 0.50000006}
+  m_LocalScale: {x: 0.15, y: 0.10000003, z: 0.50000006}
   m_Children:
   - {fileID: 4928545202232218}
-  m_Father: {fileID: 4834107223545080}
-  m_RootOrder: 7
+  m_Father: {fileID: 4905535059177708}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 48.08, y: 0, z: 0}
 --- !u!4 &4342065842747412
 Transform:
@@ -321,10 +322,9 @@ Transform:
   - {fileID: 4342065842747412}
   - {fileID: 4096616130367806}
   - {fileID: 4278257191802928}
-  - {fileID: 4296659000032210}
   - {fileID: 4839578549520634}
   m_Father: {fileID: 4905535059177708}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4839578549520634
 Transform:
@@ -337,7 +337,7 @@ Transform:
   m_LocalScale: {x: 0.057850584, y: 0.01, z: 0.0621465}
   m_Children: []
   m_Father: {fileID: 4834107223545080}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: -7.83, y: 0, z: -5.65}
 --- !u!4 &4905535059177708
 Transform:
@@ -349,6 +349,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4296659000032210}
   - {fileID: 4834107223545080}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -817,3 +818,15 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
+--- !u!114 &114797467836465666
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1753708644343680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8dac6b8c48f4d14c9f4e78ce5e44acf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentName: controller_left
