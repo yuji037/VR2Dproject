@@ -34,6 +34,13 @@ public class PlayerStatus : NetworkBehaviour {
         this.Number = (PlayerNumber)number;
         initialized = true;
         PlayerManager.Players[number] = gameObject;
+        SetPlayerMaterial(number,gameObject);
+    }
+    void SetPlayerMaterial(int number,GameObject playerObject)
+    {
+        var mat=Resources.Load<Material>("Material/"+(number+1)+"playerMat");
+        var mesh=playerObject.GetComponentInChildren<SkinnedMeshRenderer>();
+        mesh.material = mat;
     }
     public override void OnStartClient()
     {
