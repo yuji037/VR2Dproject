@@ -13,6 +13,7 @@ public class FireBallBossSkill : BossSkillBase
 
     public override void InvokeSkill()
     {
+        if (!isServer) return;
         var num = Random.Range(0,path.Length);
         var obj = Instantiate(fireBallPrefab);
         obj.GetComponent<DollyMoveObject>().path = path[num];

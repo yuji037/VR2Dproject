@@ -20,6 +20,8 @@ public class MeteoFaller :  NetworkBehaviour{
     [SerializeField]
     GameObject meteoCubePrefab;
 
+    List<GameObject> falledCubes=new List<GameObject>();
+
     private void OnDrawGizmos()
     {
         foreach (var f in fallParams)
@@ -32,19 +34,29 @@ public class MeteoFaller :  NetworkBehaviour{
     {
         return fallParam.fallCenter.position + new Vector3(Random.Range(-fallParam.fallRange.x * 0.5f, fallParam.fallRange.x * 0.5f), 0, Random.Range(-fallParam.fallRange.y * 0.5f, fallParam.fallRange.y * 0.5f));
     }
+    bool CanFallCube(FallParam fallParam)
+    {
+        //DestroyしたCubeをRemove
+        if(falledCubes.Count>0)falledCubes.RemoveAll(x=>x==null);
+        return(Random.Range(0, 1.0f) <fallParam.cubeRate) &&
+                falledCubes.Count < 2;
+    }
+
 
     public void FallMeteo()
     {
         var arrayNum = Random.Range(0, fallParams.Length);
         var pos =(GetRandomlyFallPos(fallParams[arrayNum]));
-        var isCube = Random.Range(0, 1.0f)< fallParams[arrayNum].cubeRate;
+        var isCube = CanFallCube(fallParams[arrayNum]);
+
         if (isCube)
         {
             var obj = Instantiate(meteoCubePrefab);
             //ちょっと浮かす
-            pos.y += 3.0f;
+            pos.y += 6.0f;
             obj.transform.position = pos;
             NetworkServer.Spawn(obj);
+            falledCubes.Add(obj);
         }
         else
         {

@@ -11,6 +11,10 @@ public class GimmickFireBall : GimmickBase{
     
     float radius;
 
+    float timer = 0f;
+
+    [SerializeField]
+    float deathTime=10.0f;
 	// Use this for initialization
 	void Start () {
         m_acTriggerEnterAction += OnHit;
@@ -18,20 +22,22 @@ public class GimmickFireBall : GimmickBase{
     }
     private void Update()
     {
-        if (Physics.CheckSphere(transform.position, radius, layerMask))
+        if (!isServer) return;
+        timer += Time.deltaTime;
+        if (Physics.CheckSphere(transform.position, radius, layerMask)||deathTime<=timer)
         {
             DestroyThisObject();
         }
     }
     private void OnHit(Collider collider)
     {
-        Debug.Log(collider.gameObject.name);
         var gimmick = collider.GetComponent<GimmickBase>();
         if (!gimmick) return;
-            var pm=gimmick.GetComponent<PlayerMove>();
+        var pm=gimmick.GetComponent<PlayerMove>();
         if (gimmick.GimmickID==triggerID)
         {
             gimmick.DestroyThisObject();
+            Debug.Log("aaa");
             DestroyThisObject();
         }
         else if(pm)
