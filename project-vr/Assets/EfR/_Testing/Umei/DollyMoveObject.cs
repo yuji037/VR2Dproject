@@ -22,6 +22,11 @@ public class DollyMoveObject : NetworkBehaviour{
     [SerializeField]
     bool isChangeDirectionToMoveVec;
 
+    [SerializeField]
+    bool selfTurn;
+
+    int moveDirection = 1;
+
     public bool StartedServer { get; private set; }
 
     public override void OnStartServer()
@@ -42,11 +47,25 @@ public class DollyMoveObject : NetworkBehaviour{
     {
         if (StartedServer && isServer)
         {
-            currentPathValue += moveSpeed * multiPlySpeed * Time.deltaTime;
+            //セルフターンが有効な場合向きを逆転させる
+            if (selfTurn)
+            {
+                if (path.MaxPos <= currentPathValue)
+                {
+                    moveDirection = -1;
+                }
+                else if (currentPathValue <= 0)
+                {
+                    moveDirection = 1;
+                }
+            }
+            currentPathValue += moveSpeed * multiPlySpeed * Time.deltaTime*moveDirection;
+            currentPathValue=Mathf.Clamp(currentPathValue,0f,path.MaxPos);
+            Debug.Log(currentPathValue);
             var next = path.EvaluatePosition(currentPathValue);
             if (isChangeDirectionToMoveVec)
             {
-                transform.forward=next - transform.position;
+                transform.forward = next - transform.position;
             }
             transform.position = next;
         }

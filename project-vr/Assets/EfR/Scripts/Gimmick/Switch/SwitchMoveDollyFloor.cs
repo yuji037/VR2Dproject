@@ -13,6 +13,10 @@ public class SwitchMoveDollyFloor : SwitchActionBase {
         {
             dollyFloor.Move(1.0f);
         }
+        else
+        {
+            dollyFloor.Move(-1.0f);
+        }
     }
     public override void OnAction()
     {
