@@ -7,6 +7,9 @@ public class TutorialObject : MonoBehaviour {
 	[SerializeField]
 	string parentName;
 
+    [SerializeField]
+    GameObject inactiveObjInPlayMode;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -19,7 +22,9 @@ public class TutorialObject : MonoBehaviour {
 
 	public void Init()
 	{
-		gameObject.FindFirstChildByName("ControllerLeftModel");
+        // コントローラの試作モデルは非表示
+        if (inactiveObjInPlayMode)
+            inactiveObjInPlayMode.SetActive(false);
 	}
 
 	public void SetParent()

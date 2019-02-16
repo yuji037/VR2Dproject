@@ -9,7 +9,7 @@ public class TutorialDisplayArea : MonoBehaviour {
 	[SerializeField]
 	TutorialObject tutorialObject;
 
-	TutorialObject tutorialObjectIns;
+	TutorialObject tutorialObjectIns = null;
 
 	// Use this for initialization
 	void Start () {
@@ -23,19 +23,23 @@ public class TutorialDisplayArea : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if(other.gameObject == PlayerManager.LocalPlayer )
+		if(!tutorialObjectIns && other.gameObject == PlayerManager.LocalPlayer )
 		{
 			var obj = Instantiate(tutorialObject.gameObject);
 			tutorialObjectIns = obj.GetComponent<TutorialObject>();
 			tutorialObjectIns.SetParent();
-		}
+            tutorialObjectIns.Init();
+            tutorialObjectIns.transform.localPosition = Vector3.zero;
+            tutorialObjectIns.transform.localRotation = Quaternion.identity;
+        }
 	}
 
 	private void OnTriggerExit(Collider other)
 	{
 		if ( other.gameObject == PlayerManager.LocalPlayer )
 		{
-			Destroy(tutorialObjectIns.gameObject);
+            if (tutorialObjectIns && tutorialObjectIns.gameObject)
+                Destroy(tutorialObjectIns.gameObject);
 		}
 	}
 }
