@@ -7,6 +7,14 @@ public class SwitchMoveDollyFloor : SwitchActionBase {
     DollyMoveObject dollyFloor;
     bool isPushing=false;
 
+    public override List<Transform> ActorObjects
+    {
+        get
+        {
+            return new List<Transform>(){dollyFloor.transform};
+        }
+    }
+
     private void FixedUpdate()
     {
         if (isPushing)

@@ -8,25 +8,39 @@ public class SwitchDoorOpen : SwitchActionBase
     [SerializeField, Header("押したときの影響先ギミックID")]
 
     protected int m_iActorGimmickID;
-    public int IActorGimmickID
+
+    public override List<Transform> ActorObjects
     {
-        get { return m_iActorGimmickID; }
+        get
+        {
+            return new List<Transform>() {ActorDoor.transform};
+        }
+    }
+
+    GimmickDoor _door;
+    GimmickDoor ActorDoor
+    {
+        get
+        {
+            if (!_door)
+            {
+                var gimik = GimmickManager.GetGimmick(m_iActorGimmickID);
+                _door = gimik as GimmickDoor;
+            }
+            return _door;
+        }
     }
 
     public override void OnAction()
     {
         Debug.Log("Switch On");
-        var gimik = GimmickManager.GetGimmick(m_iActorGimmickID);
-        var door = gimik as GimmickDoor;
-        door.Open();
+        if(ActorDoor)ActorDoor.Open();
     }
 
     public override void OffAction()
     {
         Debug.Log("Switch Off");
-        var gimik = GimmickManager.GetGimmick(m_iActorGimmickID);
-        var door = gimik as GimmickDoor;
-        door.Close();
+        if(ActorDoor)ActorDoor.Close();
 
     }
 }

@@ -28,6 +28,14 @@ public class SwitchPutCoins : SwitchActionBase {
 
     bool isGotCoins;
 
+    public override List<Transform> ActorObjects
+    {
+        get
+        {
+            return new List<Transform>() {screen.transform};
+        }
+    }
+
     private void Update()
     {
         if (isGotCoins) return;

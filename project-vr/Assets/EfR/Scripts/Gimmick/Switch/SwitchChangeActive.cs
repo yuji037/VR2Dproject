@@ -11,6 +11,14 @@ public class SwitchChangeActive : SwitchActionBase {
     [SerializeField]
     bool targetDefaultActive;
 
+    public override List<Transform> ActorObjects
+    {
+        get
+        {
+            return new List<Transform>() {activateTarget.transform};
+        }
+    }
+
     private void Start()
     {
         activateTarget.SetActive(targetDefaultActive);

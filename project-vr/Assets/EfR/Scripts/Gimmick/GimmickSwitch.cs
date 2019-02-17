@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GimmickSwitch : GimmickBase {
 
-
-    [SerializeField]
     SwitchActionBase switchAction;
 
     [SerializeField, Header("押せる物体のギミックID（プレイヤーの手、ブロックなど）")]
@@ -67,7 +65,9 @@ public class GimmickSwitch : GimmickBase {
 		m_vReleasedPosition			= transform.localPosition;
 		m_vPressedPosition			= transform.localPosition + m_vPushedVector;
 		m_fPressedDistanceSqr		= ( m_vPressedPosition - m_vReleasedPosition ).sqrMagnitude;
-	}
+
+        switchAction = GetComponent<SwitchActionBase>();
+    }
 
 	private void Update()
 	{

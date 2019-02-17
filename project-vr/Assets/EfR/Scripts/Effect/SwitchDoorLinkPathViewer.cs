@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SwitchDoorLinkPathViewer : MonoBehaviour {
-    SwitchDoorOpen switchDoorOpen;
     ParticleSystem particle;
 
-    Transform door;
     // Use this for initialization
 	void Start () {
 
-        switchDoorOpen = GetComponent<SwitchDoorOpen>();
+        var switchActionBase = GetComponent<SwitchActionBase>();
         var gimmickSwitch = GetComponent<GimmickSwitch>();
         var particleAttractor = GetComponentInChildren<particleAttractorSpherical>();
-        if (!(gimmickSwitch && switchDoorOpen && particleAttractor))
+        if (!(gimmickSwitch && switchActionBase && particleAttractor))
         {
             Debug.Log("指定コンポーネントが無いので自殺");
             Destroy(this);
@@ -24,12 +22,11 @@ public class SwitchDoorLinkPathViewer : MonoBehaviour {
         gimmickSwitch.m_aPointerHitAction += (x) => PlayLinkEffect();
         gimmickSwitch.m_aPointerExitAction+= (x) => StopLinkEffect();
 
-        var gimmick = GimmickManager.GetGimmick(switchDoorOpen.IActorGimmickID);
-        if (gimmick)
+        var particleTargets = switchActionBase.ActorObjects;
+        if (particleTargets!=null)
         {
-            door = gimmick.transform;
+            particleAttractor.endPoint= particleTargets[0];
         }
-        particleAttractor.endPoint=door;
     }
 
     void PlayLinkEffect()
