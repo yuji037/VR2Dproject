@@ -61,7 +61,6 @@ public class DollyMoveObject : NetworkBehaviour{
             }
             currentPathValue += moveSpeed * multiPlySpeed * Time.deltaTime*moveDirection;
             currentPathValue=Mathf.Clamp(currentPathValue,0f,path.MaxPos);
-            Debug.Log(currentPathValue);
             var next = path.EvaluatePosition(currentPathValue);
             if (isChangeDirectionToMoveVec)
             {

@@ -146,6 +146,7 @@ public class PlayerStatus : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcTransWorld(PlayerMove.MoveType transMoveTypeTo)
 	{
+        StageMaterialChanger.GetInstance().ChangeMaterial((int)Number,transMoveTypeTo);
 		if ( !hasAuthority ) return;
         TransWorld(transMoveTypeTo);
 		
