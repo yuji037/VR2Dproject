@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwitchDoorLinkPathViewer : MonoBehaviour {
+public class SwitchLinkPathViewer : MonoBehaviour {
     ParticleSystem particle;
 
     // Use this for initialization
