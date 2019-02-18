@@ -279,7 +279,9 @@ public class SoundManager : NetworkBehaviour {
 
 	IEnumerator DestroyOnClipEndCoroutine(SoundPlayIns soundPlayIns, int channel)
 	{
-		float clipLength = soundPlayIns.m_AudioSource.clip.length;
+        yield return new WaitUntil(() => soundPlayIns.m_AudioSource.clip);
+
+        float clipLength = soundPlayIns.m_AudioSource.clip.length;
 
 		yield return new WaitForSeconds( clipLength + 1.0f );
 

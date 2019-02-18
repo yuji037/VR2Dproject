@@ -52,6 +52,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4326701645308180}
   - component: {fileID: 95201953481156282}
+  - component: {fileID: 114720648961604946}
   m_Layer: 9
   m_Name: EfRchan_FIX
   m_TagString: Untagged
@@ -1923,6 +1924,7 @@ GameObject:
   - component: {fileID: 114310386195277916}
   - component: {fileID: 114186949568712768}
   - component: {fileID: 114375517117083222}
+  - component: {fileID: 114198283326149144}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -2195,7 +2197,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1891470671125086}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -7.99, y: 3.853, z: 9.03}
+  m_LocalPosition: {x: 9.980135, y: 4.17256, z: -13.274191}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4274485189565284}
@@ -4287,6 +4289,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d1c07a6449b0ca439ee6fac5f6f7d83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114198283326149144
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1891470671125086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b42e7513cfe1d8419849b24afdc5df1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114198431270496638
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4537,6 +4550,7 @@ MonoBehaviour:
   isGrounded: 1
   isJumping: 0
   jumpingTime: 0
+  holdSkirtInAirTime: 0.8
 --- !u!114 &114368903510721758
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4873,6 +4887,18 @@ MonoBehaviour:
   - {fileID: 114672183979718016}
   debug: 1
   threshold: 0.01
+--- !u!114 &114720648961604946
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1053018743039988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 142ee810d6a6e8a4d8cf86e6d2271277, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMove: {fileID: 114361133203384828}
 --- !u!114 &114769480485663494
 MonoBehaviour:
   m_ObjectHideFlags: 1

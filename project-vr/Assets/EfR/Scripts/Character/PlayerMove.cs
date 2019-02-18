@@ -55,7 +55,7 @@ public class PlayerMove : NetworkBehaviour
     // 内部変数
     PlayerStatus playerStatus;
     CharacterController characterController;
-    Animator animator;
+    PlayerAnimationController animator;
     Transform camVRTransform;
     Transform cam2DTransform;
     float inputHorizontal, inputVertical;
@@ -162,7 +162,7 @@ public class PlayerMove : NetworkBehaviour
 		if ( canInputHigherJump && InputKeepJump() )
 		{
 			powerRate = 2.5f;
-			animator.SetBool("Jump", true);
+			animator.CmdSetBool("Jump", true);
 		}
 
 		velocity.y = jumpPower * powerRate;
@@ -176,7 +176,7 @@ public class PlayerMove : NetworkBehaviour
             powerRate = 2.5f;
         }
 
-		animator.SetBool("holdSkirt", true);
+		animator.CmdSetBool("holdSkirt", true);
 		velocity.y = floatPower * powerRate;
     }
     #endregion
@@ -188,7 +188,7 @@ public class PlayerMove : NetworkBehaviour
     {
         playerStatus = GetComponent<PlayerStatus>();
         characterController = GetComponent<CharacterController>();
-        animator = GetComponentInChildren<Animator>();
+        animator = GetComponentInChildren<PlayerAnimationController>();
 
         //StageInit();
         DebugTools.RegisterDebugAction(KeyCode.P, () =>
@@ -327,7 +327,7 @@ public class PlayerMove : NetworkBehaviour
                 //            break;
         }
 
-        animator.SetFloat("Speed", velocityXZ.magnitude);
+        animator.CmdSetFloat("Speed", velocityXZ.magnitude);
 
         // 重力（空中時に受ける）
         if (!isGrounded)
@@ -429,8 +429,8 @@ public class PlayerMove : NetworkBehaviour
         if (isGrounded && !prevIsGrounded)
         {
             // 着地した瞬間
-            animator.SetBool("Jump", false);
-			animator.SetBool("holdSkirt", false);
+            animator.CmdSetBool("Jump", false);
+			animator.CmdSetBool("holdSkirt", false);
 		}
 
 		CheckMoveFloor(hit);
@@ -476,7 +476,7 @@ public class PlayerMove : NetworkBehaviour
             if (InputTriggerJump())
             {
                 isJumping = true;
-                animator.SetBool("Jump", true);
+                animator.CmdSetBool("Jump", true);
             }
         }
         // ジャンプ中
@@ -500,8 +500,8 @@ public class PlayerMove : NetworkBehaviour
 			inAirTime += Time.deltaTime;
 			if ( inAirTime > holdSkirtInAirTime && velocity.y < -0.2f )
 			{
-				animator.SetBool("holdSkirt", true);
-				animator.SetBool("Jump", false);
+				animator.CmdSetBool("holdSkirt", true);
+				animator.CmdSetBool("Jump", false);
 			}
 		}
 		else

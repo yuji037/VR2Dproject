@@ -168,7 +168,6 @@ GameObject:
   - component: {fileID: 114521700370536070}
   - component: {fileID: 114009086348053342}
   - component: {fileID: 114968797771836654}
-  - component: {fileID: 114109354338021652}
   - component: {fileID: 114732932538415374}
   m_Layer: 10
   m_Name: OculusCameraRig
@@ -601,17 +600,6 @@ MonoBehaviour:
   cameraSensitivity: 10
   userControllable: 1
   centerCam: {fileID: 20601072124232182}
---- !u!114 &114109354338021652
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1895269860190646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0892606c9888fc243ad12521d1e8628b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114234401451872566
 MonoBehaviour:
   m_ObjectHideFlags: 1
