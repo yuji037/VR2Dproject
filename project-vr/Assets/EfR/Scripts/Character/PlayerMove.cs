@@ -71,6 +71,10 @@ public class PlayerMove : NetworkBehaviour
     [SerializeField]
     float jumpingTime = 0f;
 
+	[SerializeField]
+	float holdSkirtInAirTime = 0.8f;
+	float inAirTime = 0f;
+
 	Vector3 freezeAxis = Vector3.zero;
 	Vector3 fixedPosition = Vector3.zero;
 
@@ -150,18 +154,30 @@ public class PlayerMove : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
         PlayerRespawner.GetInstance().RespawnLocalPlayer();
-    }
+	}
 
-    public void FloatPlayer(float floatPower)
+	public void Jump(float jumpPower, bool canInputHigherJump = true)
+	{
+		var powerRate = 1f;
+		if ( canInputHigherJump && InputKeepJump() )
+		{
+			powerRate = 2.5f;
+			animator.SetBool("Jump", true);
+		}
+
+		velocity.y = jumpPower * powerRate;
+	}
+
+	public void FloatPlayer(float floatPower, bool canInputHigherFloat = true)
     {
         var powerRate = 1f;
-        if (InputKeepJump())
+        if ( canInputHigherFloat && InputKeepJump())
         {
             powerRate = 2.5f;
-            animator.SetBool("Jump", true);
         }
 
-        velocity.y = floatPower * powerRate;
+		animator.SetBool("holdSkirt", true);
+		velocity.y = floatPower * powerRate;
     }
     #endregion
 
@@ -414,9 +430,10 @@ public class PlayerMove : NetworkBehaviour
         {
             // 着地した瞬間
             animator.SetBool("Jump", false);
-        }
+			animator.SetBool("holdSkirt", false);
+		}
 
-        CheckMoveFloor(hit);
+		CheckMoveFloor(hit);
     }
 
     void CheckMoveFloor(RaycastHit hit)
@@ -476,6 +493,20 @@ public class PlayerMove : NetworkBehaviour
             isJumping = false;
             jumpingTime = 0f;
         }
+
+		// スカート抑え判定
+		if ( !isGrounded )
+		{
+			inAirTime += Time.deltaTime;
+			if ( inAirTime > holdSkirtInAirTime && velocity.y < -0.2f )
+			{
+				animator.SetBool("holdSkirt", true);
+				animator.SetBool("Jump", false);
+			}
+		}
+		else
+			inAirTime = 0f;
+
         //// ジャンプ中に天井にぶつかったら
         //RaycastHit hit;
         //bool hitRoof = Physics.Raycast( transform.position, Vector3.up, out hit, Pms.distanceToGround );
