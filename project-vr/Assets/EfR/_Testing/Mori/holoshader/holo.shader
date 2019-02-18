@@ -34,6 +34,11 @@
 
 		LOD 450
 
+		Stencil{
+			Ref 1
+			Comp NotEqual
+}
+
 		Pass
 	{
 		Cull Back
