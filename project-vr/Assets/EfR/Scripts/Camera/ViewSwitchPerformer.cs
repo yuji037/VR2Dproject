@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-//ToDo:2D→TPSorFPSに出来るように設計
 public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
 {
 
@@ -23,27 +22,6 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
     {
         if (!_2dCamera) _2dCamera = C2DAdjuster.GetComponent<Camera>();
         return _2dCamera;
-    }
-
-    ParticleSystem trp;
-    ParticleSystem transRealParticle
-    {
-        get
-        {
-            if (!trp) trp = GameObject.Find("TransRealParticle").GetComponent<ParticleSystem>();
-            return trp;
-        }
-    }
-
-
-    ParticleSystem tgp;
-    ParticleSystem transGameParticle
-    {
-        get
-        {
-            if (!tgp) tgp = GameObject.Find("TransGameParticle").GetComponent<ParticleSystem>();
-            return tgp;
-        }
     }
 
     ViewPointStorage vps;
@@ -66,20 +44,27 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
         }
     }
 
+    [SerializeField]
+    Transform realRoom;
+
+    [SerializeField]
+    Animator animator;
+
+    [SerializeField]
+    Transform transedPos;
+
     bool isInitialized = false;
     void Initialize()
     {
-        C2DAdjuster.SetDefaultFov(CVRAdjuster.GetCenterEyeFOV());
+        C2DAdjuster.SetVRCamera(CVRAdjuster.CenterEye);
         isInitialized = true;
     }
-
-
     //遷移中
     public bool IsTranslation { get; private set; }
 
     private void Start()
     {
-        CVRAdjuster = GetComponent<CameraVRAdjuster>();
+        this.GetGameObjectWithCoroutine(CameraUtility.CameraVRName, (obj) => CVRAdjuster = obj.GetComponent<CameraVRAdjuster>());
     }
     public void SwitchView(PlayerMove.MoveType switchType, System.Action callBack = null)
     {
@@ -90,20 +75,8 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
 
     //trueだと遷移時VRカメラが動く
     bool isCameraVRTranslation = false;
-    private void Update()
-    {
-        //test用
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            isCameraVRTranslation = !isCameraVRTranslation;
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            Debug.Log(CVRAdjuster.CenterEye.transform.eulerAngles);
-        }
-    }
 
-    IEnumerator Translation(PlayerMove.MoveType moveType, System.Action callBack)
+    IEnumerator Translation(PlayerMove.MoveType toMoveType, System.Action callBack)
     {
         IsTranslation = true;
         CVRAdjuster.GetComponent<CameraVRController>().HasCameraAuthority = false;
@@ -112,52 +85,69 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
 
 		var seChannel = SoundManager.GetInstance().Play("flipflop");
 
-		switch ( moveType)
+		switch ( toMoveType)
         {
             case PlayerMove.MoveType.FPS:
             case PlayerMove.MoveType.TPS:
             case PlayerMove.MoveType.FIXED:
                 Debug.Log("遷移開始2D→VR");
 
-                transRealParticle.Play();
-                //TVにVRCameraを近づける
-                CVRAdjuster.ApproachTV(2.0f);
-                C2DAdjuster.SetDefaultFov(CVRAdjuster.GetCenterEyeFOV());
+                //C2DAdjuster.GetComponent<Camera>().fieldOfView = CVRAdjuster.GetCenterEyeFOV();
 
-                C2DAdjuster.Trans3DPerspective();
-                yield return new WaitForSeconds(1.0f);
-                if (isCameraVRTranslation)
-                {
-                    //VRCameraを2Dカメラの位置から、徐々にmoveTypeの視点の位置に近づける
-                    CVRAdjuster.ChangeVRCamPosRotTo(C2DAdjuster.transform);
-                    CVRAdjuster.ChangeVRCamParamTo2DCam();
-                    TransformUtility.TransSamePosRot(CVRAdjuster.transform, viewPointStorage.GetCamPos(moveType));
-                    yield return new WaitForSeconds(1.0f);
-                }
-                else
-                {
+                var currentVRVCam = CVRAdjuster.GetComponent<CameraVRController>().CurrentVCam.transform;
 
-                    TransformUtility.TransSamePosRot(C2DAdjuster.transform,
-                       () =>
-                       {
-                           var diff = CVRAdjuster.CenterEye.transform.position - CVRAdjuster.transform.position;
-                           return viewPointStorage.GetCamPos(moveType).position + diff;
-                       },
-                       () =>
-                       {
-                           return viewPointStorage.GetCamPos(moveType).rotation*CVRAdjuster.CenterEye.transform.localRotation;
-                       }
-                        );
-                    yield return new WaitForSeconds(1.0f);
-                    CVRAdjuster.ChangeVRCamParamTo2DCam();
-                }
+                //2Dカメラを固定カメラ位置に
+                TransformUtility.TransSamePosRot(C2DAdjuster.transform,currentVRVCam,0.5f);
+                yield return new WaitForSeconds(0.5f);
 
-                transRealParticle.Stop();
+                //黒幕
+                FadeInOutController.GetInstance().GetFadePanel(FadeInOutController.ViewType._2D).StartBlackFadeOut(0.2f);
+                yield return new WaitForSeconds(0.5f);
+
+                //リアルルーム全体を固定カメラの位置に置く
+                var sub=currentVRVCam.position - CVRAdjuster.transform.position;
+                CVRAdjuster.transform.position = currentVRVCam.position;
+                realRoom.Translate(sub);
+
+                FadeInOutController.GetInstance().GetFadePanel(FadeInOutController.ViewType._2D).StartBlackFadeIn(0.2f);
+
+
+                //リビングルームを移動
+                animator.CrossFade("ToVR",0f);
+
+                yield return new WaitForSeconds(3.0f);
+                CVRAdjuster.ChangeVRCamParamTo2DCam();
+                //if (isCameraVRTranslation)
+                //{
+                //    //VRCameraを2Dカメラの位置から、徐々にmoveTypeの視点の位置に近づける
+                //    CVRAdjuster.ChangeVRCamPosRotTo(C2DAdjuster.transform);
+                //    CVRAdjuster.ChangeVRCamParamTo2DCam();
+                //    TransformUtility.TransSamePosRot(CVRAdjuster.transform, viewPointStorage.GetCamPos(toMoveType));
+                //    yield return new WaitForSeconds(1.0f);
+                //}
+                //else
+                //{
+
+                //    TransformUtility.TransSamePosRot(C2DAdjuster.transform,
+                //       () =>
+                //       {
+                //           var diff = CVRAdjuster.CenterEye.transform.position - CVRAdjuster.transform.position;
+                //           return viewPointStorage.GetCamPos(toMoveType).position + diff;
+                //       },
+                //       () =>
+                //       {
+                //           return viewPointStorage.GetCamPos(toMoveType).rotation*CVRAdjuster.CenterEye.transform.localRotation;
+                //       }
+                //        );
+                //    yield return new WaitForSeconds(1.0f);
+                //    CVRAdjuster.ChangeVRCamParamTo2DCam();
+                //}
+
 
                 //2Dカメラを所定の位置に戻す
                 C2DAdjuster.Set2DPosition();
 
-                playerMove.RendererSwitchForPlayerMoveType(moveType);
+                playerMove.RendererSwitchForPlayerMoveType(toMoveType);
 
                 CVRAdjuster.GetComponent<CameraVRController>().HasCameraAuthority = true;
 
@@ -166,27 +156,23 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
             case PlayerMove.MoveType._2D:
                 Debug.Log("遷移開始VR→2D");
 
-                playerMove.RendererSwitchForPlayerMoveType(moveType);
+                playerMove.RendererSwitchForPlayerMoveType(toMoveType);
 
-                yield return new WaitForSeconds(1.0f);
+                var subPos=CVRAdjuster.transform.position - transedPos.position;
+                realRoom.transform.Translate(subPos);
 
-                //2DCamera位置にVRCamera移動
-                TransformUtility.TransSamePosRot(CVRAdjuster.transform, C2DAdjuster.transform);
-                yield return new WaitForSeconds(1.0f);
-
-                transRealParticle.Play();
-                //VRCameraをRealWorldに戻す
                 CVRAdjuster.ChangeVRCamParamToDefault();
+                C2DAdjuster.transform.position = CVRAdjuster.transform.position;
 
-                //カメラを平行投影へ
-                C2DAdjuster.SetDefaultFov(CVRAdjuster.GetCenterEyeFOV());
-                C2DAdjuster.Trans2DPerspective();
+                animator.CrossFade("To2D",0f);
+                yield return new WaitForSeconds(3.0f);
 
+                FadeInOutController.GetInstance().GetFadePanel(FadeInOutController.ViewType._2D).StartBlackFadeIn(0.2f);
+                yield return new WaitForSeconds(0.2f);
 
-                //ＴＶ画面から離れる
-                CVRAdjuster.DepartTV(1.0f);
+                //2DCamera位置を元の位置に
+                TransformUtility.TransSamePosRot(C2DAdjuster.transform, C2DAdjuster.GetComponent<Camera2DController>().CurrentVCam.transform);
                 yield return new WaitForSeconds(1.0f);
-                transRealParticle.Stop();
 
                 Debug.Log("遷移停止VR→2D");
                 break;

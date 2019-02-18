@@ -16,8 +16,7 @@ public class Camera2DAdjuster : MonoBehaviour
     [SerializeField]
     RenderTexture targetTexture;
 
-
-    float defaultFOV = 90.0f;
+    Camera VRCamera;
 
     Camera2DController camera2DController;
 
@@ -27,24 +26,21 @@ public class Camera2DAdjuster : MonoBehaviour
         videoGameCamera = GetComponent<Camera>();
         camera2DController = GetComponent<Camera2DController>();
     }
-    public void SetDefaultFov(float fov)
-    {
-        defaultFOV = fov;
-    }
 
+    public void SetVRCamera(Camera vrCamera)
+    {
+        VRCamera = vrCamera;
+    }
 
     public void Trans2DPerspective()
     {
         StartCoroutine(Trans2DPerspectiveCoroutine());
     }
 
-
     public Vector3 Get2DCameraPos()
     {
         return transform.position;
     }
-
-
 
     IEnumerator Trans2DPerspectiveCoroutine()
     {
@@ -58,37 +54,39 @@ public class Camera2DAdjuster : MonoBehaviour
         StartCoroutine(AdjustPerspective(false));
     }
 
-
     public void Set2DPosition()
     {
         transform.position = Get2DCameraPos();
     }
+
     Vector3 GetLeftCenterPoint()
     {
         return videoGameCamera.ScreenToWorldPoint(new Vector3(0, targetTexture.height * 0.5f, depth));
     }
+
     Vector3 GetCenterPoint()
     {
         return videoGameCamera.ScreenToWorldPoint(new Vector3(targetTexture.width * 0.5f, targetTexture.height * 0.5f, depth));
     }
+
     //Fovがデフォルト値になった時のCameraPosition
-    public Vector3 GetPositionForDefaultFOV()
-    {
-        pointLeftCenter = GetLeftCenterPoint();
-        pointCenter = GetCenterPoint();
-        var z = Vector3.Magnitude(pointLeftCenter - pointCenter) / Mathf.Tan(Mathf.Deg2Rad * defaultFOV);
-        return Get2DCameraPos() + new Vector3(0, 0, depth) - new Vector3(0, 0, z);
-    }
+    //public Vector3 GetPositionForDefaultFOV()
+    //{
+    //    pointLeftCenter = GetLeftCenterPoint();
+    //    pointCenter = GetCenterPoint();
+    //    var z = Vector3.Magnitude(pointLeftCenter - pointCenter) / Mathf.Tan(Mathf.Deg2Rad * defaultFOV);
+    //    return Get2DCameraPos() + new Vector3(0, 0, depth) - new Vector3(0, 0, z);
+    //}
     //パースを調節する
     IEnumerator AdjustPerspective(bool toReal)
     {
         pointLeftCenter = GetLeftCenterPoint();
         pointCenter = GetCenterPoint();
         videoGameCamera.orthographic = false;
-        videoGameCamera.fieldOfView = defaultFOV;
         var startCameraPos = PlayerManager.LocalPlayer.transform.position;
-        startCameraPos.y = Get2DCameraPos().y;
-        Debug.Log(defaultFOV + "FOVで遷移");
+        var vrFov = VRCamera.fieldOfView;
+        var startFOV = videoGameCamera.fieldOfView;
+
         for (float t = 0; t < 1.0f; t += Time.deltaTime)
         {
             float fovCoeff = t;
@@ -97,14 +95,15 @@ public class Camera2DAdjuster : MonoBehaviour
                 fovCoeff = 1.0f - t;
             }
             
-            float fieldOfView = 1f + (defaultFOV - 1) * fovCoeff;
+            float fieldOfView = startFOV + (vrFov - 1) * fovCoeff;
 
             videoGameCamera.fieldOfView = fieldOfView;
             var z = Vector3.Magnitude(pointLeftCenter - pointCenter) / Mathf.Tan(Mathf.Deg2Rad * fieldOfView);
-            var moveVec = new Vector3(0, 0, depth) + new Vector3(0, 0, z);
+            var moveVec = -(new Vector3(0, 0, depth+z));
             moveVec = Quaternion.Euler(0, transform.eulerAngles.y, 0) * moveVec;
+            //カメラの手前のオブジェクトを見えないようにする
             videoGameCamera.nearClipPlane = Mathf.Abs(moveVec.z)-5.0f;
-            transform.position = startCameraPos - moveVec;
+            transform.position = startCameraPos + moveVec;
 
 
             yield return null;

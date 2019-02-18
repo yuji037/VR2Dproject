@@ -73,18 +73,17 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
     IEnumerator ChangeStageCoroutine(string sceneName)
     {
         IsChangingStage = true;
-        FadeInOutController.GetInstance().StartBlackFadeOut(0.1f);
+        FadeInOutController.GetInstance().GetFadePanel(FadeInOutController.ViewType.VR).StartBlackFadeOut(0.1f);
+        FadeInOutController.GetInstance().GetFadePanel(FadeInOutController.ViewType._2D).StartBlackFadeOut(0.1f);
+
         //unLoad
         yield return StartCoroutine(StageSceneLoader.GetInstance().UnLoadCurrentStageScene());
 
         DebugTools.Log("unLo");
         //clientとserverでunloadしたことを確認
         yield return new WaitUntil(() => {
-            Debug.Log(EFRNetworkManager.curretStageName[0] + "1=" + EFRNetworkManager.curretStageName[1]);
-            var aa="" == EFRNetworkManager.curretStageName[0] &&
-             "" == EFRNetworkManager.curretStageName[1];
-            Debug.Log(aa);
-            return aa;
+           return("" == EFRNetworkManager.curretStageName[0] &&
+             "" == EFRNetworkManager.curretStageName[1]);
         });
         Debug.Log("Load");
         DebugTools.Log("Load");
@@ -109,8 +108,10 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         StageChangeOnEnd();
         //ガクっとカメラが切り替わると違和感があるので黒幕で隠す
         yield return new WaitForSeconds(0.1f);
-        FadeInOutController.GetInstance().StartBlackFadeIn(1.0f);
-		SoundManager.GetInstance().PlayStageBGM(sceneName);
+        FadeInOutController.GetInstance().GetFadePanel(FadeInOutController.ViewType._2D).StartBlackFadeIn(1.0f);
+        FadeInOutController.GetInstance().GetFadePanel(FadeInOutController.ViewType.VR).StartBlackFadeIn(1.0f);
+
+        SoundManager.GetInstance().PlayStageBGM(sceneName);
 
         IsChangingStage = false;
     }

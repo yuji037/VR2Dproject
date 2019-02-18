@@ -118,8 +118,8 @@ public class CameraVRAdjuster : MonoBehaviour
     {
         //realCamのdefaultの設定に
         SetAllVRCamsParam(realWorldCameraParam);
-        transform.position = NearTVObject.position;
-        transform.rotation = NearTVObject.rotation;
+        //transform.position = NearTVObject.position;
+        //transform.rotation = NearTVObject.rotation;
     }
 
 
