@@ -14,7 +14,7 @@ public class GimmickFloatWind : MonoBehaviour {
         {
             if (collider.gameObject==PlayerManager.LocalPlayer)
             {
-                PlayerManager.playerMove.FloatPlayer(floatPower);
+                PlayerManager.playerMove.FloatPlayer(floatPower, false);
             }
         }
 	}
