@@ -27,6 +27,8 @@ public class PlayerStatus : NetworkBehaviour {
 
 	public bool IsPerforming = false;
 
+    //Stageが変わるとStageInit()が呼び出されるまでfalse
+    public bool isReady = false;
 
     [ClientRpc]
     public void RpcInit(int number)
@@ -129,6 +131,7 @@ public class PlayerStatus : NetworkBehaviour {
     public void RpcSetActive(bool isActive)
     {
         SetActiveOnLocal(isActive);
+        isReady = true;
     } 
     void SetActiveOnLocal(bool isActive)
     {
@@ -139,6 +142,7 @@ public class PlayerStatus : NetworkBehaviour {
             c.enabled = isActive;
         }
         active = isActive;
+        
     }
 
 	// 他端末のプレイヤーに影響する場合は[ClientRpc]を使う

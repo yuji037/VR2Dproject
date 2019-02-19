@@ -93,7 +93,17 @@ public class FadeInOutController : SingletonMonoBehaviour<FadeInOutController>
         //DebugTools.RegisterDebugAction(KeyCode.M, () => { fadePanels[(int)ViewType._2D].StartBlackFadeOut(1.0f); }, "2dfadeout");
     }
 
-    public FadePanel GetFadePanel(ViewType viewType)
+    public static FadePanel _2DFadePanel
+    {
+        get { return GetInstance().GetFadePanel(ViewType._2D); }
+    }
+
+    public static FadePanel VRFadePanel
+    {
+        get { return GetInstance().GetFadePanel(ViewType.VR); }
+    }
+
+    FadePanel GetFadePanel(ViewType viewType)
     {
         return fadePanels[(int)viewType];
     }

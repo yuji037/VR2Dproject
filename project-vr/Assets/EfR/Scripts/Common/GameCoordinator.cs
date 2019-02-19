@@ -53,6 +53,7 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
     void OnStartStageChange()
     {
         if(PlayerManager.LocalPlayer)PlayerManager.playerMove.isReady = false;
+        if (PlayerManager.LocalPlayer) PlayerManager.playerStatus.isReady = false;
     }
     public void ChangeStageSelectMenu()
     {
@@ -73,8 +74,8 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
     IEnumerator ChangeStageCoroutine(string sceneName)
     {
         IsChangingStage = true;
-        FadeInOutController.GetInstance().GetFadePanel(FadeInOutController.ViewType.VR).StartBlackFadeOut(0.1f);
-        FadeInOutController.GetInstance().GetFadePanel(FadeInOutController.ViewType._2D).StartBlackFadeOut(0.1f);
+        FadeInOutController.VRFadePanel.StartBlackFadeOut(0.1f);
+        FadeInOutController._2DFadePanel.StartBlackFadeOut(0.1f);
 
         //unLoad
         yield return StartCoroutine(StageSceneLoader.GetInstance().UnLoadCurrentStageScene());
@@ -108,8 +109,8 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         StageChangeOnEnd();
         //ガクっとカメラが切り替わると違和感があるので黒幕で隠す
         yield return new WaitForSeconds(0.1f);
-        FadeInOutController.GetInstance().GetFadePanel(FadeInOutController.ViewType._2D).StartBlackFadeIn(1.0f);
-        FadeInOutController.GetInstance().GetFadePanel(FadeInOutController.ViewType.VR).StartBlackFadeIn(1.0f);
+        FadeInOutController._2DFadePanel.StartBlackFadeIn(1.0f);
+        FadeInOutController.VRFadePanel.StartBlackFadeIn(1.0f);
 
         SoundManager.GetInstance().PlayStageBGM(sceneName);
 

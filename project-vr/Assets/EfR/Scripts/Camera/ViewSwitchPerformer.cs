@@ -101,7 +101,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 yield return new WaitForSeconds(0.5f);
 
                 //黒幕
-                FadeInOutController.GetInstance().GetFadePanel(FadeInOutController.ViewType._2D).StartBlackFadeOut(0.2f);
+                FadeInOutController._2DFadePanel.StartBlackFadeOut(0.2f);
                 yield return new WaitForSeconds(0.5f);
 
                 //リアルルーム全体を固定カメラの位置に置く
@@ -109,7 +109,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 CVRAdjuster.transform.position = currentVRVCam.position;
                 realRoom.Translate(sub);
 
-                FadeInOutController.GetInstance().GetFadePanel(FadeInOutController.ViewType._2D).StartBlackFadeIn(0.2f);
+                FadeInOutController._2DFadePanel.StartBlackFadeIn(0.2f);
 
 
                 //リビングルームを移動
@@ -167,7 +167,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 animator.CrossFade("To2D",0f);
                 yield return new WaitForSeconds(3.0f);
 
-                FadeInOutController.GetInstance().GetFadePanel(FadeInOutController.ViewType._2D).StartBlackFadeIn(0.2f);
+                FadeInOutController._2DFadePanel.StartBlackFadeIn(0.2f);
                 yield return new WaitForSeconds(0.2f);
 
                 //2DCamera位置を元の位置に
