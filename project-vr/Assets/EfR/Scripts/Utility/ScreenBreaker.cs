@@ -8,8 +8,6 @@ public class ScreenBreaker : MonoBehaviour
     MeshFilter meshFilter;
     MeshRenderer meshRenderer;
 
-    [SerializeField]
-    Vector3 start;
 
     [SerializeField]
     float height;
@@ -24,26 +22,48 @@ public class ScreenBreaker : MonoBehaviour
     [SerializeField]
     int heightCount = 10;
 
+    [SerializeField]
+    float moveSpeed;
+
+    [SerializeField]
+    float breakSpeed;
+
+    [SerializeField]
+    bool isRandomlyVelocity;
+
+    [SerializeField]
+    float multiplyRandoVelocityMin;
+
+    [SerializeField]
+    float multiplyRandoVelocityMax;
+
+    [SerializeField]
+    float deathTime = 0f;
+
+    [SerializeField]
+    float gravity = 0.98f;
+
     Vector3 breakStartPos;
 
     Dictionary<int, Vector3> verticalsPostions = new Dictionary<int, Vector3>();
+    Mesh mesh;
     // Use this for initialization
     void Start()
     {
         SetCompornent();
         CreateMesh();
-        var vec = new Vector3(Random.Range(0,width), -Random.Range(0, height), 0);
-        Debug.Log("BreakVec="+vec);
-        Break(vec);
-        //StartCoroutine(WaveCoroutine());
     }
     void SetCompornent()
     {
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
     }
-    Mesh mesh;
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color=(Color.red);
+        Gizmos.DrawCube(transform.position,new Vector3(width,height,0.1f));
+    }
     struct VerticalParam
     {
         public Vector3 pos;
@@ -51,24 +71,21 @@ public class ScreenBreaker : MonoBehaviour
 
     }
 
-    List<Vector3> verticals = new List<Vector3>();
+    List<Vector3> m_verticals = new List<Vector3>();
     void CreateMesh()
     {
         mesh = new Mesh();
-        mesh.vertices = CreateDualVerticals();
-        foreach (var i in mesh.vertices)
-        {
-            verticals.Add(i);
-        }
+        CreateDualVerticals();
+      
         mesh.triangles = CreateDualTriangles();
         mesh.RecalculateNormals();
         meshFilter.sharedMesh = mesh;
-
     }
 
-    Vector3[] CreateDualVerticals()
+    void CreateDualVerticals()
     {
         var verticals = new Vector3[(widthCount - 1) * (heightCount - 1) * 6];
+        var uvs=new Vector2[(widthCount - 1) * (heightCount - 1) * 6];
         var oneHeight = height / (heightCount - 1);
         var oneWidth = width / (widthCount - 1);
         int num = 0;
@@ -76,11 +93,24 @@ public class ScreenBreaker : MonoBehaviour
         {
             for (int h = 0; h < heightCount - 1; h++)
             {
-                var s = new Vector3(oneWidth * w, oneHeight * h, 0);
+                var s = new Vector3(oneWidth * w-width*0.5f, oneHeight * h-height*0.5f, 0);
 
                 //開始地点をキーに三角メッシュの中心点を入れる
                 verticalsPostions.Add(num, s );
                 verticalsPostions.Add(num + 3, s + new Vector3(0,oneHeight));
+
+                var suv = new Vector2(s.x/width,s.y/height);
+                var uvOneWidth = oneWidth / width;
+                var uvOneHeight = oneHeight/ height;
+                List<Vector2> uvList = new List<Vector2>()
+                {
+                    suv,
+                    suv+new Vector2(0           ,uvOneHeight),
+                    suv+new Vector2(uvOneWidth  ,0          ),
+                    suv+new Vector2(0           ,uvOneHeight),
+                    suv+new Vector2(uvOneWidth  ,uvOneHeight),
+                    suv+new Vector2(uvOneWidth  ,0          ),
+                };
 
                 List<Vector3> triList = new List<Vector3>()
                 {
@@ -91,18 +121,25 @@ public class ScreenBreaker : MonoBehaviour
                     s+new Vector3(oneWidth,oneHeight),
                     s+new Vector3(oneWidth,0),
                 };
-                foreach (var i in triList)
+                for (int i=0;i<triList.Count;i++)
                 {
-                    verticals[num] = i;
+                    verticals[num] = triList[i];
+                    uvs[num] = uvList[i];
                     num++;
                 }
             }
         }
-        return verticals;
+        mesh.vertices= verticals;
+        foreach (var i in mesh.vertices)
+        {
+            m_verticals.Add(i);
+        }
+        mesh.uv = uvs;
     }
+
     int[] CreateDualTriangles()
     {
-        int[] tris = new int[verticals.Count];
+        int[] tris = new int[m_verticals.Count];
         for (int i = 0; i < tris.Length; i++)
         {
             tris[i] = i;
@@ -154,21 +191,20 @@ public class ScreenBreaker : MonoBehaviour
         }
         return tris;
     }
-    struct BreakParam
+    class BreakParam
     {
         public int idx;
-        public Vector3 firstVelocity;
-        public BreakParam(int _idx,Vector3 _firstVelocity)
+        public Vector3 velocity;
+        public BreakParam(int _idx,Vector3 _velocity)
         {
             idx = _idx;
-            firstVelocity = _firstVelocity;
+            velocity = _velocity;
         }
     }
     List<BreakParam> breakingList = new List<BreakParam>();
-    void Break(Vector3 pos)
+    public void StartBreak()
     {
-        //var near = verticalsPostions.FirstOrDefault(x => 0.1f > Vector3.Distance(x.Value, pos));
-        //var firstIdx = near.Key;
+        Debug.Log("aaa");
         var centerIdx=widthCount* heightCount *3;
         breakStartPos = verticalsPostions[centerIdx];
         StartCoroutine(AddBreakingList(centerIdx));
@@ -176,30 +212,38 @@ public class ScreenBreaker : MonoBehaviour
     }
     IEnumerator BreakMoveRoutine()
     {
-        while (true)
+        float timer = 0f;
+        while (timer<deathTime)
         {
             for (int i = 0; i < breakingList.Count; i++)
             {
-                verticals[breakingList[i].idx] -= new Vector3(0, 0.5f * Time.deltaTime, -1.0f * Time.deltaTime);
-                verticals[breakingList[i].idx+1] -= new Vector3(0, 0.5f * Time.deltaTime, -1.0f * Time.deltaTime);
-                verticals[breakingList[i].idx+2] -= new Vector3(0, 0.5f * Time.deltaTime, -1.0f * Time.deltaTime);
+                for (int k=0;k<3;k++)
+                {
+                    m_verticals[breakingList[i].idx+k] -= breakingList[i].velocity*Time.deltaTime*moveSpeed;
+                }
+                breakingList[i].velocity *=(1.0f-(0.02f*Time.deltaTime));
+                breakingList[i].velocity.y += gravity*Time.deltaTime;
             }
-            meshFilter.mesh.SetVertices(verticals);
+            meshFilter.mesh.SetVertices(m_verticals);
+            timer += Time.deltaTime;
             yield return null;
         }
+        Death();
     }
     Vector3 GetBreakDirection(Vector3 pos)
     {
+        var dis = (pos - breakStartPos).magnitude;
         var  dir=(pos - breakStartPos).normalized;
-        return dir ;
+        if (dir == Vector3.zero) dir = Vector3.up;
+        dir *= (dis/(width/2.0f)*((isRandomlyVelocity)?Random.Range(multiplyRandoVelocityMin,multiplyRandoVelocityMax):1.0f));
+        return -dir ;
     }
     IEnumerator AddBreakingList(int idx)
     {
         if (!verticalsPostions.ContainsKey(idx)) yield break;
-        Debug.Log("Break="+idx);
         breakingList.Add(new BreakParam(idx, GetBreakDirection(verticalsPostions[idx])));
         verticalsPostions.Remove(idx);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.1f*(1.0f/breakSpeed));
         var right = GetRight(idx);
         var left = GetLeft(idx);
         var up = GetUp(idx);
@@ -263,13 +307,13 @@ public class ScreenBreaker : MonoBehaviour
             {
                 for (int h = 0; h <= heightCount; h++)
                 {
-                    var vec = verticals[num];
-                    verticals[num] = new Vector3(vec.x, vec.y, o * w);
+                    var vec = m_verticals[num];
+                    m_verticals[num] = new Vector3(vec.x, vec.y, o * w);
                     num++;
                 }
             }
             timer += Time.deltaTime;
-            meshFilter.mesh.SetVertices(verticals);
+            meshFilter.mesh.SetVertices(m_verticals);
 
             yield return null;
         }
@@ -277,8 +321,13 @@ public class ScreenBreaker : MonoBehaviour
     IEnumerator ControlCoroutine()
     {
 
-        verticals[0] += new Vector3(0, 0.1f * Time.deltaTime, 0);
-        meshFilter.mesh.SetVertices(verticals);
+        m_verticals[0] += new Vector3(0, 0.1f * Time.deltaTime, 0);
+        meshFilter.mesh.SetVertices(m_verticals);
         yield return null;
+    }
+
+    void Death()
+    {
+        Destroy(gameObject);
     }
 }

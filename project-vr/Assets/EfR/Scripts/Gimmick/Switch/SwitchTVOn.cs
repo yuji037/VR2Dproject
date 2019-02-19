@@ -5,6 +5,13 @@ using UnityEngine.Networking;
 
 public class SwitchTVOn : SwitchActionBase
 {
+    private void Start()
+    {
+        if (isServer)
+        {
+            DebugTools.RegisterDebugAction(KeyCode.Q,CmdTVOn,"ゲーム電源ON");
+        }
+    }
 
     public override void OnAction()
     {

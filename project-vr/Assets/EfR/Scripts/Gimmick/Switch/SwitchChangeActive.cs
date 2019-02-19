@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class SwitchChangeActive : SwitchActionBase {
+public class SwitchChangeActive : SwitchActionBase
+{
 
     [SerializeField]
     GameObject activateTarget;
@@ -15,13 +16,30 @@ public class SwitchChangeActive : SwitchActionBase {
     {
         get
         {
-            return new List<Transform>() {activateTarget.transform};
+            if (activateTarget)
+            {
+                return new List<Transform>() { activateTarget.transform };
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 
-    private void Start()
+    public void Start()
     {
-        activateTarget.SetActive(targetDefaultActive);
+        TargetSetActive(targetDefaultActive);
+    }
+
+    public override void OnAction()
+    {
+        CmdSetActive(!targetDefaultActive);
+    }
+
+    public override void OffAction()
+    {
+        CmdSetActive(targetDefaultActive);
     }
 
     [Command]
@@ -33,17 +51,11 @@ public class SwitchChangeActive : SwitchActionBase {
     [ClientRpc]
     void RpcSetActive(bool active)
     {
+        TargetSetActive(active);
+    }
+
+    void TargetSetActive(bool active)
+    {
         activateTarget.SetActive(active);
     }
-
-    public override void OnAction()
-    {
-        activateTarget.SetActive(!targetDefaultActive);
-    }
-
-    public override void OffAction()
-    {
-        activateTarget.SetActive(targetDefaultActive);
-    }
-    
 }
