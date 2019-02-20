@@ -33,13 +33,15 @@ public class VRChatObjectSetter : NetworkBehaviour {
 			GetComponentInChildren<VRIK>();
 		Debug.Log("playerNum : " + playerNum + " Init");
 
+        var targetObj = gameObject.FindFirstChildByName("IKTarget");
+
 		switch ( setObjectType )
 		{
 			case TrackType.RightHand:
-				vrIK.solver.rightArm.target = this.transform;
+				vrIK.solver.rightArm.target = targetObj.transform;
 				break;
 			case TrackType.LeftHand:
-				vrIK.solver.leftArm.target = this.transform;
+				vrIK.solver.leftArm.target = targetObj.transform;
 				//testIKcontrol.rightHandObj = this.transform;
 				break;
 			case TrackType.RightFoot:
@@ -49,7 +51,7 @@ public class VRChatObjectSetter : NetworkBehaviour {
 				//vrIK.leftFootObj = this.transform;
 				break;
 			case TrackType.EyeGazePoint:
-				vrIK.solver.spine.headTarget = this.transform;
+				vrIK.solver.spine.headTarget = targetObj.transform;
 				//vrIK.lookObj = this.transform;
 				break;
 		}
