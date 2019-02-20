@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Linq;
+using RootMotion.FinalIK;
 
 public class VRChatObjectSetter : NetworkBehaviour {
 
@@ -17,6 +18,7 @@ public class VRChatObjectSetter : NetworkBehaviour {
 	[SerializeField]
 	TrackType setObjectType;
 
+
 	public void Init()
 	{
 		// 0,1
@@ -27,26 +29,28 @@ public class VRChatObjectSetter : NetworkBehaviour {
 		if ( !isLocalPlayer )
 			playerNum = nums.Where(num => num != playerNum).First();
 
-		var testIKcontrol = GameObject.Find("VRChatCharaPos" + ( playerNum)).
-			GetComponentInChildren<TestIKControl>();
+		var vrIK = GameObject.Find("VRChatCharaPos" + ( playerNum)).
+			GetComponentInChildren<VRIK>();
 		Debug.Log("playerNum : " + playerNum + " Init");
 
 		switch ( setObjectType )
 		{
 			case TrackType.RightHand:
-				testIKcontrol.rightHandObj = this.transform;
+				vrIK.solver.rightArm.target = this.transform;
 				break;
 			case TrackType.LeftHand:
+				vrIK.solver.leftArm.target = this.transform;
 				//testIKcontrol.rightHandObj = this.transform;
 				break;
 			case TrackType.RightFoot:
-				testIKcontrol.rightFootObj = this.transform;
+				//vrIK.rightFootObj = this.transform;
 				break;
 			case TrackType.LeftFoot:
-				testIKcontrol.leftFootObj = this.transform;
+				//vrIK.leftFootObj = this.transform;
 				break;
 			case TrackType.EyeGazePoint:
-				testIKcontrol.lookObj = this.transform;
+				vrIK.solver.spine.headTarget = this.transform;
+				//vrIK.lookObj = this.transform;
 				break;
 		}
 

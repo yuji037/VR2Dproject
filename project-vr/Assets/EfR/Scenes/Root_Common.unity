@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1273174, g: 0.13414761, b: 0.12107885, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -167,6 +167,9 @@ MonoBehaviour:
   - {fileID: 1882954583497724, guid: 616f49867ca15c4418c8ab95b517c06a, type: 2}
   - {fileID: 1676884857836650, guid: 68495165a0be35f469ca81ae102265ec, type: 2}
   - {fileID: 1681472928736956, guid: 2a61c64c6fc3ca04680de55ab0ce611b, type: 2}
+  - {fileID: 1822806193667652, guid: 59f34f0e4e2ecc84485ed66e41584a9b, type: 2}
+  - {fileID: 1860805537473416, guid: e7f48c06759d1ab4f915a3cee154cfd6, type: 2}
+  - {fileID: 1849257043811314, guid: ca0b5dcbe00c38446a383677cb722f14, type: 2}
   m_CustomConfig: 1
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -230,6 +233,13 @@ MonoBehaviour:
   m_HandLPrefab: {fileID: 1249610553312374, guid: c031227a9c5c79b489b400619c5566fd,
     type: 2}
   m_GazePointPrefab: {fileID: 1517065130169090, guid: 6527ec75363264441bee2d1df6bcbbcc,
+    type: 2}
+  m_trVRChatObjParent: {fileID: 818226047}
+  m_HandLNetPrefab: {fileID: 1849257043811314, guid: ca0b5dcbe00c38446a383677cb722f14,
+    type: 2}
+  m_HandRNetPrefab: {fileID: 1860805537473416, guid: e7f48c06759d1ab4f915a3cee154cfd6,
+    type: 2}
+  m_HeadNetPrefab: {fileID: 1822806193667652, guid: 59f34f0e4e2ecc84485ed66e41584a9b,
     type: 2}
 --- !u!4 &86879181
 Transform:
@@ -627,6 +637,34 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224436841504151788, guid: 63b4aad112f6de1479ad3c44daf44f7e,
     type: 2}
   m_PrefabInternal: {fileID: 761364738}
+--- !u!1 &818226046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 818226047}
+  m_Layer: 0
+  m_Name: VRChatObjects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &818226047
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 818226046}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &839517074
 GameObject:
   m_ObjectHideFlags: 0
@@ -1253,7 +1291,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1740374803}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.000002, y: 1.6469998, z: -1.7155007}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
