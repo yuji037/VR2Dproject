@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4290559742002038}
   - component: {fileID: 114040343428468006}
   - component: {fileID: 114255786850467876}
+  - component: {fileID: 114328130053175380}
   m_Layer: 0
   m_Name: Network_HeadPoint
   m_TagString: Untagged
@@ -94,3 +95,14 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114328130053175380
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1822806193667652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b1b2eeebadd56543adf9f9720bb342c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
