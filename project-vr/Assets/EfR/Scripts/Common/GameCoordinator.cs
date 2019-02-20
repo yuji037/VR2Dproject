@@ -16,6 +16,8 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
     [SerializeField]
     string selectMenuStageName;
 
+    public StageData playingStageData;
+
     Camera2DController camera2D;
     // Use this for initialization
     void Start()
