@@ -14,8 +14,10 @@ public class CameraVRController : CameraControllerBase
 
     [SerializeField]
     Transform rightHandRig;
+	[SerializeField]
+	Transform leftHandRig;
 
-    [SerializeField]
+	[SerializeField]
     float handRotateSensi = 1f;
 
     [SerializeField]
@@ -40,24 +42,33 @@ public class CameraVRController : CameraControllerBase
         vrObjectManager = VRObjectManager.GetInstance();
 
         GameObject oRHAnchor = null;
-        switch (vrObjectManager.DeviceType)
+        GameObject oLHAnchor = null;
+		switch (vrObjectManager.DeviceType)
         {
             case VRDeviceType.OCULUS:
                 oRHAnchor = GameObject.Find("RightHandAnchor");
-                break;
+                oLHAnchor = GameObject.Find("LeftHandAnchor");
+				break;
             case VRDeviceType.HTC_VIVE:
                 oRHAnchor = GameObject.Find("Controller (right)");
-                break;
+                oLHAnchor = GameObject.Find("Controller (left)");
+				break;
         }
 
-        if (oRHAnchor)
+        if ( oRHAnchor )
         {
             rightHandRig.parent = oRHAnchor.transform;
             rightHandRig.localPosition = Vector3.zero;
             rightHandRig.localEulerAngles = Vector3.zero;
         }
 
-    }
+		if ( oLHAnchor )
+		{
+			leftHandRig.parent = oLHAnchor.transform;
+			leftHandRig.localPosition = Vector3.zero;
+			leftHandRig.localEulerAngles = Vector3.zero;
+		}
+	}
 
     // プレイヤースポーン後に呼ぶ
     public void StageInit()
