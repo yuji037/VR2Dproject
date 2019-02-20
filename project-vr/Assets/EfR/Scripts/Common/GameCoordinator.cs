@@ -126,7 +126,7 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         var gameObjects=scene.GetRootGameObjects();
         foreach (var i in gameObjects)
         {
-            var setters=i.transform.GetComponentsInChildren<SceneIDSetter>();
+            var setters=i.transform.GetComponentsInChildren<SceneIDSetter>(true);
             foreach (var k in setters )
             {
                 k.SetForceSceneID();
