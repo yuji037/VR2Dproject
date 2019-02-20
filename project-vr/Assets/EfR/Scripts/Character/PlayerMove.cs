@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-
+using UnityEngine.Playables;
 
 public class PlayerMove : NetworkBehaviour
 {
@@ -94,6 +94,11 @@ public class PlayerMove : NetworkBehaviour
 
     public void StageInit()
     {
+        StartCoroutine(StageInitRoutine());
+    }
+
+    IEnumerator StageInitRoutine()
+    {
         if (isLocalPlayer)
         {
             var moveTypeOnStart = _moveType;
@@ -110,7 +115,13 @@ public class PlayerMove : NetworkBehaviour
 
                 playerStatus.CmdSetActive(setting.playerActiveOnStart[playerNumber]);
                 DebugTools.Log("プレイヤアク"+playerNumber+ setting.playerActiveOnStart[playerNumber]);
-               
+
+                if (setting.previewTimeline)
+                {
+                    setting.previewTimeline.Play();
+                    yield return new WaitUntil(() => setting.previewTimeline.state == PlayState.Paused || Input.GetKeyDown(KeyCode.V));
+                    setting.previewTimeline.Stop();
+                }
 
                 Debug.Log("change" + moveTypeOnStart);
             }

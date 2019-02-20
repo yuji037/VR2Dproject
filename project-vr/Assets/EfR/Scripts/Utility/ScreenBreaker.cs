@@ -41,7 +41,10 @@ public class ScreenBreaker : MonoBehaviour
     float deathTime = 0f;
 
     [SerializeField]
-    float gravity = 0.98f;
+    Vector3 gravity;
+
+    [SerializeField]
+
 
     Vector3 breakStartPos;
 
@@ -53,6 +56,16 @@ public class ScreenBreaker : MonoBehaviour
         SetCompornent();
         CreateMesh();
     }
+    private void Update()
+    {      
+
+    }
+
+    private void BreakMesh()
+    {
+         
+        StartBreak();
+    }
     void SetCompornent()
     {
         meshFilter = GetComponent<MeshFilter>();
@@ -61,8 +74,8 @@ public class ScreenBreaker : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color=(Color.red);
-        Gizmos.DrawCube(transform.position,new Vector3(width,height,0.1f));
+    //    Gizmos.color=(Color.red);
+    //    Gizmos.DrawCube(transform.position,new Vector3(width,height,0.1f));
     }
     struct VerticalParam
     {
@@ -204,8 +217,8 @@ public class ScreenBreaker : MonoBehaviour
     List<BreakParam> breakingList = new List<BreakParam>();
     public void StartBreak()
     {
-        Debug.Log("aaa");
-        var centerIdx=widthCount* heightCount *3;
+        var centerIdx=heightCount*3/2;
+        Debug.Log(centerIdx+"から壊す");
         breakStartPos = verticalsPostions[centerIdx];
         StartCoroutine(AddBreakingList(centerIdx));
         StartCoroutine(BreakMoveRoutine());
@@ -222,7 +235,7 @@ public class ScreenBreaker : MonoBehaviour
                     m_verticals[breakingList[i].idx+k] -= breakingList[i].velocity*Time.deltaTime*moveSpeed;
                 }
                 breakingList[i].velocity *=(1.0f-(0.02f*Time.deltaTime));
-                breakingList[i].velocity.y += gravity*Time.deltaTime;
+                breakingList[i].velocity += gravity*Time.deltaTime;
             }
             meshFilter.mesh.SetVertices(m_verticals);
             timer += Time.deltaTime;
