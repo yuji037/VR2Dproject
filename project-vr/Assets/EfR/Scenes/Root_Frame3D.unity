@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 309830578}
   - component: {fileID: 309830577}
   - component: {fileID: 309830576}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Quad (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -447,7 +447,7 @@ GameObject:
   - component: {fileID: 608721716}
   - component: {fileID: 608721715}
   - component: {fileID: 608721714}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Quad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1214,6 +1214,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 137221963638987440, guid: 87b0c549e09d6a24dbf1c2588878a79f,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 87b0c549e09d6a24dbf1c2588878a79f, type: 2}
   m_IsPrefabParent: 0
@@ -1356,6 +1361,16 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 471d479546265294dbb2429f86506615, type: 2}
+    - target: {fileID: 114722967115747246, guid: 87b0c549e09d6a24dbf1c2588878a79f,
+        type: 2}
+      propertyPath: solver.spine.positionWeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114722967115747246, guid: 87b0c549e09d6a24dbf1c2588878a79f,
+        type: 2}
+      propertyPath: solver.spine.rotationWeight
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 87b0c549e09d6a24dbf1c2588878a79f, type: 2}
   m_IsPrefabParent: 0
@@ -1911,7 +1926,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1222828862}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.432, y: -1.786, z: -2.24}
+  m_LocalPosition: {x: -0.432, y: -1.877, z: -2.317}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1012710207}
@@ -5500,7 +5515,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1465245367}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.2139998, y: -1.786, z: -2.2399998}
+  m_LocalPosition: {x: 0.214, y: -1.877, z: -2.317}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 814704871}
@@ -6779,6 +6794,38 @@ Prefab:
     - target: {fileID: 100010, guid: cad835215ae44f04793ab59d759e138e, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: cad835215ae44f04793ab59d759e138e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: cad835215ae44f04793ab59d759e138e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: cad835215ae44f04793ab59d759e138e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 100010, guid: cad835215ae44f04793ab59d759e138e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: cad835215ae44f04793ab59d759e138e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: cad835215ae44f04793ab59d759e138e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: cad835215ae44f04793ab59d759e138e, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: cad835215ae44f04793ab59d759e138e, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cad835215ae44f04793ab59d759e138e, type: 3}

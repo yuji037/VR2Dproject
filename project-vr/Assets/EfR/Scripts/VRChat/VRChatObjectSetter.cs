@@ -19,7 +19,7 @@ public class VRChatObjectSetter : NetworkBehaviour {
 	TrackType setObjectType;
 
 
-	public void Init()
+	public void Start()
 	{
 		// 0,1
 		int playerNum = PlayerManager.GetPlayerNumber() + 1;
