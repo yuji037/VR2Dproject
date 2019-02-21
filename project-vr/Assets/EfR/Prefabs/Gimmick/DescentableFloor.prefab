@@ -109,6 +109,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   judgeColliderCenterY: 0.5
   colliderHalfExtents: {x: 0.5, y: 0.2, z: 0.5}
+  maxDistance: 0.4
+  m_Collider: {fileID: 0}
+  m_Renderer: {fileID: 0}
   rideLayerMask:
     serializedVersion: 2
     m_Bits: 512
+  gizmoColor: {r: 1, g: 0.4, b: 0.4, a: 0.3}
+  debugDraw: 0
