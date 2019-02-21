@@ -17,6 +17,7 @@ public class SoundManager : NetworkBehaviour {
 	int m_iChannelMax = 40;
 
     int m_iChannelHalf = 0;
+	int m_iPlayChannelCounter = 0;
 
 	[SerializeField, Header("音を持たせるオブジェクト")]
 	GameObject[] m_prefSound;
@@ -143,15 +144,15 @@ public class SoundManager : NetworkBehaviour {
 
 		if(m_oPlayingSounds[channel])
 		{
-            //Debug.LogWarning("サウンドの" + channel + "チャネルが使用中です");
+			Debug.Log("サウンドの" + channel + "チャネルが使用中。再生をやめます");
 
-            //         int retryChannel = FindPlayableChannel();
-            //         if(retryChannel != -1)
-            //         {
-            //             CmdPlay(retryChannel, name, position, isLoop, playIn3DVolume, attachTargetName, triggeredPlayerNumber, playInAllClients, soundSettingID);
-            //             return null;
-            //         }
-            return null;
+			//         int retryChannel = FindPlayableChannel();
+			//         if(retryChannel != -1)
+			//         {
+			//             CmdPlay(retryChannel, name, position, isLoop, playIn3DVolume, attachTargetName, triggeredPlayerNumber, playInAllClients, soundSettingID);
+			//             return null;
+			//         }
+			return null;
         }
 
 		var obj = Instantiate(m_prefSound[soundSettingID], position, Quaternion.identity, m_oChannelParents[channel].transform);
@@ -181,7 +182,7 @@ public class SoundManager : NetworkBehaviour {
 		{
 			audioSource.clip = m_AudioClips[name];
 			audioSource.Play();
-			
+
 			//if(soundSettingType != 0 )
 			//{
 			//	AudioCustomizeModel audioCustomizeSetting = null;
@@ -207,21 +208,23 @@ public class SoundManager : NetworkBehaviour {
 			//	audioSource.volume *= 0.4f;
 			//	Debug.Log("2Dのため音量調整");
 			//}
+			DebugTools.DisplayText("SE" + soundPlayIns.GetInstanceID(), "SE(" + name + ") " + soundPlayIns.GetInstanceID());
+			Debug.Log("Play : " + name);
 		}
 		else
         {
             audioSource.clip = m_AudioClips[name];
             // ローカルのみのサウンドの場合は他クライアントで空のサウンドオブジェクトにする
             obj.name = "empty_sound";
+			Debug.Log("Play : empty_sound");
 		}
 
-        // ループしないなら自前で停止
-        if (!isLoop)
+		// ループしないなら自前で停止
+		if (!isLoop)
         {
             StartCoroutine(DestroyOnClipEndCoroutine(soundPlayIns, channel));
         }
 
-        Debug.Log("Play : " + name);
 
 		return soundPlayIns;
 	}
@@ -356,7 +359,7 @@ public class SoundManager : NetworkBehaviour {
 
             if (destroyAfterFade)
             {
-                m_oPlayingSounds[channel].StopAndDestroy();
+				m_oPlayingSounds[channel].StopAndDestroy();
                 m_oPlayingSounds[channel] = null;
             }
         }
@@ -366,11 +369,13 @@ public class SoundManager : NetworkBehaviour {
 	{
         int channelMin = PlayerManager.GetPlayerNumber() == 0 ? 0 : m_iChannelHalf;
         int channelMax = channelMin + m_iChannelHalf;
-        for ( int i = channelMin; i < channelMax; ++i )
+        for ( int i = m_iPlayChannelCounter; i < m_iPlayChannelCounter + m_iChannelHalf; ++i )
 		{
-			if ( m_oPlayingSounds[i] == null )
+			int index = i % m_iChannelHalf + channelMin;
+			if ( m_oPlayingSounds[index] == null )
 			{
-				return i;
+				m_iPlayChannelCounter = index + 1;
+				return index;
 			}
 		}
 		Debug.LogWarning("サウンド再生チャネルに空きがありません");

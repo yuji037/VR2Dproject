@@ -12,9 +12,10 @@ public class EffectManager : NetworkBehaviour {
 	[SerializeField]
 	int m_iChannelMax = 20;
 
-    int m_iChannelHalf = 0;
+    int m_iChannelsCountPlayableInOneClient = 0;
+	int m_iPlayChannelCounter = 0;
 
-    [SerializeField]
+	[SerializeField]
     GameObject m_prefEmptyEffect;
 
 	static EffectManager instance = null;
@@ -23,8 +24,8 @@ public class EffectManager : NetworkBehaviour {
 	{
         if (!isLocalPlayer) return;
 
-
         instance = this;
+		m_iChannelsCountPlayableInOneClient = (int)( m_iChannelMax / 2 );
 
 		// プレハブのロード
 		var effObjects = Resources.LoadAll<GameObject>("Effect");
@@ -70,18 +71,20 @@ public class EffectManager : NetworkBehaviour {
         return channel;
     }
 
-	public int FindPlayableChannel()
-    {
-        int channelMin = PlayerManager.GetPlayerNumber() == 0 ? 0 : m_iChannelHalf;
-        int channelMax = channelMin + m_iChannelHalf;
-        for (int i = channelMin; i < channelMax; ++i)
-        {
-            if (m_oPlayingEffects[i] == null)
-            {
-                return i;
-            }
-        }
-        Debug.LogWarning("エフェクト再生チャネルに空きがありません");
+	private int FindPlayableChannel()
+	{
+		int channelMin = PlayerManager.GetPlayerNumber() == 0 ? 0 : m_iChannelsCountPlayableInOneClient;
+		int channelMax = channelMin + m_iChannelsCountPlayableInOneClient;
+		for ( int i = m_iPlayChannelCounter; i < m_iPlayChannelCounter + m_iChannelsCountPlayableInOneClient; ++i )
+		{
+			int index = i % m_iChannelsCountPlayableInOneClient + channelMin;
+			if ( m_oPlayingEffects[index] == null )
+			{
+				m_iPlayChannelCounter = index + 1;
+				return index;
+			}
+		}
+		Debug.LogWarning("サウンド再生チャネルに空きがありません");
 		return -1;
 	}
 
@@ -182,7 +185,7 @@ public class EffectManager : NetworkBehaviour {
     {
         if (m_oPlayingEffects[channel] == null)
         {
-            Debug.LogError("エフェクトもうありません : チャネル" + channel);
+            Debug.Log("エフェクトもうありません : チャネル" + channel);
             return;
         }
 

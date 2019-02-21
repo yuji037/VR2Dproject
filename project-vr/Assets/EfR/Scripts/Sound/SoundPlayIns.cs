@@ -73,6 +73,7 @@ public class SoundPlayIns : MonoBehaviour{
 		}
 
 		m_AudioSource.volume = afterVolume;
+		DebugTools.Log("Sound(" + m_AudioSource.clip.name + ")ボリューム調節" + this.GetInstanceID());
 
 		if ( onEnd != null)
 		{
@@ -96,6 +97,9 @@ public class SoundPlayIns : MonoBehaviour{
 	void DestroyIfExists()
 	{
 		if ( gameObject )
+		{
+			DebugTools.UnregisterDisplayText("SE" + this.GetInstanceID());
 			Destroy(gameObject);
+		}
 	}
 }
