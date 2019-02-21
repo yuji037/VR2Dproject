@@ -336,27 +336,32 @@ public class SoundManager : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcChangeVolumeOrStop(int channel, float afterVolume, float fadeDuration, bool destroyAfterFade)
 	{
-		if ( m_oPlayingSounds[channel] )
-		{
-			if ( m_oPlayingSounds[channel].m_AudioSource.isPlaying )
-			{
-				if ( destroyAfterFade )
-				{
-					m_oPlayingSounds[channel].FadeoutAndDestroy(fadeDuration);
-				}
-				else
-					m_oPlayingSounds[channel].ChangeVolume(afterVolume, fadeDuration);
-			}
+        instance.ChangeVolumeOrStopLocal(channel, afterVolume, fadeDuration, destroyAfterFade);
+	}
+
+    public void ChangeVolumeOrStopLocal(int channel, float afterVolume, float fadeDuration, bool destroyAfterFade)
+    {
+        if (m_oPlayingSounds[channel])
+        {
+            if (m_oPlayingSounds[channel].m_AudioSource.isPlaying)
+            {
+                if (destroyAfterFade)
+                {
+                    m_oPlayingSounds[channel].FadeoutAndDestroy(fadeDuration);
+                }
+                else
+                    m_oPlayingSounds[channel].ChangeVolume(afterVolume, fadeDuration);
+            }
 
             if (destroyAfterFade)
             {
                 m_oPlayingSounds[channel].StopAndDestroy();
                 m_oPlayingSounds[channel] = null;
             }
-		}
-	}
+        }
+    }
 
-	private int FindPlayableChannel()
+    private int FindPlayableChannel()
 	{
         int channelMin = PlayerManager.GetPlayerNumber() == 0 ? 0 : m_iChannelHalf;
         int channelMax = channelMin + m_iChannelHalf;
@@ -387,6 +392,11 @@ public class SoundManager : NetworkBehaviour {
     [ClientRpc]
     void RpcSetSoundTime(int channel, float time)
     {
+        instance.SetSoundTimeLocal(channel, time);
+    }
+
+    void SetSoundTimeLocal(int channel, float time)
+    {
         if (m_oPlayingSounds[channel])
         {
             if (m_oPlayingSounds[channel].m_AudioSource.isPlaying)
@@ -395,5 +405,6 @@ public class SoundManager : NetworkBehaviour {
             }
         }
     }
+
 }
 
