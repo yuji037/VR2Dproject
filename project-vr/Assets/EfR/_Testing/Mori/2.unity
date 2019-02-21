@@ -31889,7 +31889,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1906772035
+  randomSeed: 1102090759
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -36280,7 +36280,6 @@ GameObject:
   - component: {fileID: 1421461120}
   - component: {fileID: 1421461119}
   - component: {fileID: 1421461118}
-  - component: {fileID: 1421461117}
   - component: {fileID: 1421461116}
   m_Layer: 0
   m_Name: GimmickSwitchMoveDolly
@@ -36316,19 +36315,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af5358a5b6150264591cbf03a600687b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1421461117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114557673200173252, guid: c125a1ba14f615748ab85b5e5184e76b,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1421461114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d115019fdabe7d04495334bef2898919, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 478204475}
 --- !u!114 &1421461118
 MonoBehaviour:
   m_ObjectHideFlags: 0
