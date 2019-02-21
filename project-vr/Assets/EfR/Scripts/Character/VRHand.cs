@@ -18,19 +18,7 @@ public class VRHand : NetworkBehaviour {
 		//	playerNum = nums.Where(num => num != playerNum).First();
 
 
-		//if (VRObjectManager.GetInstance().DeviceType == VRDeviceType.NO_DEVICE && gameObject.name.Contains("Hand"))
-		//{
-		//	// デバッグ用にマウスで遊べるよう手をスティック状に伸ばす
-		//	var meshRen = GetComponentInChildren<MeshRenderer>(true);
-		//	var boxCol = GetComponent<BoxCollider>();
-		//	if ( boxCol )
-		//	{
-		//		boxCol.center = new Vector3(0, 0, 5);
-		//		boxCol.size = new Vector3(1, 1, 10);
-		//	}
-		//	if ( meshRen )
-		//		meshRen.enabled = true;
-		//}
+
 	}
 	
 }
