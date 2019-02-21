@@ -170,6 +170,8 @@ MonoBehaviour:
   - {fileID: 1822806193667652, guid: 59f34f0e4e2ecc84485ed66e41584a9b, type: 2}
   - {fileID: 1860805537473416, guid: e7f48c06759d1ab4f915a3cee154cfd6, type: 2}
   - {fileID: 1849257043811314, guid: ca0b5dcbe00c38446a383677cb722f14, type: 2}
+  - {fileID: 1339014111577644, guid: 7a6dc5c9c178be84aab3c88350d13f22, type: 2}
+  - {fileID: 1134583662998026, guid: 83327f85fb4a1354f8be7bbd2261fc2f, type: 2}
   m_CustomConfig: 1
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -240,6 +242,10 @@ MonoBehaviour:
   m_HandRNetPrefab: {fileID: 1860805537473416, guid: e7f48c06759d1ab4f915a3cee154cfd6,
     type: 2}
   m_HeadNetPrefab: {fileID: 1822806193667652, guid: 59f34f0e4e2ecc84485ed66e41584a9b,
+    type: 2}
+  m_SoundMngPrefab: {fileID: 1339014111577644, guid: 7a6dc5c9c178be84aab3c88350d13f22,
+    type: 2}
+  m_EffectMngPrefab: {fileID: 1134583662998026, guid: 83327f85fb4a1354f8be7bbd2261fc2f,
     type: 2}
 --- !u!4 &86879181
 Transform:
@@ -1219,6 +1225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   networkManager: {fileID: 86879180}
   selectMenuStageName: SelectMenu
+  playingStageData: {fileID: 0}
 --- !u!1 &1610414773
 GameObject:
   m_ObjectHideFlags: 1

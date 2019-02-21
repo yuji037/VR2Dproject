@@ -24,8 +24,12 @@ public class EFRNetworkManager : NetworkManager {
 	GameObject m_HandRNetPrefab;
 	[SerializeField]
 	GameObject m_HeadNetPrefab;
+    [SerializeField]
+    GameObject m_SoundMngPrefab;
+    [SerializeField]
+    GameObject m_EffectMngPrefab;
 
-	public static string[] curretStageName=new string[2] {"",""};
+    public static string[] curretStageName=new string[2] {"",""};
 
 	public class AddPlayerMessage : MessageBase {
         public int playerNum;
@@ -89,16 +93,20 @@ public class EFRNetworkManager : NetworkManager {
 		var handRNet = Instantiate(m_HandRNetPrefab, m_trVRChatObjParent);
 		var handLNet = Instantiate(m_HandLNetPrefab, m_trVRChatObjParent);
 		var headNet = Instantiate(m_HeadNetPrefab, m_trVRChatObjParent);
+		var soundMng = Instantiate(m_SoundMngPrefab);
+		var effectMng = Instantiate(m_EffectMngPrefab);
 
-		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+        NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
 		NetworkServer.AddPlayerForConnection(conn, handR, (short)(playerControllerId + 2));
         NetworkServer.AddPlayerForConnection(conn, handL, (short)(playerControllerId + 4));
         NetworkServer.AddPlayerForConnection(conn, gazeObj, (short)(playerControllerId + 6));
         NetworkServer.AddPlayerForConnection(conn, handRNet, (short)(playerControllerId + 8));
         NetworkServer.AddPlayerForConnection(conn, handLNet, (short)(playerControllerId + 10));
         NetworkServer.AddPlayerForConnection(conn, headNet, (short)(playerControllerId + 12));
+        NetworkServer.AddPlayerForConnection(conn, soundMng, (short)(playerControllerId + 14));
+        NetworkServer.AddPlayerForConnection(conn, effectMng, (short)(playerControllerId + 16));
 
-		Debug.Log("プレイヤー作成成功 : " + (message.playerNum+1));
+        Debug.Log("プレイヤー作成成功 : " + (message.playerNum+1));
         player.GetComponent<PlayerStatus>().RpcInit(message.playerNum);
 
     }
