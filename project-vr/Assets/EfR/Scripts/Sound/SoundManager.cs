@@ -32,8 +32,10 @@ public class SoundManager : NetworkBehaviour {
 
 	int m_iStageBGMChannel = -1;
 
-	private void Awake()
+    public override void OnStartLocalPlayer()
 	{
+        if (!isLocalPlayer) return;
+
 		instance = this;
 
 		// プレハブのロード
@@ -117,7 +119,7 @@ public class SoundManager : NetworkBehaviour {
 	public void RpcPlay(int channel, string name, Vector3 position, bool isLoop, bool playIn3DVolume, string attachTargetName,
         int triggeredPlayerNumber, bool playInAllClients, int soundSettingID)
 	{
-		PlayLocal(channel, name, position, isLoop, playIn3DVolume, attachTargetName, triggeredPlayerNumber, playInAllClients, soundSettingID);
+		instance.PlayLocal(channel, name, position, isLoop, playIn3DVolume, attachTargetName, triggeredPlayerNumber, playInAllClients, soundSettingID);
 	}
 	
 	private SoundPlayIns PlayLocal(
@@ -139,8 +141,13 @@ public class SoundManager : NetworkBehaviour {
 		if(m_oPlayingSounds[channel])
 		{
 			Debug.LogWarning("サウンドの" + channel + "チャネルが使用中です");
-            return null;
-		}
+            int retryChannel = FindPlayableChannel();
+            if(retryChannel != -1)
+            {
+                CmdPlay(retryChannel, name, position, isLoop, playIn3DVolume, attachTargetName, triggeredPlayerNumber, playInAllClients, soundSettingID);
+                return null;
+            }
+        }
 
 		var obj = Instantiate(m_prefSound[soundSettingID], position, Quaternion.identity, m_oChannelParents[channel].transform);
 		var soundPlayIns = obj.GetComponent<SoundPlayIns>();

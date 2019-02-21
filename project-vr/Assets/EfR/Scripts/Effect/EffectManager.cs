@@ -16,9 +16,12 @@ public class EffectManager : NetworkBehaviour {
 
 	static EffectManager instance = null;
 
-	private void Awake()
+	public override void OnStartLocalPlayer()
 	{
-		instance = this;
+        if (!isLocalPlayer) return;
+
+
+        instance = this;
 
 		// プレハブのロード
 		var effObjects = Resources.LoadAll<GameObject>("Effect");
@@ -90,10 +93,28 @@ public class EffectManager : NetworkBehaviour {
         string attachTargetName1, string attachTargetName2, Vector3 endPosition,
         bool playInAllClients, int triggeredPlayerNumber)
 	{
-		var eff = InstantiateEffect(channel, name, position, endPosition, playInAllClients, triggeredPlayerNumber);
-		eff = AttachTarget(eff, attachTargetName1, attachTargetName2);
+        instance.PlayLocal(channel, name, position, attachTargetName1, attachTargetName2, endPosition, playInAllClients, triggeredPlayerNumber);
     }
 
+    void PlayLocal(int channel, string name, Vector3 position,
+        string attachTargetName1, string attachTargetName2, Vector3 endPosition,
+        bool playInAllClients, int triggeredPlayerNumber)
+    {
+
+        if (m_oPlayingEffects[channel])
+        {
+            Debug.LogWarning("エフェクトの" + channel + "チャネルが使用中です");
+            int retryChannel = FindPlayableChannel();
+            if (retryChannel != -1)
+            {
+                CmdPlay(retryChannel, name, position, attachTargetName1, attachTargetName2,endPosition, playInAllClients, triggeredPlayerNumber);
+                return;
+            }
+        }
+
+        var eff = InstantiateEffect(channel, name, position, endPosition, playInAllClients, triggeredPlayerNumber);
+        eff = AttachTarget(eff, attachTargetName1, attachTargetName2);
+    }
 
 	GameObject InstantiateEffect(int channel, string name, Vector3 position, Vector3 endPosition,
         bool playInAllClients, int triggeredPlayerNumber)
