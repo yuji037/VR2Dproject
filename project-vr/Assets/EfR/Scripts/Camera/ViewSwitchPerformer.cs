@@ -94,6 +94,11 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
 
                 //C2DAdjuster.GetComponent<Camera>().fieldOfView = CVRAdjuster.GetCenterEyeFOV();
 
+                var cam2DCon= C2DAdjuster.GetComponent<Camera2DController>();
+                cam2DCon.NoiseActivate(0.5f,1.0f);
+                yield return new WaitForSeconds(1.0f);
+
+
                 var currentVRVCam = CVRAdjuster.GetComponent<CameraVRController>().CurrentVCam.transform;
 
                 //2Dカメラを固定カメラ位置に
@@ -104,7 +109,9 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 FadeInOutController._2DFadePanel.StartBlackFadeOut(0.2f);
                 yield return new WaitForSeconds(0.5f);
 
-                //リアルルーム全体を固定カメラの位置に置く
+                //リアルルーム全体を固定カメラの位置に置き、回転
+                //ステージ内の移行先カメラと今のカメラリグ位置の差分を取り、
+                //realRoom.transform.rotation = CVRAdjuster.transform.rotation;
                 var sub=currentVRVCam.position - CVRAdjuster.transform.position;
                 CVRAdjuster.transform.position = currentVRVCam.position;
                 realRoom.Translate(sub);
@@ -156,8 +163,13 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
             case PlayerMove.MoveType._2D:
                 Debug.Log("遷移開始VR→2D");
 
+                var cVRCon = CVRAdjuster.GetComponent<CameraVRController>();
+                cVRCon.NoiseActivate(0.05f,1.0f);
+                yield return new WaitForSeconds(1.0f);
+
                 playerMove.RendererSwitchForPlayerMoveType(toMoveType);
 
+                //realRoom.transform.rotation = CVRAdjuster.transform.rotation;
                 var subPos=CVRAdjuster.transform.position - transedPos.position;
                 realRoom.transform.Translate(subPos);
 
