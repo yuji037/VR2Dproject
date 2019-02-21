@@ -94,36 +94,36 @@ public class SoundManager : NetworkBehaviour {
 
 		int channel = FindPlayableChannel();
 
-		if ( playInAllClients )
-			CmdPlay(channel, name, position ?? Vector3.zero, isLoop, playIn3DVolume, attachTargetName);
-		else
-		{
-			PlayLocal(channel, name, position ?? Vector3.zero, isLoop, playIn3DVolume, attachTargetName);
-		}
+        CmdPlay(channel, name, position ?? Vector3.zero, isLoop, playIn3DVolume, attachTargetName,
+               PlayerManager.GetPlayerNumber(), playInAllClients);
 		
 		return channel;
 	}
 
 	[Command]
-	public void CmdPlay(int channel, string name, Vector3 position, bool isLoop, bool playIn3DVolume, string attachTargetName)
+	public void CmdPlay(int channel, string name, Vector3 position, bool isLoop, bool playIn3DVolume, string attachTargetName,
+        int localPlayerNumber, bool playInAllClients)
 	{
-		RpcPlay(channel, name, position, isLoop, playIn3DVolume, attachTargetName);
+		RpcPlay(channel, name, position, isLoop, playIn3DVolume, attachTargetName, localPlayerNumber, playInAllClients);
 	}
 
 	[ClientRpc]
-	public void RpcPlay(int channel, string name, Vector3 position, bool isLoop, bool playIn3DVolume, string attachTargetName)
+	public void RpcPlay(int channel, string name, Vector3 position, bool isLoop, bool playIn3DVolume, string attachTargetName,
+        int localPlayerNumber, bool playInAllClients)
 	{
-		PlayLocal(channel, name, position, isLoop, playIn3DVolume, attachTargetName);
+		PlayLocal(channel, name, position, isLoop, playIn3DVolume, attachTargetName, localPlayerNumber, playInAllClients);
 	}
 	
 	private SoundPlayIns PlayLocal(
 		int channel,
 		string name,
 		Vector3 position,
-		bool isLoop = false,
-		bool playIn3DVolume = true,
-		string attachTargetName = null,
-		int specialSoundSetting = -1)
+		bool isLoop,
+		bool playIn3DVolume,
+		string attachTargetName,
+        int localPlayerNumber, 
+        bool playInAllClients,
+        int specialSoundSetting = -1)
 	{
 		if(m_cLocalPlayerMove == null )
 		{
@@ -139,7 +139,7 @@ public class SoundManager : NetworkBehaviour {
 		var soundPlayIns = obj.GetComponent<SoundPlayIns>();
 		m_oPlayingSounds[channel] = soundPlayIns;
 		soundPlayIns.Init();
-		bool isEmptySound = string.IsNullOrEmpty(name);
+		bool isEmptySound = !playInAllClients && PlayerManager.GetPlayerNumber() != localPlayerNumber;
 
 		// オブジェクトへのアタッチ設定
 		if ( !string.IsNullOrEmpty(attachTargetName))
@@ -154,12 +154,6 @@ public class SoundManager : NetworkBehaviour {
 		var audioSource = soundPlayIns.m_AudioSource;
 		audioSource.loop = isLoop;
 
-		// ループしないなら自前で停止
-		if ( !isLoop && !isEmptySound )
-		{
-			StartCoroutine(DestroyOnClipEndCoroutine(soundPlayIns, channel));
-		}
-
 		audioSource.spatialBlend = playIn3DVolume ? 1f : 0f;
 
 		// 再生サウンドの指定
@@ -171,7 +165,7 @@ public class SoundManager : NetworkBehaviour {
 			if(specialSoundSetting != -1 )
 			{
 				AudioCustomizeModel audioCustomizeSetting = null;
-				Debug.Log("m_cLocalPlayerMove.moveType : " + m_cLocalPlayerMove.moveType);
+				//Debug.Log("m_cLocalPlayerMove.moveType : " + m_cLocalPlayerMove.moveType);
 				switch ( m_cLocalPlayerMove.moveType )
 				{
 					case PlayerMove.MoveType.FIXED:
@@ -195,12 +189,19 @@ public class SoundManager : NetworkBehaviour {
 			}
 		}
 		else
-		{
-			// ローカルのみのサウンドの場合は他クライアントで空のサウンドオブジェクトにする
-			obj.name = "empty_sound";
+        {
+            audioSource.clip = m_AudioClips[name];
+            // ローカルのみのサウンドの場合は他クライアントで空のサウンドオブジェクトにする
+            obj.name = "empty_sound";
 		}
 
-		Debug.Log("Play : " + name);
+        // ループしないなら自前で停止
+        if (!isLoop)
+        {
+            StartCoroutine(DestroyOnClipEndCoroutine(soundPlayIns, channel));
+        }
+
+        Debug.Log("Play : " + name);
 
 		return soundPlayIns;
 	}
@@ -279,8 +280,6 @@ public class SoundManager : NetworkBehaviour {
 
 	IEnumerator DestroyOnClipEndCoroutine(SoundPlayIns soundPlayIns, int channel)
 	{
-        yield return new WaitUntil(() => soundPlayIns.m_AudioSource.clip);
-
         float clipLength = soundPlayIns.m_AudioSource.clip.length;
 
 		yield return new WaitForSeconds( clipLength + 1.0f );
@@ -324,8 +323,11 @@ public class SoundManager : NetworkBehaviour {
 					m_oPlayingSounds[channel].ChangeVolume(afterVolume, fadeDuration);
 			}
 
-			if ( destroyAfterFade )
-				m_oPlayingSounds[channel] = null;
+            if (destroyAfterFade)
+            {
+                m_oPlayingSounds[channel].StopAndDestroy();
+                m_oPlayingSounds[channel] = null;
+            }
 		}
 	}
 

@@ -57,7 +57,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 	}
 	public static int GetPlayerNumber()
     {
-        return (int)LocalPlayer.GetComponent<PlayerStatus>().Number;
+        return (int)m_playerStatus.Number;
     }
     // 接続中の全てのプレイヤー
     public static GameObject[] Players=new GameObject[2];

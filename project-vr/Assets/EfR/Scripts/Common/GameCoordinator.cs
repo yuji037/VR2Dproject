@@ -16,6 +16,8 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
     [SerializeField]
     string selectMenuStageName;
 
+    public StageData playingStageData;
+
     Camera2DController camera2D;
     // Use this for initialization
     void Start()
@@ -126,7 +128,7 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         var gameObjects=scene.GetRootGameObjects();
         foreach (var i in gameObjects)
         {
-            var setters=i.transform.GetComponentsInChildren<SceneIDSetter>();
+            var setters=i.transform.GetComponentsInChildren<SceneIDSetter>(true);
             foreach (var k in setters )
             {
                 k.SetForceSceneID();

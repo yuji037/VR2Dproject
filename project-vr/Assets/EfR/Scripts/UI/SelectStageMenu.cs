@@ -41,7 +41,9 @@ public class SelectStageMenu :NetworkBehaviour
     }
     public void GoToSelectStage()
     {
-        GameCoordinator.GetInstance().ChangeStage(stageDataMaster.stageDatas[selectingStageIndexNumber].StageSceneName);
+        var selectStageData = stageDataMaster.stageDatas[selectingStageIndexNumber];
+        GameCoordinator.GetInstance().playingStageData = selectStageData;
+        GameCoordinator.GetInstance().ChangeStage(selectStageData.StageSceneName);
     }
     public bool isReady;
     float stageUIChangeTimer = 0.4f;

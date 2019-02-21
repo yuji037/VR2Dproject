@@ -16,6 +16,14 @@ public class EFRNetworkManager : NetworkManager {
 	GameObject m_HandLPrefab;
 	[SerializeField]
 	GameObject m_GazePointPrefab;
+	[SerializeField]
+	Transform m_trVRChatObjParent;
+	[SerializeField]
+	GameObject m_HandLNetPrefab;
+	[SerializeField]
+	GameObject m_HandRNetPrefab;
+	[SerializeField]
+	GameObject m_HeadNetPrefab;
 
 	public static string[] curretStageName=new string[2] {"",""};
 
@@ -78,11 +86,17 @@ public class EFRNetworkManager : NetworkManager {
 		var handR = Instantiate(m_HandRPrefab);
 		var handL = Instantiate(m_HandLPrefab);
 		var gazeObj = Instantiate(m_GazePointPrefab);
+		var handRNet = Instantiate(m_HandRNetPrefab, m_trVRChatObjParent);
+		var handLNet = Instantiate(m_HandLNetPrefab, m_trVRChatObjParent);
+		var headNet = Instantiate(m_HeadNetPrefab, m_trVRChatObjParent);
 
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
 		NetworkServer.AddPlayerForConnection(conn, handR, (short)(playerControllerId + 2));
         NetworkServer.AddPlayerForConnection(conn, handL, (short)(playerControllerId + 4));
         NetworkServer.AddPlayerForConnection(conn, gazeObj, (short)(playerControllerId + 6));
+        NetworkServer.AddPlayerForConnection(conn, handRNet, (short)(playerControllerId + 8));
+        NetworkServer.AddPlayerForConnection(conn, handLNet, (short)(playerControllerId + 10));
+        NetworkServer.AddPlayerForConnection(conn, headNet, (short)(playerControllerId + 12));
 
 		Debug.Log("プレイヤー作成成功 : " + (message.playerNum+1));
         player.GetComponent<PlayerStatus>().RpcInit(message.playerNum);

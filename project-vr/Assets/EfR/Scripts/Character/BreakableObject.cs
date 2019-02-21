@@ -16,14 +16,16 @@ public class BreakableObject : NetworkBehaviour {
     public void Break()
     {
         if (!isServer) return;
-        NetworkServer.Destroy(gameObject);
+        RpcBreak();
     }
-
-    private void OnDestroy()
+    [ClientRpc]
+    public void RpcBreak()
     {
         foreach (var i in screenBreaker)
         {
             i.StartBreak();
         }
+        if(isServer)NetworkServer.Destroy(gameObject);
     }
+
 }

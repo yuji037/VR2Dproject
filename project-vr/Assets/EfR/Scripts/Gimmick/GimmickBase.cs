@@ -125,7 +125,7 @@ public abstract class GimmickBase : NetworkBehaviour
 
     bool CanCall()
     {
-        return (!isCallOnlyServer || isServer);
+        return (!gameObject || !isCallOnlyServer || isServer);
     }
 
     public void DestroyThisObject()
@@ -133,8 +133,8 @@ public abstract class GimmickBase : NetworkBehaviour
         NetworkServer.Destroy(this.gameObject);
     }
 
-    private void OnDestroy()
-    {
-        DestroyThisObject();
-    }
+    //private void OnDestroy()
+    //{
+    //    DestroyThisObject();
+    //}
 }

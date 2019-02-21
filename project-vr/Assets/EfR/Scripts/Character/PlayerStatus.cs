@@ -145,11 +145,19 @@ public class PlayerStatus : NetworkBehaviour {
         
     }
 
+    [Command]
+    public void CmdTransWorld(PlayerMove.MoveType transMoveTypeTo)
+    {
+        RpcTransWorld(transMoveTypeTo);
+    }
+
 	// 他端末のプレイヤーに影響する場合は[ClientRpc]を使う
 	// [ClientRpc]：すべてのクライアントの関数をリモートで実行
 	[ClientRpc]
 	public void RpcTransWorld(PlayerMove.MoveType transMoveTypeTo)
 	{
+        StartCoroutine(VRCharaHoloController.GetInstance().VRChatCharaFade((int)Number,
+            transMoveTypeTo == PlayerMove.MoveType._2D));
         StageMaterialChanger.GetInstance().ChangeMaterial((int)Number,transMoveTypeTo);
 		if ( !hasAuthority ) return;
         TransWorld(transMoveTypeTo);

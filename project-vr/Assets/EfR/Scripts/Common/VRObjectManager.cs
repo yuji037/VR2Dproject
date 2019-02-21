@@ -46,33 +46,34 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
 
     NetworkIdentity[] handObjIDs;
     
-    public void OnNetworkConnected()
-    {
-        // 2Pからも1Pの手が見えるように、ネットワーク対応
-        var handObjTransforms = VRCamObject.GetComponentsInChildren<Transform>()
-								.Where(tr => tr.gameObject.name.Contains("HandRig")).ToArray();
+  //  public void OnNetworkConnected()
+  //  {
+  //      // 2Pからも1Pの手が見えるように、ネットワーク対応
+  //      var handObjTransforms = VRCamObject.GetComponentsInChildren<Transform>()
+		//						.Where(tr => tr.gameObject.name.Contains("HandRig")).ToArray();
 
-        handObjIDs = new NetworkIdentity[handObjTransforms.Length];
-        foreach ( var obj in handObjTransforms )
-        {
+  //      handObjIDs = new NetworkIdentity[handObjTransforms.Length];
+  //      foreach ( var obj in handObjTransforms )
+  //      {
 
-			// ※サーバーでスポーンするオブジェクトの親が非アクティブだと
-			// 上手くスポーンしないらしい？
-			var trackHand = Instantiate(m_prefVRHand);
-			//trackHand.transform.parent = GameObject.Find("VRCamParent").transform;
-			trackHand.transform.position = obj.transform.position;
-			trackHand.transform.rotation = obj.transform.rotation;
-			trackHand.GetComponent<TrackingTransform>().trackTransform = obj.transform;
-			Debug.Log("OnNetworkConnected");
-			NetworkServer.SpawnWithClientAuthority(trackHand, PlayerManager.LocalPlayer);
-			//NetworkServer.Spawn(trackHand);
-		}
+		//	// ※サーバーでスポーンするオブジェクトの親が非アクティブだと
+		//	// 上手くスポーンしないらしい？
+		//	var trackHand = Instantiate(m_prefVRHand);
+		//	//trackHand.transform.parent = GameObject.Find("VRCamParent").transform;
+		//	trackHand.transform.position = obj.transform.position;
+		//	trackHand.transform.rotation = obj.transform.rotation;
+		//	trackHand.GetComponent<TrackingTransform>().trackTransform = obj.transform;
 
-        for(int i = 0; i < handObjTransforms.Length; ++i )
-        {
-            handObjIDs[i] = handObjTransforms[i].GetComponent<NetworkIdentity>();
-        }
-    }
+		//	Debug.Log("OnNetworkConnected");
+		//	NetworkServer.SpawnWithClientAuthority(trackHand, PlayerManager.LocalPlayer);
+		//	//NetworkServer.Spawn(trackHand);
+		//}
+
+  //      for(int i = 0; i < handObjTransforms.Length; ++i )
+  //      {
+  //          handObjIDs[i] = handObjTransforms[i].GetComponent<NetworkIdentity>();
+  //      }
+  //  }
 
     // プレイヤースポーン後に呼ぶ
     public void InitVRCamObject()
@@ -112,19 +113,19 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
 
 	private void Update()
 	{
-		if ( Input.GetKeyDown(KeyCode.L) )
-		{
-			var vrChatObjs = ClientScene.objects.Where(pair => pair.Value.gameObject.name.Contains("VR"));
+		//if ( Input.GetKeyDown(KeyCode.L) )
+		//{
+		//	var vrChatObjs = ClientScene.objects.Where(pair => pair.Value.gameObject.name.Contains("VR"));
 
-			foreach(var pair in vrChatObjs )
-			{
-				var vrChatSetter = pair.Value.GetComponent<VRChatObjectSetter>();
-				if ( vrChatSetter == null ) {
-					Debug.Log("ない");
-					continue;
-				}
-				vrChatSetter.Init();
-			}
-		}
+		//	foreach(var pair in vrChatObjs )
+		//	{
+		//		var vrChatSetter = pair.Value.GetComponent<VRChatObjectSetter>();
+		//		if ( vrChatSetter == null ) {
+		//			Debug.Log("ない");
+		//			continue;
+		//		}
+		//		vrChatSetter.Init();
+		//	}
+		//}
 	}
 }
