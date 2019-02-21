@@ -143,14 +143,15 @@ public class SoundManager : NetworkBehaviour {
 
 		if(m_oPlayingSounds[channel])
 		{
-			Debug.LogWarning("サウンドの" + channel + "チャネルが使用中です");
-            
-            int retryChannel = FindPlayableChannel();
-            if(retryChannel != -1)
-            {
-                CmdPlay(retryChannel, name, position, isLoop, playIn3DVolume, attachTargetName, triggeredPlayerNumber, playInAllClients, soundSettingID);
-                return null;
-            }
+            //Debug.LogWarning("サウンドの" + channel + "チャネルが使用中です");
+
+            //         int retryChannel = FindPlayableChannel();
+            //         if(retryChannel != -1)
+            //         {
+            //             CmdPlay(retryChannel, name, position, isLoop, playIn3DVolume, attachTargetName, triggeredPlayerNumber, playInAllClients, soundSettingID);
+            //             return null;
+            //         }
+            return null;
         }
 
 		var obj = Instantiate(m_prefSound[soundSettingID], position, Quaternion.identity, m_oChannelParents[channel].transform);

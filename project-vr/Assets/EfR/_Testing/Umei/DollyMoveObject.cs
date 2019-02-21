@@ -25,6 +25,10 @@ public class DollyMoveObject : NetworkBehaviour{
     [SerializeField]
     bool selfTurn;
 
+    [SerializeField]
+    bool isLoop;
+
+
     int moveDirection = 1;
 
     public bool StartedServer { get; private set; }
@@ -33,7 +37,7 @@ public class DollyMoveObject : NetworkBehaviour{
     {
         currentPathValue = defaultPathValue;
         StartedServer = true;
-        Move(1.0f);
+        Move(0f);
     }
 
     private void Update()
@@ -60,7 +64,10 @@ public class DollyMoveObject : NetworkBehaviour{
                 }
             }
             currentPathValue += moveSpeed * multiPlySpeed * Time.deltaTime*moveDirection;
-            currentPathValue=Mathf.Clamp(currentPathValue,0f,path.MaxPos);
+            if (!isLoop)
+            {
+                currentPathValue =Mathf.Clamp(currentPathValue,0f,path.MaxPos);
+            }
             var next = path.EvaluatePosition(currentPathValue);
             if (isChangeDirectionToMoveVec)
             {
