@@ -142,7 +142,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 530650126}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &68812661
 GameObject:
@@ -172,7 +172,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 530650126}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &99431370
 GameObject:
@@ -209,7 +209,7 @@ Transform:
   - {fileID: 765335345}
   - {fileID: 1550494998}
   m_Father: {fileID: 530650126}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &199100444 stripped
 Transform:
@@ -381,17 +381,16 @@ Transform:
   m_Children:
   - {fileID: 1000636410}
   - {fileID: 1076884226}
-  - {fileID: 1189629984}
   - {fileID: 68812662}
   - {fileID: 12196996}
   - {fileID: 1465245368}
   - {fileID: 1222828863}
   - {fileID: 536178686}
-  - {fileID: 1579450982}
   - {fileID: 99431371}
+  - {fileID: 1579450982}
+  - {fileID: 1377658316}
   - {fileID: 1743773134}
   - {fileID: 686882340}
-  - {fileID: 1377658316}
   m_Father: {fileID: 324990323}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -422,7 +421,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 530650126}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &536178687
 MonoBehaviour:
@@ -1863,7 +1862,7 @@ MeshCollider:
   m_GameObject: {fileID: 1105480637}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
@@ -1876,34 +1875,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1105480637}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1189629983
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1189629984}
-  m_Layer: 8
-  m_Name: BGMVRSpeakerPos
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1189629984
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1189629983}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.9, y: 29.48, z: 9.33}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 530650126}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1222828862
 GameObject:
   m_ObjectHideFlags: 0
@@ -1932,7 +1903,7 @@ Transform:
   - {fileID: 1012710207}
   - {fileID: 1278712418}
   m_Father: {fileID: 530650126}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1278712417
 GameObject:
@@ -5491,7 +5462,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 530650126}
-  m_RootOrder: 12
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1465245367
 GameObject:
@@ -5523,7 +5494,7 @@ Transform:
   - {fileID: 199100444}
   - {fileID: 461054111}
   m_Father: {fileID: 530650126}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1488967837
 GameObject:

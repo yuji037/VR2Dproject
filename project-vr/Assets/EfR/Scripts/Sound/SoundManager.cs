@@ -17,7 +17,7 @@ public class SoundManager : NetworkBehaviour {
 	int m_iChannelMax = 20;
 
 	[SerializeField, Header("音を持たせるオブジェクト")]
-	GameObject m_prefSound;
+	GameObject[] m_prefSound;
 
 	[SerializeField]
 	BGMSetting m_BGMSetting;
@@ -83,35 +83,41 @@ public class SoundManager : NetworkBehaviour {
 		return instance;
 	}
 
-	public int Play(
-		string name,
-		Vector3? position = null,
-		bool playInAllClients = true,
-		bool isLoop = false,
-		bool playIn3DVolume = true,
-		string attachTargetName = null)
+    public int Play(
+        string name,
+        Vector3? position = null,
+        bool playInAllClients = true,
+        bool isLoop = false,
+        bool playIn3DVolume = true,
+        string attachTargetName = null,
+        int soundSettingID = 0)
 	{
 
 		int channel = FindPlayableChannel();
+        if(channel == -1)
+        {
+            Debug.LogWarning("再生に失敗");
+            return -1;
+        }
 
         CmdPlay(channel, name, position ?? Vector3.zero, isLoop, playIn3DVolume, attachTargetName,
-               PlayerManager.GetPlayerNumber(), playInAllClients);
+               PlayerManager.GetPlayerNumber(), playInAllClients, soundSettingID);
 		
 		return channel;
 	}
 
 	[Command]
 	public void CmdPlay(int channel, string name, Vector3 position, bool isLoop, bool playIn3DVolume, string attachTargetName,
-        int localPlayerNumber, bool playInAllClients)
+        int localPlayerNumber, bool playInAllClients, int soundSettingID)
 	{
-		RpcPlay(channel, name, position, isLoop, playIn3DVolume, attachTargetName, localPlayerNumber, playInAllClients);
+		RpcPlay(channel, name, position, isLoop, playIn3DVolume, attachTargetName, localPlayerNumber, playInAllClients, soundSettingID);
 	}
 
 	[ClientRpc]
 	public void RpcPlay(int channel, string name, Vector3 position, bool isLoop, bool playIn3DVolume, string attachTargetName,
-        int localPlayerNumber, bool playInAllClients)
+        int triggeredPlayerNumber, bool playInAllClients, int soundSettingID)
 	{
-		PlayLocal(channel, name, position, isLoop, playIn3DVolume, attachTargetName, localPlayerNumber, playInAllClients);
+		PlayLocal(channel, name, position, isLoop, playIn3DVolume, attachTargetName, triggeredPlayerNumber, playInAllClients, soundSettingID);
 	}
 	
 	private SoundPlayIns PlayLocal(
@@ -121,9 +127,9 @@ public class SoundManager : NetworkBehaviour {
 		bool isLoop,
 		bool playIn3DVolume,
 		string attachTargetName,
-        int localPlayerNumber, 
+        int triggeredPlayerNumber, 
         bool playInAllClients,
-        int specialSoundSetting = -1)
+        int soundSettingID = 0)
 	{
 		if(m_cLocalPlayerMove == null )
 		{
@@ -132,14 +138,16 @@ public class SoundManager : NetworkBehaviour {
 
 		if(m_oPlayingSounds[channel])
 		{
-			Debug.LogError("サウンドの" + channel + "チャネルが使用中です");
+			Debug.LogWarning("サウンドの" + channel + "チャネルが使用中です");
+            return null;
 		}
 
-		var obj = Instantiate(m_prefSound, position, Quaternion.identity, m_oChannelParents[channel].transform);
+		var obj = Instantiate(m_prefSound[soundSettingID], position, Quaternion.identity, m_oChannelParents[channel].transform);
 		var soundPlayIns = obj.GetComponent<SoundPlayIns>();
 		m_oPlayingSounds[channel] = soundPlayIns;
 		soundPlayIns.Init();
-		bool isEmptySound = !playInAllClients && PlayerManager.GetPlayerNumber() != localPlayerNumber;
+        // このクライアントで再生するかどうか
+		bool isEmptySound = !playInAllClients && PlayerManager.GetPlayerNumber() != triggeredPlayerNumber;
 
 		// オブジェクトへのアタッチ設定
 		if ( !string.IsNullOrEmpty(attachTargetName))
@@ -162,31 +170,31 @@ public class SoundManager : NetworkBehaviour {
 			audioSource.clip = m_AudioClips[name];
 			audioSource.Play();
 			
-			if(specialSoundSetting != -1 )
-			{
-				AudioCustomizeModel audioCustomizeSetting = null;
-				//Debug.Log("m_cLocalPlayerMove.moveType : " + m_cLocalPlayerMove.moveType);
-				switch ( m_cLocalPlayerMove.moveType )
-				{
-					case PlayerMove.MoveType.FIXED:
-						audioCustomizeSetting = m_SoundSetting.soundSettings[specialSoundSetting].audioCusmizeSettings[0];
-						break;
-					case PlayerMove.MoveType._2D:
-						audioCustomizeSetting = m_SoundSetting.soundSettings[specialSoundSetting].audioCusmizeSettings[1];
-						break;
-				}
+			//if(soundSettingType != 0 )
+			//{
+			//	AudioCustomizeModel audioCustomizeSetting = null;
+			//	//Debug.Log("m_cLocalPlayerMove.moveType : " + m_cLocalPlayerMove.moveType);
+			//	switch ( m_cLocalPlayerMove.moveType )
+			//	{
+			//		case PlayerMove.MoveType.FIXED:
+			//			audioCustomizeSetting = m_SoundSetting.soundSettings[soundSettingType].audioCusmizeSettings[0];
+			//			break;
+			//		case PlayerMove.MoveType._2D:
+			//			audioCustomizeSetting = m_SoundSetting.soundSettings[soundSettingType].audioCusmizeSettings[1];
+			//			break;
+			//	}
 
-				audioSource.rolloffMode = audioCustomizeSetting.rollOffMode;
-				audioSource.maxDistance = audioCustomizeSetting.maxDistance;
-				audioSource.minDistance = audioCustomizeSetting.minDistance;
-			}
+			//	audioSource.rolloffMode = audioCustomizeSetting.rollOffMode;
+			//	audioSource.maxDistance = audioCustomizeSetting.maxDistance;
+			//	audioSource.minDistance = audioCustomizeSetting.minDistance;
+			//}
 
-			if( m_cLocalPlayerMove.moveType == PlayerMove.MoveType._2D )
-			{
-				// TVの位置から再生するとデカすぎる音を弱める
-				audioSource.volume *= 0.4f;
-				Debug.Log("2Dのため音量調整");
-			}
+			//if( m_cLocalPlayerMove.moveType == PlayerMove.MoveType._2D )
+			//{
+			//	// TVの位置から再生するとデカすぎる音を弱める
+			//	audioSource.volume *= 0.4f;
+			//	Debug.Log("2Dのため音量調整");
+			//}
 		}
 		else
         {
@@ -217,21 +225,11 @@ public class SoundManager : NetworkBehaviour {
 				if ( m_iStageBGMChannel != -1 )
 					FadeoutStageBGM();
 
-				var playerMoveType = PlayerManager.LocalPlayer.GetComponent<PlayerMove>().moveType;
-				Vector3 bgmPosition = Vector3.zero;
-				switch ( playerMoveType )
-				{
-					case PlayerMove.MoveType._2D:
-						bgmPosition = m_trTVSpeakerPos.position;
-						break;
-					case PlayerMove.MoveType.FIXED:
-						bgmPosition = m_trVRSpeakerPos.position;
-						break;
-				}
-				m_iStageBGMChannel = Play(pair.BGMName,
-					bgmPosition, 
-					true, true);
-				//SetBGMSpeakerPosition();
+                Vector3 bgmPosition = Vector3.zero;
+                int soundSettingID = 0;
+                GetBGMSettingParam(out bgmPosition, out soundSettingID);
+
+                m_iStageBGMChannel = Play(pair.BGMName,	bgmPosition, false, true, true, null, soundSettingID);
 				return;
 			}
 		}
@@ -239,28 +237,41 @@ public class SoundManager : NetworkBehaviour {
 		Debug.Log("Stage[" + stageName + "]に対応するBGMを探しましたがありませんでした");
 	}
 
-	public void SetBGMSpeakerPosition()
-	{
-		// スピーカー場所に移動
-		var playerMoveType = PlayerManager.LocalPlayer.GetComponent<PlayerMove>().moveType;
-		Transform speaker = null;
-		switch ( playerMoveType )
-		{
-			case PlayerMove.MoveType._2D:
-				speaker = m_trTVSpeakerPos;
-				break;
-			case PlayerMove.MoveType.FIXED:
-				speaker = m_trVRSpeakerPos;
-				break;
-			default:
-				break;
-		}
-		if ( speaker )
-		{
-			m_oPlayingSounds[m_iStageBGMChannel].transform.position = speaker.position;
-			m_oPlayingSounds[m_iStageBGMChannel].transform.rotation = speaker.rotation;
-		}
-	}
+    public void UpdateBGMParam()
+    {
+        Vector3 bgmPosition = Vector3.zero;
+        int soundSettingID = 0;
+        GetBGMSettingParam(out bgmPosition, out soundSettingID);
+
+        // 途中で停止して途中から再生
+        var currentTimeInBgm = m_oPlayingSounds[m_iStageBGMChannel].m_AudioSource.time;
+        var bgmName = m_oPlayingSounds[m_iStageBGMChannel].m_AudioSource.clip.name;
+        Debug.Log("BGM再生位置：" + currentTimeInBgm);
+        Stop(m_iStageBGMChannel);
+        m_iStageBGMChannel = Play(bgmName, bgmPosition, false, true, true, null, soundSettingID);
+        SetSoundTime(m_iStageBGMChannel, currentTimeInBgm);
+    }
+
+    void GetBGMSettingParam(out Vector3 position, out int soundSettingID)
+    {
+        position = Vector3.zero;
+        soundSettingID = 0;
+
+        var playerMoveType = PlayerManager.LocalPlayer.GetComponent<PlayerMove>().moveType;
+        switch (playerMoveType)
+        {
+            case PlayerMove.MoveType._2D:
+                position = m_trTVSpeakerPos.position;
+                soundSettingID = 1;
+                break;
+            case PlayerMove.MoveType.FIXED:
+                position = m_trVRSpeakerPos.position;
+                soundSettingID = 2;
+                break;
+        }
+
+    }
+
 	public void ChangeBGMVolume(float afterVolume, float duration = 1f)
 	{
 		ChangeVolume(m_iStageBGMChannel, afterVolume, duration);
@@ -289,17 +300,20 @@ public class SoundManager : NetworkBehaviour {
 
 	public void ChangeVolume(int channel, float afterVoulume, float fadeDuration)
 	{
-		CmdChangeVolumeOrStop(channel, afterVoulume, fadeDuration, false);
-	}
+        if (channel != -1)
+            CmdChangeVolumeOrStop(channel, afterVoulume, fadeDuration, false);
+    }
 
 	public void Fadeout(int channel, float duration = 1f)
 	{
-		CmdChangeVolumeOrStop(channel, 0f, duration, true);
-	}
+        if (channel != -1)
+            CmdChangeVolumeOrStop(channel, 0f, duration, true);
+    }
 
 	public void Stop(int channel)
 	{
-		CmdChangeVolumeOrStop(channel, 0f, 0f, true);
+        if (channel != -1)
+            CmdChangeVolumeOrStop(channel, 0f, 0f, true);
 	}
 
 	[Command]
@@ -344,5 +358,29 @@ public class SoundManager : NetworkBehaviour {
 		return -1;
 	}
 
+    public void SetSoundTime(int channel, float time)
+    {
+        if (channel != -1)
+            CmdSetSoundTime(channel, time);
+    }
+
+    [Command]
+    void CmdSetSoundTime(int channel, float time)
+    {
+        RpcSetSoundTime(channel, time);
+    }
+
+    
+    [ClientRpc]
+    void RpcSetSoundTime(int channel, float time)
+    {
+        if (m_oPlayingSounds[channel])
+        {
+            if (m_oPlayingSounds[channel].m_AudioSource.isPlaying)
+            {
+                m_oPlayingSounds[channel].m_AudioSource.time = time;
+            }
+        }
+    }
 }
 

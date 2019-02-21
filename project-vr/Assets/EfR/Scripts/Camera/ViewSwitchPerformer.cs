@@ -183,6 +183,6 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
         if (callBack != null) callBack();
 
 		SoundManager.GetInstance().Fadeout(seChannel);
-		SoundManager.GetInstance().SetBGMSpeakerPosition();
+		SoundManager.GetInstance().UpdateBGMParam();
 	}
 }
