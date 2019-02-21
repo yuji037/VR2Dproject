@@ -14,7 +14,9 @@ public class SoundManager : NetworkBehaviour {
 	SoundPlayIns[] m_oPlayingSounds;
 
 	[SerializeField]
-	int m_iChannelMax = 20;
+	int m_iChannelMax = 40;
+
+    int m_iChannelHalf = 0;
 
 	[SerializeField, Header("音を持たせるオブジェクト")]
 	GameObject[] m_prefSound;
@@ -37,6 +39,7 @@ public class SoundManager : NetworkBehaviour {
         if (!isLocalPlayer) return;
 
 		instance = this;
+        m_iChannelHalf = (int)(m_iChannelMax / 2);
 
 		// プレハブのロード
 		var audioClips = Resources.LoadAll<AudioClip>( "Sound" );
@@ -141,6 +144,7 @@ public class SoundManager : NetworkBehaviour {
 		if(m_oPlayingSounds[channel])
 		{
 			Debug.LogWarning("サウンドの" + channel + "チャネルが使用中です");
+            
             int retryChannel = FindPlayableChannel();
             if(retryChannel != -1)
             {
@@ -354,7 +358,9 @@ public class SoundManager : NetworkBehaviour {
 
 	private int FindPlayableChannel()
 	{
-		for ( int i = 0; i < m_iChannelMax; ++i )
+        int channelMin = PlayerManager.GetPlayerNumber() == 0 ? 0 : m_iChannelHalf;
+        int channelMax = channelMin + m_iChannelHalf;
+        for ( int i = channelMin; i < channelMax; ++i )
 		{
 			if ( m_oPlayingSounds[i] == null )
 			{
