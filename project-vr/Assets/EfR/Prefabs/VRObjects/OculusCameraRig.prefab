@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 20601072124232182}
   - component: {fileID: 114685842478005830}
   - component: {fileID: 114207019575412368}
+  - component: {fileID: 114138102924684574}
   m_Layer: 10
   m_Name: CenterEyeAnchor
   m_TagString: MainCamera
@@ -260,7 +261,7 @@ Transform:
   m_GameObject: {fileID: 1895269860190646}
   m_LocalRotation: {x: 0.000017414575, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -13.72743, y: 14.088424, z: -6.099844}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4228210126084336}
   m_Father: {fileID: 0}
@@ -399,7 +400,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.5
   far clip plane: 1000
   field of view: 90
   orthographic: 0
@@ -602,6 +603,28 @@ MonoBehaviour:
   cameraSensitivity: 10
   userControllable: 1
   centerCam: {fileID: 20601072124232182}
+--- !u!114 &114138102924684574
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1452200333033722}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dc54fbfcb99b1f499cbebf1b61e39ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stencilViewerMode: 0
+  _maxStencilID: 5
+  _colours:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 1, g: 0, b: 0, a: 0}
+  - {r: 0, g: 1, b: 0, a: 0}
+  - {r: 0, g: 0, b: 1, a: 0}
+  - {r: 1, g: 0.8181819, b: 0, a: 0}
+  _stencilTable: {fileID: 2800000, guid: 9ca0ea91c2b8b4540b33ca7ef54bf8af, type: 3}
+  _stencilViewerColor: {fileID: 4800000, guid: 3f7f728013663364e89a05329b48e06f, type: 3}
+  _stencilViewerTable: {fileID: 4800000, guid: 172aa62b39c821d4481fee42e457e8f3, type: 3}
 --- !u!114 &114207019575412368
 MonoBehaviour:
   m_ObjectHideFlags: 1
