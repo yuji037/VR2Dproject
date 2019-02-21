@@ -31,7 +31,8 @@ public class PlayerAnimationController : NetworkBehaviour{
     [ClientRpc]
     void RpcSetFloat(string name, float value)
     {
-        animator.SetFloat(name,value);
+        if (animator)
+            animator.SetFloat(name, value);
     }
 
 }

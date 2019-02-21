@@ -11,6 +11,9 @@ public class EffectManager : NetworkBehaviour {
 
 	[SerializeField]
 	int m_iChannelMax = 20;
+
+    int m_iChannelHalf = 0;
+
     [SerializeField]
     GameObject m_prefEmptyEffect;
 
@@ -68,15 +71,17 @@ public class EffectManager : NetworkBehaviour {
     }
 
 	public int FindPlayableChannel()
-	{
-		for ( int i = 0; i < m_iChannelMax; ++i )
-		{
-			if ( m_oPlayingEffects[i] == null )
-			{
-				return i;
-			}
-		}
-		Debug.LogWarning("エフェクト再生チャネルに空きがありません");
+    {
+        int channelMin = PlayerManager.GetPlayerNumber() == 0 ? 0 : m_iChannelHalf;
+        int channelMax = channelMin + m_iChannelHalf;
+        for (int i = channelMin; i < channelMax; ++i)
+        {
+            if (m_oPlayingEffects[i] == null)
+            {
+                return i;
+            }
+        }
+        Debug.LogWarning("エフェクト再生チャネルに空きがありません");
 		return -1;
 	}
 
@@ -169,6 +174,11 @@ public class EffectManager : NetworkBehaviour {
 
     [ClientRpc]
     void RpcStop(int channel, float durationUntilDestroy)
+    {
+        instance.StopLocal(channel, durationUntilDestroy);
+    }
+
+    void StopLocal(int channel, float durationUntilDestroy)
     {
         if (m_oPlayingEffects[channel] == null)
         {
