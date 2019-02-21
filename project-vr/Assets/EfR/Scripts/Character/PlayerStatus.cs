@@ -208,7 +208,7 @@ public class PlayerStatus : NetworkBehaviour {
 		}
 		if(fadeIn) holoMat.SetFloat("_App", 0);
 
-		holoMat.SetFloat("_Pos", wPosY + ( fadeIn ? 1000 : -1000 ));
+		//holoMat.SetFloat("_Pos", wPosY + ( fadeIn ? 1000 : -1000 ));
 		IsPerforming = false;
 	}
 }

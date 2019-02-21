@@ -7,10 +7,12 @@ public class EffectManager : NetworkBehaviour {
 
 	Dictionary<string, GameObject> m_Effects = new Dictionary<string, GameObject>();
 	GameObject[] m_oChannelParents;
-	GameObject[] m_oPlayingEffects;
+	EffectBehaviour[] m_oPlayingEffects;
 
 	[SerializeField]
 	int m_iChannelMax = 20;
+    [SerializeField]
+    GameObject m_prefEmptyEffect;
 
 	static EffectManager instance = null;
 
@@ -34,18 +36,8 @@ public class EffectManager : NetworkBehaviour {
 			channel.transform.parent = this.transform;
 			m_oChannelParents[i] = channel;
 		}
-		m_oPlayingEffects = new GameObject[m_iChannelMax];
-	}
-
-
-	//public override void OnStartClient()
-	//{
-	//	if(instance != null )
-	//	{
-	//		Debug.LogError(GetType() + "が２つ作られた");
-	//	}
-	//	instance = this;
-	//}
+        m_oPlayingEffects = new EffectBehaviour[m_iChannelMax];
+    }
 
 	public static EffectManager GetInstance()
 	{
@@ -56,38 +48,21 @@ public class EffectManager : NetworkBehaviour {
 		return instance;
 	}
 
-	public int Play(string name, Vector3 position, bool playInAllClient = true, 
-		string attachTargetName1 = null, string attachTargetName2 = null, Vector3? endPosition = null)
-	{
-		int channel = FindPlayableChannel();
-		if(channel == -1 )
-		{
-			// 再生失敗
-			return -1;
-		}
+    public int Play(string name, Vector3 position, bool playInAllClients = true,
+        string attachTargetName1 = null, string attachTargetName2 = null, Vector3? endPosition = null)
+    {
+        int channel = FindPlayableChannel();
+        if (channel == -1)
+        {
+            // 再生失敗
+            return -1;
+        }
 
-		if ( attachTargetName1 != null || attachTargetName2 != null )
-		{
-			//if ( attachTargetName1 == null ) attachTargetName1 = "";
-			//if ( attachTargetName2 == null ) attachTargetName2 = "";
-			if ( playInAllClient )
-				CmdPlayAndAttachTarget(channel, name, position,
-					attachTargetName1, attachTargetName2, endPosition ?? new Vector3(-1,-1,-1));
-			else
-			{
+        CmdPlay(channel, name, position, attachTargetName1, attachTargetName2, endPosition ?? new Vector3(-1, -1, -1),
+            playInAllClients, PlayerManager.GetPlayerNumber());
 
-			}
-
-		}
-		else
-		{
-			if ( playInAllClient )
-			{
-				CmdPlay(channel, name, position, endPosition ?? new Vector3(-1,-1,-1));
-			}
-		}
-		return channel;
-	}
+        return channel;
+    }
 
 	public int FindPlayableChannel()
 	{
@@ -103,46 +78,47 @@ public class EffectManager : NetworkBehaviour {
 	}
 
 	[Command]
-	public void CmdPlay(int channel, string name, Vector3 position, Vector3 endPosition)
+	public void CmdPlay(int channel, string name, Vector3 position, 
+        string attachTargetName1, string attachTargetName2, Vector3 endPosition,
+        bool playInAllClients, int triggeredPlayerNumber)
 	{
-		RpcPlay(channel, name, position, endPosition);
-	}
-
-	[Command]
-	public void CmdPlayAndAttachTarget(int channel, string name, Vector3 position, 
-		string attachTargetName1, string attachTargetName2, Vector3 endPosition)
-	{
-		RpcPlayAndAttachTarget(channel, name, position, attachTargetName1, attachTargetName2, endPosition);
+		RpcPlay(channel, name, position, attachTargetName1, attachTargetName2, endPosition, playInAllClients, triggeredPlayerNumber);
 	}
 
 	[ClientRpc]
-	public void RpcPlay(int channel, string name, Vector3 position, Vector3 endPosition)
+	public void RpcPlay(int channel, string name, Vector3 position,
+        string attachTargetName1, string attachTargetName2, Vector3 endPosition,
+        bool playInAllClients, int triggeredPlayerNumber)
 	{
-		var eff = InstantiateEffect(channel, name, position, endPosition);
-	}
-
-	[ClientRpc]
-	public void RpcPlayAndAttachTarget(int channel, string name, Vector3 position,
-		string attachTargetName1, string attachTargetName2, Vector3 endPosition)
-	{
-		var eff = InstantiateEffect(channel, name, position, endPosition);
+		var eff = InstantiateEffect(channel, name, position, endPosition, playInAllClients, triggeredPlayerNumber);
 		eff = AttachTarget(eff, attachTargetName1, attachTargetName2);
-	}
+    }
 
 
-	GameObject InstantiateEffect(int channel, string name, Vector3 position, Vector3? endPosition = null)
+	GameObject InstantiateEffect(int channel, string name, Vector3 position, Vector3 endPosition,
+        bool playInAllClients, int triggeredPlayerNumber)
 	{
-		var eff = Instantiate(m_Effects[name]);
-		eff.transform.parent = m_oChannelParents[channel].transform;
-		eff.transform.position = position;
-		var endPos = endPosition ?? new Vector3(-1, -1, -1);
-		if(endPos != new Vector3(-1, -1, -1) )
+        GameObject obj = null;
+        bool isEmptyEffect = !playInAllClients && PlayerManager.GetPlayerNumber() != triggeredPlayerNumber;
+        if (!isEmptyEffect)
+        {
+            obj = Instantiate(m_Effects[name]);
+        }
+        else
+        {
+            obj = Instantiate(m_prefEmptyEffect);
+        }
+
+        var eff = obj.GetComponent<EffectBehaviour>();
+		obj.transform.parent = m_oChannelParents[channel].transform;
+		obj.transform.position = position;
+		if(endPosition != new Vector3(-1, -1, -1) )
 		{
-			eff.GetComponentInChildren<EffectBehaviour>().SetEndPosition(endPos);
+			obj.GetComponentInChildren<EffectBehaviour>().SetEndPosition(endPosition);
 		}
-		m_oPlayingEffects[channel] = eff;
-		Debug.Log("Effect Play: " + name);
-		return eff;
+        m_oPlayingEffects[channel] = eff;
+        Debug.Log("Effect Play: " + name);
+		return obj;
 	}
 
 	GameObject AttachTarget(GameObject eff, string attachTargetName1, string attachTargetName2)
@@ -160,17 +136,31 @@ public class EffectManager : NetworkBehaviour {
 
 	public void Stop(int channel, float durationUntilDestroy = 2f)
 	{
-		if(m_oPlayingEffects[channel] == null )
-		{
-			Debug.LogError("エフェクトもうありません : チャネル" + channel);
-		}
-
-		var eff = m_oPlayingEffects[channel];
-		m_oPlayingEffects[channel] = null;
-		StartCoroutine(StopEffectCoroutine(eff, durationUntilDestroy));
+        if (channel != -1)
+            CmdStop(channel, durationUntilDestroy);
 	}
 
-	IEnumerator StopEffectCoroutine(GameObject oEffect, float duration)
+    [Command]
+    void CmdStop(int channel, float durationUntilDestroy)
+    {
+        RpcStop(channel, durationUntilDestroy);
+    }
+
+    [ClientRpc]
+    void RpcStop(int channel, float durationUntilDestroy)
+    {
+        if (m_oPlayingEffects[channel] == null)
+        {
+            Debug.LogError("エフェクトもうありません : チャネル" + channel);
+            return;
+        }
+
+        var eff = m_oPlayingEffects[channel];
+        m_oPlayingEffects[channel] = null;
+        StartCoroutine(StopEffectCoroutine(eff, durationUntilDestroy));
+    }
+
+    IEnumerator StopEffectCoroutine(EffectBehaviour oEffect, float duration)
 	{
 		var particles = oEffect.GetComponentsInChildren<ParticleSystem>();
 		foreach ( var par in particles )
@@ -179,6 +169,6 @@ public class EffectManager : NetworkBehaviour {
 		}
 		yield return new WaitForSeconds(duration);
 
-		Destroy(oEffect);
+		Destroy(oEffect.gameObject);
 	}
 }
