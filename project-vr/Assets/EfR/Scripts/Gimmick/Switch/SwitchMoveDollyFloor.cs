@@ -7,6 +7,8 @@ public class SwitchMoveDollyFloor : SwitchActionBase {
     DollyMoveObject dollyFloor;
     bool isPushing=false;
 
+    [SerializeField]
+    bool autoReverse=true;
     public override List<Transform> ActorObjects
     {
         get
@@ -21,7 +23,7 @@ public class SwitchMoveDollyFloor : SwitchActionBase {
         {
             dollyFloor.Move(1.0f);
         }
-        else
+        else if(autoReverse)
         {
             dollyFloor.Move(-1.0f);
         }

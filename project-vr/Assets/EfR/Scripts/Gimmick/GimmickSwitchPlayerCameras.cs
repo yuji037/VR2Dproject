@@ -34,6 +34,7 @@ public class GimmickSwitchPlayerCameras : GimmickBase{
        
         var cam2Dcon =GameObject.Find(CameraUtility.Camera2DName).GetComponent<Camera2DController>();
         cam2Dcon.ChangeTargetToLocalPlayer();
+        cam2Dcon.NoiseActivate(0.5f,1.0f);
         StageSwitchRenderer.GetInstance().SwitchRenderer(2, true);
         StageSwitchRenderer.GetInstance().SwitchRenderer(1, false);
         StartCoroutine(VRCharaHoloController.GetInstance().VRChatCharaFade(0, false));

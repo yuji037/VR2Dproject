@@ -10,6 +10,7 @@ public class GimmickChangeSelectMenu : GimmickBase
 
     static int isAreaInPlayerCount;
 
+    [SerializeField]
     int requiredPlayerCount;
 
     // Use this for initialization
@@ -17,7 +18,7 @@ public class GimmickChangeSelectMenu : GimmickBase
     {
         base.OnStartServer();
         isAreaInPlayerCount = 0;
-        requiredPlayerCount = (PlayerManager.OtherPlayer)?2:1;
+        requiredPlayerCount = (PlayerManager.OtherPlayer)?requiredPlayerCount:1;
         m_aTriggerEnterAction += PlayerWithInArea;
         m_aTriggerExitAction  += PlayerWithOutArea;
     }

@@ -17,7 +17,7 @@ public class DollyMoveObject : NetworkBehaviour{
     float currentPathValue;
 
     [SerializeField]
-    bool autoMove;
+    public bool autoMove;
 
     [SerializeField]
     bool isChangeDirectionToMoveVec;

@@ -53,6 +53,7 @@ public class GimmickObjectScaler : GimmickBase{
         var fromScale = scaleChangeTarget.localScale;
         for (float t=0;t<changeDuration;t+=Time.deltaTime)
         {
+            if (!gameObject.activeSelf) yield break;
             scaleChangeTarget.localScale=Vector3.Lerp(fromScale,toScale,t/changeDuration);
             yield return null;
         }
