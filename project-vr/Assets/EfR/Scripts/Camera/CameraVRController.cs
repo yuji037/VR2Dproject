@@ -43,11 +43,14 @@ public class CameraVRController : CameraControllerBase
 
         GameObject oRHAnchor = null;
         GameObject oLHAnchor = null;
+		rightHandRig = gameObject.FindFirstChildByName("R_HandRig");
+		leftHandRig = gameObject.FindFirstChildByName("L_HandRig");
+
 		switch (vrObjectManager.DeviceType)
         {
             case VRDeviceType.OCULUS:
-                oRHAnchor = GameObject.Find("RightHandAnchor");
-                oLHAnchor = GameObject.Find("LeftHandAnchor");
+                oRHAnchor = gameObject.FindFirstChildByName("RightHandAnchor");
+                oLHAnchor = gameObject.FindFirstChildByName("LeftHandAnchor");
 				break;
             case VRDeviceType.HTC_VIVE:
                 oRHAnchor = GameObject.Find("Controller (right)");
