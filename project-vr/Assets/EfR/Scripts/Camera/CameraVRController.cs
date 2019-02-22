@@ -13,9 +13,9 @@ public class CameraVRController : CameraControllerBase
     Transform camPosParent;
 
     [SerializeField]
-    Transform rightHandRig;
+    GameObject rightHandRig;
 	[SerializeField]
-	Transform leftHandRig;
+	GameObject leftHandRig;
 
 	[SerializeField]
     float handRotateSensi = 1f;
@@ -43,11 +43,14 @@ public class CameraVRController : CameraControllerBase
 
         GameObject oRHAnchor = null;
         GameObject oLHAnchor = null;
+		rightHandRig = gameObject.FindFirstChildByName("R_HandRig");
+		leftHandRig = gameObject.FindFirstChildByName("L_HandRig");
+
 		switch (vrObjectManager.DeviceType)
         {
             case VRDeviceType.OCULUS:
-                oRHAnchor = GameObject.Find("RightHandAnchor");
-                oLHAnchor = GameObject.Find("LeftHandAnchor");
+                oRHAnchor = gameObject.FindFirstChildByName("RightHandAnchor");
+                oLHAnchor = gameObject.FindFirstChildByName("LeftHandAnchor");
 				break;
             case VRDeviceType.HTC_VIVE:
                 oRHAnchor = GameObject.Find("Controller (right)");
@@ -57,16 +60,16 @@ public class CameraVRController : CameraControllerBase
 
         if ( oRHAnchor )
         {
-            rightHandRig.parent = oRHAnchor.transform;
-            rightHandRig.localPosition = Vector3.zero;
-            rightHandRig.localEulerAngles = Vector3.zero;
+            rightHandRig.transform.parent = oRHAnchor.transform;
+            rightHandRig.transform.localPosition = Vector3.zero;
+            rightHandRig.transform.localEulerAngles = Vector3.zero;
         }
 
 		if ( oLHAnchor )
 		{
-			leftHandRig.parent = oLHAnchor.transform;
-			leftHandRig.localPosition = Vector3.zero;
-			leftHandRig.localEulerAngles = Vector3.zero;
+			leftHandRig.transform.parent = oLHAnchor.transform;
+			leftHandRig.transform.localPosition = Vector3.zero;
+			leftHandRig.transform.localEulerAngles = Vector3.zero;
 		}
 	}
 
@@ -113,8 +116,8 @@ public class CameraVRController : CameraControllerBase
         {
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = handRotateSensi;
-            Vector3 lookVec = centerCam.ScreenToWorldPoint(mousePos) - rightHandRig.position;
-            rightHandRig.rotation = Quaternion.LookRotation(lookVec);
+            Vector3 lookVec = centerCam.ScreenToWorldPoint(mousePos) - rightHandRig.transform.position;
+            rightHandRig.transform.rotation = Quaternion.LookRotation(lookVec);
         }
 
         if (playerMove && playerMove.moveType == PlayerMove.MoveType.FIXED)

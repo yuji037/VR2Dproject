@@ -153,7 +153,7 @@ public class PlayerMove : NetworkBehaviour
 	{
 		animator.CmdSetFloat("Speed", 0f);
 		animator.CmdSetBool("Jump", false);
-		animator.CmdSetBool("holoSkirt", false);
+		animator.CmdSetBool("holdSkirt", false);
 	}
 
 
