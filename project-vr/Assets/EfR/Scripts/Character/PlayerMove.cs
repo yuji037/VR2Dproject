@@ -149,7 +149,15 @@ public class PlayerMove : NetworkBehaviour
         velocity = Vector3.zero;
     }
 
-    public void RendererSwitchForPlayerMoveType(MoveType moveType)
+	public void ResetAnimatorParam()
+	{
+		animator.CmdSetFloat("Speed", 0f);
+		animator.CmdSetBool("Jump", false);
+		animator.CmdSetBool("holoSkirt", false);
+	}
+
+
+	public void RendererSwitchForPlayerMoveType(MoveType moveType)
     {
         playerStatus.RendererSwitchForPlayerMoveType(moveType);
     }

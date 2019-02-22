@@ -268,12 +268,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_iGimmickID: 1000
-  switchAction: {fileID: 114457119072680408}
   m_iTriggerGimmickIDs: ffffffff
   m_IsActPointerHit: 0
   m_IsActOnRelease: 0
   m_vPushedVector: {x: 0, y: -0.2, z: 0}
-  m_fPerformSpeed: 2
+  m_fPerformSpeed: 8
   m_IsToggle: 0
   m_IsPushing: 0
 --- !u!114 &114941583865106074
@@ -287,6 +286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2717344df51ec234095bf82de794d234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyTime: 3
   endPoint: {fileID: 0}
   endPosition: {x: -1, y: -1, z: -1}
   speed: 3

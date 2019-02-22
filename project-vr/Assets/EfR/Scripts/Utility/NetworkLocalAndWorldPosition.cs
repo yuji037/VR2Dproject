@@ -12,12 +12,12 @@ public class NetworkLocalAndWorldPosition : NetworkBehaviour {
 	[SerializeField]
 	public string localTrackGameObjectName;
 	[SerializeField]
-	public Transform remoteTrackTransform;
+	public GameObject remoteTrackTransform;
 	[SerializeField]
-	public Transform localTrackTransform;
+	public GameObject localTrackTransform;
 
-	// 対象オブジェクトが動いてから追従したいのでFixedUpdate
-	void FixedUpdate()
+	// 対象オブジェクトが動いてから追従したいのでFixedUpdate?
+	void Update()
 	{
 		if ( isLocalPlayer && (!localTrackTransform || !remoteTrackTransform) )
 		{
@@ -43,19 +43,20 @@ public class NetworkLocalAndWorldPosition : NetworkBehaviour {
 
 	void SetInLocalPlayer()
 	{
-		var pos = localTrackTransform.position;
-		var rot = localTrackTransform.rotation;
+		var pos = localTrackTransform.transform.position;
+		var rot = localTrackTransform.transform.rotation;
+
 		transform.position = pos;
 		transform.rotation = rot;
 
-		remoteTrackTransform.localPosition = transform.localPosition;
-		remoteTrackTransform.localRotation = transform.localRotation;
+		remoteTrackTransform.transform.localPosition = transform.localPosition;
+		remoteTrackTransform.transform.localRotation = transform.localRotation;
 	}
 
 	void SetInRemotePlayer()
 	{
-		transform.localPosition = remoteTrackTransform.position;
-		transform.localRotation = remoteTrackTransform.rotation;
+		transform.localPosition = remoteTrackTransform.transform.position;
+		transform.localRotation = remoteTrackTransform.transform.rotation;
 	}
 
 	void FindTrackTransform()
@@ -65,15 +66,20 @@ public class NetworkLocalAndWorldPosition : NetworkBehaviour {
 			var _name = localTrackGameObjectName;
 			if ( _name == "Head" )
 			{
-				localTrackTransform = VRObjectManager.GetInstance().GetBaseCameraObject().transform;
+				localTrackTransform = VRObjectManager.GetInstance().GetBaseCameraObject();
 			}
 			else
-				localTrackTransform = GameObject.Find(localTrackGameObjectName).transform;
+			{
+				var obj = VRObjectManager.GetInstance().VRCamObject.FindFirstChildByName(localTrackGameObjectName);
+				localTrackTransform = obj;
+			}
 		}
 
 		remoteTrackTransform = ClientScene.objects.Values.
 			Where(ni =>
 		   ni.isLocalPlayer == isLocalPlayer &&
-		   ni.gameObject.name.StartsWith(remoteTrackGameObjectName)).FirstOrDefault().transform;
+		   ni.gameObject.name.StartsWith(remoteTrackGameObjectName)).FirstOrDefault().gameObject;
+
+		Debug.Log("FindTrackTransform");
 	}
 }

@@ -44,7 +44,7 @@ public class VRObjectManager : SingletonMonoBehaviour<VRObjectManager> {
 
     }
 
-    NetworkIdentity[] handObjIDs;
+    //NetworkIdentity[] handObjIDs;
     
   //  public void OnNetworkConnected()
   //  {

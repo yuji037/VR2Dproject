@@ -7,6 +7,11 @@
 	}
 		SubShader
 	{
+			Stencil{
+			Ref 1
+			Comp GEqual
+}
+
 		Tags{ "RenderType" = "Opaque" }
 
 		CGPROGRAM
@@ -98,7 +103,10 @@
 
 	void surf(Input IN, inout SurfaceOutput o)
 	{
-		float2 coord = (IN.screenPos.xy / IN.screenPos.w);
+		float2 coord = float2(0, 0);
+		if (IN.screenPos.w != 0) {
+			coord = (IN.screenPos.xy / IN.screenPos.w);
+		}
 
 		float3 center = IN.worldPos - _Center;
 		float grid_d = HexGrid(center);
