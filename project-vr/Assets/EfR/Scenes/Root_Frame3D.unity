@@ -1218,11 +1218,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 137221963638987440, guid: 87b0c549e09d6a24dbf1c2588878a79f,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 87b0c549e09d6a24dbf1c2588878a79f, type: 2}
   m_IsPrefabParent: 0
@@ -1375,6 +1370,11 @@ Prefab:
       propertyPath: solver.spine.rotationWeight
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 137481636376975924, guid: 87b0c549e09d6a24dbf1c2588878a79f,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 471d479546265294dbb2429f86506615, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 87b0c549e09d6a24dbf1c2588878a79f, type: 2}
   m_IsPrefabParent: 0
