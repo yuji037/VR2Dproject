@@ -106,17 +106,9 @@ public class BossLeg : NetworkBehaviour
         //エフェクト発生
         var obj = Instantiate(shockWavePrefab);
         obj.transform.position = shockWavePoint.position;
-        obj.transform.rotation = Quaternion.identity;
-        if (isServer)
-        {
-            //ゲームオーバー処理
-            Debug.Log("GameOver");
-            GameCoordinator.GetInstance().StartGameOverPerformance();
-            //var rand = Random.Range(minFall,maxFall+1);
-            //for(int i=0;i<=rand;i++)
-            //{
-            //    meteoFaller.FallMeteo();
-            //}
-        }
+        obj.transform.rotation = Quaternion.identity; 
+        //ゲームオーバー処理
+        Debug.Log("GameOver");
+        GameCoordinator.GetInstance().StartGameOverPerformance();
     }
 }
