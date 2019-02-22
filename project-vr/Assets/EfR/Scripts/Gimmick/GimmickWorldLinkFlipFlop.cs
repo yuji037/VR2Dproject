@@ -97,14 +97,14 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 		PlayerMove.MoveType triggeredPlayerTransMoveTypeTo;
 		triggeredPlayerTransMoveTypeTo = ( localPlayer.GetComponent<PlayerMove>().moveType == PlayerMove.MoveType.FIXED ) ?
 			PlayerMove.MoveType._2D : PlayerMove.MoveType.FIXED;
-		localPlayer.GetComponent<PlayerStatus>().RpcTransWorld(triggeredPlayerTransMoveTypeTo);
+		localPlayer.GetComponent<PlayerStatus>().RpcTransWorld(triggeredPlayerTransMoveTypeTo, transform.position);
 
 		if(otherPlayer != null )
 		{
 			PlayerMove.MoveType otherPlayerTransMoveTypeTo;
 			otherPlayerTransMoveTypeTo = ( otherPlayer.GetComponent<PlayerMove>().moveType == PlayerMove.MoveType.FIXED ) ?
 				PlayerMove.MoveType._2D : PlayerMove.MoveType.FIXED;
-			otherPlayer.GetComponent<PlayerStatus>().RpcTransWorld(otherPlayerTransMoveTypeTo);
+			otherPlayer.GetComponent<PlayerStatus>().RpcTransWorld(otherPlayerTransMoveTypeTo, transform.position);
 		}
 	}
 

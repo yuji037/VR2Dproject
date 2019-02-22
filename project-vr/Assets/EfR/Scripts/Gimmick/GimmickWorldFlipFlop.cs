@@ -32,9 +32,9 @@ public class GimmickWorldFlipFlop : GimmickBase {
 			var trigrPlayer = nearPlayers[0];
 			var otherPlayer = nearPlayers.Length > 1 ? nearPlayers[1] : null;
 
-			trigrPlayer.GetComponent<PlayerStatus>().RpcTransWorld(triggeredPlayerTransMoveTypeTo);
+			trigrPlayer.GetComponent<PlayerStatus>().RpcTransWorld(triggeredPlayerTransMoveTypeTo, transform.position);
 			if ( otherPlayer )
-				otherPlayer.GetComponent<PlayerStatus>().RpcTransWorld(otherPlayerTransMoveTypeTo);
+				otherPlayer.GetComponent<PlayerStatus>().RpcTransWorld(otherPlayerTransMoveTypeTo, transform.position);
 
 			//if ( destroyOnTrigger )
 			//	DestroyThisObject();

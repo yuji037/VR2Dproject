@@ -212,8 +212,8 @@ public class PlayerMove : NetworkBehaviour
         //StageInit();
         DebugTools.RegisterDebugAction(KeyCode.P, () =>
             {
-                 if(moveType==MoveType._2D)playerStatus.CmdTransWorld(MoveType.FIXED);
-                else if(moveType==MoveType.FIXED)playerStatus.CmdTransWorld(MoveType._2D);
+                 if(moveType==MoveType._2D)playerStatus.CmdTransWorld(MoveType.FIXED, transform.position);
+                else if(moveType==MoveType.FIXED)playerStatus.CmdTransWorld(MoveType._2D, transform.position);
             }
          ,"視点遷移");
         DebugTools.RegisterDebugAction(KeyCode.J, () => debugInfiniteJump = !debugInfiniteJump, "無限ジャンプON/OFF");

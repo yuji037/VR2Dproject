@@ -47,7 +47,7 @@ public class GimmickSwitchPlayerCameras : GimmickBase{
 		//yield return new WaitForSeconds(2f);
 		StartCoroutine(VRCharaHoloController.GetInstance().VRChatCharaFade(0, false));
         //特別な演出を入れる。
-        PlayerManager.playerStatus.RpcTransWorld(PlayerMove.MoveType.FIXED);
+        PlayerManager.playerStatus.RpcTransWorld(PlayerMove.MoveType.FIXED, transform.position);
 
 		yield return new WaitForSeconds(0.5f);
 		EffectManager.GetInstance().Stop(effChannel, 2f);

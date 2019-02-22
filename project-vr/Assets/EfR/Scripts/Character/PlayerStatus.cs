@@ -146,25 +146,24 @@ public class PlayerStatus : NetworkBehaviour {
     }
 
     [Command]
-    public void CmdTransWorld(PlayerMove.MoveType transMoveTypeTo)
+    public void CmdTransWorld(PlayerMove.MoveType transMoveTypeTo, Vector3 playerFixPos)
     {
-        RpcTransWorld(transMoveTypeTo);
+        RpcTransWorld(transMoveTypeTo, playerFixPos);
     }
 
 	// 他端末のプレイヤーに影響する場合は[ClientRpc]を使う
 	// [ClientRpc]：すべてのクライアントの関数をリモートで実行
 	[ClientRpc]
-	public void RpcTransWorld(PlayerMove.MoveType transMoveTypeTo)
+	public void RpcTransWorld(PlayerMove.MoveType transMoveTypeTo, Vector3 playerFixPos)
 	{
         StartCoroutine(VRCharaHoloController.GetInstance().VRChatCharaFade((int)Number,
             transMoveTypeTo == PlayerMove.MoveType._2D));
         StageMaterialChanger.GetInstance().ChangeMaterial((int)Number,transMoveTypeTo);
 		if ( !hasAuthority ) return;
-        TransWorld(transMoveTypeTo);
-		
+		TransWorld(transMoveTypeTo, playerFixPos);
 	}
 
-    public void TransWorld(PlayerMove.MoveType transMoveTypeTo)
+    public void TransWorld(PlayerMove.MoveType transMoveTypeTo, Vector3? playerFixPos = null)
     {
         var pm = GetComponent<PlayerMove>();
         Debug.Log(pm.gameObject.name + " : " + pm.moveType + " → " + transMoveTypeTo);
@@ -174,11 +173,11 @@ public class PlayerStatus : NetworkBehaviour {
         Debug.Log("移行!!");
         pm.SwitchMoveType(transMoveTypeTo);
 		pm.ResetAnimatorParam();
+		pm.SetFixedPosition(playerFixPos ?? transform.position);
         pm.canMove = false;
-        ViewSwitchPerformer.GetInstance().SwitchView(transMoveTypeTo, () =>
+		ViewSwitchPerformer.GetInstance().SwitchView(transMoveTypeTo, () =>
 		{
 			pm.canMove = true;
-			pm.SetFixedPosition(pm.transform.position);
 		});
 	}
 

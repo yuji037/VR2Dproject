@@ -28,7 +28,7 @@ public class BossKillPerformer : MonoBehaviour {
         {
             mesh.enabled = false;
         }
-        PlayerManager.playerStatus.RpcTransWorld(PlayerMove.MoveType.FIXED);
+        PlayerManager.playerStatus.RpcTransWorld(PlayerMove.MoveType.FIXED, Vector3.zero);
         StartCoroutine(DelayTransBlock());
     }
     IEnumerator DelayTransBlock()

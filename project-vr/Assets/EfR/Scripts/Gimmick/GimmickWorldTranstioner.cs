@@ -22,10 +22,10 @@ public class GimmickWorldTranstioner : GimmickBase {
             if (transitionMoveType == pm.moveType|| ViewSwitchPerformer.GetInstance().IsTranslation) return;
             pm.SwitchMoveType(transitionMoveType);
             pm.canMove = false;
-            ViewSwitchPerformer.GetInstance().SwitchView(transitionMoveType,()=>
+			pm.SetFixedPosition(transform.position);
+            ViewSwitchPerformer.GetInstance().SwitchView(transitionMoveType,() =>
 			{
 				pm.canMove = true;
-				pm.SetFixedPosition(pm.transform.position);
 			});
         }
     }
