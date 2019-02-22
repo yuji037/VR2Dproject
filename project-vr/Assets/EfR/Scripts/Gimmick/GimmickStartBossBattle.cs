@@ -7,6 +7,9 @@ public class GimmickStartBossBattle : GimmickBase{
     [SerializeField]
     int triggerID=1;
 
+    [SerializeField]
+    BossAI bossAI;
+
     private void Start()
     {
         m_aTriggerEnterAction +=StartBossBattle;
@@ -28,6 +31,6 @@ public class GimmickStartBossBattle : GimmickBase{
     [ClientRpc]
     void RpcStartBossBattle()
     {
-        BossBattle.GetInstance().StartBossBattle();
+        bossAI.StartAI();
     }
 }

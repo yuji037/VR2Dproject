@@ -82,7 +82,6 @@ public class GimmickBalanceController : MonoBehaviour
             rightGimmickBalancer.transform.position = Vector3.Lerp(rightGimmickBalancer.transform.position, toRightPos, oneFlameMove);
 
         }
-        Debug.Log("サブカウント :"+ subCount);
         lineRenderer.SetPosition(0, rightGimmickBalancer.transform.position);
         lineRenderer.SetPosition(1, leftGimmickBalancer.transform.position);
 

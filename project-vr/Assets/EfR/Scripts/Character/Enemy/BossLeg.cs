@@ -42,6 +42,8 @@ public class BossLeg : NetworkBehaviour
     [SerializeField]
     float stampEndTime=3.0f;
 
+    public System.Action OnStopStampAction;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -92,25 +94,29 @@ public class BossLeg : NetworkBehaviour
         StopCoroutine(currentStampRoutine);
         breakEffect.Play();
         Debug.Log("止まった");
+        if(OnStopStampAction!=null)OnStopStampAction();
     }
 
     IEnumerator ShockWaveRoutine()
     {
         animator.CrossFade("Stamp", 0f);
+        animator.SetFloat("Speed",1.0f/stampEndTime);
         yield return new WaitForSeconds(stampEndTime);
+
+        //エフェクト発生
+        var obj = Instantiate(shockWavePrefab);
+        obj.transform.position = shockWavePoint.position;
+        obj.transform.rotation = Quaternion.identity;
         if (isServer)
         {
-            var rand = Random.Range(minFall,maxFall+1);
-            for(int i=0;i<=rand;i++)
-            {
-                meteoFaller.FallMeteo();
-                yield return new WaitForSeconds(0.1f);
-            }
+            //ゲームオーバー処理
+            Debug.Log("GameOver");
+            GameCoordinator.GetInstance().StartGameOverPerformance();
+            //var rand = Random.Range(minFall,maxFall+1);
+            //for(int i=0;i<=rand;i++)
+            //{
+            //    meteoFaller.FallMeteo();
+            //}
         }
-        //エフェクト発生
-        //var obj = Instantiate(shockWavePrefab);
-        //obj.transform.position = shockWavePoint.position;
-        //obj.transform.rotation = Quaternion.identity;
     }
-
 }

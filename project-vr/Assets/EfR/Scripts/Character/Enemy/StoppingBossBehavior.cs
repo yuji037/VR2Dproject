@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-public class BossBehavior :  NetworkBehaviour{
+public class StoppingBossBehavior :  BossBehaviorBase{
 
     [SerializeField]
     ShockWaveBossSkill shockWave;
@@ -20,22 +20,19 @@ public class BossBehavior :  NetworkBehaviour{
 
     bool isPlaying;
 
-    public void StopBehavior()
+    void StopBossBehavior()
     {
         isPlaying = false;
     }
 
-    public override void OnStartServer()
+    void StartBossBehavior()
     {
-        StartBossBehaviorOnServer();
-    }
-
-    public void StartBossBehaviorOnServer()
-    {
-        if (!isServer) return;
         isPlaying = true;
         StartCoroutine(BehaviorRoutine());
     }
+    public void OnUpdate() { 
+}
+
     IEnumerator BehaviorRoutine()
     {
         StartCoroutine(SkillRoutine(shockWave));
@@ -67,4 +64,14 @@ public class BossBehavior :  NetworkBehaviour{
             skillBase.InvokeSkill();
         }
 	}
+
+    public override void StartBehavior()
+    {
+        StartBossBehavior();
+    }
+
+    public override void StopBehavior()
+    {
+        StopBehavior();
+    }
 }

@@ -7,7 +7,7 @@ public class BossKillPerformer : MonoBehaviour {
     ParticleSystem killEffect;
 
     [SerializeField]
-    BossBehavior bossBehavior;
+    StoppingBossBehavior bossBehavior;
 
     [SerializeField]
     BlockTransitioner blockTransitioner;

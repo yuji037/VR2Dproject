@@ -174,7 +174,17 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         StageChangeOnEnd();
 
     }
-
+    public void StartGameOverPerformance()
+    {
+        StartCoroutine(GameOverRoutine());
+    }
+    IEnumerator GameOverRoutine()
+    {
+        var cameraVRController=GameObject.Find(CameraUtility.CameraVRName).GetComponent<CameraVRController>();
+        cameraVRController.NoiseActivate(0.7f,1.0f);
+        yield return new WaitForSeconds(1.0f);
+        ChangeStageSelectMenu();
+    }
     public void StageChangeOnEnd()
     {
         PlayerManager.playerMove.StageInit();
