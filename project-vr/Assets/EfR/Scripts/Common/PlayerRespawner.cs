@@ -31,10 +31,12 @@ public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
 		var playerMove = respawnPlayer.GetComponent<PlayerMove>();
 		playerStatus.IsPerforming = true;
 		playerStatus.CmdHoloFade(false);
+		playerMove.ResetAnimatorParam();
+		
 
 		// エフェクト再生
 		var effChannel = EffectManager.GetInstance().Play("CharaParticleAttractWarp", respawnPlayer.transform.position, true,
-			"0", null, LocalPlayerRespawnPoint);
+			((int)playerStatus.Number).ToString(), null, LocalPlayerRespawnPoint);
 
 		// 動けないように
 		PlayerManager.LocalPlayer.GetComponent<PlayerMove>().ResetVelocity();

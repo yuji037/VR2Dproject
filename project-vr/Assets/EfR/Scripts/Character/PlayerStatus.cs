@@ -173,6 +173,7 @@ public class PlayerStatus : NetworkBehaviour {
         if (transMoveTypeTo == pm.moveType || ViewSwitchPerformer.GetInstance().IsTranslation) return;
         Debug.Log("移行!!");
         pm.SwitchMoveType(transMoveTypeTo);
+		pm.ResetAnimatorParam();
         pm.canMove = false;
         ViewSwitchPerformer.GetInstance().SwitchView(transMoveTypeTo, () =>
 		{
