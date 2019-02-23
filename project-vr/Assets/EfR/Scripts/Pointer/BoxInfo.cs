@@ -7,7 +7,6 @@ public class BoxInfo : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (!GetComponent<BoxCollider>()) return;
-        float correct = 0.1f;
         Gizmos.color = Color.black;
 
         //top
@@ -22,6 +21,7 @@ public class BoxInfo : MonoBehaviour
         //left
         Gizmos.DrawLine(LeftUp, LeftDown);
 
+        Gizmos.DrawLine(transform.position,transform.position+ transform.forward*5);
 
     }
 

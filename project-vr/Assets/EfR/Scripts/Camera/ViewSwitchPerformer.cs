@@ -50,23 +50,37 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
     [SerializeField]
     Animator animator;
 
-    [SerializeField]
-    Transform transedPos;
+    GameObject transedPosition;
+
+    GameObject _2dCamPosition;
+
+    GameObject VRChara;
 
     [SerializeField]
-    GameObject[] _2dCamPositions;
+    AnimationCurve flipFlopMoveCurve;
 
     bool isInitialized = false;
     void Initialize()
     {
         C2DAdjuster.SetVRCamera(CVRAdjuster.CenterEye);
+        var playerNum = PlayerManager.GetPlayerNumber();
+        Debug.Log(realRoom.transform.Find("TV").name);
+        _2dCamPosition = realRoom.transform.Find("CamPos_2D_" + (playerNum + 1)).gameObject;
+        transedPosition = _2dCamPosition.transform.Find("TransedPos").gameObject;
+        VRChara = realRoom.transform.Find("VRChatCharaPos" + (playerNum + 1)).Find("VRChatChara").gameObject;
+        charaSubTo2DCamPos = _2dCamPosition.transform.position - VRChara.transform.position;
+
         isInitialized = true;
     }
     //遷移中
     public bool IsTranslation { get; private set; }
 
+    Vector3 charaSubTo2DCamPos;
+
+    int playerNum;
     private void Start()
     {
+
         this.GetGameObjectWithCoroutine(CameraUtility.CameraVRName, (obj) => CVRAdjuster = obj.GetComponent<CameraVRAdjuster>());
     }
     public void SwitchView(PlayerMove.MoveType switchType, System.Action callBack = null)
@@ -76,9 +90,6 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
         StartCoroutine(Translation(switchType, callBack));
     }
 
-    //trueだと遷移時VRカメラが動く
-    bool isCameraVRTranslation = false;
-
     IEnumerator Translation(PlayerMove.MoveType toMoveType, System.Action callBack)
     {
         IsTranslation = true;
@@ -86,10 +97,11 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
         CVRAdjuster.GetComponent<CameraVRController>().enabled = false;
         C2DAdjuster.GetComponent<Camera2DController>().HasCameraAuthority = false;
 
-		var seChannel = SoundManager.GetInstance().Play("flipflop");
+        var seChannel = SoundManager.GetInstance().Play("flipflop");
         var currentVRVCam = CVRAdjuster.GetComponent<CameraVRController>().CurrentVCam.transform;
 
-        switch ( toMoveType)
+
+        switch (toMoveType)
         {
             case PlayerMove.MoveType.FPS:
             case PlayerMove.MoveType.TPS:
@@ -98,12 +110,12 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
 
                 //C2DAdjuster.GetComponent<Camera>().fieldOfView = CVRAdjuster.GetCenterEyeFOV();
 
-                var cam2DCon= C2DAdjuster.GetComponent<Camera2DController>();
-                cam2DCon.NoiseActivate(0.5f,1.0f);
+                var cam2DCon = C2DAdjuster.GetComponent<Camera2DController>();
+                cam2DCon.NoiseActivate(0.5f, 1.0f);
                 yield return new WaitForSeconds(1.0f);
 
                 //2Dカメラを固定カメラ位置に
-                TransformUtility.TransSamePosRot(C2DAdjuster.transform,currentVRVCam,0.5f);
+                TransformUtility.TransSamePosRot(C2DAdjuster.transform, currentVRVCam, 0.5f);
                 yield return new WaitForSeconds(0.5f);
 
                 //黒幕
@@ -111,46 +123,21 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 yield return new WaitForSeconds(0.5f);
 
                 //リアルルーム全体を固定カメラの位置に置き、回転
-                //ステージ内の移行先カメラと今のカメラリグ位置の差分を取り、
                 realRoom.transform.rotation = currentVRVCam.transform.rotation;
                 CVRAdjuster.transform.rotation = currentVRVCam.transform.rotation;
                 CVRAdjuster.transform.position = currentVRVCam.transform.position;
-                var sub = CVRAdjuster.transform.position - _2dCamPositions[PlayerManager.GetPlayerNumber()].transform.position;
+                var sub = CVRAdjuster.transform.position - _2dCamPosition.transform.position;
                 realRoom.Translate(sub, Space.World);
                 FadeInOutController._2DFadePanel.StartBlackFadeIn(0.2f);
 
 
                 //リビングルームを移動
-                animator.CrossFade("ToVR",0f);
+                animator.CrossFade("ToVR", 0f);
 
-                yield return new WaitForSeconds(3.0f);
+                yield return MoveRealRoomAndVRCharaRoutine(_2dCamPosition.transform.position - transedPosition.transform.position, 3.0f);
+
+
                 CVRAdjuster.ChangeVRCamParamTo2DCam();
-                //if (isCameraVRTranslation)
-                //{
-                //    //VRCameraを2Dカメラの位置から、徐々にmoveTypeの視点の位置に近づける
-                //    CVRAdjuster.ChangeVRCamPosRotTo(C2DAdjuster.transform);
-                //    CVRAdjuster.ChangeVRCamParamTo2DCam();
-                //    TransformUtility.TransSamePosRot(CVRAdjuster.transform, viewPointStorage.GetCamPos(toMoveType));
-                //    yield return new WaitForSeconds(1.0f);
-                //}
-                //else
-                //{
-
-                //    TransformUtility.TransSamePosRot(C2DAdjuster.transform,
-                //       () =>
-                //       {
-                //           var diff = CVRAdjuster.CenterEye.transform.position - CVRAdjuster.transform.position;
-                //           return viewPointStorage.GetCamPos(toMoveType).position + diff;
-                //       },
-                //       () =>
-                //       {
-                //           return viewPointStorage.GetCamPos(toMoveType).rotation*CVRAdjuster.CenterEye.transform.localRotation;
-                //       }
-                //        );
-                //    yield return new WaitForSeconds(1.0f);
-                //    CVRAdjuster.ChangeVRCamParamTo2DCam();
-                //}
-
 
                 //2Dカメラを所定の位置に戻す
                 C2DAdjuster.Set2DPosition();
@@ -165,7 +152,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 Debug.Log("遷移開始VR→2D");
 
                 var cVRCon = CVRAdjuster.GetComponent<CameraVRController>();
-                cVRCon.NoiseActivate(0.05f,1.0f);
+                cVRCon.NoiseActivate(0.05f, 1.0f);
                 yield return new WaitForSeconds(1.0f);
 
                 playerMove.RendererSwitchForPlayerMoveType(toMoveType);
@@ -175,14 +162,14 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 realRoom.transform.rotation = currentVRVCam.transform.rotation;
                 CVRAdjuster.transform.rotation = currentVRVCam.transform.rotation;
                 CVRAdjuster.transform.position = currentVRVCam.transform.position;
-                var subPos = CVRAdjuster.transform.position - transedPos.position;
+                var subPos = CVRAdjuster.transform.position - transedPosition.transform.position;
                 realRoom.Translate(subPos, Space.World);
 
                 CVRAdjuster.ChangeVRCamParamToDefault();
                 C2DAdjuster.transform.position = CVRAdjuster.transform.position;
 
-                animator.CrossFade("To2D",0f);
-                yield return new WaitForSeconds(3.0f);
+                animator.CrossFade("To2D", 0f);
+                yield return MoveRealRoomAndVRCharaRoutine(transedPosition.transform.position - _2dCamPosition.transform.position, 3.0f, true);
 
                 FadeInOutController._2DFadePanel.StartBlackFadeIn(0.2f);
                 yield return new WaitForSeconds(0.2f);
@@ -199,7 +186,32 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
         IsTranslation = false;
         if (callBack != null) callBack();
 
-		SoundManager.GetInstance().Fadeout(seChannel);
-		SoundManager.GetInstance().UpdateBGMParam();
-	}
+        SoundManager.GetInstance().Fadeout(seChannel);
+        SoundManager.GetInstance().UpdateBGMParam();
+    }
+    IEnumerator MoveRealRoomAndVRCharaRoutine(Vector3 moveVec, float duration, bool isReverseFlipFlopCurve = false)
+    {
+        var startPos = realRoom.transform.position;
+        var endPos = startPos + moveVec;
+        var prePos = startPos;
+
+
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            float curveValue = 0f;
+            if (isReverseFlipFlopCurve)
+            {
+                curveValue = curveValue = 1.0f-flipFlopMoveCurve.Evaluate(1.0f-(t / duration));
+            }
+            else
+            {
+                curveValue = flipFlopMoveCurve.Evaluate(t / duration);
+            }
+            realRoom.transform.position = startPos + curveValue * moveVec;
+            VRChara.transform.position = CVRAdjuster.transform.position-charaSubTo2DCamPos;
+            yield return null;
+        }
+        realRoom.transform.position = endPos;
+        VRChara.transform.position = CVRAdjuster.transform.position - charaSubTo2DCamPos;
+    }
 }
