@@ -30,7 +30,7 @@ public class TitlePerformer :  NetworkBehaviour{
         if (Input.GetKeyDown(KeyCode.Space) || OVRInput.GetDown(OVRInput.Button.Any))
         {
             RpcPressed();
-            selectStageMenu.isReady = true;
+            selectStageMenu.IsReady = true;
         }
     }
     [ClientRpc]

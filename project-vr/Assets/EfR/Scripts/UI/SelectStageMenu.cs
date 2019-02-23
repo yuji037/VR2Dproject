@@ -8,27 +8,16 @@ public class SelectStageMenu :NetworkBehaviour
     StageDataMaster stageDataMaster;
 
     [SerializeField]
-    GameObject stageDataUIPrefab;
+    Transform cursor;
 
-    GameObject[] stageDataUIs;
+    [SerializeField]
+    Transform[] cursorPositions;
+
     int selectingStageIndexNumber;
-    private void Start()
-    {
-        CreateStageDataUI();
-    }
 
-    void CreateStageDataUI()
-    {
-        stageDataUIs = new GameObject[stageDataMaster.stageDatas.Count];
-        for (int i = 0; i < stageDataMaster.stageDatas.Count; i++)
-        {
-            var obj = Instantiate(stageDataUIPrefab,stageDataUIPrefab.transform.parent);
-            var sd = stageDataMaster.stageDatas[i];
-            obj.GetComponent<StageDataUI>().SetStageData(sd.StageDescription, sd.StageLevel, sd.StageImage);
-            stageDataUIs[i] = obj;
-        }
-        stageDataUIs[selectingStageIndexNumber].SetActive(true);
-    }
+    [SerializeField]
+    GameObject selectMenuObject;
+
     [Command]
     void CmdGoToSelectStage()
     {
@@ -45,7 +34,24 @@ public class SelectStageMenu :NetworkBehaviour
         GameCoordinator.GetInstance().playingStageData = selectStageData;
         GameCoordinator.GetInstance().ChangeStage(selectStageData.StageSceneName);
     }
-    public bool isReady;
+    bool isReady;
+    public bool IsReady
+    {
+        get { return isReady; }
+        set
+        {
+            if (value)
+            {
+                RpcShowSelectUI();
+            }
+            isReady = value;
+        }
+    }
+    [ClientRpc]
+    void RpcShowSelectUI()
+    {
+        selectMenuObject.SetActive(true);
+    }
     float stageUIChangeTimer = 0.4f;
     float stageUIChangeInterval = 0.4f;
     private void Update()
@@ -57,52 +63,48 @@ public class SelectStageMenu :NetworkBehaviour
         if (stageUIChangeTimer <= stageUIChangeInterval) return;
 
         var inputeEnter= Input.GetKeyDown(KeyCode.Space) || OVRInput.GetDown(OVRInput.Button.Two);
-        var inputHorizontal = Input.GetAxisRaw("Horizontal");
-        var inputRight = (inputHorizontal > 0.3f);
-        var inputLeft =  (inputHorizontal < -0.3f);
+        var inputVertical = Input.GetAxisRaw("Vertical");
+        var inputUp = (inputVertical > 0.3f);
+        var inputDown =  (inputVertical < -0.3f);
         if (inputeEnter)
         {
             CmdGoToSelectStage();
             stageUIChangeTimer = 0f;
         }
-        else if (inputRight)
+        else if (inputUp)
         {
-            RpcStageChangeRight();
+            RpcStageChangeUp();
             stageUIChangeTimer = 0f;
         }
-        else if (inputLeft)
+        else if (inputDown)
         {
-            RpcStageChangeLeft();
+            RpcStageChangeDown();
             stageUIChangeTimer = 0f;
         }
     }
 
     [ClientRpc]
-    public void RpcStageChangeRight()
+    public void RpcStageChangeDown()
     {
-        stageDataUIs[selectingStageIndexNumber].SetActive(false);
-
+        
         selectingStageIndexNumber++;
         if (selectingStageIndexNumber >= stageDataMaster.stageDatas.Count)
         {
-            selectingStageIndexNumber = 0;
+            selectingStageIndexNumber= stageDataMaster.stageDatas.Count-1;
         }
-
-        stageDataUIs[selectingStageIndexNumber].SetActive(true);
+        cursor.transform.position = cursorPositions[selectingStageIndexNumber].position;
     }
 
     [ClientRpc]
-    public void RpcStageChangeLeft()
+    public void RpcStageChangeUp()
     {
-        stageDataUIs[selectingStageIndexNumber].SetActive(false);
 
         selectingStageIndexNumber--;
         if (selectingStageIndexNumber < 0)
         {
-            selectingStageIndexNumber = stageDataMaster.stageDatas.Count - 1;
+            selectingStageIndexNumber = 0;
         }
-
-        stageDataUIs[selectingStageIndexNumber].SetActive(true);
+        cursor.transform.position = cursorPositions[selectingStageIndexNumber].position;
     }
 
 
