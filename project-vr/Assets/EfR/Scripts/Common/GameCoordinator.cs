@@ -143,7 +143,9 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         //シーンIDセット
         SetSceneIds(SceneManager.GetSceneByName("Root_Common"));
 
-        StartCoroutine(SceneLoader.IELoadScene("Root_UI"));
+        yield return StartCoroutine(SceneLoader.IELoadScene("Root_UI"));
+        SetSceneIds(SceneManager.GetSceneByName("Root_UI"));
+
         yield return StartCoroutine(SceneLoader.IELoadScene("Root_Frame3D"));
         //シーンIDセット
         SetSceneIds(SceneManager.GetSceneByName("Root_Frame3D"));
@@ -153,7 +155,7 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
 
 
         // 最初のステージロード完了
-
+        
         vrObjectManager.SpawnVRCamObject();
         networkManager.gameObject.SetActive(true);
         // ネットワーク接続

@@ -5,25 +5,25 @@ using UnityEngine;
 public static class TVSwitch
 {
 
-    static Camera _2DCamera;
+    static GameObject TVMask;
     public static bool IsOn
     {
         get
         {
-            if (!_2DCamera)
+            if (!TVMask)
             {
-                _2DCamera = GameObject.Find(CameraUtility.Camera2DName).GetComponent<Camera>();
-                if (!_2DCamera) return false;
+                TVMask = GameObject.Find("TVMask");
+                if (!TVMask) return false;
             }
-            return _2DCamera.enabled;
+            return !TVMask.activeSelf;
         }
         set
         {
-            if (!_2DCamera)
+            if (!TVMask)
             {
-                _2DCamera = GameObject.Find(CameraUtility.Camera2DName).GetComponent<Camera>();
+                TVMask = GameObject.Find("TVMask");
             }
-            if(_2DCamera)_2DCamera.enabled = value;
+            TVMask.SetActive(!value);
         }
     }
 }

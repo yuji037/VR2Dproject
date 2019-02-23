@@ -29,6 +29,7 @@ public class GimmickObjectScaler : GimmickBase{
 
     void ChangeScale(int id)
     {
+        if (!gameObject.activeSelf) return;
         if (id==triggerID)
         {
             StartChangeScale(toScale);

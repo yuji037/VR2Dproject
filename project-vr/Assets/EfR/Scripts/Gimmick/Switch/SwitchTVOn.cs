@@ -27,7 +27,7 @@ public class SwitchTVOn : SwitchActionBase
     [ClientRpc]
     void RpcTVOn()
     {
-        TVSwitch.IsOn = true;
+        TVSwitch.IsOn = !TVSwitch.IsOn;
     }
 
 }

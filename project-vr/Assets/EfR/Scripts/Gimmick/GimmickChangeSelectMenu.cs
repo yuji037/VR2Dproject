@@ -30,8 +30,7 @@ public class GimmickChangeSelectMenu : GimmickBase
         }
         if (ContainsPlayersInArea())
         {
-            Debug.Log("gotoMenu");
-            CmdGoToMenu();
+            CmdGoToClearSelect();
         }
 
     }
@@ -50,14 +49,28 @@ public class GimmickChangeSelectMenu : GimmickBase
         return count >= requiredPlayerCount;
     }
     [Command]
-    void CmdGoToMenu()
+    void CmdGoToClearSelect()
     {
-        RpcGoToMenu();
+        RpcGoToClearSelect();
     }
     [ClientRpc]
-    void RpcGoToMenu()
+    void RpcGoToClearSelect()
     {
-        Debug.Log("GoToMenu");
-        GameCoordinator.GetInstance().ChangeStageSelectMenu();
+        StartCoroutine(ClearPerformanceRoutine());
+    }
+    IEnumerator ClearPerformanceRoutine()
+    {
+        PlayerManager.playerMove.canMove = false;
+        //アニメーション出来次第
+        //PlayerManager.LocalPlayer.GetComponent<PlayerAnimationController>().CmdSetBool("yorokobi",true);
+        yield return new WaitForSeconds(1.0f);
+        if (PlayerManager.playerMove.moveType==PlayerMove.MoveType.FIXED)
+        {
+            PlayerManager.playerStatus.CmdTransWorld(PlayerMove.MoveType._2D,transform.position);
+            yield return new WaitForSeconds(3.0f);
+        }
+        PlayerManager.playerMove.canMove = true;
+        PlayerManager.playerMove.isReady= false;
+        ClearSelectMenu.instance.CmdSetActive(true);
     }
 }
