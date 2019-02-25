@@ -348,13 +348,18 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114909738369748630, guid: 07d49c4721814e24a981e6c234a0822c,
+        type: 2}
+      propertyPath: m_iActorGimmickIDs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4344117448512638, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
       propertyPath: m_LocalPosition.x
       value: 41.312595
       objectReference: {fileID: 0}
     - target: {fileID: 4344117448512638, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2.55
+      value: 2.67
       objectReference: {fileID: 0}
     - target: {fileID: 4344117448512638, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
       propertyPath: m_LocalPosition.z
@@ -380,28 +385,20 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114909738369748630, guid: 07d49c4721814e24a981e6c234a0822c,
+        type: 2}
+      propertyPath: m_iActorGimmickIDs.Array.data[0]
+      value: 1020
+      objectReference: {fileID: 0}
+    - target: {fileID: 114909738369748630, guid: 07d49c4721814e24a981e6c234a0822c,
+        type: 2}
+      propertyPath: pushJudgePlayerNumber
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114457119072680408, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &80631152 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1728618673667674, guid: 07d49c4721814e24a981e6c234a0822c,
-    type: 2}
-  m_PrefabInternal: {fileID: 80631151}
---- !u!114 &80631153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 80631152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e327d076ee66127488e00924deccd9b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dollyFloor: {fileID: 410506580}
-  autoReverse: 0
 --- !u!1 &85007732
 GameObject:
   m_ObjectHideFlags: 0
@@ -1634,7 +1631,26 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4178976708545600, guid: c125a1ba14f615748ab85b5e5184e76b, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 1.18
+      value: 0.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 114544732895383562, guid: c125a1ba14f615748ab85b5e5184e76b,
+        type: 2}
+      propertyPath: path
+      value: 
+      objectReference: {fileID: 482390147}
+    - target: {fileID: 114544732895383562, guid: c125a1ba14f615748ab85b5e5184e76b,
+        type: 2}
+      propertyPath: hasAuthorityPlayerNumber
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178976708545600, guid: c125a1ba14f615748ab85b5e5184e76b, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 114457546220997898, guid: c125a1ba14f615748ab85b5e5184e76b,
+        type: 2}
+      propertyPath: pushJudgePlayerNumber
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c125a1ba14f615748ab85b5e5184e76b, type: 2}
@@ -2737,6 +2753,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 114660213508879672, guid: fd74ae9846114304fa6c1b1b4bd83009,
+        type: 2}
+      propertyPath: m_iGimmickID
+      value: 1020
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fd74ae9846114304fa6c1b1b4bd83009, type: 2}
   m_IsPrefabParent: 0
@@ -2761,13 +2782,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84511671074bc774e8ea3a22e24d5be6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: {fileID: 0}
+  path: {fileID: 1064208673}
   defaultPathValue: 0
   moveSpeed: 1
   autoMove: 0
-  isChangeDirectionToMoveVec: 0
   selfTurn: 1
   isLoop: 0
+  hasAuthorityPlayerNumber: 1
+--- !u!114 &410506581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 410506579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e327d076ee66127488e00924deccd9b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoReverse: 0
 --- !u!1 &411007234
 GameObject:
   m_ObjectHideFlags: 0
@@ -3371,32 +3404,37 @@ Prefab:
     - target: {fileID: 114742530565097440, guid: 6052709b0148a10458b17da8c45bc661,
         type: 2}
       propertyPath: m_Waypoints.Array.data[1].position.x
-      value: -0.000000035516685
-      objectReference: {fileID: 0}
-    - target: {fileID: 114742530565097440, guid: 6052709b0148a10458b17da8c45bc661,
-        type: 2}
-      propertyPath: m_Waypoints.Array.data[1].position.y
-      value: 0.12799263
-      objectReference: {fileID: 0}
-    - target: {fileID: 114742530565097440, guid: 6052709b0148a10458b17da8c45bc661,
-        type: 2}
-      propertyPath: m_Waypoints.Array.data[1].position.z
-      value: 0.0000009152413
-      objectReference: {fileID: 0}
-    - target: {fileID: 114742530565097440, guid: 6052709b0148a10458b17da8c45bc661,
-        type: 2}
-      propertyPath: m_Waypoints.Array.data[0].position.x
       value: 0.27587676
       objectReference: {fileID: 0}
     - target: {fileID: 114742530565097440, guid: 6052709b0148a10458b17da8c45bc661,
         type: 2}
-      propertyPath: m_Waypoints.Array.data[0].position.y
+      propertyPath: m_Waypoints.Array.data[1].position.y
       value: -4.2978544
       objectReference: {fileID: 0}
     - target: {fileID: 114742530565097440, guid: 6052709b0148a10458b17da8c45bc661,
         type: 2}
-      propertyPath: m_Waypoints.Array.data[0].position.z
+      propertyPath: m_Waypoints.Array.data[1].position.z
       value: 7.913896
+      objectReference: {fileID: 0}
+    - target: {fileID: 114742530565097440, guid: 6052709b0148a10458b17da8c45bc661,
+        type: 2}
+      propertyPath: m_Waypoints.Array.data[0].position.x
+      value: -0.000000035516685
+      objectReference: {fileID: 0}
+    - target: {fileID: 114742530565097440, guid: 6052709b0148a10458b17da8c45bc661,
+        type: 2}
+      propertyPath: m_Waypoints.Array.data[0].position.y
+      value: 0.12799263
+      objectReference: {fileID: 0}
+    - target: {fileID: 114742530565097440, guid: 6052709b0148a10458b17da8c45bc661,
+        type: 2}
+      propertyPath: m_Waypoints.Array.data[0].position.z
+      value: 0.0000009152413
+      objectReference: {fileID: 0}
+    - target: {fileID: 114742530565097440, guid: 6052709b0148a10458b17da8c45bc661,
+        type: 2}
+      propertyPath: m_Looped
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6052709b0148a10458b17da8c45bc661, type: 2}
@@ -3653,6 +3691,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 472766276}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &482390147 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114742530565097440, guid: 6052709b0148a10458b17da8c45bc661,
+    type: 2}
+  m_PrefabInternal: {fileID: 451372161}
+  m_Script: {fileID: 11500000, guid: a200b19ca1a9685429ed7e043c28e904, type: 3}
 --- !u!1001 &488119416
 Prefab:
   m_ObjectHideFlags: 0
@@ -4104,9 +4148,9 @@ MonoBehaviour:
   defaultPathValue: 0
   moveSpeed: 0.5
   autoMove: 1
-  isChangeDirectionToMoveVec: 0
   selfTurn: 0
   isLoop: 1
+  hasAuthorityPlayerNumber: 0
 --- !u!1 &601998377
 GameObject:
   m_ObjectHideFlags: 0
@@ -6901,6 +6945,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1049281051}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1064208673 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114742530565097440, guid: 6052709b0148a10458b17da8c45bc661,
+    type: 2}
+  m_PrefabInternal: {fileID: 417528813}
+  m_Script: {fileID: 11500000, guid: a200b19ca1a9685429ed7e043c28e904, type: 3}
 --- !u!1 &1070397855
 GameObject:
   m_ObjectHideFlags: 0
