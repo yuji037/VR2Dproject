@@ -38,6 +38,8 @@ GameObject:
   - component: {fileID: 4535222738329918}
   - component: {fileID: 114989796087492546}
   - component: {fileID: 114477880220613370}
+  - component: {fileID: 114890093234232212}
+  - component: {fileID: 114476185201569392}
   m_Layer: 2
   m_Name: FloatWind
   m_TagString: Untagged
@@ -64,14 +66,26 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1892635362302936}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.31, y: 9.21, z: -4.84}
-  m_LocalScale: {x: 5, y: 20.4, z: 5}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 39.28, y: 7.13, z: -7.09}
+  m_LocalScale: {x: 1.8, y: 11.55, z: 1.6}
   m_Children:
   - {fileID: 4391704510938776}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114476185201569392
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1892635362302936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd9ccf2a3ac1a734bb4d38fbde9be019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultActive: 0
 --- !u!114 &114477880220613370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -85,6 +99,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GizmoColor: {r: 0, g: 1, b: 0, a: 0.309}
   drawType: 0
+--- !u!114 &114890093234232212
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1892635362302936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a121a00c082c0044b3a89899f8b6752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_iGimmickID: 1020
 --- !u!114 &114989796087492546
 MonoBehaviour:
   m_ObjectHideFlags: 1

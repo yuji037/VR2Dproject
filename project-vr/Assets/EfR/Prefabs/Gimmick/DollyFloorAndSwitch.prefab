@@ -40,9 +40,8 @@ GameObject:
   - component: {fileID: 114958113350157798}
   - component: {fileID: 65625147090560546}
   - component: {fileID: 114457546220997898}
-  - component: {fileID: 114814852784368556}
-  - component: {fileID: 114557673200173252}
   - component: {fileID: 114807339360199364}
+  - component: {fileID: 114589612039344524}
   m_Layer: 0
   m_Name: GimmickSwitchMoveDolly
   m_TagString: Untagged
@@ -79,7 +78,6 @@ GameObject:
   - component: {fileID: 65477291535882530}
   - component: {fileID: 23627947853490002}
   - component: {fileID: 114544732895383562}
-  - component: {fileID: 114133980087043132}
   - component: {fileID: 114469398014775780}
   - component: {fileID: 114417464895606876}
   - component: {fileID: 114212454388717556}
@@ -132,12 +130,12 @@ Transform:
   m_GameObject: {fileID: 1114250507513370}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 3, y: 0.30000013, z: 3}
+  m_LocalScale: {x: 3, y: 0.30000016, z: 3}
   m_Children:
   - {fileID: 4327321382617498}
   - {fileID: 4978359920804634}
   m_Father: {fileID: 4646766604377852}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4327321382617498
 Transform:
@@ -164,7 +162,7 @@ Transform:
   m_LocalScale: {x: 5, y: 0.6779543, z: 5}
   m_Children: []
   m_Father: {fileID: 4646766604377852}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4646766604377852
 Transform:
@@ -176,8 +174,8 @@ Transform:
   m_LocalPosition: {x: 18.76, y: 8.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4483834965850564}
   - {fileID: 4178976708545600}
+  - {fileID: 4483834965850564}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -328,27 +326,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0000002, y: 2.17, z: 1.0000002}
   m_Center: {x: 0, y: 0.0000019073486, z: 0}
---- !u!114 &114133980087043132
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1316682240372652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.033333335
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114212454388717556
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -390,10 +367,11 @@ MonoBehaviour:
   m_PushObject: {fileID: 4978359920804634}
   m_IsActPointerHit: 0
   m_IsActOnRelease: 1
-  m_vPushedVector: {x: 0, y: -0.01, z: 0}
+  m_vPushedVector: {x: 0, y: -0.2, z: 0}
   m_fPerformSpeed: 2
   m_IsToggle: 0
-  m_IsSwitchingNotifyToClient: 0
+  m_IsSwitchingNotifyToClient: 1
+  pushJudgePlayerNumber: 1
   m_IsPushing: 0
 --- !u!114 &114469398014775780
 MonoBehaviour:
@@ -426,7 +404,7 @@ MonoBehaviour:
     i14: 231
     i15: 107
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114544732895383562
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -442,10 +420,10 @@ MonoBehaviour:
   defaultPathValue: 2
   moveSpeed: 0.5
   autoMove: 0
-  isChangeDirectionToMoveVec: 0
   selfTurn: 0
   isLoop: 0
---- !u!114 &114557673200173252
+  hasAuthorityPlayerNumber: 1
+--- !u!114 &114589612039344524
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -480,27 +458,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af5358a5b6150264591cbf03a600687b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114814852784368556
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1114250507513370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.033333335
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114899375098407798
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -547,7 +504,7 @@ MonoBehaviour:
     i14: 231
     i15: 107
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!198 &198469537588581276
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -608,7 +565,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1906772035
+  randomSeed: -1267845833
   InitialModule:
     serializedVersion: 3
     enabled: 1

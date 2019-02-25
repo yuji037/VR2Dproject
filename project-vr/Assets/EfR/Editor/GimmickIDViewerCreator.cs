@@ -9,34 +9,41 @@ public class GImmickIDViewerCreator
     static void CreateIDViewerInstance()
     {
         var obj = Resources.Load("Debug/GimmickIDText") as GameObject;
-        var gimmicks = Object.FindObjectsOfType(typeof(GimmickBase));
+        var components = Object.FindObjectsOfType(typeof(Component));
         List<int> idList = new List<int>();
         List<int> overLapList = new List<int>();
-        foreach (GimmickBase i in gimmicks)
+        List<IActor> actors = new List<IActor>();
+        foreach (var i in components)
         {
-            if (idList.Contains(i.GimmickID))
+            if (!(i is IActor)) continue;
+            actors.Add(i as IActor);
+        }
+        foreach (IActor i  in actors)
+        {
+            if (idList.Contains(i.GetID()))
             {
-                overLapList.Add(i.GimmickID);
+                overLapList.Add(i.GetID());
             }
             else
             {
-                idList.Add(i.GimmickID);
+                idList.Add(i.GetID());
             }
         }
-        foreach (GimmickBase i in gimmicks)
+        foreach (IActor i in actors)
         {
+            var mono = i as MonoBehaviour;
             //ヒエラルキー上にあるかチェック
-            bool inHierarchy = i.gameObject.activeInHierarchy;
+            bool inHierarchy = mono.gameObject.activeInHierarchy;
             //既にDebugGimmickIDViewerが生成されているかチェック
-            bool viewerIsContained = i.GetComponentInChildren<DebugGimmickIDViewer>();
+            bool viewerIsContained = mono.GetComponentInChildren<DebugGimmickIDViewer>();
 
             if (inHierarchy && !viewerIsContained)
             {
                 var textColor = Color.white;
                 //重複している場合赤色で表示
-                if (overLapList.Contains(i.GimmickID))
+                if (overLapList.Contains(i.GetID()))
                 {
-                    Debug.Log("GimmickID[" + i.GimmickID + "]が重複しています");
+                    Debug.Log("GimmickID[" + i.GetID() + "]が重複しています");
                     textColor = Color.red;
                 }
                 var textObject = Object.Instantiate(obj);
