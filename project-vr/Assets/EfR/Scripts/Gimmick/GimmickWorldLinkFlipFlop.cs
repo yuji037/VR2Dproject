@@ -6,7 +6,7 @@ using System.Linq;
 
 public class GimmickWorldLinkFlipFlop : GimmickBase {
 
-	static bool[] frags = new bool[2];
+	public bool isPlayerOn = false;
 
 	[SerializeField]
 	public bool deactivateOnTrigger = true;
@@ -26,7 +26,7 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 		{
 			var trigrPlayer = collider.gameObject;
 			int fragNum = ( trigrPlayer == PlayerManager.LocalPlayer ) ? 0 : 1;
-			CmdSetFrag(fragNum, true);
+			CmdSetFrag(/*fragNum, */true);
 		}
 	}
 
@@ -36,33 +36,39 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 		{
 			var trigrPlayer = collider.gameObject;
 			int fragNum = ( trigrPlayer == PlayerManager.LocalPlayer ) ? 0 : 1;
-			CmdSetFrag(fragNum, false);
+			CmdSetFrag(/*fragNum, */false);
 		}
 	}
 
 	void CheckFlipFlop()
 	{
-		Debug.Log("CheckFlipFlop");
-		if (PlayerManager.OtherPlayer == null )
+		//Debug.Log("CheckFlipFlop");
+		//if (PlayerManager.OtherPlayer == null )
+		//{
+		//	if ( frags[0] )
+		//	{
+		//		FlipFlop();
+		//	}
+		//}
+		//else
+		//{
+		//	if ( frags.Where(fr => fr == false).Any() == false )
+		//	{
+		//		FlipFlop();
+		//	}
+		//}
+		if ( isPlayerOn && otherGimmick.isPlayerOn)
 		{
-			if ( frags[0] )
-			{
-				FlipFlop();
-			}
-		}
-		else
-		{
-			if ( frags.Where(fr => fr == false).Any() == false )
-			{
-				FlipFlop();
-			}
+			FlipFlop();
 		}
 	}
 
+	// サーバーのみで呼ぶべき
 	void FlipFlop()
 	{
 		FlipFlopPlayersWorld();
-		ResetFrags();
+		//ResetFrags();
+		CmdSetFrag(false);
 		Deactivate();
 	}
 
@@ -76,17 +82,18 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 	}
 
 	[Command]
-	void CmdSetFrag(int fragNum, bool isTrue)
+	void CmdSetFrag(/*int fragNum, */bool isTrue)
 	{
-		frags[fragNum] = isTrue;
+		//frags[fragNum] = isTrue;
+		isPlayerOn = isTrue;
 		CheckFlipFlop();
 	}
 
-	void ResetFrags()
-	{
-		for ( int i = 0; i < frags.Length; ++i )
-			frags[i] = false;
-	}
+	//void ResetFrags()
+	//{
+	//	for ( int i = 0; i < frags.Length; ++i )
+	//		frags[i] = false;
+	//}
 
 	// 1人プレイなら1人だけ切り替わる
 	void FlipFlopPlayersWorld()
