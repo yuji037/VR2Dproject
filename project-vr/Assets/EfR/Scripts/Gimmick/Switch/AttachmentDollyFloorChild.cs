@@ -7,19 +7,23 @@ public class AttachmentDollyFloorChild : MonoBehaviour
     [SerializeField]
     DollyMoveObject target;
 
-    Vector3 preTargetPos;
+    Vector3 diffToTarget;
+
+    float delay = 0.5f;
+    float timer = 0f;
+
     private void Awake()
     {
-        preTargetPos = target.transform.position;
+        diffToTarget= target.transform.position-transform.position;
+        Debug.Log("差は"+diffToTarget+"です");
     }
     private void Update()
     {
-        if (target.isServer&&target.StartedServer)
+        timer+= Time.deltaTime;
+        if (delay <= timer)
         {
+            transform.position=target.transform.position-diffToTarget;
             transform.parent = target.transform;
-            var sub=target.transform.position - preTargetPos;
-            transform.Translate(sub);
-            Debug.Log(sub);
             enabled = false;
         }
     }

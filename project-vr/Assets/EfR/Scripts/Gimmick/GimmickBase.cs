@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.Networking;
 
-public abstract class GimmickBase : NetworkBehaviour
+public abstract class GimmickBase : NetworkBehaviour,IActor
 {
 
     [SerializeField]
@@ -12,6 +12,10 @@ public abstract class GimmickBase : NetworkBehaviour
     public int GimmickID
     {
         get { return m_iGimmickID; }
+    }
+    public int GetID()
+    {
+        return m_iGimmickID;
     }
 #if UNITY_EDITOR
     public void SetGimmickID(int gimmickID)
@@ -133,8 +137,5 @@ public abstract class GimmickBase : NetworkBehaviour
         NetworkServer.Destroy(this.gameObject);
     }
 
-    //private void OnDestroy()
-    //{
-    //    DestroyThisObject();
-    //}
+
 }

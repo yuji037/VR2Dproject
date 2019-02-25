@@ -2,21 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwitchMoveDollyFloor : SwitchActionBase {
-    [SerializeField]
+public class SwitchableMoveDollyObject : MonoBehaviour,ISwitchableObject {
     DollyMoveObject dollyFloor;
     bool isPushing=false;
 
     [SerializeField]
     bool autoReverse=true;
-    public override List<Transform> ActorObjects
-    {
-        get
-        {
-            return new List<Transform>(){dollyFloor.transform};
-        }
-    }
 
+    private void Start()
+    {
+        dollyFloor=GetComponent<DollyMoveObject>();
+    }
     private void FixedUpdate()
     {
         if (isPushing)
@@ -28,11 +24,12 @@ public class SwitchMoveDollyFloor : SwitchActionBase {
             dollyFloor.Move(-1.0f);
         }
     }
-    public override void OnAction()
+
+    public void OnAction()
     {
         isPushing = true;
     }
-    public override void OffAction()
+    public void OffAction()
     {
         isPushing = false;
     }

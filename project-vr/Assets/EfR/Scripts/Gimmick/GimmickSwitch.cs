@@ -1,15 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class GimmickSwitch : GimmickBase {
 
-    SwitchActionBase switchAction;
 
     [SerializeField, Header("押せる物体のギミックID（プレイヤーの手、ブロックなど）")]
 
     int[]		m_iTriggerGimmickIDs;
 
+    [SerializeField, Header("反応する対象のID")]
+    int[]       m_iActorGimmickIDs;
+
+    [SerializeField,Header("物理的に押されるオブジェクト")]
+    Transform   m_PushObject;
 
 	[SerializeField, Header("光線ポインターで反応するかどうか")]
 
@@ -32,6 +37,32 @@ public class GimmickSwitch : GimmickBase {
 
 	bool		m_IsToggle			= false;
 
+    [SerializeField, Header("クライアントにもOnOffを通知する")]
+    bool        m_IsSwitchingNotifyToClient   = false;
+
+    [SerializeField, Header("当たった判定を行うクライアントのプレイヤー番号")]
+    PlayerNumber pushJudgePlayerNumber;
+
+    public ISwitchableObject[] ActorSwitchableObjects
+    {
+        get
+        {
+            if (actorSwitchableObjects == null)
+            {
+                actorSwitchableObjects = new ISwitchableObject[m_iActorGimmickIDs.Length];
+                int idx = 0;
+                foreach (var i in m_iActorGimmickIDs)
+                {
+                    var gimmick = GimmickManager.GetActor(i);
+                    var switchable = (gimmick as MonoBehaviour).GetComponent<ISwitchableObject>();
+                    actorSwitchableObjects[idx] = switchable;
+                    idx++;
+                }
+            }
+            return actorSwitchableObjects;
+        }
+    }
+
 
     #region 内部変数
 
@@ -45,14 +76,20 @@ public class GimmickSwitch : GimmickBase {
 	Vector3		m_vReleasedPosition;
 	Vector3		m_vPressedPosition;
 	float		m_fPressedDistanceSqr;
+    bool        m_Initialized;
 
+    ISwitchableObject[] actorSwitchableObjects;
 	#endregion
 
 
 	// Use this for initialization
 	void Start()
 	{
-		m_aTriggerEnterAction		+= PushJudge;
+        if (!m_PushObject) m_PushObject = transform;
+
+        isCallOnlyServer = false;
+
+        m_aTriggerEnterAction += PushJudge;
 		// 光線でONになるかどうか
 		if ( m_IsActPointerHit )
 			m_aPointerHitAction		+= PushJudge;
@@ -60,19 +97,35 @@ public class GimmickSwitch : GimmickBase {
 		m_aTriggerExitAction		+= ReleaseJudge;
 
 		// 内部変数への入れ込み
-		m_rRigidbody = GetComponent<Rigidbody>();
+		m_rRigidbody = m_PushObject.GetComponent<Rigidbody>();
 
-		m_vReleasedPosition			= transform.localPosition;
-		m_vPressedPosition			= transform.localPosition + m_vPushedVector;
+		m_vReleasedPosition			= m_PushObject.localPosition;
+		m_vPressedPosition			= m_PushObject.localPosition + m_vPushedVector;
 		m_fPressedDistanceSqr		= ( m_vPressedPosition - m_vReleasedPosition ).sqrMagnitude;
 
-        switchAction = GetComponent<SwitchActionBase>();
+    }
+    private  void Initialize()
+    {
+        if (m_Initialized) return;
+        var netId = GetComponent<NetworkIdentity>();
+        if(netId.localPlayerAuthority)PlayerManager.playerStatus.SetAuth(netId);
+        
+        m_Initialized = true;
     }
 
-	private void Update()
+    bool IsReady()
+    {
+        return !PlayerManager.LocalPlayer ||
+            !PlayerManager.playerStatus ||
+            ((PlayerNumber)PlayerManager.GetPlayerNumber() != pushJudgePlayerNumber);
+    }
+
+    private void FixedUpdate()
 	{
-        if (!isServer) return;
-		if ( m_IsPushing )
+        if(IsReady())return;
+        Initialize();
+
+        if ( m_IsPushing )
 		{
 			OnPushing();
 		}
@@ -85,14 +138,14 @@ public class GimmickSwitch : GimmickBase {
 	// スイッチが沈み切るとアクションが起こる
 	void OnPushing()
 	{
-		Vector3		nowPressedVector		=	transform.localPosition - m_vReleasedPosition;
+		Vector3		nowPressedVector		=	m_PushObject.localPosition - m_vReleasedPosition;
 		float		nowPressedDistanceSqr	=	nowPressedVector.sqrMagnitude;
 
 
 		if (		nowPressedDistanceSqr < m_fPressedDistanceSqr )
 		{
 			// スイッチが沈んでいる途中
-			PressThisFrame();
+			MoveThisFrame(true);
 		}
 		else
 		{
@@ -104,25 +157,22 @@ public class GimmickSwitch : GimmickBase {
 			if ( m_IsToggle )
 			{
 				// トグルスイッチの場合
-				if ( m_IsToggleOn == false )
-                    switchAction.OnAction();
-				else
-                    switchAction.OffAction();
+                NotifySwitching(!m_IsToggleOn);
 
 				m_IsToggleOn = !m_IsToggleOn;
 			}
 			else
 			{
                 // トグルスイッチじゃない場合
-                switchAction.OnAction();
+                NotifySwitching(true);
 			}
-			transform.localPosition = m_vPressedPosition;
+			m_PushObject.localPosition = m_vPressedPosition;
 		}
 	}
 
 	void OnReleasing()
 	{
-		Vector3		nowReleasedVector		= transform.localPosition - m_vPressedPosition;
+		Vector3		nowReleasedVector		= m_PushObject.localPosition - m_vPressedPosition;
 		float		nowReleasedDistanceSqr	= nowReleasedVector.sqrMagnitude;
 
 		if (		nowReleasedDistanceSqr	< m_fPressedDistanceSqr )
@@ -130,9 +180,9 @@ public class GimmickSwitch : GimmickBase {
 			// スイッチが浮かんでいる途中
 			// 離してアクションするタイプならここでアクション
 			if ( m_IsPressed && m_IsActOnRelease)
-                switchAction.OffAction();
+                NotifySwitching(false);
 
-			ReleaseThisFrame();
+			MoveThisFrame(false);
 			m_IsPressed = false;
 		}
 		else
@@ -140,44 +190,94 @@ public class GimmickSwitch : GimmickBase {
 			// スイッチが浮かび切った
 			// スイッチに何も触れてない定常時
 
-			transform.localPosition = m_vReleasedPosition;
+			m_PushObject.localPosition = m_vReleasedPosition;
 		}
 	}
 
-	void PressThisFrame()
+    [Command]
+    void CmdSyncButtonPos(Vector3 moveVec)
+    {
+        var target = PlayerManager.Players[((int)pushJudgePlayerNumber == 0) ? 1 : 0].GetComponent<NetworkIdentity>().connectionToClient;
+        TargetSyncButtonPos(target,moveVec);
+        DebugTools.Log(moveVec);
+    }
+
+    [TargetRpc]
+    void TargetSyncButtonPos(NetworkConnection target,Vector3 moveVec)
+    {
+        m_rRigidbody.MovePosition(m_PushObject.position + moveVec);
+    }
+
+    void MoveThisFrame(bool isPress)
 	{
-		var moveVec =	m_vPushedVector * m_fPerformSpeed * Time.deltaTime;
-		m_rRigidbody.MovePosition(transform.position + moveVec);
+		var moveVec =	m_vPushedVector * m_fPerformSpeed*0.016f*((isPress)?1.0f:-1.0f);
+		m_rRigidbody.MovePosition(m_PushObject.position + moveVec);
+        Debug.Log(moveVec);
+        if (hasAuthority) CmdSyncButtonPos( moveVec);
 	}
 
-	void ReleaseThisFrame()
+    protected virtual void PushJudge(int otherGimmickID)
 	{
-		var moveVec = -	m_vPushedVector * m_fPerformSpeed * Time.deltaTime;
-		m_rRigidbody.MovePosition(transform.position + moveVec);
-	}
-
-	protected virtual void PushJudge(int otherGimmickID)
-	{
-		Debug.Log("Push");
+		Debug.Log("Push"+otherGimmickID);
 		foreach ( var triggerID in m_iTriggerGimmickIDs )
 		{
 			if ( otherGimmickID == triggerID )
 			{
-				m_IsPushing = true;
+                m_IsPushing=true;
 			}
 		}
 	}
 
 	protected virtual void ReleaseJudge(int otherGimmickID)
 	{
-		Debug.Log("Release");
+		Debug.Log("Release"+otherGimmickID);
 		foreach ( var triggerID in m_iTriggerGimmickIDs )
 		{
 			if ( otherGimmickID == triggerID )
 			{
-				m_IsPushing = false;
+				m_IsPushing= false;
 			}
 		}
 	}
 
+    void NotifySwitching(bool isOn)
+    {
+        Debug.Log("通知:"+isOn);
+        if (m_IsSwitchingNotifyToClient)
+        {
+            CmdTurnSwitchableObject(isOn);
+        }
+        else
+        {
+            TurnSwitchableObject(isOn);
+        }
+    }
+
+    [Command]
+    void CmdTurnSwitchableObject(bool isOn)
+    {
+        RpcTurnSwitchableObject(isOn);
+    }
+
+    [ClientRpc]
+    void RpcTurnSwitchableObject(bool isOn)
+    {
+        TurnSwitchableObject(isOn);
+    }
+
+    void TurnSwitchableObject(bool isOn)
+    {
+        Debug.Log("Act Switch"+ isOn);
+        foreach (var i in ActorSwitchableObjects)
+        {
+            if (isOn)
+            {
+                i.OnAction();
+            }
+            else
+            {
+                i.OffAction();
+            };
+        }
+    }
 }

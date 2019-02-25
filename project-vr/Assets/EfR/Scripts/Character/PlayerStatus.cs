@@ -211,4 +211,28 @@ public class PlayerStatus : NetworkBehaviour {
 		//holoMat.SetFloat("_Pos", wPosY + ( fadeIn ? 1000 : -1000 ));
 		IsPerforming = false;
 	}
+
+    public void SetAuth(NetworkIdentity target)
+    {
+        CmdSetAuth(target,GetComponent<NetworkIdentity>());
+    }
+
+    [Command]
+    void CmdSetAuth(NetworkIdentity target,NetworkIdentity player)
+    {
+        var otherOwner = target.clientAuthorityOwner;
+
+        if (otherOwner == player.connectionToClient)
+        {
+            return;
+        }
+        else
+        {
+            if (otherOwner != null)
+            {
+                target.RemoveClientAuthority(otherOwner);
+            }
+            target.AssignClientAuthority(player.connectionToClient);
+        }
+    }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GimmickFloatWind : MonoBehaviour {
+public class FloatWind : MonoBehaviour {
 
     [SerializeField]
     float floatPower;

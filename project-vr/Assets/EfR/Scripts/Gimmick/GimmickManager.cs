@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class GimmickManager : SingletonMonoBehaviour<GimmickManager> {
 
-    Dictionary<int, GimmickBase> m_dcGimmickBases = new Dictionary<int, GimmickBase>();
+    Dictionary<int, IActor> m_dcGimmickBases = new Dictionary<int, IActor>();
 
-    public void Register(GimmickBase gimmick)
+    public void Register(IActor gimmick)
     {
-        if ( !m_dcGimmickBases.ContainsKey(gimmick.GimmickID) )
+        if ( !m_dcGimmickBases.ContainsKey(gimmick.GetID()) )
         {
-            m_dcGimmickBases[gimmick.GimmickID] = gimmick;
+            m_dcGimmickBases[gimmick.GetID()] = gimmick;
         }
         else
         {
@@ -19,7 +19,7 @@ public class GimmickManager : SingletonMonoBehaviour<GimmickManager> {
 
     }
 
-    public static GimmickBase GetGimmick(int gimmickID)
+    public static IActor GetActor(int gimmickID)
     {
         var gmInstance = GetInstance();
 
