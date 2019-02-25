@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1273174, g: 0.13414761, b: 0.12107885, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -812,7 +812,7 @@ GameObject:
   - component: {fileID: 536178686}
   - component: {fileID: 536178687}
   m_Layer: 8
-  m_Name: GameObject
+  m_Name: VRCharaHoloController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -842,7 +842,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a02ea878a7bd74aa35002370ce0be3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeLength: 1.5
+  chatCharas:
+  - {fileID: 814704872}
+  - {fileID: 847454258}
+  fadeLength: 1.66
+  fadeTime: 2
 --- !u!1 &608721712
 GameObject:
   m_ObjectHideFlags: 0
@@ -1655,6 +1659,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4638639929969146, guid: 87b0c549e09d6a24dbf1c2588878a79f,
     type: 2}
   m_PrefabInternal: {fileID: 814704870}
+--- !u!1 &814704872 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1417573632717226, guid: 87b0c549e09d6a24dbf1c2588878a79f,
+    type: 2}
+  m_PrefabInternal: {fileID: 814704870}
 --- !u!1 &842716698
 GameObject:
   m_ObjectHideFlags: 0
@@ -1807,6 +1816,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 87b0c549e09d6a24dbf1c2588878a79f, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &847454258 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1417573632717226, guid: 87b0c549e09d6a24dbf1c2588878a79f,
+    type: 2}
+  m_PrefabInternal: {fileID: 847454257}
 --- !u!1 &922753032
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,23 +4,38 @@ using UnityEngine;
 
 public class VRCharaHoloController : SingletonMonoBehaviour<VRCharaHoloController> {
 
-	public GameObject[] chatCharas { get; private set; }
+	[SerializeField]
+	GameObject[] chatCharas;
 	Material[] charaMaterials;
 
 	[SerializeField]
 	float fadeLength = 1.5f;
 
+	[SerializeField]
+	float fadeTime = 2.0f;
+
+
+	public GameObject GetChatCharaObject(int playerNum)
+	{
+		return chatCharas[playerNum];
+	}
+
+	public float GetCharaBorderPos(int playerNum)
+	{
+		return charaMaterials[playerNum].GetFloat("_Pos");
+	}
+
 	private void Start()
 	{
 		int maxPlayer = 2;
-		chatCharas = new GameObject[maxPlayer];
+		//chatCharas = new GameObject[maxPlayer];
 		charaMaterials = new Material[maxPlayer];
 		for(int i = 0; i < maxPlayer; ++i )
 		{
-			chatCharas[i] = GameObject.Find("VRChatCharaPos" + ( i + 1 ));
+			//chatCharas[i] = GameObject.Find("VRChatCharaPos" + ( i + 1 ));
 			var ren = chatCharas[i].GetComponentInChildren<SkinnedMeshRenderer>();
 			charaMaterials[i] = ren.material;
-			charaMaterials[i].SetFloat("_Pos", transform.position.y + 1.5f);
+			//charaMaterials[i].SetFloat("_Pos", transform.position.y + 1.5f);
 		}
 	}
 
@@ -34,13 +49,15 @@ public class VRCharaHoloController : SingletonMonoBehaviour<VRCharaHoloControlle
 
 		Debug.Log("Holo Start");
 
-		var renderer = GameObject.Find("VRChatCharaPos" + ( playerNum + 1 )).GetComponentInChildren<SkinnedMeshRenderer>();
-		var wPosY = renderer.transform.position.y;
+		var renderer = chatCharas[playerNum].GetComponentInChildren<SkinnedMeshRenderer>();
+		//var wPosY = renderer.transform.position.y;
 		var holoMat = renderer.material;
-		var speed = 1.0f;
+		//var length = fadeLength * chatCharas[playerNum]
+		var length = fadeLength * chatCharas[playerNum].transform.lossyScale.y;
+		var speed = length / fadeTime;
 
 		yield return StartCoroutine(MaterialsManager.HoloFadeCoroutine(
-			holoMat, fadeIn, renderer.transform.position, null, fadeLength, speed));
+			holoMat, fadeIn, chatCharas[playerNum].transform.position, chatCharas[playerNum].transform, length, speed));
 
 		//holoMat.SetFloat("_App", 1);
 
@@ -52,8 +69,18 @@ public class VRCharaHoloController : SingletonMonoBehaviour<VRCharaHoloControlle
 		//}
 	}
 
-	public float GetCharaBorderPos(int playerNum)
+	private void OnDrawGizmos()
 	{
-		return charaMaterials[playerNum].GetFloat("_Pos");
+		if ( chatCharas == null ) return;
+
+		Gizmos.color = Color.yellow;
+
+		for(int i = 0; i < chatCharas.Length; ++i )
+		{
+			if ( chatCharas[i] == null ) continue;
+
+			var length = fadeLength * chatCharas[i].transform.lossyScale.y;
+			Gizmos.DrawLine(chatCharas[i].transform.position, chatCharas[i].transform.position + new Vector3(0, length,0));
+		}
 	}
 }

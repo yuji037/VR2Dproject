@@ -43,14 +43,14 @@ public class MaterialsManager : SingletonMonoBehaviour<MaterialsManager>
 		float fadeHeightMax, float speed = 1f)
 	{
 		mat.SetFloat("_App", 1f);
-		for ( float t = 0; t <= fadeHeightMax; t += Time.deltaTime * speed )
+		for ( float h = 0; h <= fadeHeightMax; h += Time.deltaTime * speed )
 		{
 			if ( objTransform )
 				objPosition = objTransform.position;
 
-			float setPosY = objPosition.y + (fadeIn ? t :( fadeHeightMax - t ));
+			float setPosY = objPosition.y + (fadeIn ? h :( fadeHeightMax - h ));
 			mat.SetFloat("_Pos", setPosY);
-
+			//Debug.Log("Holo進行中");
 			yield return null;
 		}
 
