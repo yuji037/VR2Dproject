@@ -4,13 +4,13 @@ using UnityEngine;
 public class DebugGimmickIDViewer : MonoBehaviour
 {
     [SerializeField]
-    GimmickBase gimmickBase;
+    IActor actor;
     [SerializeField]
     TextMesh textMesh;
-    public void Init(GimmickBase gimmick,Color textColor)
+    public void Init(IActor actor,Color textColor)
     {
-        gimmickBase = gimmick;
-        transform.parent = gimmick.transform;
+        this.actor = actor;
+        transform.parent = (actor as MonoBehaviour).transform;
         transform.localPosition = Vector3.zero;
         textMesh.color = textColor;
     }
@@ -23,8 +23,8 @@ public class DebugGimmickIDViewer : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        if (!gimmickBase||isGame) return;
-        textMesh.text = gimmickBase.GimmickID.ToString();
+        if (actor==null||isGame) return;
+        textMesh.text = actor.GetID().ToString();
         if (Camera.current)
         {
             transform.LookAt(Camera.current.transform);
