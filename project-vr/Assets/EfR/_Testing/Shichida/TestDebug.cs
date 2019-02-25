@@ -9,8 +9,8 @@ public class TestDebug : MonoBehaviour {
         if ( Input.GetKeyDown(KeyCode.M) )
         {
             Collision c = new Collision();
-            var gmk = GimmickManager.GetGimmick(1001);
-            gmk.SendMessage("OnCollisionEnter", c);
+            var gmk = GimmickManager.GetActor(1001);
+            //gmk.SendMessage("OnCollisionEnter", c);
         }
 	}
 }

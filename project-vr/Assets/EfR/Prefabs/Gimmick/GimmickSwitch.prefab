@@ -60,8 +60,6 @@ GameObject:
   - component: {fileID: 114909738369748630}
   - component: {fileID: 54919570475865272}
   - component: {fileID: 114485442275928636}
-  - component: {fileID: 114587305220777310}
-  - component: {fileID: 114457119072680408}
   - component: {fileID: 136968975893164820}
   - component: {fileID: 114217271772078462}
   m_Layer: 0
@@ -191,18 +189,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Rate: 13608.161
---- !u!114 &114457119072680408
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1728618673667674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25dbc916922bdaf4c96d4d6dff25deca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_iActorGimmickID: 1001
 --- !u!114 &114485442275928636
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -235,27 +221,6 @@ MonoBehaviour:
     i15: 44
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114587305220777310
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1728618673667674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 3
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114909738369748630
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -269,11 +234,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_iGimmickID: 1000
   m_iTriggerGimmickIDs: ffffffff
+  m_iActorGimmickIDs: 
+  m_PushObject: {fileID: 0}
   m_IsActPointerHit: 0
   m_IsActOnRelease: 0
   m_vPushedVector: {x: 0, y: -0.2, z: 0}
   m_fPerformSpeed: 8
   m_IsToggle: 0
+  m_IsSwitchingNotifyToClient: 0
+  pushJudgePlayerNumber: 0
   m_IsPushing: 0
 --- !u!114 &114941583865106074
 MonoBehaviour:

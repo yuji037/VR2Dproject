@@ -11,6 +11,24 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1477397252228464}
   m_IsPrefabParent: 1
+--- !u!1 &1086251707397354
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4978359920804634}
+  - component: {fileID: 33355189838936546}
+  - component: {fileID: 23999565622422882}
+  - component: {fileID: 54356777209924808}
+  m_Layer: 0
+  m_Name: Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1114250507513370
 GameObject:
   m_ObjectHideFlags: 0
@@ -19,11 +37,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4178976708545600}
-  - component: {fileID: 33526838448526358}
-  - component: {fileID: 23546588704720164}
-  - component: {fileID: 54113868003410882}
   - component: {fileID: 114958113350157798}
-  - component: {fileID: 114355708163363192}
   - component: {fileID: 65625147090560546}
   - component: {fileID: 114457546220997898}
   - component: {fileID: 114814852784368556}
@@ -67,6 +81,8 @@ GameObject:
   - component: {fileID: 114544732895383562}
   - component: {fileID: 114133980087043132}
   - component: {fileID: 114469398014775780}
+  - component: {fileID: 114417464895606876}
+  - component: {fileID: 114212454388717556}
   m_Layer: 11
   m_Name: DollyFloor
   m_TagString: LaserPointerFloorCreate
@@ -116,9 +132,10 @@ Transform:
   m_GameObject: {fileID: 1114250507513370}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 1.8401111, y: 0.30000013, z: 1.8621975}
+  m_LocalScale: {x: 3, y: 0.30000013, z: 3}
   m_Children:
   - {fileID: 4327321382617498}
+  - {fileID: 4978359920804634}
   m_Father: {fileID: 4646766604377852}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -144,7 +161,7 @@ Transform:
   m_GameObject: {fileID: 1316682240372652}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5.05, y: 0.6779543, z: 2.3277447}
+  m_LocalScale: {x: 5, y: 0.6779543, z: 5}
   m_Children: []
   m_Father: {fileID: 4646766604377852}
   m_RootOrder: 0
@@ -155,8 +172,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1477397252228464}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 42.7, y: -0.48999977, z: -4.6566277}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 18.76, y: 8.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4483834965850564}
@@ -177,40 +194,19 @@ Transform:
   m_Father: {fileID: 4327321382617498}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23546588704720164
-MeshRenderer:
+--- !u!4 &4978359920804634
+Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1114250507513370}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_GameObject: {fileID: 1086251707397354}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4178976708545600}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23627947853490002
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -245,12 +241,46 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33526838448526358
+--- !u!23 &23999565622422882
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1086251707397354}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &33355189838936546
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1114250507513370}
+  m_GameObject: {fileID: 1086251707397354}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &33775864846172968
 MeshFilter:
@@ -259,12 +289,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1316682240372652}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &54113868003410882
+--- !u!54 &54356777209924808
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1114250507513370}
+  m_GameObject: {fileID: 1086251707397354}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -319,18 +349,30 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114355708163363192
+--- !u!114 &114212454388717556
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1114250507513370}
+  m_GameObject: {fileID: 1316682240372652}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e327d076ee66127488e00924deccd9b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dollyFloor: {fileID: 114544732895383562}
+  autoReverse: 1
+--- !u!114 &114417464895606876
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1316682240372652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66652fcdeb26e544b88cdf572ae73128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_iGimmickID: 1050
 --- !u!114 &114457546220997898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -344,11 +386,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_iGimmickID: -1
   m_iTriggerGimmickIDs: ffffffff01000000
+  m_iActorGimmickIDs: 1a040000
+  m_PushObject: {fileID: 4978359920804634}
   m_IsActPointerHit: 0
   m_IsActOnRelease: 1
   m_vPushedVector: {x: 0, y: -0.01, z: 0}
   m_fPerformSpeed: 2
   m_IsToggle: 0
+  m_IsSwitchingNotifyToClient: 0
   m_IsPushing: 0
 --- !u!114 &114469398014775780
 MonoBehaviour:
@@ -394,11 +439,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   path: {fileID: 0}
-  defaultPathValue: 0
+  defaultPathValue: 2
   moveSpeed: 0.5
   autoMove: 0
   isChangeDirectionToMoveVec: 0
   selfTurn: 0
+  isLoop: 0
 --- !u!114 &114557673200173252
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -466,6 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2717344df51ec234095bf82de794d234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyTime: 3
   endPoint: {fileID: 0}
   endPosition: {x: -1, y: -1, z: -1}
   speed: 3

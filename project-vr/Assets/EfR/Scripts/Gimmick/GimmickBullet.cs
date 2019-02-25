@@ -30,7 +30,7 @@ public class GimmickBullet : GimmickBase {
         {
             if(otherGimmickID == hitReceiverID )
             {
-                var receiver = GimmickManager.GetGimmick(hitReceiverID) as GimmickReceiveDamage;
+                var receiver = GimmickManager.GetActor(hitReceiverID) as GimmickReceiveDamage;
 
                 receiver.ReceiveDamage();
                 Destroy(gameObject);

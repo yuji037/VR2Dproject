@@ -7,9 +7,6 @@ public class GimmickButton : GimmickBase {
     int[] triggerIDs;
     bool isPushd;
 
-    [SerializeField]
-    SwitchActionBase switchAction;
-
     public System.Func<bool> pushEndCondition;
     // Use this for initialization
 	void Start () {
@@ -23,7 +20,7 @@ public class GimmickButton : GimmickBase {
             if (id == triggerID && !isPushd)
             {
                 isPushd = true;
-                switchAction.OnAction();
+                //switchAction.OnAction();
                 transform.Translate(new Vector3(0, -transform.lossyScale.y * 0.9f, 0));
             }
         }
@@ -32,7 +29,7 @@ public class GimmickButton : GimmickBase {
     public void UnPush()
     {
         isPushd = false;
-        switchAction.OffAction();
+        //switchAction.OffAction();
         transform.Translate(new Vector3(0, transform.lossyScale.y * 0.9f, 0));
     }
 

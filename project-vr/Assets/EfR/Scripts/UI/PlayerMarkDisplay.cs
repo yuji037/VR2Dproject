@@ -8,6 +8,9 @@ public class PlayerMarkDisplay : MonoBehaviour
     [SerializeField]
     GameObject mark;
 
+    [SerializeField]
+    Vector2 correctVec=new Vector2(0.05f,0.95f);
+
     Camera targetCamera;
     Rect rect = new Rect(0, 0, 1, 1);
     private void Start()
@@ -40,7 +43,7 @@ public class PlayerMarkDisplay : MonoBehaviour
                 {
                     viewPort.x = (viewPort.x>0.5)?1.0f:0f;
                 }
-                var correctedPos = new Vector2(Mathf.Clamp(viewPort.x, 0.05f, 0.95f), Mathf.Clamp(viewPort.y, 0.05f, 0.95f));
+                var correctedPos = new Vector2(Mathf.Clamp(viewPort.x, correctVec.x, correctVec.y), Mathf.Clamp(viewPort.y, correctVec.x, correctVec.y));
                 mark.transform.position = targetCamera.ViewportToScreenPoint(correctedPos);
             }
             else

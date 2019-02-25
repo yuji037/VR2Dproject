@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GimmickDoor : GimmickBase {
+public class SwitchableDoor : GimmickBase,ISwitchableObject {
 
     [SerializeField]
     Vector3     m_vOpenedDistance = new Vector3(0f,1f,0f);
@@ -23,9 +23,8 @@ public class GimmickDoor : GimmickBase {
             transform.position = transform.position + m_vOpenedDistance;
     }
 
-    public virtual void Open()
+    public void OnAction()
     {
-        Debug.Log("Door Open");
         if ( m_RunningCoroutine != null)
         {
             StopCoroutine(m_RunningCoroutine);
@@ -33,9 +32,8 @@ public class GimmickDoor : GimmickBase {
         m_RunningCoroutine = StartCoroutine(MotionCoroutine(m_vClosedPosition + m_vOpenedDistance));
     }
 
-    public virtual void Close()
+    public void OffAction()
     {
-        Debug.Log("Door Close");
         if ( m_RunningCoroutine != null )
         {
             StopCoroutine(m_RunningCoroutine);
@@ -59,4 +57,6 @@ public class GimmickDoor : GimmickBase {
         }
         transform.position = endPos;
     }
+
+
 }

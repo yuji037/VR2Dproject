@@ -20,26 +20,27 @@ public class DollyMoveObject : NetworkBehaviour{
     public bool autoMove;
 
     [SerializeField]
-    bool isChangeDirectionToMoveVec;
-
-    [SerializeField]
     bool selfTurn;
 
     [SerializeField]
     bool isLoop;
 
+    [SerializeField]
+    PlayerNumber hasAuthorityPlayerNumber;
 
     int moveDirection = 1;
 
-    public bool StartedServer { get; private set; }
+    bool initialized;
 
     public override void OnStartServer()
     {
         currentPathValue = defaultPathValue;
-        StartedServer = true;
         Move(0f);
     }
-
+    bool IsReady()
+    {
+        return PlayerManager.LocalPlayer &&PlayerManager.playerStatus;
+    }
     private void Update()
     {
         if (autoMove)
@@ -47,9 +48,33 @@ public class DollyMoveObject : NetworkBehaviour{
             Move(1.0f);
         }
     }
+    [Command]
+    void CmdSyncDollyPos(Vector3 next)
+    {
+        var target = PlayerManager.Players[((int)hasAuthorityPlayerNumber==0)?1:0].GetComponent<NetworkIdentity>().connectionToClient;
+        TargetSyncNextPos(target, next);
+    }
+
+    [TargetRpc]
+    void TargetSyncNextPos(NetworkConnection target, Vector3 next)
+    {
+        transform.position=next;
+    }
+
+    void Initialize()
+    {
+        if (initialized) return;
+        if (hasAuthorityPlayerNumber != (PlayerNumber)PlayerManager.GetPlayerNumber()) return;
+        var netId = GetComponent<NetworkIdentity>();
+        if (netId.localPlayerAuthority) PlayerManager.playerStatus.SetAuth(netId);
+        initialized = true;
+    }
+
     public void Move(float multiPlySpeed)
     {
-        if (StartedServer && isServer)
+        if (!IsReady()) return;
+        Initialize();
+        if (hasAuthority)
         {
             //セルフターンが有効な場合向きを逆転させる
             if (selfTurn)
@@ -69,11 +94,11 @@ public class DollyMoveObject : NetworkBehaviour{
                 currentPathValue =Mathf.Clamp(currentPathValue,0f,path.MaxPos);
             }
             var next = path.EvaluatePosition(currentPathValue);
-            if (isChangeDirectionToMoveVec)
-            {
-                transform.forward = next - transform.position;
-            }
             transform.position = next;
+
+            if(PlayerManager.OtherPlayer)CmdSyncDollyPos(next);
         }
     }
+
+
 }
