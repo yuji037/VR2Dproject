@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: 2playerMat
+  m_Name: 2VRChatCharaMat
   m_Shader: {fileID: 4800000, guid: acffef3a5eea485448140efd56b72ece, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -93,11 +93,11 @@ Material:
     - _SpecularHighlights: 1
     - _SpecularPower: 20
     - _SrcBlend: 1
-    - _StencilComp: 7
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilReferenceID: 16
-    - _StencilWriteMask: 255
+    - _StencilComp: 6
+    - _StencilOp: 2
+    - _StencilReadMask: 15
+    - _StencilReferenceID: 244
+    - _StencilWriteMask: 240
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
