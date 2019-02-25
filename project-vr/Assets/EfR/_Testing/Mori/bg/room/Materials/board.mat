@@ -73,11 +73,12 @@ Material:
     - _SrcBlend: 1
     - _StencilComp: 6
     - _StencilOp: 2
-    - _StencilReadMask: 1
-    - _StencilReferenceID: 3
-    - _StencilWriteMask: 2
+    - _StencilReadMask: 15
+    - _StencilReferenceID: 244
+    - _StencilWriteMask: 240
     - _UVSec: 0
     - _VisibleRange: 100
+    - _ZTestComp: 4
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.11764705, g: 0.0951557, b: 0.0951557, a: 1}
