@@ -197,9 +197,10 @@ public class GimmickSwitch : GimmickBase {
     [Command]
     void CmdSyncButtonPos(Vector3 moveVec)
     {
-        var target = PlayerManager.Players[((int)pushJudgePlayerNumber == 0) ? 1 : 0].GetComponent<NetworkIdentity>().connectionToClient;
+        var targetPlayer = PlayerManager.Players[((int)pushJudgePlayerNumber == 0) ? 1 : 0];
+        if (!targetPlayer) return;
+        var target = targetPlayer.GetComponent<NetworkIdentity>().connectionToClient;
         TargetSyncButtonPos(target,moveVec);
-        DebugTools.Log(moveVec);
     }
 
     [TargetRpc]
@@ -212,7 +213,6 @@ public class GimmickSwitch : GimmickBase {
 	{
 		var moveVec =	m_vPushedVector * m_fPerformSpeed*0.016f*((isPress)?1.0f:-1.0f);
 		m_rRigidbody.MovePosition(m_PushObject.position + moveVec);
-        Debug.Log(moveVec);
         if (hasAuthority) CmdSyncButtonPos( moveVec);
 	}
 
