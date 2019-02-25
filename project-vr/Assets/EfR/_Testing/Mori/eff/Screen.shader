@@ -59,6 +59,12 @@
     SubShader
     {
         Tags { "RenderType"="Opaque" }
+		Stencil{
+			Ref 240
+			Comp Always
+			Pass Replace
+		}
+
         Pass
         {
             CGPROGRAM

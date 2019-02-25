@@ -17,6 +17,7 @@
             Comp equal
 			//Pass replace
 			Fail replace
+			WriteMask 15
         }
         ColorMask 0
      

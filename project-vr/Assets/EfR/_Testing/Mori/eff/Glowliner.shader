@@ -22,6 +22,11 @@
 		{
 			Tags{ "RenderType" = "Opaque"}
 
+			Stencil{
+				Ref 16
+				Comp GEqual
+			}
+
 			CGPROGRAM
 #pragma surface surf SimpleLambert
 #pragma glsl

@@ -16,6 +16,12 @@
 	_SpecularReflectionSampler("Specular / Reflection Mask", 2D) = "white" {}
 	_EnvMapSampler("Environment Map", 2D) = "" {}
 	_NormalMapSampler("Normal Map", 2D) = "" {}
+
+		_StencilReferenceID("Stencil ID Reference", Float) = 1
+		[Enum(UnityEngine.Rendering.CompareFunction)] _StencilComp("Stencil Comparison", Float) = 3
+		[Enum(UnityEngine.Rendering.StencilOp)] _StencilOp("Stencil Operation", Float) = 0
+		_StencilWriteMask("Stencil Write Mask", Float) = 255
+		_StencilReadMask("Stencil Read Mask", Float) = 255
 	}
 
 		CGINCLUDE
@@ -33,11 +39,15 @@
 	}
 
 		LOD 450
-
-		Stencil{
-			Ref 1
-			Comp NotEqual
-}
+			
+		Stencil
+		{
+			Ref[_StencilReferenceID]
+			Comp[_StencilComp]	// equal
+			Pass[_StencilOp]	// keep
+			ReadMask[_StencilReadMask]
+			WriteMask[_StencilWriteMask]
+		}
 
 		Pass
 	{

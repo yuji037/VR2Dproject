@@ -442,5 +442,5 @@ Shader "Custom/PointerFloor" {
     //    }
 }
 FallBack "Diffuse"
-CustomEditor "ShaderForgeMaterialInspector"
+//CustomEditor "ShaderForgeMaterialInspector"
 }

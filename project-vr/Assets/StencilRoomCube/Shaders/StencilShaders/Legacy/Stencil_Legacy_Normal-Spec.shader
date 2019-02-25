@@ -31,6 +31,9 @@ Shader "Stencils/Legacy Shaders/Bumped Specular"
 		_MainTex ("Base (RGB) Gloss (A)", 2D) = "white" {}
 		_BumpMap ("Normalmap", 2D) = "bump" {}
 
+		[Enum(UnityEngine.Rendering.CompareFunction)] _ZTestComp("ZTest", Float) = 4
+		[MaterialToggle]									_ZWrite("ZWrite", Float) = 1
+
 		_StencilReferenceID("Stencil ID Reference", Float) = 1
 		[Enum(UnityEngine.Rendering.CompareFunction)] _StencilComp("Stencil Comparison", Float) = 3
 		[Enum(UnityEngine.Rendering.StencilOp)] _StencilOp("Stencil Operation", Float) = 0
@@ -47,6 +50,9 @@ Shader "Stencils/Legacy Shaders/Bumped Specular"
 		}
 
 		LOD 400
+
+		ZTest[_ZTestComp]
+		ZWrite[_ZWrite]
 
 		Stencil
 		{
