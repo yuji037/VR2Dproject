@@ -20,9 +20,6 @@ public class TutorialObject : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		lineRenderer = GetComponent<LineRenderer>();
-		if ( lineRenderer )
-			lineRenderer.SetPosition(1, Vector3.zero);
 	}
 	
 	// Update is called once per frame
@@ -43,6 +40,10 @@ public class TutorialObject : MonoBehaviour {
 
 		// プレイヤーが操作できるかの設定
 		PlayerManager.LocalPlayer.GetComponent<PlayerMove>().canMove = isLocalPlayerCanMove;
+
+		lineRenderer = GetComponentInChildren<LineRenderer>();
+		if ( lineRenderer )
+			lineRenderer.SetPosition(1, Vector3.zero);
 	}
 
 	public void SetTarget(GameObject[] targetObjects)
