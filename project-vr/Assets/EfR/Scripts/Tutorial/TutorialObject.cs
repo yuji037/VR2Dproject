@@ -26,8 +26,9 @@ public class TutorialObject : MonoBehaviour {
 	void Update () {
 		if ( lineTargetObj )
 		{
-			var pos = lineTargetObj.transform.position - transform.position;
-			lineRenderer.SetPosition(1, pos);
+			//var pos = lineTargetObj.transform.position - transform.position;
+			lineRenderer.SetPosition(0, transform.position);
+			lineRenderer.SetPosition(1, lineTargetObj.transform.position);
 			lineRenderer.material.mainTextureOffset += new Vector2(Time.deltaTime * lineOffsetMoveSpeed, 0f);
 		}
 	}
