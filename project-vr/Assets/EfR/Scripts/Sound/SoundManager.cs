@@ -96,7 +96,8 @@ public class SoundManager : NetworkBehaviour {
         bool isLoop = false,
         bool playIn3DVolume = true,
         string attachTargetName = null,
-        int soundSettingID = 0)
+        int soundSettingID = 0,
+		int specificPlayPlayerNumber = -1)
 	{
 
 		int channel = FindPlayableChannel();
@@ -106,24 +107,31 @@ public class SoundManager : NetworkBehaviour {
             return -1;
         }
 
-        CmdPlay(channel, name, position ?? Vector3.zero, isLoop, playIn3DVolume, attachTargetName,
-               PlayerManager.GetPlayerNumber(), playInAllClients, soundSettingID);
+		if ( specificPlayPlayerNumber != -1 )
+		{
+			
+		}
+		else specificPlayPlayerNumber = PlayerManager.GetPlayerNumber();
+
+
+		CmdPlay(channel, name, position ?? Vector3.zero, isLoop, playIn3DVolume, attachTargetName,
+               specificPlayPlayerNumber, playInAllClients, soundSettingID);
 		
 		return channel;
 	}
 
 	[Command]
 	public void CmdPlay(int channel, string name, Vector3 position, bool isLoop, bool playIn3DVolume, string attachTargetName,
-        int localPlayerNumber, bool playInAllClients, int soundSettingID)
+        int specificPlayPlayerNumber, bool playInAllClients, int soundSettingID)
 	{
-		RpcPlay(channel, name, position, isLoop, playIn3DVolume, attachTargetName, localPlayerNumber, playInAllClients, soundSettingID);
+		RpcPlay(channel, name, position, isLoop, playIn3DVolume, attachTargetName, specificPlayPlayerNumber, playInAllClients, soundSettingID);
 	}
 
 	[ClientRpc]
 	public void RpcPlay(int channel, string name, Vector3 position, bool isLoop, bool playIn3DVolume, string attachTargetName,
-        int triggeredPlayerNumber, bool playInAllClients, int soundSettingID)
+        int specificPlayPlayerNumber, bool playInAllClients, int soundSettingID)
 	{
-		instance.PlayLocal(channel, name, position, isLoop, playIn3DVolume, attachTargetName, triggeredPlayerNumber, playInAllClients, soundSettingID);
+		instance.PlayLocal(channel, name, position, isLoop, playIn3DVolume, attachTargetName, specificPlayPlayerNumber, playInAllClients, soundSettingID);
 	}
 	
 	private SoundPlayIns PlayLocal(
@@ -133,7 +141,7 @@ public class SoundManager : NetworkBehaviour {
 		bool isLoop,
 		bool playIn3DVolume,
 		string attachTargetName,
-        int triggeredPlayerNumber, 
+        int specificPlayPlayerNumber, 
         bool playInAllClients,
         int soundSettingID = 0)
 	{
@@ -160,7 +168,7 @@ public class SoundManager : NetworkBehaviour {
 		m_oPlayingSounds[channel] = soundPlayIns;
 		soundPlayIns.Init();
         // このクライアントで再生するかどうか
-		bool isEmptySound = !playInAllClients && PlayerManager.GetPlayerNumber() != triggeredPlayerNumber;
+		bool isEmptySound = !playInAllClients && PlayerManager.GetPlayerNumber() != specificPlayPlayerNumber;
 
 		// オブジェクトへのアタッチ設定
 		if ( !string.IsNullOrEmpty(attachTargetName))
