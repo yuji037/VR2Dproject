@@ -14,6 +14,9 @@ public class TutorialDisplayArea : MonoBehaviour {
 
 	TutorialObject tutorialObjectIns = null;
 
+	[Header("ラインなどのターゲット達"), SerializeField]
+	GameObject[] targetObjects;
+
 	// Use this for initialization
 	void Start () {
 		playerLayer = LayerMask.NameToLayer("Player");
@@ -30,6 +33,8 @@ public class TutorialDisplayArea : MonoBehaviour {
 				tutorialObjectIns = obj.GetComponent<TutorialObject>();
 				tutorialObjectIns.SetParent();
 				tutorialObjectIns.Init();
+				if ( targetObjects != null && targetObjects[0] != null )
+					tutorialObjectIns.SetTarget(targetObjects);
 				tutorialObjectIns.transform.localPosition = Vector3.zero;
 				tutorialObjectIns.transform.localRotation = Quaternion.identity;
 			}
