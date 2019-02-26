@@ -37,6 +37,8 @@ public class TutorialDisplayArea : MonoBehaviour {
 					tutorialObjectIns.SetTarget(targetObjects);
 				tutorialObjectIns.transform.localPosition = Vector3.zero;
 				tutorialObjectIns.transform.localRotation = Quaternion.identity;
+				SoundManager.GetInstance().Play(
+					"pipi2", tutorialObjectIns.transform.position, false, false, true, null, 0, (int)displayPlayerNumber);
 			}
         }
 	}
