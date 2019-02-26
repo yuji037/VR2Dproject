@@ -33,7 +33,7 @@ public class TutorialDisplayArea : MonoBehaviour {
 				tutorialObjectIns = obj.GetComponent<TutorialObject>();
 				tutorialObjectIns.SetParent();
 				tutorialObjectIns.Init();
-				if ( targetObjects != null && targetObjects[0] != null )
+				if ( targetObjects != null && targetObjects.Length != 0 )
 					tutorialObjectIns.SetTarget(targetObjects);
 				tutorialObjectIns.transform.localPosition = Vector3.zero;
 				tutorialObjectIns.transform.localRotation = Quaternion.identity;
