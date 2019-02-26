@@ -16,8 +16,8 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 
 	void Start()
 	{
-		if ( otherGimmick )
-			otherGimmick.otherGimmick = this;
+		//if ( otherGimmick )
+		//	otherGimmick.otherGimmick = this;
 
 		m_acTriggerEnterAction += OnTriggrEnter;
 		m_acTriggerExitAction += OnTriggrExit;
@@ -78,11 +78,18 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 	public void Deactivate()
 	{
 		if ( deactivateOnTrigger )
-			gameObject.SetActive(false);
+		{
+			//gameObject.SetActive(false);
+			DestroyThisObject();
+		}
 
-		if ( otherGimmick && otherGimmick.deactivateOnTrigger)
-			otherGimmick.gameObject.SetActive(false);
+		if ( otherGimmick && otherGimmick.deactivateOnTrigger )
+		{
+			//otherGimmick.gameObject.SetActive(false);
+			otherGimmick.DestroyThisObject();
+		}
 	}
+	
 
 	[Command]
 	void CmdSetFrag(/*int fragNum, */bool isTrue)
@@ -114,7 +121,7 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 			PlayerMove.MoveType otherPlayerTransMoveTypeTo;
 			otherPlayerTransMoveTypeTo = ( otherPlayer.GetComponent<PlayerMove>().moveType == PlayerMove.MoveType.FIXED ) ?
 				PlayerMove.MoveType._2D : PlayerMove.MoveType.FIXED;
-			otherPlayer.GetComponent<PlayerStatus>().RpcTransWorld(otherPlayerTransMoveTypeTo, transform.position);
+			otherPlayer.GetComponent<PlayerStatus>().RpcTransWorld(otherPlayerTransMoveTypeTo, otherGimmick.transform.position);
 		}
 	}
 
