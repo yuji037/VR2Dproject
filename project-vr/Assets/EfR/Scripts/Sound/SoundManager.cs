@@ -163,6 +163,11 @@ public class SoundManager : NetworkBehaviour {
 			return null;
         }
 
+		if(m_cLocalPlayerMove.moveType == PlayerMove.MoveType._2D )
+		{
+			position = m_trTVSpeakerPos.position;
+		}
+
 		var obj = Instantiate(m_prefSound[soundSettingID], position, Quaternion.identity, m_oChannelParents[channel].transform);
 		var soundPlayIns = obj.GetComponent<SoundPlayIns>();
 		m_oPlayingSounds[channel] = soundPlayIns;
@@ -191,40 +196,15 @@ public class SoundManager : NetworkBehaviour {
 			audioSource.clip = m_AudioClips[name];
 			audioSource.Play();
 
-			//if(soundSettingType != 0 )
-			//{
-			//	AudioCustomizeModel audioCustomizeSetting = null;
-			//	//Debug.Log("m_cLocalPlayerMove.moveType : " + m_cLocalPlayerMove.moveType);
-			//	switch ( m_cLocalPlayerMove.moveType )
-			//	{
-			//		case PlayerMove.MoveType.FIXED:
-			//			audioCustomizeSetting = m_SoundSetting.soundSettings[soundSettingType].audioCusmizeSettings[0];
-			//			break;
-			//		case PlayerMove.MoveType._2D:
-			//			audioCustomizeSetting = m_SoundSetting.soundSettings[soundSettingType].audioCusmizeSettings[1];
-			//			break;
-			//	}
-
-			//	audioSource.rolloffMode = audioCustomizeSetting.rollOffMode;
-			//	audioSource.maxDistance = audioCustomizeSetting.maxDistance;
-			//	audioSource.minDistance = audioCustomizeSetting.minDistance;
-			//}
-
-			//if( m_cLocalPlayerMove.moveType == PlayerMove.MoveType._2D )
-			//{
-			//	// TVの位置から再生するとデカすぎる音を弱める
-			//	audioSource.volume *= 0.4f;
-			//	Debug.Log("2Dのため音量調整");
-			//}
-			DebugTools.DisplayText("SE" + soundPlayIns.GetInstanceID(), "SE(" + name + ") " + soundPlayIns.GetInstanceID());
-			Debug.Log("Play : " + name);
+			//DebugTools.DisplayText("SE" + soundPlayIns.GetInstanceID(), "SE(" + name + ") " + soundPlayIns.GetInstanceID());
+			//Debug.Log("Play : " + name);
 		}
 		else
         {
             audioSource.clip = m_AudioClips[name];
             // ローカルのみのサウンドの場合は他クライアントで空のサウンドオブジェクトにする
             obj.name = "empty_sound";
-			Debug.Log("Play : empty_sound");
+			//Debug.Log("Play : empty_sound");
 		}
 
 		// ループしないなら自前で停止

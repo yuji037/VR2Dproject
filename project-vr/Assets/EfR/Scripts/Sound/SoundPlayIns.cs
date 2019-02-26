@@ -9,9 +9,14 @@ public class SoundPlayIns : MonoBehaviour{
 
 	Transform m_trAttachedTarget = null;
 
+	public float randomPitch = 0f;
+	public float randomVolume = 0f;
+
 	public void Init()
 	{
 		m_AudioSource = GetComponent<AudioSource>();
+		m_AudioSource.pitch += randomPitch * UnityEngine.Random.Range(-1f, 1f);
+		m_AudioSource.volume += randomVolume * UnityEngine.Random.Range(-1f, 1f);
 	}
 
 	private void Update()

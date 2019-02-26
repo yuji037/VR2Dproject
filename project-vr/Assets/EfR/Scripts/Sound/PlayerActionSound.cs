@@ -9,7 +9,7 @@ public class PlayerActionSound : MonoBehaviour {
     public void FootStep()
     {
         if (!playerMove.IsGrounded()) return;
-        SoundManager.GetInstance().Play("run",transform.position,false);
+		SoundManager.GetInstance().Play("run", transform.position, false, false, true, null, 3);
     }
 
 	//public void HitGround()
@@ -20,6 +20,6 @@ public class PlayerActionSound : MonoBehaviour {
 
 	public void PlaySE(string seName)
 	{
-		SoundManager.GetInstance().Play(seName, transform.position, false);
+		SoundManager.GetInstance().Play(seName, transform.position, false, false, true, null, 3);
 	}
 }
