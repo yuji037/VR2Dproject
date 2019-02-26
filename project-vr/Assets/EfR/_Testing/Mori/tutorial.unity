@@ -2132,7 +2132,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1049665134481308, guid: a3d97f95100197742a7cfeb1a911f5b2, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4108557884999816, guid: a3d97f95100197742a7cfeb1a911f5b2, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a3d97f95100197742a7cfeb1a911f5b2, type: 2}
@@ -5735,7 +5739,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1049665134481308, guid: a3d97f95100197742a7cfeb1a911f5b2, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a3d97f95100197742a7cfeb1a911f5b2, type: 2}
@@ -8687,7 +8691,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294967039
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -8988,7 +8992,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1640372688}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 3.04, y: 3.48, z: -0.11899996}
+  m_LocalPosition: {x: 2.14, y: 3.48, z: -0.11899996}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 1250600236}
