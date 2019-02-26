@@ -24,8 +24,14 @@ public class TutorialDisplayArea : MonoBehaviour {
 	
 	private void OnTriggerEnter(Collider other)
 	{
+		if(tutorialObject == null )
+		{
+			Debug.LogWarning("チュートリアル設定されていません。");
+			return;
+		}
+
 		// 両クライアントで起こる
-		if(!tutorialObjectIns && other.gameObject.layer == playerLayer )
+		if (!tutorialObjectIns && other.gameObject.layer == playerLayer )
 		{
 			if ( PlayerManager.GetPlayerNumber() == (int)displayPlayerNumber )
 			{
@@ -45,10 +51,13 @@ public class TutorialDisplayArea : MonoBehaviour {
 
 	private void OnTriggerExit(Collider other)
 	{
-		if ( other.gameObject == PlayerManager.LocalPlayer )
+		if ( other.gameObject.layer == playerLayer )
 		{
-            if (tutorialObjectIns && tutorialObjectIns.gameObject)
-                Destroy(tutorialObjectIns.gameObject);
+			if ( tutorialObjectIns && tutorialObjectIns.gameObject )
+			{
+				Destroy(tutorialObjectIns.gameObject);
+				tutorialObjectIns = null;
+			}
 		}
 	}
 }

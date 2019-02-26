@@ -58,7 +58,7 @@ public class TutorialObject : MonoBehaviour {
 		var parentObj = GameObject.Find(parentName);
 		if ( !parentObj )
 		{
-			Debug.LogWarning("親オブジェクト見つからず");
+			Debug.LogWarning(parentName + "見つからず");
 			return;
 		}
 		transform.parent = parentObj.transform;
