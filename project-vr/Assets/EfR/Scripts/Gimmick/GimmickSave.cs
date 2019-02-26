@@ -8,17 +8,24 @@ public class GimmickSave : GimmickBase
     [SerializeField]
     Transform respawnPoint;
 
-    private void Start()
+	[SerializeField]
+	GameObject savePointDisplayObj;
+	[SerializeField]
+	GameObject okDisplayObj;
+
+	private void Start()
     {
         isCallOnlyServer = false;
         m_acTriggerEnterAction += Save;
     }
 
-    void Save(Collider collider)
+	void Save(Collider collider)
     {
         if (PlayerManager.LocalPlayer == collider.gameObject)
         {
             PlayerRespawner.GetInstance().SaveLocalPlayerRespawnPoint((respawnPoint)?respawnPoint.position:transform.position);
-        }
+			savePointDisplayObj.SetActive(false);
+			okDisplayObj.SetActive(true);
+		}
     }
 }
