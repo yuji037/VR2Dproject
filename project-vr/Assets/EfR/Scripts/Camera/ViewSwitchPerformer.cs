@@ -114,13 +114,15 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 cam2DCon.NoiseActivate(0.5f, 1.0f);
                 yield return new WaitForSeconds(1.0f);
 
+                //黒幕
+                FadeInOutController._2DFadePanel.StartBlackFadeOut(0.1f);
+
                 //2Dカメラを固定カメラ位置に
-                TransformUtility.TransSamePosRot(C2DAdjuster.transform, currentVRVCam, 0.5f);
-                yield return new WaitForSeconds(0.5f);
+                TransformUtility.TransSamePosRot(C2DAdjuster.transform, currentVRVCam, 0.3f);
+                yield return new WaitForSeconds(0.3f);
 
                 //黒幕
-                FadeInOutController._2DFadePanel.StartBlackFadeOut(0.2f);
-                yield return new WaitForSeconds(0.5f);
+                FadeInOutController._2DFadePanel.StartBlackFadeIn(0.1f);
 
                 //リアルルーム全体を固定カメラの位置に置き、回転
                 realRoom.transform.rotation = currentVRVCam.transform.rotation;
@@ -128,7 +130,6 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 CVRAdjuster.transform.position = currentVRVCam.transform.position;
                 var sub = CVRAdjuster.transform.position - _2dCamPosition.transform.position;
                 realRoom.Translate(sub, Space.World);
-                FadeInOutController._2DFadePanel.StartBlackFadeIn(0.2f);
 
 
                 //リビングルームを移動
@@ -171,12 +172,13 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 animator.CrossFade("To2D", 0f);
                 yield return MoveRealRoomAndVRCharaRoutine(transedPosition.transform.position - _2dCamPosition.transform.position, 3.0f, true);
 
-                FadeInOutController._2DFadePanel.StartBlackFadeIn(0.2f);
-                yield return new WaitForSeconds(0.2f);
+                FadeInOutController._2DFadePanel.StartBlackFadeOut(0.1f);
 
                 //2DCamera位置を元の位置に
-                TransformUtility.TransSamePosRot(C2DAdjuster.transform, C2DAdjuster.GetComponent<Camera2DController>().CurrentVCam.transform);
-                yield return new WaitForSeconds(1.0f);
+                TransformUtility.TransSamePosRot(C2DAdjuster.transform, C2DAdjuster.GetComponent<Camera2DController>().CurrentVCam.transform,0.3f);
+                yield return new WaitForSeconds(0.3f);
+
+                FadeInOutController._2DFadePanel.StartBlackFadeIn(0.1f);
 
                 Debug.Log("遷移停止VR→2D");
                 break;
