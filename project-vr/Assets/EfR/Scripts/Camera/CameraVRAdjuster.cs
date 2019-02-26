@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class CameraVRAdjuster : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class CameraVRAdjuster : MonoBehaviour
     [SerializeField]
     RenderTexture targetTexture;
 
-    Camera[] VRCams;
+    List<Camera> VRCams=new List<Camera>();
 
 
     [SerializeField]
@@ -48,7 +49,9 @@ public class CameraVRAdjuster : MonoBehaviour
     public void Init()
     {
         var player = PlayerManager.LocalPlayer;
-        VRCams = GetComponentsInChildren<Camera>();
+        VRCams.AddRange(GetComponentsInChildren<Camera>());
+        VRCams= VRCams.FindAll((cam)=>cam.gameObject.name.Contains("eye"));
+
         postProcessing = GetComponentInChildren<UnityEngine.PostProcessing.PostProcessingBehaviour>();
         farTVPos = player.GetComponent<ViewPointStorage>().GetCamPos(PlayerMove.MoveType._2D).position;
         var moveType = player.GetComponent<PlayerMove>().moveType;

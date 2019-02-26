@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMarkDisplay : MonoBehaviour
 {
+    [SerializeField]
+    Camera UICamera;
 
     [SerializeField]
     GameObject mark;
@@ -12,11 +14,16 @@ public class PlayerMarkDisplay : MonoBehaviour
     Vector2 correctVec=new Vector2(0.05f,0.95f);
 
     Camera targetCamera;
+
     Rect rect = new Rect(0, 0, 1, 1);
     private void Start()
     {
         this.GetGameObjectWithCoroutine(CameraUtility.CameraVRName,
-            (GameObject go) => targetCamera = go.GetComponent<CameraVRController>().CenterCam);
+            (GameObject go) => {
+                targetCamera = go.GetComponent<CameraVRController>().CenterCam;
+                UICamera.transform.parent = targetCamera.transform;
+                UICamera.transform.rotation = Quaternion.identity;
+            });
 
     }
     // Update is called once per frame
@@ -44,7 +51,9 @@ public class PlayerMarkDisplay : MonoBehaviour
                     viewPort.x = (viewPort.x>0.5)?1.0f:0f;
                 }
                 var correctedPos = new Vector2(Mathf.Clamp(viewPort.x, correctVec.x, correctVec.y), Mathf.Clamp(viewPort.y, correctVec.x, correctVec.y));
-                mark.transform.position = targetCamera.ViewportToScreenPoint(correctedPos);
+                Vector2 markPos = targetCamera.ViewportToScreenPoint(correctedPos);
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(),markPos,UICamera,out markPos);
+                mark.transform.localPosition = markPos;
             }
             else
             {
