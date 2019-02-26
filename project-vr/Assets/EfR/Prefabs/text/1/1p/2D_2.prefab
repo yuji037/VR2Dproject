@@ -112,7 +112,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4104017425342678
 Transform:
   m_ObjectHideFlags: 1
@@ -402,6 +402,7 @@ MonoBehaviour:
   parentName: Camera2D_UI
   inactiveObjInPlayMode: {fileID: 0}
   isLocalPlayerCanMove: 1
+  lineOffsetMoveSpeed: 1
 --- !u!198 &198936839252295264
 ParticleSystem:
   m_ObjectHideFlags: 1

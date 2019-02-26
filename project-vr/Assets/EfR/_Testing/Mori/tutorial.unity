@@ -550,7 +550,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1247233930778296, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
       propertyPath: m_Name
@@ -564,7 +564,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114234628566996134, guid: e3d82597d35f5f946a85d06e55423fdb,
+      objectReference: {fileID: 114009348580125168, guid: e4f0c6ac335ad104aac1a2b5ffecd1f3,
         type: 2}
     - target: {fileID: 114757513256404880, guid: e593f8cc60c3398479ca307618ddf366,
         type: 2}
@@ -799,7 +799,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114087739155272438, guid: f8ca10dba49161c47a942538c8d72fa9,
+      objectReference: {fileID: 114298044635591138, guid: f8ca10dba49161c47a942538c8d72fa9,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
@@ -1007,9 +1007,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84308989960a49e439c18d865537db92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayPlayerNumber: 0
-  tutorialObject: {fileID: 114545863239872852, guid: fefd4517f3db1394d864ee8fadea4178,
+  displayPlayerNumber: 1
+  tutorialObject: {fileID: 114351827839375136, guid: fefd4517f3db1394d864ee8fadea4178,
     type: 2}
+  targetObjects: []
 --- !u!65 &322593038
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1504,6 +1505,72 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 419061740}
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+--- !u!1001 &439694218
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 751138108}
+    m_Modifications:
+    - target: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -36.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 3.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.11899996
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247233930778296, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
+      propertyPath: m_Name
+      value: TutorialDisplayArea (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 114757513256404880, guid: e593f8cc60c3398479ca307618ddf366,
+        type: 2}
+      propertyPath: tutorialObject
+      value: 
+      objectReference: {fileID: 114323620540099200, guid: c8e8310e2fc6e1f4a8bb3c0a921a70a5,
+        type: 2}
+    - target: {fileID: 114757513256404880, guid: e593f8cc60c3398479ca307618ddf366,
+        type: 2}
+      propertyPath: displayPlayerNumber
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &439694219 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366,
+    type: 2}
+  m_PrefabInternal: {fileID: 439694218}
 --- !u!1001 &441069744
 Prefab:
   m_ObjectHideFlags: 0
@@ -1541,7 +1608,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1247233930778296, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
       propertyPath: m_Name
@@ -1559,7 +1626,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114701062706068586, guid: 4c00b8507b0892147be6e114c893ddb1,
+      objectReference: {fileID: 114092072470594468, guid: 4c00b8507b0892147be6e114c893ddb1,
         type: 2}
     - target: {fileID: 114757513256404880, guid: e593f8cc60c3398479ca307618ddf366,
         type: 2}
@@ -1620,9 +1687,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84308989960a49e439c18d865537db92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayPlayerNumber: 0
-  tutorialObject: {fileID: 114110041604541018, guid: 68e67d42a0562fc43a6bd18c182db6fe,
+  displayPlayerNumber: 1
+  tutorialObject: {fileID: 114414796323113274, guid: 68e67d42a0562fc43a6bd18c182db6fe,
     type: 2}
+  targetObjects: []
 --- !u!65 &474255142
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1695,7 +1763,7 @@ Transform:
   - {fileID: 1951724972}
   - {fileID: 781345050}
   m_Father: {fileID: 751138108}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &501179449
 Prefab:
@@ -1744,7 +1812,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114456751494356088, guid: 03b4ab94c26912845a939c5a29329c77,
+      objectReference: {fileID: 114221407918308604, guid: 03b4ab94c26912845a939c5a29329c77,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
@@ -2100,7 +2168,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114545863239872852, guid: fefd4517f3db1394d864ee8fadea4178,
+      objectReference: {fileID: 114351827839375136, guid: fefd4517f3db1394d864ee8fadea4178,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
@@ -2156,9 +2224,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84308989960a49e439c18d865537db92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayPlayerNumber: 0
-  tutorialObject: {fileID: 114456751494356088, guid: 03b4ab94c26912845a939c5a29329c77,
+  displayPlayerNumber: 1
+  tutorialObject: {fileID: 114221407918308604, guid: 03b4ab94c26912845a939c5a29329c77,
     type: 2}
+  targetObjects: []
 --- !u!65 &548285280
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2508,7 +2577,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 5}
   m_Children: []
   m_Father: {fileID: 751138108}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &637057340
 MonoBehaviour:
@@ -2537,8 +2606,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayPlayerNumber: 1
-  tutorialObject: {fileID: 114150307060660696, guid: 9f60786fd5b63e5448d9ba08b11ce40e,
+  tutorialObject: {fileID: 114414378947690006, guid: 9f60786fd5b63e5448d9ba08b11ce40e,
     type: 2}
+  targetObjects: []
 --- !u!65 &637057342
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2623,6 +2693,7 @@ MonoBehaviour:
   displayPlayerNumber: 0
   tutorialObject: {fileID: 114259857482190560, guid: 69eb5340648c2b84eaf4ac624798bf1f,
     type: 2}
+  targetObjects: []
 --- !u!65 &643752350
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2935,7 +3006,7 @@ Transform:
   - {fileID: 690729058}
   - {fileID: 1397790996}
   m_Father: {fileID: 751138108}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &725604824
 GameObject:
@@ -2983,8 +3054,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84308989960a49e439c18d865537db92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayPlayerNumber: 0
-  tutorialObject: {fileID: 0}
+  displayPlayerNumber: 1
+  tutorialObject: {fileID: 114133521587644458, guid: 3bef5bd4669dd0d44b38081dc63d33d8,
+    type: 2}
+  targetObjects: []
 --- !u!65 &725604827
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3135,7 +3208,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 750554740}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -33.319, y: 3.013, z: 8}
+  m_LocalPosition: {x: -43.33, y: 3.013, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3179,6 +3252,7 @@ Transform:
   m_LocalPosition: {x: -0.25, y: 0, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 439694219}
   - {fileID: 1200018012}
   - {fileID: 209890508}
   - {fileID: 2146227322}
@@ -3220,8 +3294,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 781345049}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -28.36, y: 2.45, z: 0}
-  m_LocalScale: {x: 15, y: 1, z: 1}
+  m_LocalPosition: {x: -32.74, y: 2.45, z: 0}
+  m_LocalScale: {x: 24.97, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 498090641}
   m_RootOrder: 10
@@ -3400,7 +3474,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1247233930778296, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
       propertyPath: m_Name
@@ -3418,7 +3492,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114789223201254960, guid: 62766dc012e42534d8fb128fd64f4c13,
+      objectReference: {fileID: 114959126313348462, guid: 62766dc012e42534d8fb128fd64f4c13,
         type: 2}
     - target: {fileID: 114757513256404880, guid: e593f8cc60c3398479ca307618ddf366,
         type: 2}
@@ -4164,7 +4238,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114659284643771988, guid: 3b12baad0ce42b44fb4ebce31499be43,
+      objectReference: {fileID: 114443095956776252, guid: 3b12baad0ce42b44fb4ebce31499be43,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
@@ -4334,9 +4408,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84308989960a49e439c18d865537db92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayPlayerNumber: 0
-  tutorialObject: {fileID: 114435857815515070, guid: 7fe1c259e14429b43bc27eb6ff00d244,
+  displayPlayerNumber: 1
+  tutorialObject: {fileID: 114496714885451080, guid: 7fe1c259e14429b43bc27eb6ff00d244,
     type: 2}
+  targetObjects: []
 --- !u!65 &1085123952
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4577,7 +4652,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1247233930778296, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
       propertyPath: m_Name
@@ -4591,7 +4666,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114234628566996134, guid: e3d82597d35f5f946a85d06e55423fdb,
+      objectReference: {fileID: 114538117635507360, guid: e3d82597d35f5f946a85d06e55423fdb,
         type: 2}
     - target: {fileID: 114757513256404880, guid: e593f8cc60c3398479ca307618ddf366,
         type: 2}
@@ -4890,7 +4965,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114242096301386140, guid: d793c2b4387515741a90374fd2d6ae19,
+      objectReference: {fileID: 114543314254056230, guid: d793c2b4387515741a90374fd2d6ae19,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
@@ -5429,7 +5504,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114435857815515070, guid: 7fe1c259e14429b43bc27eb6ff00d244,
+      objectReference: {fileID: 114496714885451080, guid: 7fe1c259e14429b43bc27eb6ff00d244,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
@@ -5556,7 +5631,7 @@ Transform:
   m_Children:
   - {fileID: 509023366}
   m_Father: {fileID: 751138108}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &1474801585
 MonoBehaviour:
@@ -5585,8 +5660,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayPlayerNumber: 1
-  tutorialObject: {fileID: 114967786009670850, guid: 8b9eca7c47fdc0543a3a6079e7fda77c,
+  tutorialObject: {fileID: 114127509443600754, guid: e802857cb1e5a204180a515b58363d9d,
     type: 2}
+  targetObjects: []
 --- !u!65 &1474801587
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5654,8 +5730,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84308989960a49e439c18d865537db92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayPlayerNumber: 0
-  tutorialObject: {fileID: 0}
+  displayPlayerNumber: 1
+  tutorialObject: {fileID: 114971935138184652, guid: f469421632cdf4b4a881cd3a32b350f1,
+    type: 2}
+  targetObjects: []
 --- !u!65 &1475471325
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5900,7 +5978,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114110041604541018, guid: 68e67d42a0562fc43a6bd18c182db6fe,
+      objectReference: {fileID: 114414796323113274, guid: 68e67d42a0562fc43a6bd18c182db6fe,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
@@ -6239,7 +6317,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1247233930778296, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
       propertyPath: m_Name
@@ -6257,7 +6335,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114123217751091142, guid: 34692501066e9e340b33ed7c8ab10901,
+      objectReference: {fileID: 114030426812483908, guid: 34692501066e9e340b33ed7c8ab10901,
         type: 2}
     - target: {fileID: 114757513256404880, guid: e593f8cc60c3398479ca307618ddf366,
         type: 2}
@@ -6652,6 +6730,7 @@ MonoBehaviour:
   displayPlayerNumber: 0
   tutorialObject: {fileID: 114117118161536522, guid: e6cd27cac0f20c8488230564f8d81c6b,
     type: 2}
+  targetObjects: []
 --- !u!65 &1621114128
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6706,7 +6785,7 @@ Transform:
   m_Children:
   - {fileID: 1250600236}
   m_Father: {fileID: 751138108}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &1640372690
 MonoBehaviour:
@@ -6735,8 +6814,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayPlayerNumber: 1
-  tutorialObject: {fileID: 114332913048088236, guid: e802857cb1e5a204180a515b58363d9d,
-    type: 2}
+  tutorialObject: {fileID: 0}
+  targetObjects: []
 --- !u!65 &1640372692
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7402,7 +7481,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114705926004473926, guid: c23e7431999d8c241977e68f251144ce,
+      objectReference: {fileID: 114256032696288146, guid: c23e7431999d8c241977e68f251144ce,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
@@ -7459,7 +7538,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114996149412368754, guid: bc891b9e5bff23243bcb11d946dd2b82,
+      objectReference: {fileID: 114607675384539042, guid: bc891b9e5bff23243bcb11d946dd2b82,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
@@ -7644,9 +7723,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84308989960a49e439c18d865537db92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayPlayerNumber: 0
-  tutorialObject: {fileID: 114659284643771988, guid: 3b12baad0ce42b44fb4ebce31499be43,
+  displayPlayerNumber: 1
+  tutorialObject: {fileID: 114443095956776252, guid: 3b12baad0ce42b44fb4ebce31499be43,
     type: 2}
+  targetObjects: []
 --- !u!65 &1804011622
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8023,7 +8103,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114508999608726620, guid: 1b9e8d692562c2f4aa4273eb6197e171,
+      objectReference: {fileID: 114825624032652676, guid: 1b9e8d692562c2f4aa4273eb6197e171,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
@@ -8080,7 +8160,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114596471132722200, guid: 3bef5bd4669dd0d44b38081dc63d33d8,
+      objectReference: {fileID: 114133521587644458, guid: 3bef5bd4669dd0d44b38081dc63d33d8,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
@@ -8475,7 +8555,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 5}
   m_Children: []
   m_Father: {fileID: 751138108}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &2031116844
 MonoBehaviour:
@@ -8504,8 +8584,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayPlayerNumber: 1
-  tutorialObject: {fileID: 114790188103838440, guid: 88a3bf023dc878b4c81fb8c4671231a5,
+  tutorialObject: {fileID: 114461300906575030, guid: 88a3bf023dc878b4c81fb8c4671231a5,
     type: 2}
+  targetObjects: []
 --- !u!65 &2031116846
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8811,8 +8892,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84308989960a49e439c18d865537db92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayPlayerNumber: 0
-  tutorialObject: {fileID: 0}
+  displayPlayerNumber: 1
+  tutorialObject: {fileID: 114349937078491666, guid: 405756e3d9f26d24b8f2c5085d11d6f6,
+    type: 2}
+  targetObjects: []
 --- !u!65 &2056977188
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9033,7 +9116,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1247233930778296, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
       propertyPath: m_Name
@@ -9051,7 +9134,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114038808640012208, guid: 30cc62ae9f40f794eb0e7f00dc0abb1c,
+      objectReference: {fileID: 114342363119946200, guid: 30cc62ae9f40f794eb0e7f00dc0abb1c,
         type: 2}
     - target: {fileID: 114757513256404880, guid: e593f8cc60c3398479ca307618ddf366,
         type: 2}
@@ -9103,7 +9186,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4860396474344826, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1247233930778296, guid: e593f8cc60c3398479ca307618ddf366, type: 2}
       propertyPath: m_Name
@@ -9117,7 +9200,7 @@ Prefab:
         type: 2}
       propertyPath: tutorialObject
       value: 
-      objectReference: {fileID: 114585799115213980, guid: e4f0c6ac335ad104aac1a2b5ffecd1f3,
+      objectReference: {fileID: 114682454484205268, guid: 8b9eca7c47fdc0543a3a6079e7fda77c,
         type: 2}
     - target: {fileID: 114757513256404880, guid: e593f8cc60c3398479ca307618ddf366,
         type: 2}
