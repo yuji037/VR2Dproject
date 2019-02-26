@@ -50,7 +50,7 @@ public class CameraVRAdjuster : MonoBehaviour
     {
         var player = PlayerManager.LocalPlayer;
         VRCams.AddRange(GetComponentsInChildren<Camera>());
-        VRCams= VRCams.FindAll((cam)=>cam.gameObject.name.Contains("eye"));
+        VRCams= VRCams.FindAll((cam)=>cam.gameObject.name.Contains("Eye"));
 
         postProcessing = GetComponentInChildren<UnityEngine.PostProcessing.PostProcessingBehaviour>();
         farTVPos = player.GetComponent<ViewPointStorage>().GetCamPos(PlayerMove.MoveType._2D).position;

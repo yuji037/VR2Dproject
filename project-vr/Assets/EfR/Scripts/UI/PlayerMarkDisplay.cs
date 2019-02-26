@@ -21,8 +21,6 @@ public class PlayerMarkDisplay : MonoBehaviour
         this.GetGameObjectWithCoroutine(CameraUtility.CameraVRName,
             (GameObject go) => {
                 targetCamera = go.GetComponent<CameraVRController>().CenterCam;
-                UICamera.transform.parent = targetCamera.transform;
-                UICamera.transform.rotation = Quaternion.identity;
             });
 
     }
@@ -39,6 +37,7 @@ public class PlayerMarkDisplay : MonoBehaviour
             var viewPos = targetCamera.WorldToViewportPoint(pPos);
             if (!rect.Contains(viewPos)|| viewPos.z < 0)
             {
+                UICamera.transform.rotation= Quaternion.Lerp(UICamera.transform.rotation,targetCamera.transform.rotation,0.098f);
                 if (viewPos.z < 0)
                 {
                     var sub = targetCamera.transform.position - pPos;
