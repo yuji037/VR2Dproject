@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class PushableObject : MonoBehaviour {
 
@@ -12,13 +13,17 @@ public class PushableObject : MonoBehaviour {
     LayerMask stoppableLayerMask;
 	Vector3 halfExtents;
 
+    NetworkIdentity netId;
 	private void Start()
 	{
 		halfExtents = transform.lossyScale * 0.49f;
-	}
+        netId = GetComponent<UnityEngine.Networking.NetworkIdentity>();
+    }
 
 	private void OnTriggerStay(Collider other)
     {
+        if (netId && !netId.hasAuthority) return;
+
         var otherLayerMask = 1 << other.gameObject.layer;
         // 選択したレイヤー以外のオブジェクトに当たっても押されない
         if ( (otherLayerMask & triggerLayerMask.value) == 0 ) return;

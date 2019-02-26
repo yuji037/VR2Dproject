@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Linq;
 
-public class WalkingBossBehavior : BossBehaviorBase {
+public class WalkingBossBehavior : BossBehaviorBase
+{
     [SerializeField]
     Transform[] stampPoints;
 
@@ -24,14 +25,18 @@ public class WalkingBossBehavior : BossBehaviorBase {
     Animator bossAnimator;
 
     [SerializeField]
-    float collapseDelay=0.6f;
+    float collapseDelay = 0.6f;
 
     [SerializeField]
     Material bridgeMaterial;
 
+    float speed = 1.0f;
+
     public override void StartBehavior()
     {
         if (!isServer) return;
+        DebugTools.RegisterDebugAction(KeyCode.Alpha9, () => speed += 1.0f, "bossSpeedUp");
+        DebugTools.RegisterDebugAction(KeyCode.Alpha8, () => speed -= 1.0f, "bossSpeedDown");
         StartCoroutine(MoveRoutine());
     }
 
@@ -44,8 +49,9 @@ public class WalkingBossBehavior : BossBehaviorBase {
     {
 
         int currentSecction = 0;
-        while (bossLegs.Length>currentSecction) {
-            bool isStopped=false;
+        while (bossLegs.Length > currentSecction)
+        {
+            bool isStopped = false;
             bossLegs[currentSecction].OnStopStampAction += () =>
             {
                 isStopped = true;
@@ -54,11 +60,11 @@ public class WalkingBossBehavior : BossBehaviorBase {
             //走る
             while (stampPoints[currentSecction].position.x > transform.position.x)
             {
-                transform.Translate(moveSpeedEachSecctions[currentSecction]*Time.deltaTime,0,0,Space.World);
+                transform.Translate(moveSpeedEachSecctions[currentSecction] * speed * Time.deltaTime, 0, 0, Space.World);
                 yield return null;
             }
             bossLegs[currentSecction].RpcStartStamp();
-            yield return new WaitUntil(()=>isStopped);
+            yield return new WaitUntil(() => isStopped);
             yield return new WaitForSeconds(2.0f);
             var gimmicks = objectsEachSecctions[currentSecction].GetComponentsInChildren<GimmickBase>();
             foreach (var i in gimmicks)
@@ -82,7 +88,7 @@ public class WalkingBossBehavior : BossBehaviorBase {
         yield return new WaitForSeconds(1.0f);
         foreach (var i in bridges)
         {
-            i.GetComponent<MeshRenderer>().material= bridgeMaterial;
+            i.GetComponent<MeshRenderer>().material = bridgeMaterial;
         }
         var sortedbridges = bridges.OrderBy((x) => x.transform.position.x);
         foreach (var i in sortedbridges)

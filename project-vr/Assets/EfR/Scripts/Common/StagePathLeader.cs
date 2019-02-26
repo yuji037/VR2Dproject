@@ -16,7 +16,6 @@ public class StagePathLeader : MonoBehaviour {
     // Use this for initialization
 	void Start () {
         path = GetComponent<Cinemachine.CinemachineSmoothPath>();
-        DebugTools.RegisterDebugAction(KeyCode.U, CreateLeadEffect, "導蟲");
     }
     public void CreateLeadEffect(Vector3 originPos)
     {

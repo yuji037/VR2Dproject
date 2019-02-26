@@ -115,14 +115,14 @@ public class GimmickSwitch : GimmickBase {
 
     bool IsReady()
     {
-        return !PlayerManager.LocalPlayer ||
-            !PlayerManager.playerStatus ||
-            ((PlayerNumber)PlayerManager.GetPlayerNumber() != pushJudgePlayerNumber);
+        return PlayerManager.LocalPlayer &&
+            PlayerManager.playerStatus &&
+            ((PlayerNumber)PlayerManager.GetPlayerNumber() == pushJudgePlayerNumber);
     }
 
     private void FixedUpdate()
 	{
-        if(IsReady())return;
+        if(!IsReady())return;
         Initialize();
 
         if ( m_IsPushing )

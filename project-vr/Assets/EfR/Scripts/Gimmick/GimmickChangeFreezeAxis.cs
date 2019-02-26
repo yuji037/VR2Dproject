@@ -8,9 +8,12 @@ public class GimmickChangeFreezeAxis : GimmickBase
     [System.Serializable]
     struct FreezeAxis
     {
-       public bool x;
-       public bool y;
-       public bool z;
+        public bool posX;
+        public bool posY;
+        public bool posZ;
+        public bool rotX;
+        public bool rotY;
+        public bool rotZ;
     }
     [SerializeField]
     int[] triggerIDs;
@@ -26,7 +29,7 @@ public class GimmickChangeFreezeAxis : GimmickBase
     void HitAction(Collider collider)
     {
         var gim = collider.GetComponent<GimmickBase>();
-        if (!(gim&&collider.GetComponent<Rigidbody>())) return;
+        if (!(gim && collider.GetComponent<Rigidbody>())) return;
         foreach (var i in triggerIDs)
         {
             if (gim.GimmickID == i)
@@ -44,12 +47,14 @@ public class GimmickChangeFreezeAxis : GimmickBase
     [ClientRpc]
     void RpcHitAction(NetworkIdentity identity)
     {
-        var rigid =identity.GetComponent<Rigidbody>();
+        var rigid = identity.GetComponent<Rigidbody>();
 
-        var freezeFlag =
-                      ((axis.x) ? RigidbodyConstraints.FreezePositionX : RigidbodyConstraints.None)
-                      | ((axis.y) ? RigidbodyConstraints.FreezePositionY : RigidbodyConstraints.None)
-                      | ((axis.z) ? RigidbodyConstraints.FreezePositionZ : RigidbodyConstraints.None);
+        var freezeFlag =((axis.posX) ? RigidbodyConstraints.FreezePositionX : RigidbodyConstraints.None)
+                      | ((axis.posY) ? RigidbodyConstraints.FreezePositionY : RigidbodyConstraints.None)
+                      | ((axis.posZ) ? RigidbodyConstraints.FreezePositionZ : RigidbodyConstraints.None)
+                      | ((axis.rotX) ? RigidbodyConstraints.FreezeRotationX : RigidbodyConstraints.None)
+                      | ((axis.rotY) ? RigidbodyConstraints.FreezeRotationY : RigidbodyConstraints.None)
+                      | ((axis.rotZ) ? RigidbodyConstraints.FreezeRotationZ : RigidbodyConstraints.None);
         rigid.constraints = freezeFlag;
     }
 }

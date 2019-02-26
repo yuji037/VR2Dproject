@@ -32,10 +32,10 @@ public class DollyMoveObject : NetworkBehaviour{
 
     bool initialized;
 
-    public override void OnStartServer()
+    void Start()
     {
         currentPathValue = defaultPathValue;
-        Move(0f);
+        transform.position = path.EvaluatePositionAtUnit(currentPathValue, CinemachinePathBase.PositionUnits.Distance);
     }
     bool IsReady()
     {
@@ -79,7 +79,7 @@ public class DollyMoveObject : NetworkBehaviour{
             //セルフターンが有効な場合向きを逆転させる
             if (selfTurn)
             {
-                if (path.MaxPos <= currentPathValue)
+                if (path.MaxUnit(CinemachinePathBase.PositionUnits.Distance) <= currentPathValue)
                 {
                     moveDirection = -1;
                 }
@@ -91,9 +91,9 @@ public class DollyMoveObject : NetworkBehaviour{
             currentPathValue += moveSpeed * multiPlySpeed * Time.deltaTime*moveDirection;
             if (!isLoop)
             {
-                currentPathValue =Mathf.Clamp(currentPathValue,0f,path.MaxPos);
+                currentPathValue =Mathf.Clamp(currentPathValue,0f, path.MaxUnit(CinemachinePathBase.PositionUnits.Distance));
             }
-            var next = path.EvaluatePosition(currentPathValue);
+            var next = path.EvaluatePositionAtUnit(currentPathValue,CinemachinePathBase.PositionUnits.Distance);
             transform.position = next;
 
             if(PlayerManager.OtherPlayer)CmdSyncDollyPos(next);

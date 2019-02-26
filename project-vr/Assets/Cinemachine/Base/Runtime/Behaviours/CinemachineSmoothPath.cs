@@ -45,6 +45,8 @@ namespace Cinemachine
                 return wp;
             }
         }
+        [SerializeField]
+        bool cornerIsAngular;
 
         /// <summary>The waypoints that define the path.
         /// They will be interpolated using a bezier curve</summary>
@@ -161,7 +163,8 @@ namespace Cinemachine
                 if (indexA == indexB)
                     result = m_Waypoints[indexA].position;
                 else
-                    result = SplineHelpers.Bezier3(pos - indexA, 
+                    result = (cornerIsAngular)?Vector3.Lerp(m_Waypoints[indexA].position,m_Waypoints[indexB].position,pos-indexA):
+                        SplineHelpers.Bezier3(pos - indexA, 
                         m_Waypoints[indexA].position, m_ControlPoints1[indexA].position,
                         m_ControlPoints2[indexA].position, m_Waypoints[indexB].position);
             }
