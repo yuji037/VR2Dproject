@@ -257,9 +257,10 @@ public class GimmickSwitch : GimmickBase {
     void CmdTurnSwitchableObject(bool isOn)
     {
         RpcTurnSwitchableObject(isOn);
-    }
+		SoundManager.GetInstance().Play("buttonpush", transform.position);
+	}
 
-    [ClientRpc]
+	[ClientRpc]
     void RpcTurnSwitchableObject(bool isOn)
     {
         TurnSwitchableObject(isOn);

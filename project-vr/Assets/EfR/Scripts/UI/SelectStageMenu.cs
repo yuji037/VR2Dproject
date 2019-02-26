@@ -33,8 +33,9 @@ public class SelectStageMenu :NetworkBehaviour
         var selectStageData = stageDataMaster.stageDatas[selectingStageIndexNumber];
         GameCoordinator.GetInstance().playingStageData = selectStageData;
         GameCoordinator.GetInstance().ChangeStage(selectStageData.StageSceneName);
-    }
-    bool isReady;
+		SoundManager.GetInstance().Play("menu_decision");
+	}
+	bool isReady;
     public bool IsReady
     {
         get { return isReady; }
@@ -93,9 +94,10 @@ public class SelectStageMenu :NetworkBehaviour
             selectingStageIndexNumber= stageDataMaster.stageDatas.Count-1;
         }
         cursor.transform.position = cursorPositions[selectingStageIndexNumber].position;
-    }
+		SoundManager.GetInstance().Play("menu_cusorMove");
+	}
 
-    [ClientRpc]
+	[ClientRpc]
     public void RpcStageChangeUp()
     {
 
@@ -105,7 +107,8 @@ public class SelectStageMenu :NetworkBehaviour
             selectingStageIndexNumber = 0;
         }
         cursor.transform.position = cursorPositions[selectingStageIndexNumber].position;
-    }
+		SoundManager.GetInstance().Play("menu_cusorMove");
+	}
 
 
 

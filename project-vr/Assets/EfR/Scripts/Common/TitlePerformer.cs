@@ -42,7 +42,8 @@ public class TitlePerformer :  NetworkBehaviour{
     IEnumerator PerformerCoroutine()
     {
         yield return new WaitUntil(()=>pressedAnyButton);
-        titlePanel.SetActive(false);
+		SoundManager.GetInstance().Play("menu_decision");
+		titlePanel.SetActive(false);
     }
 
     IEnumerator LoopingActive()
