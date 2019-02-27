@@ -520,7 +520,7 @@ public class PlayerMove : NetworkBehaviour
 			if ( inAirTime > holdSkirtInAirTime && velocity.y < -0.2f )
 			{
 				animator.CmdSetBool("holdSkirt", true);
-				animator.CmdSetBool("Jump", false);
+				//animator.CmdSetBool("Jump", false);
 			}
 		}
 		else
