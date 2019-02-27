@@ -17,7 +17,7 @@ public class TutorialDisplayArea : MonoBehaviour {
 	[Header("ラインなどのターゲット達"), SerializeField]
 	GameObject[] targetObjects;
 
-    [Header("表示秒数（0の場合持続表示"), SerializeField]
+    [Header("表示秒数（0の場合持続表示)"), SerializeField]
     float displayTime = 0f;
     float timer = 0f;
 
