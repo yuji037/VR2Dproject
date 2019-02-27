@@ -201,13 +201,13 @@ public class GimmickSwitch : GimmickBase {
     [TargetRpc]
     void TargetSyncButtonPos(NetworkConnection target,Vector3 moveVec)
     {
-        transform.Translate(moveVec,Space.Self);
+        m_PushObject.Translate(moveVec);
     }
 
     void MoveThisFrame(bool isPress)
 	{
 		var moveVec =	m_vPushedVector * m_fPerformSpeed*Time.deltaTime*((isPress)?1.0f:-1.0f);
-		transform.Translate(moveVec,Space.Self);
+		m_PushObject.Translate(moveVec);
         if (hasAuthority) CmdSyncButtonPos( moveVec);
 	}
 
