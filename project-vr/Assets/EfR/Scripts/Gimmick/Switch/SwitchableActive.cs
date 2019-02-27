@@ -8,9 +8,6 @@ public class SwitchableActive : MonoBehaviour,ISwitchableObject {
     [SerializeField]
     bool defaultActive;
 
-    [SerializeField]
-    bool isNetworkObject;
-
     public void Start()
     {
         SetActive(defaultActive);
@@ -28,7 +25,7 @@ public class SwitchableActive : MonoBehaviour,ISwitchableObject {
 
     void SetActive(bool active)
     {
-        if (isNetworkObject)
+        if (GetComponent<NetworkIdentity>())
         {
             SetNetworkActive(active);
         }

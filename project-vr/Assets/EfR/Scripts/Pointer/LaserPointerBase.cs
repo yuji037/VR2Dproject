@@ -38,9 +38,14 @@ public class LaserPointerBase : NetworkBehaviour
     void Update()
     {
         if(lineRenderer)lineRenderPositions.Clear();
-        if (vrHand.playerNumber == -1) return;
-        if (PlayerManager.Players[vrHand.playerNumber]&& 
-            PlayerManager.Players[vrHand.playerNumber].GetComponent<PlayerMove>().moveType==PlayerMove.MoveType._2D) return;
+        if (vrHand.playerNumber == -1 ||
+            (PlayerManager.Players[vrHand.playerNumber] &&
+            PlayerManager.Players[vrHand.playerNumber].GetComponent<PlayerMove>().moveType == PlayerMove.MoveType._2D))
+        {
+            lineRenderer.SetPosition(0,shooter.position);
+            lineRenderer.SetPosition(1,shooter.position);
+            return;
+        }
 
         OnFlameStart();
         if (isFixPointer)
