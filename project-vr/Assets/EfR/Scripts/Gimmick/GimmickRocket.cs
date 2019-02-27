@@ -45,7 +45,7 @@ public class GimmickRocket : GimmickBase
         {
             Debug.Log("jump!");
             pm.Jump(playerJumpPower);
-            DestroyThisObject();
+            CmdDestroy();
             foreach(var i in GetComponentsInChildren<Collider>())
             {
                 i.enabled = false;
@@ -59,7 +59,7 @@ public class GimmickRocket : GimmickBase
         if (pm == PlayerManager.playerMove)
         {
             PlayerRespawner.GetInstance().RespawnLocalPlayer();
-            DestroyThisObject();
+            CmdDestroy();
             foreach (var i in GetComponentsInChildren<Collider>())
             {
                 i.enabled = false;
@@ -67,4 +67,9 @@ public class GimmickRocket : GimmickBase
         }
     }
 
+    [Command]
+    void CmdDestroy()
+    {
+        DestroyThisObject();
+    }
 }
