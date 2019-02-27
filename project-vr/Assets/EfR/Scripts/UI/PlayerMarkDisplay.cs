@@ -16,11 +16,14 @@ public class PlayerMarkDisplay : MonoBehaviour
     Camera targetCamera;
 
     Rect rect = new Rect(0, 0, 1, 1);
+
+    Vector2 preViewPort;
     private void Start()
     {
         this.GetGameObjectWithCoroutine(CameraUtility.CameraVRName,
             (GameObject go) => {
                 targetCamera = go.GetComponent<CameraVRController>().CenterCam;
+                UICamera.transform.parent = targetCamera.transform;
             });
 
     }
@@ -31,13 +34,15 @@ public class PlayerMarkDisplay : MonoBehaviour
     }
     void DisplayMark()
     {
-        if (targetCamera && PlayerManager.LocalPlayer &&PlayerManager.playerMove.moveType==PlayerMove.MoveType.FIXED)
+        if (targetCamera && PlayerManager.LocalPlayer &&
+            PlayerManager.playerMove.moveType==PlayerMove.MoveType.FIXED&&
+            ViewSwitchPerformer .CheckInstance)
         {
             var pPos = PlayerManager.LocalPlayer.transform.position;
             var viewPos = targetCamera.WorldToViewportPoint(pPos);
-            if (!rect.Contains(viewPos)|| viewPos.z < 0)
+            if ((!rect.Contains(viewPos)|| viewPos.z < 0)&&
+                !ViewSwitchPerformer.GetInstance().IsTranslation)
             {
-                UICamera.transform.rotation= Quaternion.Lerp(UICamera.transform.rotation,targetCamera.transform.rotation,0.098f);
                 if (viewPos.z < 0)
                 {
                     var sub = targetCamera.transform.position - pPos;
@@ -49,10 +54,19 @@ public class PlayerMarkDisplay : MonoBehaviour
                 {
                     viewPort.x = (viewPort.x>0.5)?1.0f:0f;
                 }
-                var correctedPos = new Vector2(Mathf.Clamp(viewPort.x, correctVec.x, correctVec.y), Mathf.Clamp(viewPort.y, correctVec.x, correctVec.y));
-                Vector2 markPos = targetCamera.ViewportToScreenPoint(correctedPos);
+                var correctedViewPos = new Vector2(Mathf.Clamp(viewPort.x, correctVec.x, correctVec.y), Mathf.Clamp(viewPort.y, correctVec.x, correctVec.y));
+                Vector2 markPos = targetCamera.ViewportToScreenPoint(correctedViewPos);
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(),markPos,UICamera,out markPos);
-                mark.transform.localPosition = markPos;
+                if ((preViewPort - correctedViewPos).magnitude > 0.5f)
+                {
+                    mark.transform.localPosition = markPos;
+                }
+                else
+                {
+                    mark.transform.localPosition = Vector3.Lerp(mark.transform.localPosition,markPos,0.1f);
+                }
+
+                preViewPort = correctedViewPos;
             }
             else
             {

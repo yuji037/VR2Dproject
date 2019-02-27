@@ -13,6 +13,8 @@ public class Camera2DController : CameraControllerBase
         public float screenX;
         public float screenY;
         public float angle;
+        [SerializeField, Header("0以下だと、cameraの既存の値が使われる")]
+        public float distance;
     }
 
     public enum WorldDirection
@@ -30,6 +32,7 @@ public class Camera2DController : CameraControllerBase
         cft.m_DeadZoneHeight = param.offSetHeight;
         cft.m_ScreenX = param.screenX;
         cft.m_ScreenY = param.screenY;
+        if (param.distance > 0) cft.m_CameraDistance = param.distance;
         ChangeCameraDirection(param.angle);
     }
 

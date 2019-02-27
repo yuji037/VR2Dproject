@@ -34,14 +34,15 @@ public class StagePathLeader : MonoBehaviour {
         isLeading = true;
         float t = 0f;
         var startPos= path.FindClosestPoint(originPos, Mathf.FloorToInt(prevPathPos), 2, 5);
-        var endPos = path.MaxPos;
+        startPos=path.GetPathDistanceFromPosition(startPos);
+        var endPos = path.GetPathDistanceFromPosition(path.MaxPos);
         var leadingPathPos = 0f;
         while (endPos > leadingPathPos)
         {
             t += Time.deltaTime*speed;
             leadingPathPos = startPos + t;
 
-            var pos=path.EvaluatePosition(leadingPathPos);
+            var pos=path.EvaluatePositionAtUnit(leadingPathPos,Cinemachine.CinemachinePathBase.PositionUnits.Distance);
             leadParticle.transform.position = pos;
             yield return null;
         }
