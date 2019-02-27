@@ -26,7 +26,7 @@ public class SwitchLinkPathViewer : MonoBehaviour {
     }
     void Initlaize()
     {
-        if (initilaized) return;
+        if (initilaized||gimmickSwitch.ActorSwitchableObjects==null) return;
 
         var particleTargets = gimmickSwitch.ActorSwitchableObjects;
         Debug.Log(particleTargets[0]);
