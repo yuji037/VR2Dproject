@@ -683,11 +683,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -15.96
+      value: -27.75
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -12.66
+      value: -10.75
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_LocalPosition.z
@@ -5703,7 +5703,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4056158834056474, guid: a3d97f95100197742a7cfeb1a911f5b2, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -16.15
+      value: -15.62
       objectReference: {fileID: 0}
     - target: {fileID: 4056158834056474, guid: a3d97f95100197742a7cfeb1a911f5b2, type: 2}
       propertyPath: m_LocalRotation.x
@@ -5740,6 +5740,10 @@ Prefab:
     - target: {fileID: 1049665134481308, guid: a3d97f95100197742a7cfeb1a911f5b2, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929909878089130, guid: a3d97f95100197742a7cfeb1a911f5b2, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a3d97f95100197742a7cfeb1a911f5b2, type: 2}
@@ -7258,7 +7262,7 @@ Prefab:
     - target: {fileID: 20731659328252208, guid: da177103727906942b605c4714fa28ec,
         type: 2}
       propertyPath: near clip plane
-      value: 0.1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 114810220201076690, guid: da177103727906942b605c4714fa28ec,
         type: 2}
@@ -8983,7 +8987,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1640372689
 Transform:
   m_ObjectHideFlags: 0
@@ -9886,6 +9890,11 @@ Prefab:
       propertyPath: m_ScreenY
       value: 0.75
       objectReference: {fileID: 0}
+    - target: {fileID: 114843431213773182, guid: 65a23e1940157e846855218717275238,
+        type: 2}
+      propertyPath: m_Lens.NearClipPlane
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 65a23e1940157e846855218717275238, type: 2}
   m_IsPrefabParent: 0
@@ -10721,7 +10730,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4881556985546258, guid: 8336ab70133291b4da51d0b780cf7248, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -12.36
+      value: -11.72
       objectReference: {fileID: 0}
     - target: {fileID: 4881556985546258, guid: 8336ab70133291b4da51d0b780cf7248, type: 2}
       propertyPath: m_LocalRotation.x
