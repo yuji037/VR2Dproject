@@ -40,6 +40,8 @@ public class TutorialDisplayArea : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
 	{
+        Debug.Log(this + " OnTriggerEnter");
+
 		if(tutorialObject == null )
 		{
 			Debug.LogWarning("チュートリアル設定されていません。");
