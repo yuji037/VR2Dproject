@@ -6,6 +6,9 @@ using System.Linq;
 
 public class VRHand : NetworkBehaviour {
 
+    [SyncVar]
+    public int playerNumber = -1;
+
 	// Use this for initialization
 	void Start () {
 
@@ -20,5 +23,13 @@ public class VRHand : NetworkBehaviour {
 
 
 	}
-	
+
+    private void Update()
+    {
+        if (playerNumber == -1 && isLocalPlayer && PlayerManager.LocalPlayer != null)
+        {
+            playerNumber = PlayerManager.GetPlayerNumber();
+        }
+    }
+
 }
