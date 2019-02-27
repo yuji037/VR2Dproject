@@ -71,8 +71,6 @@ public class GimmickSwitch : GimmickBase {
 	bool		m_IsPressed			= false;
 	bool		m_IsToggleOn		= false;
 
-	Rigidbody	m_rRigidbody;
-
 	Vector3		m_vReleasedPosition;
 	Vector3		m_vPressedPosition;
 	float		m_fPressedDistanceSqr;
@@ -96,9 +94,6 @@ public class GimmickSwitch : GimmickBase {
 
 		m_aTriggerExitAction		+= ReleaseJudge;
 
-		// 内部変数への入れ込み
-		m_rRigidbody = m_PushObject.GetComponent<Rigidbody>();
-
 		m_vReleasedPosition			= m_PushObject.localPosition;
 		m_vPressedPosition			= m_PushObject.localPosition + m_vPushedVector;
 		m_fPressedDistanceSqr		= ( m_vPressedPosition - m_vReleasedPosition ).sqrMagnitude;
@@ -120,7 +115,7 @@ public class GimmickSwitch : GimmickBase {
             ((PlayerNumber)PlayerManager.GetPlayerNumber() == pushJudgePlayerNumber);
     }
 
-    private void FixedUpdate()
+    private void Update()
 	{
         if(!IsReady())return;
         Initialize();
@@ -206,13 +201,13 @@ public class GimmickSwitch : GimmickBase {
     [TargetRpc]
     void TargetSyncButtonPos(NetworkConnection target,Vector3 moveVec)
     {
-        m_rRigidbody.MovePosition(m_PushObject.position + moveVec);
+        transform.Translate(moveVec,Space.Self);
     }
 
     void MoveThisFrame(bool isPress)
 	{
-		var moveVec =	m_vPushedVector * m_fPerformSpeed*0.016f*((isPress)?1.0f:-1.0f);
-		m_rRigidbody.MovePosition(m_PushObject.position + moveVec);
+		var moveVec =	m_vPushedVector * m_fPerformSpeed*Time.deltaTime*((isPress)?1.0f:-1.0f);
+		transform.Translate(moveVec,Space.Self);
         if (hasAuthority) CmdSyncButtonPos( moveVec);
 	}
 
