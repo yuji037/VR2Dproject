@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class GimmickRocket : GimmickBase {
+public class GimmickRocket : GimmickBase
+{
 
     [SerializeField]
     float playerJumpPower;
@@ -21,40 +22,46 @@ public class GimmickRocket : GimmickBase {
     public float deathTime = 10.0f;
 
     float timer = 0f;
- 
+
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         top.Initialize(Jump);
         bot.Initialize(PlayerRespawnAndSuicide);
     }
     private void Update()
     {
         timer += Time.deltaTime;
-        transform.Translate(transform.forward*moveSpeed*Time.deltaTime,Space.World);
+        transform.Translate(transform.forward * moveSpeed * Time.deltaTime, Space.World);
         if (timer > deathTime)
         {
-            DestroyThisObject();
+            if(isServer)DestroyThisObject();
         }
     }
     void Jump(Collider collider)
     {
         var pm = collider.GetComponent<PlayerMove>();
-        if (pm)
+        if (pm == PlayerManager.playerMove)
         {
             Debug.Log("jump!");
             pm.Jump(playerJumpPower);
-            DestroyThisObject();
+            CmdDestroyThisObject();
         }
     }
 
     void PlayerRespawnAndSuicide(Collider collider)
     {
         var pm = collider.GetComponent<PlayerMove>();
-        if (pm)
+        if (pm == PlayerManager.playerMove)
         {
-            pm.RpcRespawn();
-            DestroyThisObject();
+            PlayerRespawner.GetInstance().RespawnLocalPlayer();
+            CmdDestroyThisObject();
         }
     }
-	
+
+    [Command]
+    void CmdDestroyThisObject()
+    {
+        DestroyThisObject();
+    }
 }
