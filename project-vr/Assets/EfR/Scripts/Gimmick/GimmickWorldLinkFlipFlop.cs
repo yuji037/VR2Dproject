@@ -16,10 +16,10 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 
 	void Start()
 	{
-		//if ( otherGimmick )
-		//	otherGimmick.otherGimmick = this;
+        if (otherGimmick)
+            otherGimmick.otherGimmick = this;
 
-		m_acTriggerEnterAction += OnTriggrEnter;
+        m_acTriggerEnterAction += OnTriggrEnter;
 		m_acTriggerExitAction += OnTriggrExit;
 	}
 
