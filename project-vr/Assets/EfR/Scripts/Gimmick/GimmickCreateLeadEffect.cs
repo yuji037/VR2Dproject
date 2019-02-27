@@ -10,6 +10,7 @@ public class GimmickCreateLeadEffect : GimmickBase{
 	// Use this for initialization
 	void Start () {
         m_acTriggerEnterAction += HitAction;
+        isCallOnlyServer = false;
 	}
 	void HitAction(Collider collider)
     {

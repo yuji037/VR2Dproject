@@ -27,17 +27,21 @@ public class LaserPointerBase : NetworkBehaviour
     Vector3 preShooterForward;
 
     GimmickBase preHitGimmick;
-
+    VRHand vrHand;
     private void Start()
     {
         ownerCollider = GetComponent<Collider>();
+        vrHand= GetComponent<VRHand>();
     }
 
     // Update is called once per frame
     void Update()
     {
         if(lineRenderer)lineRenderPositions.Clear();
-        if (PlayerManager.playerMove.moveType == PlayerMove.MoveType._2D) return;
+        if (vrHand.playerNumber == -1) return;
+        if (PlayerManager.Players[vrHand.playerNumber]&& 
+            PlayerManager.Players[vrHand.playerNumber].GetComponent<PlayerMove>().moveType==PlayerMove.MoveType._2D) return;
+
         OnFlameStart();
         if (isFixPointer)
         {
