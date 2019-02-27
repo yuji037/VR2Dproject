@@ -103,4 +103,10 @@ public class TutorialDisplayArea : MonoBehaviour {
 		}
 		tutorialObjInsList.Clear();
 	}
+
+	public static IEnumerator DestroyAllTutorialCoroutine()
+	{
+		yield return new WaitForSeconds(1f);
+		DestroyAllTutorial();
+	}
 }
