@@ -378,8 +378,6 @@ GameObject:
   - component: {fileID: 207182395}
   - component: {fileID: 207182397}
   - component: {fileID: 207182396}
-  - component: {fileID: 207182398}
-  - component: {fileID: 207182399}
   m_Layer: 5
   m_Name: TVMask
   m_TagString: Untagged
@@ -438,30 +436,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 207182394}
---- !u!114 &207182398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 207182394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd9ccf2a3ac1a734bb4d38fbde9be019, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultActive: 1
---- !u!114 &207182399
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 207182394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a121a00c082c0044b3a89899f8b6752, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_iGimmickID: 555
 --- !u!1 &243828079
 GameObject:
   m_ObjectHideFlags: 0
@@ -1016,6 +990,59 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 902067355}
+--- !u!1 &928114700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 928114703}
+  - component: {fileID: 928114702}
+  - component: {fileID: 928114701}
+  m_Layer: 0
+  m_Name: SwitchableTVMask
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &928114701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 928114700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bc3b98d87b41594394caff1806efc3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &928114702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 928114700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a121a00c082c0044b3a89899f8b6752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_iGimmickID: 555
+--- !u!4 &928114703
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 928114700}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.417428, y: -6.4941883, z: -19.818657}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1185944867
 GameObject:
   m_ObjectHideFlags: 0
