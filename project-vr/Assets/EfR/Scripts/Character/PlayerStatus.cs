@@ -156,8 +156,9 @@ public class PlayerStatus : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcTransWorld(PlayerMove.MoveType transMoveTypeTo, Vector3 playerFixPos)
 	{
+		TutorialDisplayArea.DestroyAllTutorial();
         StartCoroutine(VRCharaHoloController.GetInstance().VRChatCharaFade((int)Number,
-            transMoveTypeTo == PlayerMove.MoveType._2D));
+			transMoveTypeTo == PlayerMove.MoveType._2D));
         StageMaterialChanger.GetInstance().ChangeMaterial((int)Number,transMoveTypeTo);
 		if ( !hasAuthority ) return;
 		TransWorld(transMoveTypeTo, playerFixPos);

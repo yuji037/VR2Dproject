@@ -5,7 +5,7 @@ using UnityEngine;
 public class TutorialObject : MonoBehaviour {
 
 	[SerializeField]
-	string parentName;
+	public string parentName;
 
     [SerializeField]
     GameObject inactiveObjInPlayMode;
@@ -14,7 +14,10 @@ public class TutorialObject : MonoBehaviour {
 	bool isLocalPlayerCanMove = true;
 
 	LineRenderer lineRenderer;
+	[SerializeField]
+	ParticleSystem leadParticle;
 	GameObject lineTargetObj = null;
+	GameObject particleTargetObj = null;
 	[SerializeField]
 	float lineOffsetMoveSpeed = 1.0f;
 
@@ -31,6 +34,10 @@ public class TutorialObject : MonoBehaviour {
 			lineRenderer.SetPosition(0, transform.position);
 			lineRenderer.SetPosition(1, lineTargetObj.transform.position);
 			lineRenderer.material.mainTextureOffset += new Vector2(Time.deltaTime * lineOffsetMoveSpeed, 0f);
+		}
+		if( particleTargetObj && leadParticle )
+		{
+			leadParticle.transform.position = particleTargetObj.transform.position;
 		}
 	}
 
@@ -50,7 +57,14 @@ public class TutorialObject : MonoBehaviour {
 
 	public void SetTarget(GameObject[] targetObjects)
 	{
-		lineTargetObj = targetObjects[0];
+		if ( targetObjects.Length > 0 )
+			lineTargetObj = targetObjects[0];
+		if ( targetObjects.Length > 1 )
+		{
+			particleTargetObj = targetObjects[1];
+			if ( leadParticle )
+				leadParticle.gameObject.SetActive(true);
+		}
 	}
 
 	public void SetParent()

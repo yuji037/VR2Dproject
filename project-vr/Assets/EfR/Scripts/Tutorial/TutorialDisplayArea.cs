@@ -12,31 +12,19 @@ public class TutorialDisplayArea : MonoBehaviour {
 	[SerializeField]
 	TutorialObject tutorialObject;
 
-	TutorialObject tutorialObjectIns = null;
+	static Dictionary<string, TutorialObject> tutorialObjInsList = new Dictionary<string, TutorialObject>();
 
 	[Header("ラインなどのターゲット達"), SerializeField]
 	GameObject[] targetObjects;
 
-    [Header("表示秒数（0の場合持続表示)"), SerializeField]
-    float displayTime = 0f;
-    float timer = 0f;
+    //[Header("表示秒数（0の場合持続表示)"), SerializeField]
+    //float displayTime = 0f;
+    //float timer = 0f;
 
 	// Use this for initialization
 	void Start () {
 		playerLayer = LayerMask.NameToLayer("Player");
 	}
-
-    private void Update()
-    {
-        if (displayTime == 0f) return;
-        if (tutorialObjectIns) return;
-
-        timer += Time.deltaTime;
-        if(timer > displayTime)
-        {
-            DestroyTutorial();
-        }
-    }
 
     private void OnTriggerEnter(Collider other)
 	{
@@ -49,12 +37,12 @@ public class TutorialDisplayArea : MonoBehaviour {
 		}
 
 		// 両クライアントで起こる
-		if (!tutorialObjectIns && other.gameObject.layer == playerLayer )
+		if (!tutorialObjInsList.ContainsKey(tutorialObject.parentName) && other.gameObject.layer == playerLayer )
 		{
 			if ( PlayerManager.GetPlayerNumber() == (int)displayPlayerNumber )
 			{
                 bool isCorrectPlayerMoveType = false;
-                PlayerMove localPlayerMove = PlayerManager.LocalPlayer.GetComponent<PlayerMove>();
+				PlayerMove localPlayerMove = PlayerManager.playerMove;
                 if (tutorialObject.name.Contains("2D") &&
                     localPlayerMove.moveType == PlayerMove.MoveType._2D)
                     isCorrectPlayerMoveType = true;
@@ -72,7 +60,7 @@ public class TutorialDisplayArea : MonoBehaviour {
 
 	private void OnTriggerExit(Collider other)
 	{
-		if ( other.gameObject.layer == playerLayer )
+		if ( tutorialObjInsList.ContainsKey(tutorialObject.parentName) && other.gameObject.layer == playerLayer )
 		{
             DestroyTutorial();
 		}
@@ -81,7 +69,8 @@ public class TutorialDisplayArea : MonoBehaviour {
     void CreateTutorial()
     {
         var obj = Instantiate(tutorialObject.gameObject);
-        tutorialObjectIns = obj.GetComponent<TutorialObject>();
+        var tutorialObjectIns = obj.GetComponent<TutorialObject>();
+		var parentName = tutorialObjectIns.parentName;
         tutorialObjectIns.SetParent();
         tutorialObjectIns.Init();
         if (targetObjects != null && targetObjects.Length != 0)
@@ -91,15 +80,27 @@ public class TutorialDisplayArea : MonoBehaviour {
         SoundManager.GetInstance().Play(
             "pipi2", tutorialObjectIns.transform.position, false, false, true, null, 0, (int)displayPlayerNumber);
 
-        timer = 0f;
+		tutorialObjInsList[parentName] = tutorialObjectIns;
     }
 
     void DestroyTutorial()
     {
-        if (tutorialObjectIns && tutorialObjectIns.gameObject)
+		var parentName = tutorialObject.parentName;
+		var tutorialObjectIns = tutorialObjInsList[parentName];
+		if ( tutorialObjectIns && tutorialObjectIns.gameObject)
         {
             Destroy(tutorialObjectIns.gameObject);
-            tutorialObjectIns = null;
+			tutorialObjInsList.Remove(parentName);
         }
     }
+
+	public static void DestroyAllTutorial()
+	{
+		foreach(var ins in tutorialObjInsList.Values )
+		{
+			//Debug.Log(ins.gameObject.name + "チュートリアル削除");
+			Destroy(ins.gameObject);
+		}
+		tutorialObjInsList.Clear();
+	}
 }

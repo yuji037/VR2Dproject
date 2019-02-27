@@ -161,7 +161,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 cVRCon.NoiseActivate(0.05f, 1.0f);
                 yield return new WaitForSeconds(1.0f);
 
-                effChannel = EffectManager.GetInstance().Play("CharaParticleAttract3", Vector3.zero, true, "VRChatCharaPos" + (playerNum + 1), "TV");
+                effChannel = EffectManager.GetInstance().Play("CharaParticleAttract3", Vector3.zero, true, "TV", "VRChatCharaPos" + ( playerNum + 1 ));
 
                 playerMove.RendererSwitchForPlayerMoveType(toMoveType);
 
