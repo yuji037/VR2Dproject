@@ -63,7 +63,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
     void Initialize()
     {
         C2DAdjuster.SetVRCamera(CVRAdjuster.CenterEye);
-        var playerNum = PlayerManager.GetPlayerNumber();
+        playerNum = PlayerManager.GetPlayerNumber();
         Debug.Log(realRoom.transform.Find("TV").name);
         _2dCamPosition = realRoom.transform.Find("CamPos_2D_" + (playerNum + 1)).gameObject;
         transedPosition = _2dCamPosition.transform.Find("TransedPos").gameObject;
@@ -98,6 +98,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
         C2DAdjuster.GetComponent<Camera2DController>().HasCameraAuthority = false;
 
         var seChannel = SoundManager.GetInstance().Play("flipflop");
+        int effChannel = -1;
         var currentVRVCam = CVRAdjuster.GetComponent<CameraVRController>().CurrentVCam.transform;
 
 
@@ -113,6 +114,9 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 var cam2DCon = C2DAdjuster.GetComponent<Camera2DController>();
                 cam2DCon.NoiseActivate(0.5f, 1.0f);
                 yield return new WaitForSeconds(1.0f);
+
+                effChannel = EffectManager.GetInstance().Play("CharaParticleAttract3", Vector3.zero, true, "VRChatCharaPos" + (playerNum + 1), "TV");
+
 
                 //黒幕
                 FadeInOutController._2DFadePanel.StartBlackFadeOut(0.1f);
@@ -137,6 +141,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
 
                 yield return MoveRealRoomAndVRCharaRoutine(_2dCamPosition.transform.position - transedPosition.transform.position, 3.0f);
 
+                EffectManager.GetInstance().Stop(effChannel, 2f);
 
                 CVRAdjuster.ChangeVRCamParamTo2DCam();
 
@@ -156,6 +161,8 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 cVRCon.NoiseActivate(0.05f, 1.0f);
                 yield return new WaitForSeconds(1.0f);
 
+                effChannel = EffectManager.GetInstance().Play("CharaParticleAttract3", Vector3.zero, true, "VRChatCharaPos" + (playerNum + 1), "TV");
+
                 playerMove.RendererSwitchForPlayerMoveType(toMoveType);
 
                 //realRoom.transform.rotation = CVRAdjuster.transform.rotation;
@@ -172,6 +179,7 @@ public class ViewSwitchPerformer : SingletonMonoBehaviour<ViewSwitchPerformer>
                 animator.CrossFade("To2D", 0f);
                 yield return MoveRealRoomAndVRCharaRoutine(transedPosition.transform.position - _2dCamPosition.transform.position, 3.0f, true);
 
+                EffectManager.GetInstance().Stop(effChannel, 2f);
                 FadeInOutController._2DFadePanel.StartBlackFadeOut(0.1f);
 
                 //2DCamera位置を元の位置に

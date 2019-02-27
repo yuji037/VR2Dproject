@@ -31,7 +31,8 @@ public class EffectParticleAttractor : EffectBehaviour
         if (refRenderer)
         {
             float posY = refRenderer.material.GetFloat("_Pos");
-            transform.position = new Vector3(refRenderer.transform.position.x, posY, refRenderer.transform.position.z);
+            //transform.position = new Vector3(refRenderer.transform.position.x, posY, refRenderer.transform.position.z);
+            transform.position = refRenderer.transform.position;
         }
     }
     void Update()
@@ -58,7 +59,8 @@ public class EffectParticleAttractor : EffectBehaviour
         if (refRenderer)
         {
             float posY = refRenderer.material.GetFloat("_Pos");
-            transform.position = new Vector3(refRenderer.transform.position.x, posY, refRenderer.transform.position.z);
+            //transform.position = new Vector3(refRenderer.transform.position.x, posY, refRenderer.transform.position.z);
+            transform.position = refRenderer.transform.position;
         }
     }
 
@@ -79,7 +81,7 @@ public class EffectParticleAttractor : EffectBehaviour
                     if (vrChara)
                         refRenderer = vrChara.GetComponentInChildren<SkinnedMeshRenderer>();
                     else
-                        Debug.Log("見つからず");
+                        Debug.Log(targetName + "見つからず");
                 }
                 break;
             case 2:

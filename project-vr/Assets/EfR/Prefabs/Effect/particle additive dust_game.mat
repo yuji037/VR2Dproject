@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: particle additive dust
-  m_Shader: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
+  m_Name: particle additive dust_game
+  m_Shader: {fileID: 4800000, guid: ada21d1413784ac4db6e97d3902a5e32, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -70,6 +70,11 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _StencilComp: 7
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilReferenceID: 16
+    - _StencilWriteMask: 255
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:

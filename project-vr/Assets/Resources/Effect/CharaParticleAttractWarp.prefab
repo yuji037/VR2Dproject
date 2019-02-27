@@ -89,7 +89,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1410362986332908}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.566}
+  m_LocalPosition: {x: -10.82, y: 0, z: -27.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4911232755013776}
@@ -203,9 +203,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyTime: 3
   m_psAttract: {fileID: 198102570298805716}
+  refRenderer: {fileID: 0}
   endPoint: {fileID: 0}
   endPosition: {x: -1, y: -1, z: -1}
   speed: 5
+  startPointSeekParent: 0
 --- !u!135 &135982516050039554
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -278,7 +280,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: 358106537
+  randomSeed: 406647334
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3567,7 +3569,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: -769313035
+  randomSeed: -466131181
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6895,7 +6897,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1341547914
+  randomSeed: -986006761
   InitialModule:
     serializedVersion: 3
     enabled: 1
