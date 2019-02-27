@@ -398,11 +398,11 @@ public class PlayerMove : NetworkBehaviour
 				}
 				Debug.Log("PlayerMove.freezePosition : " + freezeAxis);
 			}
-			if ( fixedPosition == Vector3.zero && Time.realtimeSinceStartup > 15f )
-			{
-				fixedPosition = transform.position;
-				return;
-			}
+			//if ( fixedPosition == Vector3.zero && Time.realtimeSinceStartup > 15f )
+			//{
+			//	fixedPosition = transform.position;
+			//	return;
+			//}
 
 			if ( freezeAxis != Vector3.zero && fixedPosition != Vector3.zero )
 			{
