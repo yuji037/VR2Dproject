@@ -9,12 +9,12 @@ public class GimmickCreateLeadEffect : GimmickBase{
     StagePathLeader stagePathLeader;
 	// Use this for initialization
 	void Start () {
-        //m_aTriggerEnterAction += HitAction;
-        m_aPointerHitAction += HitAction;
+        m_acTriggerEnterAction += HitAction;
 	}
-	void HitAction(int id)
+	void HitAction(Collider collider)
     {
-        if (id==triggerID)
+        if (collider.gameObject==PlayerManager.LocalPlayer&&
+            PlayerManager.playerMove.moveType==PlayerMove.MoveType.FIXED)
         {
             stagePathLeader.CreateLeadEffect(transform.position);
         }

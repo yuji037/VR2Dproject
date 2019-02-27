@@ -34,7 +34,7 @@ public class DollyMoveObject : NetworkBehaviour{
 
     void Start()
     {
-        currentPathValue = defaultPathValue;
+        currentPathValue = path.GetPathDistanceFromPosition(defaultPathValue);
         transform.position = path.EvaluatePositionAtUnit(currentPathValue, CinemachinePathBase.PositionUnits.Distance);
     }
     bool IsReady()

@@ -24,6 +24,9 @@ where T : SingletonMonoBehaviour<T>
         }
         return Instance;
     }
+
+    public static bool CheckInstance { get { return instance;} }
+
     // ※継承先クラスでAwakeを使う場合はbase.Awake()を呼ぶ。
     protected virtual void Awake()
     {
