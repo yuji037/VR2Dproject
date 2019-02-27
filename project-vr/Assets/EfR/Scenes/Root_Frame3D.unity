@@ -953,11 +953,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 608365358}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.10814716, y: 0.023761576, z: -0.04149991}
-  m_LocalScale: {x: 0.9399333, y: 1.5264328, z: 0.5910045}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 4.090817, y: 8.03613, z: 8.278832}
   m_Children: []
-  m_Father: {fileID: 1720873324}
-  m_RootOrder: 4
+  m_Father: {fileID: 1858146371}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!102 &608365360
 TextMesh:
@@ -970,8 +970,8 @@ TextMesh:
   m_OffsetZ: 0
   m_CharacterSize: 0.002
   m_LineSpacing: 1
-  m_Anchor: 0
-  m_Alignment: 0
+  m_Anchor: 4
+  m_Alignment: 1
   m_TabSize: 4
   m_FontSize: 300
   m_FontStyle: 0
@@ -2155,6 +2155,52 @@ Transform:
   m_Father: {fileID: 530650126}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1005843296
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4344117448512638, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 51.482
+      objectReference: {fileID: 0}
+    - target: {fileID: 4344117448512638, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 9.693
+      objectReference: {fileID: 0}
+    - target: {fileID: 4344117448512638, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 8.088472
+      objectReference: {fileID: 0}
+    - target: {fileID: 4344117448512638, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4344117448512638, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4344117448512638, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4344117448512638, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4344117448512638, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1728618673667674, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
+  m_IsPrefabParent: 0
 --- !u!4 &1012710207 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4638639929969146, guid: 87b0c549e09d6a24dbf1c2588878a79f,
@@ -7194,8 +7240,6 @@ Transform:
   - {fileID: 1531834763}
   - {fileID: 1759865892}
   - {fileID: 1858146371}
-  - {fileID: 1919541602}
-  - {fileID: 608365359}
   m_Father: {fileID: 530650126}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7458,6 +7502,8 @@ GameObject:
   - component: {fileID: 1759865895}
   - component: {fileID: 1759865894}
   - component: {fileID: 1759865893}
+  - component: {fileID: 1759865900}
+  - component: {fileID: 1759865899}
   m_Layer: 8
   m_Name: YesButton
   m_TagString: Untagged
@@ -7474,7 +7520,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.11609919, y: 0, z: -0.006000008}
   m_LocalScale: {x: 0.22976676, y: 0.18994738, z: 0.0713879}
-  m_Children: []
+  m_Children:
+  - {fileID: 1919541602}
   m_Father: {fileID: 1720873324}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7508,8 +7555,8 @@ MonoBehaviour:
   m_PushObject: {fileID: 1759865892}
   m_IsActPointerHit: 0
   m_IsActOnRelease: 0
-  m_vPushedVector: {x: 0, y: 0, z: 0.2}
-  m_fPerformSpeed: 1
+  m_vPushedVector: {x: 0, y: 0, z: 0.01}
+  m_fPerformSpeed: 10
   m_IsToggle: 0
   m_IsSwitchingNotifyToClient: 1
   pushJudgePlayerNumber: 0
@@ -7587,7 +7634,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1759865891}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -7599,6 +7646,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1759865891}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &1759865899
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1759865891}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &1759865900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1759865891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a93688140d10f634cbe3fb376ba860f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneID: 1300
 --- !u!1 &1762852016
 GameObject:
   m_ObjectHideFlags: 0
@@ -7741,6 +7815,8 @@ GameObject:
   - component: {fileID: 1858146374}
   - component: {fileID: 1858146373}
   - component: {fileID: 1858146372}
+  - component: {fileID: 1858146379}
+  - component: {fileID: 1858146378}
   m_Layer: 8
   m_Name: NoButton
   m_TagString: Untagged
@@ -7757,7 +7833,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.20834234, y: 0, z: -0.006000008}
   m_LocalScale: {x: 0.22976668, y: 0.18994625, z: 0.07138742}
-  m_Children: []
+  m_Children:
+  - {fileID: 608365359}
   m_Father: {fileID: 1720873324}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7791,8 +7868,8 @@ MonoBehaviour:
   m_PushObject: {fileID: 1858146371}
   m_IsActPointerHit: 0
   m_IsActOnRelease: 0
-  m_vPushedVector: {x: 0, y: 0, z: 0.2}
-  m_fPerformSpeed: 1
+  m_vPushedVector: {x: 0, y: 0, z: 0.01}
+  m_fPerformSpeed: 10
   m_IsToggle: 0
   m_IsSwitchingNotifyToClient: 1
   pushJudgePlayerNumber: 0
@@ -7870,7 +7947,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1858146370}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -7882,6 +7959,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1858146370}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &1858146378
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1858146370}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &1858146379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1858146370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a93688140d10f634cbe3fb376ba860f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneID: 1301
 --- !u!1 &1910243838
 GameObject:
   m_ObjectHideFlags: 0
@@ -7992,11 +8096,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1919541601}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.20198071, y: 0.04390719, z: -0.04000017}
-  m_LocalScale: {x: 0.9399333, y: 1.5264328, z: 0.5910045}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 4.0908155, y: 8.036082, z: 8.278777}
   m_Children: []
-  m_Father: {fileID: 1720873324}
-  m_RootOrder: 3
+  m_Father: {fileID: 1759865892}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!102 &1919541603
 TextMesh:
@@ -8009,8 +8113,8 @@ TextMesh:
   m_OffsetZ: 0
   m_CharacterSize: 0.002
   m_LineSpacing: 1
-  m_Anchor: 0
-  m_Alignment: 0
+  m_Anchor: 4
+  m_Alignment: 1
   m_TabSize: 4
   m_FontSize: 300
   m_FontStyle: 0
