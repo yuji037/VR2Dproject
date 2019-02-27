@@ -19,6 +19,14 @@ public class GimmickManager : SingletonMonoBehaviour<GimmickManager> {
 
     }
 
+    public void Unregister(IActor gimmick)
+    {
+        if (m_dcGimmickBases.ContainsKey(gimmick.GetID()))
+        {
+            m_dcGimmickBases.Remove(gimmick.GetID());
+        }
+    }
+
     public static IActor GetActor(int gimmickID)
     {
         var gmInstance = GetInstance();

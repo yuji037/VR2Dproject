@@ -137,5 +137,10 @@ public abstract class GimmickBase : NetworkBehaviour,IActor
         NetworkServer.Destroy(this.gameObject);
     }
 
+    private void OnDestroy()
+    {
+        if (GimmickManager.CheckInstance)
+            GimmickManager.GetInstance().Unregister(this);
+    }
 
 }
