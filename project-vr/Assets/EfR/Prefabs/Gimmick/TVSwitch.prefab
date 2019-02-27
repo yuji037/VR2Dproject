@@ -26,7 +26,6 @@ GameObject:
   - component: {fileID: 114823868849523620}
   - component: {fileID: 114348630931863860}
   - component: {fileID: 65515269304260606}
-  - component: {fileID: 114319615837771602}
   m_Layer: 8
   m_Name: TVSwitch
   m_TagString: Untagged
@@ -127,25 +126,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_iGimmickID: 1001
-  switchAction: {fileID: 114319615837771602}
   m_iTriggerGimmickIDs: 02000000
+  m_iActorGimmickIDs: 
+  m_PushObject: {fileID: 0}
   m_IsActPointerHit: 0
   m_IsActOnRelease: 0
   m_vPushedVector: {x: 0, y: -0.02, z: 0}
   m_fPerformSpeed: 2
   m_IsToggle: 0
+  m_IsSwitchingNotifyToClient: 0
+  pushJudgePlayerNumber: 0
   m_IsPushing: 0
---- !u!114 &114319615837771602
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1148520399307572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b2ebb914de0d5c4d8c8df4175d56a25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114348630931863860
 MonoBehaviour:
   m_ObjectHideFlags: 1
