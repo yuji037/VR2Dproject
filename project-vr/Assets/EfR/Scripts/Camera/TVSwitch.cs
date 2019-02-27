@@ -24,6 +24,7 @@ public static class TVSwitch
                 TVMask = GameObject.Find("TVMask");
             }
             TVMask.SetActive(!value);
+            SoundManager.GetInstance().Play("menu_start");
         }
     }
 }
