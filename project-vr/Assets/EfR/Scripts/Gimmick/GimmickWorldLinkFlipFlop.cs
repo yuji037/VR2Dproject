@@ -28,8 +28,8 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 		if(collider.gameObject.tag == "Player" )
 		{
 			var trigrPlayer = collider.gameObject;
-			int fragNum = ( trigrPlayer == PlayerManager.LocalPlayer ) ? 0 : 1;
-			CmdSetFrag(/*fragNum, */true);
+			int playerNum = ( trigrPlayer == PlayerManager.LocalPlayer ) ? 0 : 1;
+			CmdSetFrag(playerNum, true);
 		}
 	}
 
@@ -38,12 +38,12 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 		if ( collider.gameObject.tag == "Player" )
 		{
 			var trigrPlayer = collider.gameObject;
-			int fragNum = ( trigrPlayer == PlayerManager.LocalPlayer ) ? 0 : 1;
-			CmdSetFrag(/*fragNum, */false);
+			int playerNum = ( trigrPlayer == PlayerManager.LocalPlayer ) ? 0 : 1;
+			CmdSetFrag(playerNum, false);
 		}
 	}
 
-	void CheckFlipFlop()
+	void CheckFlipFlop(int playerNum)
 	{
 		//Debug.Log("CheckFlipFlop");
 		//if (PlayerManager.OtherPlayer == null )
@@ -62,17 +62,18 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 		//}
 		if ( isPlayerOn && otherGimmick.isPlayerOn)
 		{
-			FlipFlop();
+			FlipFlop(playerNum);
 		}
 	}
 
 	// サーバーのみで呼ぶべき
-	void FlipFlop()
+	void FlipFlop(int playerNum)
 	{
-		FlipFlopPlayersWorld();
+		FlipFlopPlayersWorld(playerNum);
 		//ResetFrags();
-		CmdSetFrag(false);
-		Deactivate();
+		CmdSetFrag(playerNum, false);
+		otherGimmick.CmdSetFrag(playerNum, false);
+        Deactivate();
 	}
 
 	public void Deactivate()
@@ -92,11 +93,12 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 	
 
 	[Command]
-	void CmdSetFrag(/*int fragNum, */bool isTrue)
+	void CmdSetFrag(int playerNum, bool isTrue)
 	{
 		//frags[fragNum] = isTrue;
 		isPlayerOn = isTrue;
-		CheckFlipFlop();
+        if (isTrue)
+            CheckFlipFlop(playerNum);
 	}
 
 	//void ResetFrags()
@@ -106,15 +108,17 @@ public class GimmickWorldLinkFlipFlop : GimmickBase {
 	//}
 
 	// 1人プレイなら1人だけ切り替わる
-	void FlipFlopPlayersWorld()
+	void FlipFlopPlayersWorld(int num)
 	{
-		var localPlayer = PlayerManager.LocalPlayer;
-		var otherPlayer = PlayerManager.OtherPlayer;
+        var numbers = new int[] { 0, 1 };
+		var hitPlayer = PlayerManager.Players[num];
+        int otherNum = numbers.Where(n => n != num).FirstOrDefault();
+		var otherPlayer = PlayerManager.Players[otherNum];
 
 		PlayerMove.MoveType triggeredPlayerTransMoveTypeTo;
-		triggeredPlayerTransMoveTypeTo = ( localPlayer.GetComponent<PlayerMove>().moveType == PlayerMove.MoveType.FIXED ) ?
+		triggeredPlayerTransMoveTypeTo = ( hitPlayer.GetComponent<PlayerMove>().moveType == PlayerMove.MoveType.FIXED ) ?
 			PlayerMove.MoveType._2D : PlayerMove.MoveType.FIXED;
-		localPlayer.GetComponent<PlayerStatus>().RpcTransWorld(triggeredPlayerTransMoveTypeTo, transform.position);
+		hitPlayer.GetComponent<PlayerStatus>().RpcTransWorld(triggeredPlayerTransMoveTypeTo, transform.position);
 
 		if(otherPlayer != null )
 		{
