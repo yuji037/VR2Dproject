@@ -1590,6 +1590,7 @@ MonoBehaviour:
   tutorialObject: {fileID: 114351827839375136, guid: fefd4517f3db1394d864ee8fadea4178,
     type: 2}
   targetObjects: []
+  displayTime: 0
 --- !u!65 &322593038
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2680,6 +2681,7 @@ MonoBehaviour:
   tutorialObject: {fileID: 114414796323113274, guid: 68e67d42a0562fc43a6bd18c182db6fe,
     type: 2}
   targetObjects: []
+  displayTime: 0
 --- !u!65 &474255142
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3379,6 +3381,7 @@ MonoBehaviour:
   tutorialObject: {fileID: 114221407918308604, guid: 03b4ab94c26912845a939c5a29329c77,
     type: 2}
   targetObjects: []
+  displayTime: 0
 --- !u!65 &548285280
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4368,6 +4371,7 @@ MonoBehaviour:
   tutorialObject: {fileID: 114133521587644458, guid: 3bef5bd4669dd0d44b38081dc63d33d8,
     type: 2}
   targetObjects: []
+  displayTime: 0
 --- !u!65 &725604827
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6304,6 +6308,7 @@ MonoBehaviour:
   tutorialObject: {fileID: 114496714885451080, guid: 7fe1c259e14429b43bc27eb6ff00d244,
     type: 2}
   targetObjects: []
+  displayTime: 0
 --- !u!65 &1085123952
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7262,7 +7267,7 @@ Prefab:
     - target: {fileID: 20731659328252208, guid: da177103727906942b605c4714fa28ec,
         type: 2}
       propertyPath: near clip plane
-      value: 5
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 114810220201076690, guid: da177103727906942b605c4714fa28ec,
         type: 2}
@@ -7879,6 +7884,7 @@ MonoBehaviour:
   tutorialObject: {fileID: 114127509443600754, guid: e802857cb1e5a204180a515b58363d9d,
     type: 2}
   targetObjects: []
+  displayTime: 0
 --- !u!65 &1474801587
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7950,6 +7956,7 @@ MonoBehaviour:
   tutorialObject: {fileID: 114971935138184652, guid: f469421632cdf4b4a881cd3a32b350f1,
     type: 2}
   targetObjects: []
+  displayTime: 0
 --- !u!65 &1475471325
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9032,6 +9039,7 @@ MonoBehaviour:
   displayPlayerNumber: 1
   tutorialObject: {fileID: 0}
   targetObjects: []
+  displayTime: 0
 --- !u!65 &1640372692
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9893,7 +9901,7 @@ Prefab:
     - target: {fileID: 114843431213773182, guid: 65a23e1940157e846855218717275238,
         type: 2}
       propertyPath: m_Lens.NearClipPlane
-      value: 5
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 65a23e1940157e846855218717275238, type: 2}
@@ -9948,6 +9956,7 @@ MonoBehaviour:
   tutorialObject: {fileID: 114443095956776252, guid: 3b12baad0ce42b44fb4ebce31499be43,
     type: 2}
   targetObjects: []
+  displayTime: 1
 --- !u!65 &1804011622
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11261,6 +11270,7 @@ MonoBehaviour:
   tutorialObject: {fileID: 114349937078491666, guid: 405756e3d9f26d24b8f2c5085d11d6f6,
     type: 2}
   targetObjects: []
+  displayTime: 0
 --- !u!65 &2056977188
 BoxCollider:
   m_ObjectHideFlags: 0
