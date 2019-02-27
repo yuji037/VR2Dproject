@@ -28,8 +28,6 @@ public class LaserPointerBase : NetworkBehaviour
 
     GimmickBase preHitGimmick;
 
-    //ToDo:後でplayermanagerにLocalPlayerMoveを持たせてもらう
-    PlayerMove localPlaerMove;
     private void Start()
     {
         ownerCollider = GetComponent<Collider>();
@@ -38,11 +36,8 @@ public class LaserPointerBase : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!localPlaerMove&&PlayerManager.LocalPlayer)
-        {
-            localPlaerMove = PlayerManager.LocalPlayer.GetComponent<PlayerMove>();
-        }
         if(lineRenderer)lineRenderPositions.Clear();
+        if (PlayerManager.playerMove.moveType == PlayerMove.MoveType._2D) return;
         OnFlameStart();
         if (isFixPointer)
         {

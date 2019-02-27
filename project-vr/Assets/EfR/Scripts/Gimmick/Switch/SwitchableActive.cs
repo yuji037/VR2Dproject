@@ -8,35 +8,46 @@ public class SwitchableActive : MonoBehaviour,ISwitchableObject {
     [SerializeField]
     bool defaultActive;
 
+    [SerializeField]
+    bool isNetworkObject;
+
     public void Start()
     {
-        gameObject.SetActive(defaultActive);
+        SetActive(defaultActive);
     }
 
     public void OnAction()
     {
-        gameObject.SetActive(!defaultActive);
+        SetActive(!defaultActive);
     }
 
     public void OffAction()
     {
-        gameObject.SetActive(defaultActive);
+        SetActive(defaultActive);
     }
 
-    //[Command]
-    //void CmdSetActive(bool active)
-    //{
-    //    RpcSetActive(active);
-    //}
+    void SetActive(bool active)
+    {
+        if (isNetworkObject)
+        {
+            SetNetworkActive(active);
+        }
+        else
+        {
+            gameObject.SetActive(active);
+        }
+    }
 
-    //[ClientRpc]
-    //void RpcSetActive(bool active)
-    //{
-    //    TargetSetActive(active);
-    //}
+    void SetNetworkActive(bool active)
+    {
+        foreach (var c in gameObject.GetComponentsInChildren<Collider>())
+        {
+            c.enabled = active;
+        }
+        foreach (var c in gameObject.GetComponentsInChildren<Renderer>())
+        {
+            c.enabled = active;
+        }
+    }
 
-    //void TargetSetActive(bool active)
-    //{
-    //    gameObject.SetActive(active);
-    //}
 }
