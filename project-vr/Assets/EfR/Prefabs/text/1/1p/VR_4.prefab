@@ -216,7 +216,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1835284378666374
 GameObject:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -288,7 +288,7 @@ Transform:
   m_LocalScale: {x: 0.4, y: 0.12, z: 0.50000006}
   m_Children: []
   m_Father: {fileID: 4369946826917530}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 48.08, y: 0, z: 0}
 --- !u!4 &4130063472374754
 Transform:
@@ -313,6 +313,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
+  - {fileID: 4708084523884402}
   - {fileID: 4369946826917530}
   - {fileID: 4523893864874958}
   m_Father: {fileID: 0}
@@ -382,10 +383,9 @@ Transform:
   m_Children:
   - {fileID: 4303845525393528}
   - {fileID: 4012538477334982}
-  - {fileID: 4708084523884402}
   - {fileID: 4097981293803292}
   m_Father: {fileID: 4132881301625838}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4403418711117218
 Transform:
@@ -445,7 +445,7 @@ Transform:
   - {fileID: 4518152312648516}
   - {fileID: 4130063472374754}
   m_Father: {fileID: 4132881301625838}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4598530115691562
 Transform:
@@ -468,10 +468,10 @@ Transform:
   m_GameObject: {fileID: 1835284378666374}
   m_LocalRotation: {x: 0.40737423, y: -0, z: -0, w: 0.91326135}
   m_LocalPosition: {x: -0.15, y: 0.13, z: 0.0916}
-  m_LocalScale: {x: 0.060000002, y: 0.06, z: 0.5000001}
+  m_LocalScale: {x: 0.060000002, y: 0.060000006, z: 0.50000024}
   m_Children: []
-  m_Father: {fileID: 4369946826917530}
-  m_RootOrder: 2
+  m_Father: {fileID: 4132881301625838}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23121420180907492
 MeshRenderer:
@@ -1007,6 +1007,7 @@ MonoBehaviour:
   parentName: controller_left
   inactiveObjInPlayMode: {fileID: 1146837518695670}
   isLocalPlayerCanMove: 1
+  lineOffsetMoveSpeed: 1
 --- !u!198 &198644950089810572
 ParticleSystem:
   m_ObjectHideFlags: 1
