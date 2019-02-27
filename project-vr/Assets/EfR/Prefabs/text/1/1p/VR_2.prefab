@@ -116,7 +116,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1446027242090046
 GameObject:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -276,10 +276,9 @@ Transform:
   m_Children:
   - {fileID: 4461568736784770}
   - {fileID: 4769635197378622}
-  - {fileID: 4117757507240146}
   - {fileID: 4190775186609464}
   m_Father: {fileID: 4509352786633960}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4117757507240146
 Transform:
@@ -289,10 +288,10 @@ Transform:
   m_GameObject: {fileID: 1446027242090046}
   m_LocalRotation: {x: 0.40737423, y: -0, z: -0, w: 0.91326135}
   m_LocalPosition: {x: -0.15, y: 0.13, z: 0.0916}
-  m_LocalScale: {x: 0.060000002, y: 0.06, z: 0.5000001}
+  m_LocalScale: {x: 0.060000002, y: 0.060000006, z: 0.50000024}
   m_Children: []
-  m_Father: {fileID: 4012515868448496}
-  m_RootOrder: 2
+  m_Father: {fileID: 4509352786633960}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4190775186609464
 Transform:
@@ -305,7 +304,7 @@ Transform:
   m_LocalScale: {x: 0.4, y: 0.12, z: 0.50000006}
   m_Children: []
   m_Father: {fileID: 4012515868448496}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 48.08, y: 0, z: 0}
 --- !u!4 &4461568736784770
 Transform:
@@ -343,6 +342,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
+  - {fileID: 4117757507240146}
   - {fileID: 4012515868448496}
   - {fileID: 4674100186557428}
   m_Father: {fileID: 0}
@@ -393,7 +393,7 @@ Transform:
   - {fileID: 4725872201556074}
   - {fileID: 4624205171151388}
   m_Father: {fileID: 4509352786633960}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4676540874911040
 Transform:
@@ -1007,6 +1007,7 @@ MonoBehaviour:
   parentName: controller_left
   inactiveObjInPlayMode: {fileID: 1799368614883058}
   isLocalPlayerCanMove: 1
+  lineOffsetMoveSpeed: 1
 --- !u!198 &198653054240625968
 ParticleSystem:
   m_ObjectHideFlags: 1
