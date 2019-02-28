@@ -41,35 +41,31 @@ public class GimmickRocket : GimmickBase
     void Jump(Collider collider)
     {
         var pm = collider.GetComponent<PlayerMove>();
+        if (!pm) return;
         if (pm == PlayerManager.playerMove)
         {
             Debug.Log("jump!");
             pm.Jump(playerJumpPower);
-            CmdDestroy();
             foreach(var i in GetComponentsInChildren<Collider>())
             {
                 i.enabled = false;
             }
         }
+        if (isServer) DestroyThisObject();
     }
 
     void PlayerRespawnAndSuicide(Collider collider)
     {
         var pm = collider.GetComponent<PlayerMove>();
+        if (!pm) return;
         if (pm == PlayerManager.playerMove)
         {
             PlayerRespawner.GetInstance().RespawnLocalPlayer();
-            CmdDestroy();
             foreach (var i in GetComponentsInChildren<Collider>())
             {
                 i.enabled = false;
             }
         }
-    }
-
-    [Command]
-    void CmdDestroy()
-    {
-        DestroyThisObject();
+        if (isServer) DestroyThisObject();
     }
 }
