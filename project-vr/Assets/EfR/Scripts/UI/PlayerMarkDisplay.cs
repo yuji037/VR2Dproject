@@ -71,10 +71,9 @@ public class PlayerMarkDisplay : MonoBehaviour
                 {
                     mark.transform.localPosition = Vector3.Lerp(mark.transform.localPosition,markPos,0.1f);
                 }
-                Vector2 pScreenPos=targetCamera.ViewportToScreenPoint(viewPort);
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(), pScreenPos, UICamera, out pScreenPos);
-                Debug.Log("ppos:"+pScreenPos+"correctedPos:"+markPos);
-                yazirusi.transform.localRotation=Quaternion.FromToRotation(markPos,pScreenPos);
+                var angle=Mathf.Atan2(markPos.y, markPos.x);
+                yazirusi.transform.localEulerAngles= new Vector3 (0,0,angle*Mathf.Rad2Deg);
+
                 preViewPort = correctedViewPos;
             }
             else
