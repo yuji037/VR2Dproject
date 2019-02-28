@@ -5,6 +5,9 @@ using Cinemachine;
 
 public class Camera2DController : CameraControllerBase
 {
+    [SerializeField]
+    float offsetDumping=0.05f;
+
     [System.Serializable]
     public struct CameraParam
     {
@@ -16,6 +19,10 @@ public class Camera2DController : CameraControllerBase
         [SerializeField, Header("0以下だと、cameraの既存の値が使われる")]
         public float distance;
     }
+
+    float nextScreenX=-1.0f;
+    float nextScreenY=-1.0f;
+
 
     public enum WorldDirection
     {
@@ -30,12 +37,22 @@ public class Camera2DController : CameraControllerBase
         var cft = CurrentVCam.GetCinemachineComponent<CinemachineFramingTransposer>();
         cft.m_DeadZoneWidth = param.offSetWidth;
         cft.m_DeadZoneHeight = param.offSetHeight;
-        cft.m_ScreenX = param.screenX;
-        cft.m_ScreenY = param.screenY;
+        nextScreenX = param.screenX;
+        nextScreenY = param.screenY;
         if (param.distance > 0) cft.m_CameraDistance = param.distance;
         ChangeCameraDirection(param.angle);
     }
-
+    private void Update()
+    {
+        var cft = CurrentVCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+        if (cft &&
+            nextScreenX > -1.0f&&
+            nextScreenY > -1.0f)
+        {
+            cft.m_ScreenX = Mathf.Lerp(cft.m_ScreenX, nextScreenX, offsetDumping);
+            cft.m_ScreenY = Mathf.Lerp(cft.m_ScreenY, nextScreenY, offsetDumping);
+        }
+    }
     public void ChangeTargetToLocalPlayer()
     {
         if (CurrentVCam) CurrentVCam.Follow = PlayerManager.LocalPlayer.transform;
