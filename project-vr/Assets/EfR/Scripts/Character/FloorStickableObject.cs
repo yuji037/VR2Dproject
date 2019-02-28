@@ -27,42 +27,49 @@ public class FloorStickableObject : MonoBehaviour
     void Update()
     {
         if (netId && !netId.hasAuthority) return;
-
+        var origin = transform.position;
+        origin.y -= halfExtents.y*0.52f;
         RaycastHit hit;
-        if (Physics.BoxCast(transform.position, halfExtents, Vector3.down, out hit, transform.rotation, 0.1f) &&
+        if (Physics.Raycast(
+            transform.position + new Vector3(0, 0.1f, 0),
+            Vector3.down,
+            out hit,
+            halfExtents.y)&&
             hit.collider.gameObject.tag == "LaserPointerFloorCreate")
         {
-            if (m_RigidBody)
-            {
-                stickTarget = hit.transform;
-                preTargetPos = hit.transform.position;
-            }
-            else
-            {
-                transform.parent = hit.transform;
-            }
+            Debug.Log(hit.transform);
+            stickTarget = hit.transform;
+            preTargetPos = stickTarget.transform.position;
         }
         else
         {
-            if (m_RigidBody)
-            {
-                stickTarget = null;
-            }
-            else
-            {
-                transform.parent = defaultParent;
-            }
+            stickTarget = null;
         }
+        if (!IsRigidBodyMove()&&
+            stickTarget)
+        {
+            var move = stickTarget.transform.position - preTargetPos;
+            transform.Translate(move,Space.World);
+            preTargetPos = stickTarget.transform.position;
+            Debug.Log("TR"+move);
+        }
+    }
+
+    bool IsRigidBodyMove()
+    {
+        return m_RigidBody &&
+            !m_RigidBody.isKinematic;
     }
 
     private void FixedUpdate()
     {
-        if (m_RigidBody&&
+        if (IsRigidBodyMove()&&
             stickTarget)
         {
             var move=stickTarget.transform.position-preTargetPos;
             m_RigidBody.MovePosition(transform.position+move);
             preTargetPos = stickTarget.transform.position;
+            Debug.Log("RI"+move);
         }
     }
 }
