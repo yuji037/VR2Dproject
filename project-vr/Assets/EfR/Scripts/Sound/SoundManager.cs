@@ -242,6 +242,9 @@ public class SoundManager : NetworkBehaviour {
 
     public void UpdateBGMParam()
     {
+        if (m_iStageBGMChannel == -1)
+            return;
+
         Vector3 bgmPosition = Vector3.zero;
         int soundSettingID = 0;
         GetBGMSettingParam(out bgmPosition, out soundSettingID);
