@@ -40,7 +40,8 @@ public class PlayerMarkDisplay : MonoBehaviour
     {
         if (targetCamera && PlayerManager.LocalPlayer &&
             PlayerManager.playerMove.moveType==PlayerMove.MoveType.FIXED&&
-            ViewSwitchPerformer .CheckInstance)
+            ViewSwitchPerformer .CheckInstance&&
+            PlayerManager.playerMove.canMove)
         {
             var pPos = PlayerManager.LocalPlayer.transform.position;
             var viewPos = targetCamera.WorldToViewportPoint(pPos);
@@ -73,7 +74,6 @@ public class PlayerMarkDisplay : MonoBehaviour
                 Vector2 pScreenPos=targetCamera.ViewportToScreenPoint(viewPort);
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(), pScreenPos, UICamera, out pScreenPos);
                 Debug.Log("ppos:"+pScreenPos+"correctedPos:"+markPos);
-
                 yazirusi.transform.localRotation=Quaternion.FromToRotation(markPos,pScreenPos);
                 preViewPort = correctedViewPos;
             }
