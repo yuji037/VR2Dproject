@@ -9,9 +9,6 @@ public class DollyMoveObject : NetworkBehaviour{
     public CinemachineSmoothPath path;
 
     [SerializeField]
-    float defaultPathValue;
-
-    [SerializeField]
     float moveSpeed;
 
     float currentPathValue;
@@ -22,7 +19,6 @@ public class DollyMoveObject : NetworkBehaviour{
     [SerializeField]
     bool selfTurn;
 
-    [SerializeField]
     bool isLoop;
 
     [SerializeField]
@@ -34,8 +30,10 @@ public class DollyMoveObject : NetworkBehaviour{
 
     void Start()
     {
-        currentPathValue = path.GetPathDistanceFromPosition(defaultPathValue);
+        currentPathValue = path.FindClosestPoint(transform.position, Mathf.FloorToInt(0), 2, 5);
+        currentPathValue= path.GetPathDistanceFromPosition(currentPathValue);
         transform.position = path.EvaluatePositionAtUnit(currentPathValue, CinemachinePathBase.PositionUnits.Distance);
+        isLoop = path.Looped;
     }
     bool IsReady()
     {
