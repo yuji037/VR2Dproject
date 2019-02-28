@@ -21,7 +21,7 @@ public class GameOverManager : NetworkBehaviour {
     [SerializeField]
     CameraClearFlags vrGameOverCameraClearFlags;
 
-    private void Start()
+    public override void OnStartClient()
     {
         if (instance)
         {
