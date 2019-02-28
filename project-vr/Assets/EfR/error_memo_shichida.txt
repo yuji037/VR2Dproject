@@ -34,3 +34,13 @@ HitNotifier:OnTriggerEnter(Collider) (at Assets/EfR/Scripts/Gimmick/HitNotifier.
 ÅiÇ®ÇªÇÁÇ≠GimmickRocketÅj
 Could not find target object with netId:271 for RPC call ClientRpc:InvokeRpcTargetSyncNextPos
 UnityEngine.Networking.NetworkIdentity:UNetStaticUpdate()
+
+Prefab 'DollyFloorAndSwitch' has several NetworkIdentity components attached to itself or its children, this is not supported.
+UnityEditor.Build.BuildPipelineInterfaces:OnSceneProcess(Scene, Boolean)
+
+
+BoxColliders does not support negative scale or size.
+The effective box size has been forced positive and is likely to give unexpected collision geometry.
+If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "StageObjects/P2Objects/section2/Ground (33)"
+
+
