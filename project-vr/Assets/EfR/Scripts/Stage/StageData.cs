@@ -31,4 +31,11 @@ public class StageData : ScriptableObject {
     {
         get { return stageImage;}
     }
+
+	[SerializeField]
+	int stageDefaultPlayerLife;
+	public int StageDefaultPlayerLife
+	{
+		get { return stageDefaultPlayerLife; }
+	}
 }

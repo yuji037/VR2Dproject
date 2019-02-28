@@ -23,7 +23,15 @@ public static class TVSwitch
             {
                 TVMask = GameObject.Find("TVMask");
             }
-            TVMask.SetActive(!value);
+			if ( TVMask.activeInHierarchy && value)
+			{
+				SoundManager.GetInstance().PlayBGM("title");
+			}
+			if ( !TVMask.activeInHierarchy && !value )
+			{
+				SoundManager.GetInstance().StopBGM();
+			}
+			TVMask.SetActive(!value);
             //SoundManager.GetInstance().Play("menu_start");
         }
     }
