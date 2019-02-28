@@ -17,7 +17,10 @@ public class GimmickBalanceController : MonoBehaviour
     int maxSubCount;
 
     [SerializeField]
-    GameObject axis;
+    LineRenderer xLineRenderer;
+
+    [SerializeField]
+    LineRenderer yLineRenderer;
 
     [SerializeField]
     float oneFlameMove = 0.05f;
@@ -43,6 +46,11 @@ public class GimmickBalanceController : MonoBehaviour
     void Start()
     {
         defaultY = transform.position.y;
+        var centerPos= (rightGimmickBalancer.transform.position + leftGimmickBalancer.transform.position)*0.5f;
+        centerPos.y = defaultY;
+        yLineRenderer.SetPosition(0, centerPos);
+        centerPos.y += 10.0f;
+        yLineRenderer.SetPosition(1, centerPos);
     }
 
     // Update is called once per frame
@@ -82,7 +90,8 @@ public class GimmickBalanceController : MonoBehaviour
             rightGimmickBalancer.transform.position = Vector3.Lerp(rightGimmickBalancer.transform.position, toRightPos, oneFlameMove);
 
         }
-        axis.transform.right=rightGimmickBalancer.transform.position-axis.transform.position;
+        xLineRenderer.SetPosition(0, rightGimmickBalancer.transform.position);
+        xLineRenderer.SetPosition(1, leftGimmickBalancer.transform.position);
 
     }
 }
