@@ -40,6 +40,8 @@ public class GameOverManager : NetworkBehaviour {
     void Init () {
         fadeGameOverPanel = new FadeInOutController.FadePanel(this, _2DgameOverPanel);
         fadeGameOverReturnPanel = new FadeInOutController.FadePanel(this, _2DgameOverReturnPanel);
+        var netId = GetComponent<NetworkIdentity>();
+        if (netId.localPlayerAuthority) PlayerManager.playerStatus.SetAuth(netId);
     }
 	
     [Command]
