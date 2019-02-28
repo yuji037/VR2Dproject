@@ -191,6 +191,7 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
     {
         PlayerManager.playerMove.StageInit();
         PlayerManager.playerStatus.StageInit();
+        GameObject.Find("GameOverManager").GetComponent<GameOverManager>().Init();
         vrObjectManager.InitVRCamObject();
 
         Debug.Log("ChangeStage End");

@@ -229,6 +229,7 @@ public class SoundManager : NetworkBehaviour {
 			{
                 var bgmName = pair.BGMName;
 
+                PlayBGM(bgmName);
 				return;
 			}
 		}

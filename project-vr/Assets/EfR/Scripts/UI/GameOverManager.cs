@@ -21,23 +21,20 @@ public class GameOverManager : NetworkBehaviour {
     [SerializeField]
     CameraClearFlags vrGameOverCameraClearFlags;
 
-    public override void OnStartClient()
-    {
-        if (instance)
-        {
-            Debug.LogError(this + "２つ目！");
-        }
-        instance = this;
-        Init();
-    }
-
     public static GameOverManager GetInstance()
     {
         return instance;
     }
 
     // Use this for initialization
-    void Init () {
+    public void Init ()
+    {
+        //if (instance)
+        //{
+        //    Debug.LogError(this + "２つ目！");
+        //}
+        instance = this;
+
         fadeGameOverPanel = new FadeInOutController.FadePanel(this, _2DgameOverPanel);
         fadeGameOverReturnPanel = new FadeInOutController.FadePanel(this, _2DgameOverReturnPanel);
         var netId = GetComponent<NetworkIdentity>();
@@ -112,7 +109,7 @@ public class GameOverManager : NetworkBehaviour {
 
                 FadeInOutController.VRFadePanel.StartBlackFadeOut(1f);
                 yield return new WaitForSeconds(2f);
-                yield return StartCoroutine(FadeVRPanel(gameOverReturnPanel, false, 0f));
+                yield return StartCoroutine(FadeVRPanel(gameOverPanel, false, 0f));
                 yield return StartCoroutine(FadeVRPanel(gameOverReturnPanel, false, 0f));
 
 
