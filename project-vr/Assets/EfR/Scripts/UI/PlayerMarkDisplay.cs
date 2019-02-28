@@ -11,6 +11,9 @@ public class PlayerMarkDisplay : MonoBehaviour
     GameObject mark;
 
     [SerializeField]
+    GameObject yazirusi;
+
+    [SerializeField]
     Vector2 correctVec=new Vector2(0.05f,0.95f);
 
     Camera targetCamera;
@@ -20,6 +23,7 @@ public class PlayerMarkDisplay : MonoBehaviour
     Vector2 preViewPort;
     private void Start()
     {
+        mark.SetActive(false);
         this.GetGameObjectWithCoroutine(CameraUtility.CameraVRName,
             (GameObject go) => {
                 targetCamera = go.GetComponent<CameraVRController>().CenterCam;
@@ -49,6 +53,7 @@ public class PlayerMarkDisplay : MonoBehaviour
                     pPos += targetCamera.transform.forward * (Vector3.Dot(targetCamera.transform.forward, sub) + 5);
                 }
                 mark.SetActive(true);
+                yazirusi.SetActive(true);
                 var viewPort = targetCamera.WorldToViewportPoint(pPos);
                 if (rect.Contains(viewPort))
                 {
@@ -65,12 +70,17 @@ public class PlayerMarkDisplay : MonoBehaviour
                 {
                     mark.transform.localPosition = Vector3.Lerp(mark.transform.localPosition,markPos,0.1f);
                 }
+                Vector2 pScreenPos=targetCamera.ViewportToScreenPoint(viewPort);
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(), pScreenPos, UICamera, out pScreenPos);
+                Debug.Log("ppos:"+pScreenPos+"correctedPos:"+markPos);
 
+                yazirusi.transform.localRotation=Quaternion.FromToRotation(markPos,pScreenPos);
                 preViewPort = correctedViewPos;
             }
             else
             {
                 mark.SetActive(false);
+                yazirusi.SetActive(false);
             }
         }
     }
