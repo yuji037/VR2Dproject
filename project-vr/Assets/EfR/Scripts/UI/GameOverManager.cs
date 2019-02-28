@@ -34,11 +34,14 @@ public class GameOverManager : NetworkBehaviour {
         //    Debug.LogError(this + "２つ目！");
         //}
         instance = this;
+		playerRespawner = PlayerRespawner.GetInstance();
 
         fadeGameOverPanel = new FadeInOutController.FadePanel(this, _2DgameOverPanel);
         fadeGameOverReturnPanel = new FadeInOutController.FadePanel(this, _2DgameOverReturnPanel);
         var netId = GetComponent<NetworkIdentity>();
         if (netId.localPlayerAuthority) PlayerManager.playerStatus.SetAuth(netId);
+
+		CmdSetLife(GameCoordinator.GetInstance().playingStageData.StageDefaultPlayerLife);
     }
 	
     [Command]
@@ -161,4 +164,39 @@ public class GameOverManager : NetworkBehaviour {
         var cameraVRAdjuster = GameObject.Find(CameraUtility.CameraVRName).GetComponent<CameraVRAdjuster>();
         cameraVRAdjuster.ChangeVRCamParamToDefault();
     }
+
+	PlayerRespawner playerRespawner;
+	[SerializeField]
+	Text lifeUIText;
+
+	[Command]
+	public void CmdSetLife(int value)
+	{
+		RpcSetLife(value);
+	}
+
+	[ClientRpc]
+	void RpcSetLife(int value)
+	{
+		playerRespawner.playerLife = value;
+		UpdateLifeUI();
+	}
+
+	[Command]
+	public void CmdChangeLife(int value)
+	{
+		RpcChangeLife(value);
+	}
+
+	[ClientRpc]
+	void RpcChangeLife(int value)
+	{
+		playerRespawner.playerLife += value;
+		UpdateLifeUI();
+	}
+
+	public void UpdateLifeUI()
+	{
+		lifeUIText.text = playerRespawner.playerLife.ToString();
+	}
 }

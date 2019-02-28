@@ -17,7 +17,7 @@ public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
         if (isRespawning) return;
         if (playerLife > 0)
         {
-            playerLife--;
+			GameOverManager.GetInstance().CmdChangeLife(-1);
             StartCoroutine(RespawnCoroutine());
         }
         else

@@ -13,6 +13,11 @@ public class GimmickSave : GimmickBase
 	[SerializeField]
 	GameObject okDisplayObj;
 
+	bool executed = false;
+
+	[SerializeField]
+	int playerLifePlus = 5;
+
 	private void Start()
     {
         isCallOnlyServer = false;
@@ -29,6 +34,10 @@ public class GimmickSave : GimmickBase
                 savePointDisplayObj.SetActive(false);
                 okDisplayObj.SetActive(true);
             }
+			if ( !executed )
+			{
+				GameOverManager.GetInstance().CmdChangeLife(playerLifePlus);
+			}
 		}
     }
 }
