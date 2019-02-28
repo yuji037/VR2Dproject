@@ -5,8 +5,9 @@ using UnityEngine;
 public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
 {
     Vector3 LocalPlayerRespawnPoint;
-    bool isRespawning;
+    public bool isRespawning;
 
+    [Header("残機")]
     public int playerLife = 3;
 
     public void RespawnLocalPlayer()
@@ -21,7 +22,7 @@ public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
         }
         else
         {
-            GameOverManager.GetInstance().CmdGameOver();
+            StartCoroutine(ToGameOverCoroutine());
         }
     }
 
@@ -71,4 +72,33 @@ public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
         isRespawning = false;
 		Debug.Log("Respawn完了");
 	}
+
+    IEnumerator ToGameOverCoroutine()
+    {
+        isRespawning = true;
+
+        // フェードアウト
+        //var respawnPlayerNum = PlayerManager.GetPlayerNumber();
+        var respawnPlayer = PlayerManager.LocalPlayer;
+        var playerStatus = respawnPlayer.GetComponent<PlayerStatus>();
+        var playerMove = respawnPlayer.GetComponent<PlayerMove>();
+        playerStatus.IsPerforming = true;
+        playerStatus.CmdHoloFade(false, 1f);
+        //playerMove.ResetAnimatorParam();
+
+
+        //// エフェクト再生
+        //var effChannel = EffectManager.GetInstance().Play("CharaParticleAttractWarp", respawnPlayer.transform.position, true,
+        //    ((int)playerStatus.Number).ToString(), null, LocalPlayerRespawnPoint);
+
+        // 動けないように
+        PlayerManager.LocalPlayer.GetComponent<PlayerMove>().ResetVelocity();
+        playerMove.canMove = false;
+
+        yield return new WaitUntil(() => playerStatus.IsPerforming == false);
+        // フェードアウト完了
+
+        GameOverManager.GetInstance().CmdGameOver();
+
+    }
 }
