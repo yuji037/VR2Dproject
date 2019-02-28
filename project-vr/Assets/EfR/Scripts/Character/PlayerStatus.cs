@@ -75,6 +75,7 @@ public class PlayerStatus : NetworkBehaviour {
     {
         SetPlayerPopPosition();
 		GetComponent<PlayerMove>().SetFixedPosition(transform.position);
+        PlayerRespawner.GetInstance().isRespawning = false;
     }
 
     public void RendererSwitchForPlayerMoveType(PlayerMove.MoveType moveType)
@@ -212,6 +213,18 @@ public class PlayerStatus : NetworkBehaviour {
 		//holoMat.SetFloat("_Pos", wPosY + ( fadeIn ? 1000 : -1000 ));
 		IsPerforming = false;
 	}
+
+    [Command]
+    public void CmdFadeLocalVRChatChara(bool fadeIn)
+    {
+        RpcFadeLocalVRChatChara(fadeIn);
+    }
+
+    [ClientRpc]
+    void RpcFadeLocalVRChatChara(bool fadeIn)
+    {
+        VRCharaHoloController.GetInstance().VRChatCharaFade((int)Number, fadeIn);
+    }
 
     public void SetAuth(NetworkIdentity target)
     {

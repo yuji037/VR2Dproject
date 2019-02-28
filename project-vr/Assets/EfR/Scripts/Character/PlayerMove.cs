@@ -135,9 +135,9 @@ public class PlayerMove : NetworkBehaviour
             camVRTransform = VRObjectManager.GetInstance().GetBaseCameraObject().transform;
             cam2DTransform = GameObject.Find("Camera2D").transform;
             isReady = true;
-     
+            canMove = true;
         }
-	}
+    }
 
 	public void SetFixedPosition(Vector3 position)
 	{

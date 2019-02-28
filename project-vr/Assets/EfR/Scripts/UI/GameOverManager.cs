@@ -17,9 +17,9 @@ public class GameOverManager : NetworkBehaviour {
     static GameOverManager instance = null;
 
     [SerializeField]
-    LayerMask gameOverCameraCullingMask;
+    LayerMask vrGameOverCameraCullingMask;
     [SerializeField]
-    CameraClearFlags gameOverCameraClearFlags;
+    CameraClearFlags vrGameOverCameraClearFlags;
 
     private void Start()
     {
@@ -65,31 +65,54 @@ public class GameOverManager : NetworkBehaviour {
         switch (moveType){
             case PlayerMove.MoveType._2D:
 
+                yield return new WaitForSeconds(1f);
                 var camera2DController = GameObject.Find(CameraUtility.Camera2DName).GetComponent<Camera2DController>();
                 camera2DController.NoiseActivate(0.5f, 1.0f);
                 yield return new WaitForSeconds(1.0f);
+                FadeInOutController._2DFadePanel.StartBlackFadeOut(1f);
 
                 SoundManager.GetInstance().PlayBGM("gameover");
-                fadeGameOverPanel.StartWhiteFadeIn(1f);
+                yield return new WaitForSeconds(1.5f);
+                fadeGameOverPanel.StartWhiteFadeOut(0f);
+                FadeInOutController._2DFadePanel.StartBlackFadeIn(1f);
+                yield return new WaitForSeconds(4f);
+                fadeGameOverReturnPanel.StartWhiteFadeOut(0f);
                 yield return new WaitForSeconds(3f);
+
+                FadeInOutController.VRFadePanel.StartBlackFadeOut(1f);
+                yield return new WaitForSeconds(2f);
+                fadeGameOverPanel.StartWhiteFadeIn(0f);
                 fadeGameOverReturnPanel.StartWhiteFadeIn(0f);
-                yield return new WaitForSeconds(0.5f);
-                
 
                 break;
             case PlayerMove.MoveType.FIXED:
 
+                yield return new WaitForSeconds(1f);
                 var cameraVRController = GameObject.Find(CameraUtility.CameraVRName).GetComponent<CameraVRController>();
                 cameraVRController.NoiseActivate(0.7f, 1.0f);
                 yield return new WaitForSeconds(1.0f);
+                FadeInOutController.VRFadePanel.StartBlackFadeOut(1f);
 
                 SoundManager.GetInstance().PlayBGM("gameover");
+                var camera = VRObjectManager.GetInstance().GetBaseCameraObject().GetComponent<Camera>();
+                camera.cullingMask = vrGameOverCameraCullingMask;
+                camera.clearFlags = vrGameOverCameraClearFlags;
                 var gameOverPanel = VRObjectManager.GetInstance().VRCamObject.FindFirstChildByName("GameOverPanel");
                 var gameOverReturnPanel = VRObjectManager.GetInstance().VRCamObject.FindFirstChildByName("GameOverReturnPanel");
-                yield return StartCoroutine(FadeVRPanel(gameOverPanel, true, 1f));
-                yield return new WaitForSeconds(3f);
+                yield return new WaitForSeconds(1.5f);
+                yield return StartCoroutine(FadeVRPanel(gameOverPanel, true, 0f));
+                FadeInOutController.VRFadePanel.StartBlackFadeIn(1f);
+                yield return new WaitForSeconds(4f);
                 yield return StartCoroutine(FadeVRPanel(gameOverReturnPanel, true, 0f));
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(3f);
+
+                PlayerManager.playerStatus.CmdFadeLocalVRChatChara(true);
+
+                FadeInOutController.VRFadePanel.StartBlackFadeOut(1f);
+                yield return new WaitForSeconds(2f);
+                yield return StartCoroutine(FadeVRPanel(gameOverReturnPanel, false, 0f));
+                yield return StartCoroutine(FadeVRPanel(gameOverReturnPanel, false, 0f));
+
 
                 break;
         }
@@ -121,6 +144,18 @@ public class GameOverManager : NetworkBehaviour {
 
     [ClientRpc]
     void RpcGameEnd()
+    {
+        StartCoroutine(GameEndCoroutine());
+    }
+
+    IEnumerator GameEndCoroutine()
+    {
+        InitializeGame();
+        yield return new WaitForSeconds(1f);
+        FadeInOutController.VRFadePanel.StartBlackFadeIn(1f);
+    }
+
+    void InitializeGame()
     {
         TVSwitch.IsOn = false;
         GameCoordinator.GetInstance().ChangeStageSelectMenu();
