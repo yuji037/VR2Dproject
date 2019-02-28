@@ -41,7 +41,6 @@ public class GameOverManager : NetworkBehaviour {
         var netId = GetComponent<NetworkIdentity>();
         if (netId.localPlayerAuthority) PlayerManager.playerStatus.SetAuth(netId);
 
-		CmdSetLife(GameCoordinator.GetInstance().playingStageData.StageDefaultPlayerLife);
     }
 	
     [Command]
@@ -177,6 +176,12 @@ public class GameOverManager : NetworkBehaviour {
 
 	[ClientRpc]
 	void RpcSetLife(int value)
+	{
+		playerRespawner.playerLife = value;
+		UpdateLifeUI();
+	}
+
+	public void SetLife(int value)
 	{
 		playerRespawner.playerLife = value;
 		UpdateLifeUI();

@@ -32,6 +32,7 @@ public class SelectStageMenu :NetworkBehaviour
     {
         var selectStageData = stageDataMaster.stageDatas[selectingStageIndexNumber];
         GameCoordinator.GetInstance().playingStageData = selectStageData;
+		GameOverManager.GetInstance().SetLife(selectStageData.StageDefaultPlayerLife);
         GameCoordinator.GetInstance().ChangeStage(selectStageData.StageSceneName);
 		SoundManager.GetInstance().Play("menu_decision");
 	}
