@@ -26,6 +26,11 @@ public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
         }
     }
 
+    public void GameOverDirectly()
+    {
+        StartCoroutine(ToGameOverCoroutine());
+    }
+
     public void SaveLocalPlayerRespawnPoint(Vector3 respawnPoint)
     {
         LocalPlayerRespawnPoint = respawnPoint;
