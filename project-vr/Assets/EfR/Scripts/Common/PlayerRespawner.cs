@@ -6,12 +6,23 @@ public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
 {
     Vector3 LocalPlayerRespawnPoint;
     bool isRespawning;
+
+    public int playerLife = 3;
+
     public void RespawnLocalPlayer()
     {
         //PlayerManager.LocalPlayer.transform.position = LocalPlayerRespawnPoint;
         //PlayerManager.LocalPlayer.GetComponent<PlayerMove>().ResetVelocity();
         if (isRespawning) return;
-        StartCoroutine(RespawnCoroutine());
+        if (playerLife > 0)
+        {
+            playerLife--;
+            StartCoroutine(RespawnCoroutine());
+        }
+        else
+        {
+            GameOverManager.GetInstance().CmdGameOver();
+        }
     }
 
     public void SaveLocalPlayerRespawnPoint(Vector3 respawnPoint)
@@ -30,7 +41,7 @@ public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
 		var playerStatus = respawnPlayer.GetComponent<PlayerStatus>();
 		var playerMove = respawnPlayer.GetComponent<PlayerMove>();
 		playerStatus.IsPerforming = true;
-		playerStatus.CmdHoloFade(false);
+		playerStatus.CmdHoloFade(false, 1f);
 		playerMove.ResetAnimatorParam();
 		
 
@@ -50,7 +61,7 @@ public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
 
 		// フェードイン
 		playerStatus.IsPerforming = true;
-		playerStatus.CmdHoloFade(true);
+		playerStatus.CmdHoloFade(true, 1f);
 		yield return new WaitUntil(() => playerStatus.IsPerforming == false);
 
 		playerMove.canMove = true;

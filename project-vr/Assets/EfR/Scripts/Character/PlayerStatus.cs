@@ -184,23 +184,22 @@ public class PlayerStatus : NetworkBehaviour {
 	}
 
 	[Command]
-	public void CmdHoloFade(bool fadeIn)
+	public void CmdHoloFade(bool fadeIn, float speed)
 	{
-		RpcHoloFade(fadeIn);
+		RpcHoloFade(fadeIn, speed);
 	}
 
 	[ClientRpc]
-	public void RpcHoloFade(bool fadeIn)
+	public void RpcHoloFade(bool fadeIn, float speed)
 	{
-		StartCoroutine(HoloFadeCoroutine(fadeIn));
+		StartCoroutine(HoloFadeCoroutine(fadeIn, speed));
 	}
 
-	IEnumerator HoloFadeCoroutine(bool fadeIn)
+	IEnumerator HoloFadeCoroutine(bool fadeIn, float speed)
 	{
 		var renderer = GetComponentInChildren<SkinnedMeshRenderer>();
 		var wPosY = renderer.transform.position.y;
 		var holoMat = renderer.material;
-		var speed = 1.0f;
 		holoMat.SetFloat("_App", 1);
 
 		for ( float t = 0; t <= m_fFadeHeight; t += Time.deltaTime * speed )

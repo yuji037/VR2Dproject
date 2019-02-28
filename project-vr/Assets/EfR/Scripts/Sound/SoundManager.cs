@@ -31,9 +31,11 @@ public class SoundManager : NetworkBehaviour {
 	PlayerMove m_cLocalPlayerMove = null;
 
 	Transform m_trTVSpeakerPos = null;
+    public Transform TVSpeakerPos { get { return m_trTVSpeakerPos; } }
 	Transform m_trVRSpeakerPos = null;
+    public Transform VRSpeakerPos { get { return m_trVRSpeakerPos; } }
 
-	int m_iStageBGMChannel = -1;
+    int m_iBGMChannel = -1;
 
     public override void OnStartLocalPlayer()
 	{
@@ -225,14 +227,8 @@ public class SoundManager : NetworkBehaviour {
 		{
 			if(pair.StageName == stageName )
 			{
-				if ( m_iStageBGMChannel != -1 )
-					FadeoutStageBGM();
+                var bgmName = pair.BGMName;
 
-                Vector3 bgmPosition = Vector3.zero;
-                int soundSettingID = 0;
-                GetBGMSettingParam(out bgmPosition, out soundSettingID);
-
-                m_iStageBGMChannel = Play(pair.BGMName,	bgmPosition, false, true, true, null, soundSettingID);
 				return;
 			}
 		}
@@ -240,9 +236,21 @@ public class SoundManager : NetworkBehaviour {
 		Debug.Log("Stage[" + stageName + "]に対応するBGMを探しましたがありませんでした");
 	}
 
+    public void PlayBGM(string bgmName)
+    {
+        if (m_iBGMChannel != -1)
+            FadeoutBGM();
+
+        Vector3 bgmPosition = Vector3.zero;
+        int soundSettingID = 0;
+        GetBGMSettingParam(out bgmPosition, out soundSettingID);
+
+        m_iBGMChannel = Play(bgmName, bgmPosition, false, true, true, null, soundSettingID);
+    }
+
     public void UpdateBGMParam()
     {
-        if (m_iStageBGMChannel == -1)
+        if (m_iBGMChannel == -1)
             return;
 
         Vector3 bgmPosition = Vector3.zero;
@@ -250,12 +258,12 @@ public class SoundManager : NetworkBehaviour {
         GetBGMSettingParam(out bgmPosition, out soundSettingID);
 
         // 途中で停止して途中から再生
-        var currentTimeInBgm = m_oPlayingSounds[m_iStageBGMChannel].m_AudioSource.time;
-        var bgmName = m_oPlayingSounds[m_iStageBGMChannel].m_AudioSource.clip.name;
+        var currentTimeInBgm = m_oPlayingSounds[m_iBGMChannel].m_AudioSource.time;
+        var bgmName = m_oPlayingSounds[m_iBGMChannel].m_AudioSource.clip.name;
         Debug.Log("BGM再生位置：" + currentTimeInBgm);
-        Stop(m_iStageBGMChannel);
-        m_iStageBGMChannel = Play(bgmName, bgmPosition, false, true, true, null, soundSettingID);
-        SetSoundTime(m_iStageBGMChannel, currentTimeInBgm);
+        Stop(m_iBGMChannel);
+        m_iBGMChannel = Play(bgmName, bgmPosition, false, true, true, null, soundSettingID);
+        SetSoundTime(m_iBGMChannel, currentTimeInBgm);
     }
 
     void GetBGMSettingParam(out Vector3 position, out int soundSettingID)
@@ -280,19 +288,19 @@ public class SoundManager : NetworkBehaviour {
 
 	public void ChangeBGMVolume(float afterVolume, float duration = 1f)
 	{
-		ChangeVolume(m_iStageBGMChannel, afterVolume, duration);
+		ChangeVolume(m_iBGMChannel, afterVolume, duration);
 	}
 
-	public void FadeoutStageBGM(float duration = 1f)
+	public void FadeoutBGM(float duration = 1f)
 	{
-		Fadeout(m_iStageBGMChannel, duration);
-		m_iStageBGMChannel = -1;
+		Fadeout(m_iBGMChannel, duration);
+		m_iBGMChannel = -1;
 	}
 
-	public void StopStageBGM()
+	public void StopBGM()
 	{
-		Stop(m_iStageBGMChannel);
-		m_iStageBGMChannel = -1;
+		Stop(m_iBGMChannel);
+		m_iBGMChannel = -1;
 	}
 
 	IEnumerator DestroyOnClipEndCoroutine(SoundPlayIns soundPlayIns, int channel)
