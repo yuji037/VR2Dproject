@@ -1,0 +1,36 @@
+◆ホスト
+
+
+◆クライアント
+Cannot set field of view on this camera while VR is enabled.
+UnityEngine.Camera:set_fieldOfView(Single)
+Cinemachine.CinemachineBrain:PushStateToUnityCamera(CameraState, ICinemachineCamera) (at Assets/Cinemachine/Base/Runtime/Behaviours/CinemachineBrain.cs:740)
+Cinemachine.CinemachineBrain:ProcessActiveCamera(Single) (at Assets/Cinemachine/Base/Runtime/Behaviours/CinemachineBrain.cs:551)
+Cinemachine.CinemachineBrain:LateUpdate() (at Assets/Cinemachine/Base/Runtime/Behaviours/CinemachineBrain.cs:404)
+
+
+
+Trying to send command for object without authority.
+UnityEngine.Networking.NetworkBehaviour:SendCommandInternal(NetworkWriter, Int32, String)
+ClearSelectMenu:CallCmdSetActive(Boolean)
+<ClearPerformanceRoutine>c__Iterator0:MoveNext() (at Assets/EfR/Scripts/Gimmick/GimmickChangeSelectMenu.cs:74)
+UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr)
+
+
+Trying to send command for object without authority.
+UnityEngine.Networking.NetworkBehaviour:SendCommandInternal(NetworkWriter, Int32, String)
+GimmickRocket:CallCmdDestroy()
+GimmickRocket:Jump(Collider) (at Assets/EfR/Scripts/Gimmick/GimmickRocket.cs:48)
+HitNotifier:OnTriggerEnter(Collider) (at Assets/EfR/Scripts/Gimmick/HitNotifier.cs:14)
+
+
+Trying to send command for object without authority.
+UnityEngine.Networking.NetworkBehaviour:SendCommandInternal(NetworkWriter, Int32, String)
+GimmickRocket:CallCmdDestroy()
+GimmickRocket:PlayerRespawnAndSuicide(Collider) (at Assets/EfR/Scripts/Gimmick/GimmickRocket.cs:62)
+HitNotifier:OnTriggerEnter(Collider) (at Assets/EfR/Scripts/Gimmick/HitNotifier.cs:14)
+
+
+（おそらくGimmickRocket）
+Could not find target object with netId:271 for RPC call ClientRpc:InvokeRpcTargetSyncNextPos
+UnityEngine.Networking.NetworkIdentity:UNetStaticUpdate()
