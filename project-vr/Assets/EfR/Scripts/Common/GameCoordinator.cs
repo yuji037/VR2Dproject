@@ -16,6 +16,13 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
     [SerializeField]
     string selectMenuStageName;
 
+    [SerializeField]
+    int[] switchIDs;
+
+    GameObject[] switchObjects;
+
+    Vector3[] switchDefaultLocalPos;
+
     public StageData playingStageData;
 
     Camera2DController camera2D;
@@ -59,8 +66,11 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
     }
     public void ChangeStageSelectMenu()
     {
-        Debug.Log(IsChangingStage);
-        if(!IsChangingStage)ChangeStage(selectMenuStageName);
+        if (!IsChangingStage)
+        {
+            ChangeStage(selectMenuStageName);
+            ResetSwitchsLocalPos();
+        }
     }
     public void ChangeStage(string sceneName)
     {
@@ -173,9 +183,36 @@ public class GameCoordinator : SingletonMonoBehaviour<GameCoordinator>
         // プレイヤースポーン完了
         yield return new WaitUntil(() => PlayerManager.LocalPlayer != null);
 
+        InitilalizeSwitchs();
+        
         StageChangeOnEnd();
 
     }
+
+    void InitilalizeSwitchs()
+    {
+        switchObjects = new GameObject[switchIDs.Length];
+        switchDefaultLocalPos = new Vector3[switchIDs.Length];
+
+        int num=0;
+        foreach (var i in switchIDs)
+        {
+            switchObjects[num]= (GimmickManager.GetActor(i) as MonoBehaviour).gameObject;
+            switchDefaultLocalPos[num] = switchObjects[num].transform.localPosition;
+            num++;
+        }
+    }
+
+    void ResetSwitchsLocalPos()
+    {
+        int num = 0;
+        foreach (var i in switchObjects)
+        {
+            i.transform.localPosition=switchDefaultLocalPos[num];
+            num++;
+        }
+    }
+
     public void StartGameOverPerformance()
     {
         StartCoroutine(GameOverRoutine());
