@@ -24,8 +24,11 @@ public class GimmickSave : GimmickBase
         if (PlayerManager.LocalPlayer == collider.gameObject)
         {
             PlayerRespawner.GetInstance().SaveLocalPlayerRespawnPoint((respawnPoint)?respawnPoint.position:transform.position);
-			savePointDisplayObj.SetActive(false);
-			okDisplayObj.SetActive(true);
+            if (savePointDisplayObj && okDisplayObj)
+            {
+                savePointDisplayObj.SetActive(false);
+                okDisplayObj.SetActive(true);
+            }
 		}
     }
 }
