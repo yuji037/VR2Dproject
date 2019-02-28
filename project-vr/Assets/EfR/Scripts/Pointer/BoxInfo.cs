@@ -28,11 +28,11 @@ public class BoxInfo : MonoBehaviour
 
     public float HalfWidth
     {
-        get { return transform.lossyScale.x * 0.5f * (GetComponent<BoxCollider>() ? GetComponent<BoxCollider>().size.x : 1f); }
+        get { return transform.lossyScale.x * 0.5f; }
     }
     public float HalfHeight
     {
-        get { return transform.lossyScale.y * 0.5f * (GetComponent<BoxCollider>() ? GetComponent<BoxCollider>().size.y : 1f); }
+        get { return transform.lossyScale.y * 0.5f; }
     }
     //public float BottomSide
     //{

@@ -51,17 +51,13 @@ public class FloorColliderCorrecter : NetworkBehaviour
         var screen = screenNetIdentity.GetComponent<PointerHitScreen>();
         if (screen)
         {
-            BindScreen(screen,-screen.transform.forward);
+            BindScreen(screen,normal);
         }
     }
 
     private void Update()
     {
-        var screen=FindNearScreen();
-        if (screen)
-        {
-            BindScreen(screen, -screen.transform.forward);
-        }
+
         if (isBindedScreen)
         {
             CorrectCollider();

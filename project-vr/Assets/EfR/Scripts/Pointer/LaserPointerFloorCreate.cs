@@ -11,7 +11,7 @@ public class LaserPointerFloorCreate : LaserPointerBase
 
     bool isAlwaysPressingTrigger=false;
 
-    PointerHitScreen preHitScreen;
+    PointerHitScreen currentHitScreen;
 
     public override void OnStartLocalPlayer()
     {
@@ -56,24 +56,6 @@ public class LaserPointerFloorCreate : LaserPointerBase
         if (!isLocalPlayer) return;
         PointerHitScreen hitScreen = hit.collider.GetComponent<PointerHitScreen>();
 
-        if (!preHitScreen&&
-            hitScreen)
-        {
-            CmdSetScreenStencilActive(hitScreen.GetComponent<NetworkIdentity>(), true);
-        }
-        if ((preHitScreen&&hitScreen)&&
-            (preHitScreen!=hitScreen))
-        {
-            CmdSetScreenStencilActive(preHitScreen.GetComponent<NetworkIdentity>(),false);
-            CmdSetScreenStencilActive(hitScreen.GetComponent<NetworkIdentity>(), true);
-        }
-        if (!hitScreen&&
-            preHitScreen)
-        {
-            CmdSetScreenStencilActive(preHitScreen.GetComponent<NetworkIdentity>(), false);
-        }
-        preHitScreen = hitScreen;
-
         //スクリーンにヒット&&床を生成できる状態でなければ削除してリターン
         if (!(hitScreen &&CanCreateFloor(hitScreen)))
         {
@@ -83,7 +65,7 @@ public class LaserPointerFloorCreate : LaserPointerBase
         }
         var canCreateFloor = CanCreateFloor(hit.point,hitScreen);
 
-        if (IsPressDownTrigger()/*&&canCreateFloor*/)
+        if (IsPressDownTrigger()&&canCreateFloor)
         {
             CreateFloor(hitScreen.GetFloorForm, hitScreen,hit.normal);
         }
@@ -113,6 +95,10 @@ public class LaserPointerFloorCreate : LaserPointerBase
 
     }
 
+    bool IsChangedHitScreen(PointerHitScreen hitScreen)
+    {
+        return currentHitScreen && (hitScreen);
+    }
 
     bool IsPressDownTrigger()
     {
@@ -148,6 +134,8 @@ public class LaserPointerFloorCreate : LaserPointerBase
         
         DeleteFloor();
         var screenNetIdentity = pointerHitScreen.GetComponent<NetworkIdentity>();
+        CmdSetScreenStencilActive(screenNetIdentity,true);
+        currentHitScreen = pointerHitScreen;
         GimmickFloorSpawner.GetInstance().GetFloorObject(floorForm,
               (x) =>
               { 
@@ -161,6 +149,8 @@ public class LaserPointerFloorCreate : LaserPointerBase
     void DeleteFloor()
     {
         if (!controllingFloor) return;
+        CmdSetScreenStencilActive(currentHitScreen.GetComponent<NetworkIdentity>(),false);
+        currentHitScreen = null;
         GimmickFloorSpawner.GetInstance().ReleaseFloor(controllingFloor);
         controllingFloor = null;
     }
