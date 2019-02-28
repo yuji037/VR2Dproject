@@ -65,8 +65,10 @@ public class PlayerMove : NetworkBehaviour
 
     [SerializeField]
     bool isGrounded = true;
+	[SerializeField]
+	bool prevIsGrounded = true;
 
-    [SerializeField]
+	[SerializeField]
     bool isJumping = false;
     [SerializeField]
     float jumpingTime = 0f;
@@ -437,7 +439,7 @@ public class PlayerMove : NetworkBehaviour
     {
         // 着地判定
         RaycastHit hit;
-        var prevIsGrounded = isGrounded;
+        prevIsGrounded = isGrounded;
         //床に埋まっている場合、足元から出してもレイが当たらないので、原点を足元から少し浮かす
         isGrounded = Physics.Raycast(
 			transform.position+new Vector3(0,Pms.distanceToGround,0), 
@@ -489,8 +491,9 @@ public class PlayerMove : NetworkBehaviour
     // ジャンプ処理
     void UpdateJump()
     {
-        // ジャンプ開始
-        if ((Pms.canJump && isGrounded && !isJumping) || debugInfiniteJump)
+		bool isGroundedRooser = isGrounded || prevIsGrounded;
+		// ジャンプ開始
+		if ((Pms.canJump && isGroundedRooser && !isJumping) || debugInfiniteJump)
         {
             if (InputTriggerJump())
             {
