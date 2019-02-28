@@ -17,7 +17,7 @@ public class GimmickBalanceController : MonoBehaviour
     int maxSubCount;
 
     [SerializeField]
-    LineRenderer lineRenderer;
+    GameObject axis;
 
     [SerializeField]
     float oneFlameMove = 0.05f;
@@ -82,8 +82,7 @@ public class GimmickBalanceController : MonoBehaviour
             rightGimmickBalancer.transform.position = Vector3.Lerp(rightGimmickBalancer.transform.position, toRightPos, oneFlameMove);
 
         }
-        lineRenderer.SetPosition(0, rightGimmickBalancer.transform.position);
-        lineRenderer.SetPosition(1, leftGimmickBalancer.transform.position);
+        axis.transform.right=rightGimmickBalancer.transform.position-axis.transform.position;
 
     }
 }
