@@ -18,7 +18,7 @@ public static class MonoBehaviourExtention
         GameObject obj = null;
         while (!(obj = GameObject.Find(gameObjectName)))
         {
-            Debug.Log(gameObjectName + "探し中");
+            //Debug.Log(gameObjectName + "探し中");
             yield return null;
         }
         Debug.Log(gameObjectName + "取得完了");

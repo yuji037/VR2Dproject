@@ -111,7 +111,7 @@ public class PlayerStatus : NetworkBehaviour {
 		var trPopPos = GameObject.Find("PlayerPopPos" + posNum.ToString());
 
         if ( trPopPos ) {
-            Debug.Log(trPopPos.transform.position);
+            //Debug.Log(trPopPos.transform.position);
             transform.position = trPopPos.transform.position;
             transform.rotation = trPopPos.transform.rotation;
         }
@@ -246,7 +246,8 @@ public class PlayerStatus : NetworkBehaviour {
             {
                 target.RemoveClientAuthority(otherOwner);
             }
-            target.AssignClientAuthority(player.connectionToClient);
+			Debug.Log(target.gameObject.name + " SetAuth");
+			target.AssignClientAuthority(player.connectionToClient);
         }
     }
 }

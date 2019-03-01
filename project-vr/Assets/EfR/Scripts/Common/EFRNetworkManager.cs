@@ -106,7 +106,7 @@ public class EFRNetworkManager : NetworkManager {
         NetworkServer.AddPlayerForConnection(conn, soundMng, (short)(playerControllerId + 14));
         NetworkServer.AddPlayerForConnection(conn, effectMng, (short)(playerControllerId + 16));
 
-        Debug.Log("プレイヤー作成成功 : " + (message.playerNum+1));
+        //Debug.Log("プレイヤー作成成功 : " + (message.playerNum+1));
         player.GetComponent<PlayerStatus>().RpcInit(message.playerNum);
 
     }

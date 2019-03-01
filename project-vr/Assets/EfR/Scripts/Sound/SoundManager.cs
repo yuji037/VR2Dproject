@@ -49,7 +49,7 @@ public class SoundManager : NetworkBehaviour {
 		foreach(var ac in audioClips )
 		{
 			m_AudioClips[ac.name] = ac;
-			Debug.Log("Sound ロード：" + ac.name);
+			//Debug.Log("Sound ロード：" + ac.name);
 		}
 
 		// チャネルの確保

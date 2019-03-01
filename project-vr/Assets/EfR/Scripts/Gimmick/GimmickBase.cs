@@ -68,7 +68,7 @@ public abstract class GimmickBase : NetworkBehaviour,IActor
         if (GimmickID >= 100)
         {
             //NetworkServer.Spawn(gameObject);
-            Debug.Log("NetworkServer spawn gimmick : " + gameObject.name);
+            //Debug.Log("NetworkServer spawn gimmick : " + gameObject.name);
         }
     }
 

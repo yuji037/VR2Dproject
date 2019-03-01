@@ -80,6 +80,6 @@ public class NetworkLocalAndWorldPosition : NetworkBehaviour {
 		   ni.isLocalPlayer == isLocalPlayer &&
 		   ni.gameObject.name.StartsWith(remoteTrackGameObjectName)).FirstOrDefault().gameObject;
 
-		Debug.Log("FindTrackTransform");
+		//Debug.Log("FindTrackTransform");
 	}
 }

@@ -31,10 +31,5 @@ public class FallableCube : MonoBehaviour {
 			// 落下する
 			m_rRigidbody.isKinematic = false;
 		}
-
-		//// XZ座標で中途半端な座標にならないように補正
-		//var targetXZ = transform.position;
-		//targetXZ.x	= Mathf.Round(targetXZ.x);
-		//targetXZ.z	= Mathf.Round(targetXZ.z);
 	}
 }

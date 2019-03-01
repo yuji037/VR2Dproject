@@ -32,7 +32,7 @@ public class EffectManager : NetworkBehaviour {
 		foreach ( var eff in effObjects )
 		{
 			m_Effects[eff.name] = eff;
-			Debug.Log("Effect ロード：" + eff.name);
+			//Debug.Log("Effect ロード：" + eff.name);
 		}
 
 		// チャネルの確保

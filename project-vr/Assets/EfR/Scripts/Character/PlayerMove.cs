@@ -125,7 +125,7 @@ public class PlayerMove : NetworkBehaviour
                     setting.previewTimeline.Stop();
                 }
 
-                Debug.Log("change" + moveTypeOnStart);
+                //Debug.Log("change" + moveTypeOnStart);
             }
             else
             {
