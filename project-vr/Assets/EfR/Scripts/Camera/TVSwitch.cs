@@ -25,7 +25,7 @@ public static class TVSwitch
             }
 			if ( TVMask.activeInHierarchy && value)
 			{
-				SoundManager.GetInstance().PlayBGM("title");
+				SoundManager.GetInstance().PlayBGM("title_volumeDown");
 			}
 			if ( !TVMask.activeInHierarchy && !value )
 			{
