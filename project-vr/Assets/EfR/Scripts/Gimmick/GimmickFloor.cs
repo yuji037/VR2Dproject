@@ -26,6 +26,15 @@ public class GimmickFloor : GimmickBase
         }
     }
 
-    
-    
+    private void OnDestroy()
+    {
+        foreach (Transform t in transform)
+        {
+            if (t!=transform)
+            {
+                t.parent = null;
+            }
+        }   
+    }
+
 }
