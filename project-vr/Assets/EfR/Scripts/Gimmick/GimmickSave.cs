@@ -37,6 +37,7 @@ public class GimmickSave : GimmickBase
 			if ( !executed )
 			{
 				GameOverManager.GetInstance().CmdChangeLife(playerLifePlus);
+				executed = true;
 			}
 		}
     }
