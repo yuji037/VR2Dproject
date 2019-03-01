@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 public class FloorStickableObject : MonoBehaviour {
     Vector3 halfExtents;
-    Vector3 prevPos;
     NetworkIdentity netId;
 
     Transform defaultParent;
@@ -23,11 +22,11 @@ public class FloorStickableObject : MonoBehaviour {
         if (Physics.BoxCast(transform.position, halfExtents, Vector3.down,out hit, transform.rotation, 0.1f)&&
             hit.collider.gameObject.tag=="LaserPointerFloorCreate")
         {
-            transform.parent = hit.transform;
+            transform.SetParent(hit.transform,false);
         }
         else
         {
-            transform.parent = defaultParent;
+            transform.SetParent(defaultParent,false);
         }
     }
 }

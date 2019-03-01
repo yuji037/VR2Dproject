@@ -35,6 +35,7 @@ public class Camera2DController : CameraControllerBase
     public void ChangeCameraParam(CameraParam param)
     {
         var cft = CurrentVCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+        if (!cft) return;
         cft.m_DeadZoneWidth = param.offSetWidth;
         cft.m_DeadZoneHeight = param.offSetHeight;
         nextScreenX = param.screenX;
