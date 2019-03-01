@@ -63,9 +63,9 @@ public class LaserPointerFloorCreate : LaserPointerBase
             floorPredictionActiveController.AllInactive();
             return;
         }
-        var canCreateFloor = CanCreateFloor(hit.point,hitScreen);
+        //var canCreateFloor = CanCreateFloor(hit.point,hitScreen);
 
-        if (IsPressDownTrigger()&&canCreateFloor)
+        if (IsPressDownTrigger()/*&&canCreateFloor*/)
         {
             CreateFloor(hitScreen.GetFloorForm, hitScreen,hit.normal);
         }
@@ -76,7 +76,7 @@ public class LaserPointerFloorCreate : LaserPointerBase
         }
         else
         {
-            floorPredictionActiveController.SetView(hit.point +hit.normal* 0.1f, hitScreen,canCreateFloor);
+            floorPredictionActiveController.SetView(hit.point +hit.normal* 0.1f, hitScreen,true);
         }
 
     }
