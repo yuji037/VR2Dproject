@@ -277,6 +277,7 @@ MonoBehaviour:
   respawnPoint: {fileID: 0}
   savePointDisplayObj: {fileID: 0}
   okDisplayObj: {fileID: 0}
+  playerLifePlus: 5
 --- !u!1001 &13231879
 Prefab:
   m_ObjectHideFlags: 0
@@ -4661,6 +4662,7 @@ MonoBehaviour:
   respawnPoint: {fileID: 0}
   savePointDisplayObj: {fileID: 0}
   okDisplayObj: {fileID: 0}
+  playerLifePlus: 5
 --- !u!1 &350646852 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1887146176734086, guid: 6052709b0148a10458b17da8c45bc661,
@@ -11861,6 +11863,7 @@ MonoBehaviour:
   respawnPoint: {fileID: 0}
   savePointDisplayObj: {fileID: 0}
   okDisplayObj: {fileID: 0}
+  playerLifePlus: 5
 --- !u!1 &908103336
 GameObject:
   m_ObjectHideFlags: 0
@@ -18945,7 +18948,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4452066934384282, guid: 416140b2199017142a1d1020e7e80d4c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 21.79
+      value: 15.5
       objectReference: {fileID: 0}
     - target: {fileID: 4452066934384282, guid: 416140b2199017142a1d1020e7e80d4c, type: 2}
       propertyPath: m_LocalPosition.y
@@ -27220,6 +27223,7 @@ MonoBehaviour:
   respawnPoint: {fileID: 0}
   savePointDisplayObj: {fileID: 0}
   okDisplayObj: {fileID: 0}
+  playerLifePlus: 5
 --- !u!1 &1997296353
 GameObject:
   m_ObjectHideFlags: 0
@@ -28360,6 +28364,7 @@ MonoBehaviour:
   respawnPoint: {fileID: 0}
   savePointDisplayObj: {fileID: 0}
   okDisplayObj: {fileID: 0}
+  playerLifePlus: 5
 --- !u!1001 &2072614210
 Prefab:
   m_ObjectHideFlags: 0
@@ -28528,6 +28533,10 @@ Prefab:
     - target: {fileID: 1996243095495616, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_Name
       value: 2DCamParamChangeBox (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996243095495616, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
