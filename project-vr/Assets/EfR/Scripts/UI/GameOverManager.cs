@@ -166,7 +166,22 @@ public class GameOverManager : NetworkBehaviour {
 
 	PlayerRespawner playerRespawner;
 	[SerializeField]
+	GameObject charaIcon;
+	[SerializeField]
 	Text lifeUIText;
+
+
+	[Command]
+	public void CmdSetUIActive(bool isActive)
+	{
+		RpcSetUIActive(isActive);
+	}
+
+	[ClientRpc]
+	void RpcSetUIActive(bool isActive)
+	{
+		charaIcon.SetActive(isActive);
+	}
 
 	[Command]
 	public void CmdSetLife(int value)
