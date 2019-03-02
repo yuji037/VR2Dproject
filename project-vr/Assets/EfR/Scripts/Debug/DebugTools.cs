@@ -21,8 +21,8 @@ public class DebugTools : SingletonMonoBehaviour<DebugTools> {
 	[SerializeField]
 	bool isDebugMenuOn = false;
 
-	//[SerializeField]
-	//GameObject debugMenuCanvas;
+	[SerializeField]
+	GameObject debugMenuCanvas;
 
 	Dictionary<KeyCode, System.Action> debugActions = new Dictionary<KeyCode, Action>();
 	Dictionary<KeyCode, string> debugActionDescriptions = new Dictionary<KeyCode, string>();
@@ -92,7 +92,7 @@ public class DebugTools : SingletonMonoBehaviour<DebugTools> {
 		if ( Input.GetKeyDown(KeyCode.F3) )
 		{
 			isDebugMenuOn = !isDebugMenuOn;
-			//SwitchDebugMenuCanvas();
+			SwitchDebugMenuCanvas();
 			UpdateGuideText();
 		}
 
@@ -130,7 +130,7 @@ public class DebugTools : SingletonMonoBehaviour<DebugTools> {
 
 	void SwitchDebugMenuCanvas()
 	{
-		//debugMenuCanvas.SetActive(isDebugMenuOn);
+		debugMenuCanvas.SetActive(isDebugMenuOn);
 	}
 
 	static string GetString(object obj)
