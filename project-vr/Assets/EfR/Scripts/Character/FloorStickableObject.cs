@@ -5,28 +5,60 @@ using UnityEngine.Networking;
 public class FloorStickableObject : MonoBehaviour {
     Vector3 halfExtents;
     NetworkIdentity netId;
-
+    Vector3 prevPos;
+    Transform stickObj;
+    Rigidbody m_rigidbody;
+  
     Transform defaultParent;
     // Use this for initialization
 	void Start () {
         halfExtents = transform.localScale * 0.49f;
         defaultParent = transform.parent;
         netId = GetComponent<NetworkIdentity>();
+        m_rigidbody = GetComponent<Rigidbody>();
     }
-	
+	RaycastHit[] CheckHit()
+    {
+        var origin = transform.position;
+        origin.y += 0.1f;
+        return Physics.BoxCastAll(origin, halfExtents, Vector3.down,transform.rotation ,0.5f);
+    }
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate() {
         if (netId && !netId.hasAuthority) return;
 
-        RaycastHit hit;
-        if (Physics.BoxCast(transform.position, halfExtents, Vector3.down,out hit, transform.rotation, 0.1f)&&
-            hit.collider.gameObject.tag=="LaserPointerFloorCreate")
+        if (stickObj)
         {
-            transform.SetParent(hit.transform,false);
+            var sub = stickObj.transform.position - prevPos;
+            if (m_rigidbody.isKinematic)
+            {
+                transform.Translate(sub,Space.World);
+            }
+            else
+            {
+                m_rigidbody.MovePosition(transform.position+sub);
+            }
+
+            prevPos = stickObj.transform.position;
+        }
+
+        RaycastHit[] hits = CheckHit();
+        if (hits.Length<=0)
+        {
+                stickObj = null;
         }
         else
         {
-            transform.SetParent(defaultParent,false);
+            foreach (var hit in hits)
+            {
+                if(hit.collider.gameObject.tag == "LaserPointerFloorCreate")
+                {
+                    prevPos = hit.transform.position;
+                    stickObj = hit.transform;
+                    return;
+                }
+            }
         }
+         
     }
 }
