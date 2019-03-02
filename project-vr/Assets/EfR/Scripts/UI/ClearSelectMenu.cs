@@ -91,5 +91,8 @@ public class ClearSelectMenu : NetworkBehaviour{
         TVSwitch.IsOn = !isGameEndSelecting;
         Debug.Log("GoToMenu");
         GameCoordinator.GetInstance().ChangeStageSelectMenu();
+		SoundManager.GetInstance().StopBGM();
+		if ( isGameEndSelecting )
+			TutorialKakunin.GetInstance().SetActiveThisObj(true);
     }
 }

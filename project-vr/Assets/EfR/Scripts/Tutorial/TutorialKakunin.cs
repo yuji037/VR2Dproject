@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class TutorialKakunin : MonoBehaviour {
 
+	static TutorialKakunin instance = null;
+
+	public static TutorialKakunin GetInstance()
+	{
+		return instance;
+	}
+
 	private void Start()
 	{
-		foreach(var col in GetComponentsInChildren<Collider>() )
-		{
-			col.enabled = false;
-		}
+		instance = this;
+		SetActiveThisObj(false);
 	}
 
 	private void Update()
 	{
 		if( Input.GetKeyDown(KeyCode.M) )
 		{
-			foreach ( var col in GetComponentsInChildren<Collider>() )
-			{
-				col.enabled = true;
-			}
+			SetActiveThisObj(true);
 		}
 	}
 
