@@ -1589,6 +1589,11 @@ Prefab:
       propertyPath: m_Name
       value: VRCamChangeBox (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 114580446139085392, guid: a82e793585b4ac14d8e513fcbabe81bc,
+        type: 2}
+      propertyPath: m_iGimmickID
+      value: 14320
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a82e793585b4ac14d8e513fcbabe81bc, type: 2}
   m_IsPrefabParent: 0
@@ -1787,6 +1792,11 @@ Prefab:
         type: 2}
       propertyPath: cameraParam.distance
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 114115837289302952, guid: cabf8b113b0446547bc47e0e01b14646,
+        type: 2}
+      propertyPath: m_iGimmickID
+      value: 14320
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
@@ -4701,7 +4711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 497cbc37d2cd0ed48941321f22d778ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_iGimmickID: -1
+  m_iGimmickID: 14320
   vCam: {fileID: 1054750441}
   cameraType: 0
 --- !u!1 &350646852 stripped
@@ -4996,6 +5006,11 @@ Prefab:
       propertyPath: vCam
       value: 
       objectReference: {fileID: 745048584}
+    - target: {fileID: 114580446139085392, guid: a82e793585b4ac14d8e513fcbabe81bc,
+        type: 2}
+      propertyPath: m_iGimmickID
+      value: 14320
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a82e793585b4ac14d8e513fcbabe81bc, type: 2}
   m_IsPrefabParent: 0
@@ -5404,7 +5419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_iGimmickID: 5
-  triggerIDs: ffffffff01000000
+  triggerIDs: ffffffff
 --- !u!114 &418078994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5636,7 +5651,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_iGimmickID: 5
-  triggerIDs: ffffffff01000000
+  triggerIDs: ffffffff
 --- !u!114 &420037025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6606,7 +6621,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_LocalScale.x
@@ -6679,7 +6694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 497cbc37d2cd0ed48941321f22d778ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_iGimmickID: -1
+  m_iGimmickID: 14320
   vCam: {fileID: 385118108}
   cameraType: 0
 --- !u!1 &472337875
@@ -6979,7 +6994,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_RootOrder
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_LocalScale.x
@@ -7052,7 +7067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 497cbc37d2cd0ed48941321f22d778ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_iGimmickID: -1
+  m_iGimmickID: 14320
   vCam: {fileID: 385118108}
   cameraType: 0
 --- !u!1 &493150283
@@ -7212,7 +7227,7 @@ Prefab:
     - target: {fileID: 114909738369748630, guid: 07d49c4721814e24a981e6c234a0822c,
         type: 2}
       propertyPath: m_iTriggerGimmickIDs.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4344117448512638, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
       propertyPath: m_LocalPosition.x
@@ -7269,6 +7284,11 @@ Prefab:
         type: 2}
       propertyPath: m_iActorGimmickIDs.Array.data[0]
       value: 2052
+      objectReference: {fileID: 0}
+    - target: {fileID: 114909738369748630, guid: 07d49c4721814e24a981e6c234a0822c,
+        type: 2}
+      propertyPath: m_iTriggerGimmickIDs.Array.data[0]
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
@@ -8498,7 +8518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 497cbc37d2cd0ed48941321f22d778ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_iGimmickID: -1
+  m_iGimmickID: 14320
   vCam: {fileID: 385118108}
   cameraType: 0
 --- !u!1001 &655394910
@@ -14652,7 +14672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 497cbc37d2cd0ed48941321f22d778ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_iGimmickID: -1
+  m_iGimmickID: 14320
   vCam: {fileID: 434540214}
   cameraType: 0
 --- !u!4 &926713258 stripped
@@ -14743,6 +14763,11 @@ Prefab:
     - target: {fileID: 1996243095495616, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114115837289302952, guid: cabf8b113b0446547bc47e0e01b14646,
+        type: 2}
+      propertyPath: m_iGimmickID
+      value: 14320
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
@@ -15025,7 +15050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 497cbc37d2cd0ed48941321f22d778ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_iGimmickID: -1
+  m_iGimmickID: 14320
   vCam: {fileID: 767037141}
   cameraType: 0
 --- !u!1001 &964111551
@@ -15216,7 +15241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_iGimmickID: 5
-  triggerIDs: ffffffff01000000
+  triggerIDs: ffffffff
 --- !u!114 &975146480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15610,7 +15635,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4344117448512638, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 6.14
+      value: 6.42
       objectReference: {fileID: 0}
     - target: {fileID: 4344117448512638, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
       propertyPath: m_LocalPosition.z
@@ -15658,7 +15683,7 @@ Prefab:
     - target: {fileID: 114909738369748630, guid: 07d49c4721814e24a981e6c234a0822c,
         type: 2}
       propertyPath: pushJudgePlayerNumber
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 07d49c4721814e24a981e6c234a0822c, type: 2}
@@ -15872,7 +15897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_iGimmickID: 5
-  triggerIDs: ffffffff01000000
+  triggerIDs: ffffffff
 --- !u!114 &988065868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16552,7 +16577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 497cbc37d2cd0ed48941321f22d778ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_iGimmickID: -1
+  m_iGimmickID: 14320
   vCam: {fileID: 459934520}
   cameraType: 0
 --- !u!1 &1070397855
@@ -18252,6 +18277,11 @@ Prefab:
       propertyPath: m_Name
       value: 2DCamParamChangeBox (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 114115837289302952, guid: cabf8b113b0446547bc47e0e01b14646,
+        type: 2}
+      propertyPath: m_iGimmickID
+      value: 14320
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
   m_IsPrefabParent: 0
@@ -18322,7 +18352,7 @@ Prefab:
     - target: {fileID: 114115837289302952, guid: cabf8b113b0446547bc47e0e01b14646,
         type: 2}
       propertyPath: cameraParam.screenY
-      value: 0.2
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 114115837289302952, guid: cabf8b113b0446547bc47e0e01b14646,
         type: 2}
@@ -18351,6 +18381,11 @@ Prefab:
     - target: {fileID: 1996243095495616, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_Name
       value: 2DCamParamChangeBox (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114115837289302952, guid: cabf8b113b0446547bc47e0e01b14646,
+        type: 2}
+      propertyPath: m_iGimmickID
+      value: 14320
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
@@ -19700,7 +19735,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_LocalScale.x
@@ -19742,6 +19777,11 @@ Prefab:
     - target: {fileID: 1996243095495616, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_Name
       value: 2DCamParamChangeBox (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114115837289302952, guid: cabf8b113b0446547bc47e0e01b14646,
+        type: 2}
+      propertyPath: m_iGimmickID
+      value: 14320
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
@@ -25251,7 +25291,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_LocalScale.x
@@ -25298,6 +25338,11 @@ Prefab:
     - target: {fileID: 1996243095495616, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_Name
       value: 2DCamParamChangeBox (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114115837289302952, guid: cabf8b113b0446547bc47e0e01b14646,
+        type: 2}
+      propertyPath: m_iGimmickID
+      value: 14320
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
@@ -29595,7 +29640,7 @@ MonoBehaviour:
   m_fPerformSpeed: 2
   m_IsToggle: 0
   m_IsSwitchingNotifyToClient: 1
-  pushJudgePlayerNumber: 1
+  pushJudgePlayerNumber: 0
   m_IsPushing: 0
 --- !u!65 &1933653232
 BoxCollider:
@@ -30322,7 +30367,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_LocalScale.x
@@ -30395,7 +30440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 497cbc37d2cd0ed48941321f22d778ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_iGimmickID: -1
+  m_iGimmickID: 14320
   vCam: {fileID: 385118108}
   cameraType: 0
 --- !u!1001 &1993902060
@@ -30856,7 +30901,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_LocalScale.x
@@ -30929,7 +30974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 497cbc37d2cd0ed48941321f22d778ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_iGimmickID: -1
+  m_iGimmickID: 14320
   vCam: {fileID: 385118108}
   cameraType: 0
 --- !u!1 &2033738118
@@ -31221,6 +31266,11 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 114580446139085392, guid: a82e793585b4ac14d8e513fcbabe81bc,
+        type: 2}
+      propertyPath: m_iGimmickID
+      value: 14320
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a82e793585b4ac14d8e513fcbabe81bc, type: 2}
   m_IsPrefabParent: 0
@@ -31360,7 +31410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 497cbc37d2cd0ed48941321f22d778ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_iGimmickID: -1
+  m_iGimmickID: 14320
   vCam: {fileID: 1560787428}
   cameraType: 0
 --- !u!4 &2110585762 stripped
@@ -31885,7 +31935,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4973326981067376, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_LocalScale.x
@@ -31932,6 +31982,11 @@ Prefab:
     - target: {fileID: 1996243095495616, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
       propertyPath: m_Name
       value: 2DCamParamChangeBox (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114115837289302952, guid: cabf8b113b0446547bc47e0e01b14646,
+        type: 2}
+      propertyPath: m_iGimmickID
+      value: 14320
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cabf8b113b0446547bc47e0e01b14646, type: 2}
