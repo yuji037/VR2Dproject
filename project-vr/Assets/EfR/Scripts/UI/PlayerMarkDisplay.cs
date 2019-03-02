@@ -82,6 +82,11 @@ public class PlayerMarkDisplay : MonoBehaviour
                 yazirusi.SetActive(false);
             }
         }
+        else
+        {
+            mark.SetActive(false);
+            yazirusi.SetActive(false);
+        }
     }
 
 }
