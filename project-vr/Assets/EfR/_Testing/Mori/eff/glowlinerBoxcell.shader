@@ -23,7 +23,7 @@
 			Tags{ "RenderType" = "Opaque" }
 
 			CGPROGRAM
-#pragma surface surf Lambert
+#pragma surface surf SimpleLambert
 #pragma glsl
 #pragma target 3.0
 
@@ -194,6 +194,15 @@
 				BoxfoldGrid(p + float3(0.0,0.0,  d)) - BoxfoldGrid(p + float3(0.0,0.0, -d))));
 		}
 
+		half4 LightingSimpleLambert(SurfaceOutput s, half3 lightDir, half atten) {
+			half NdotL = dot(s.Normal, lightDir);
+			half4 c;
+			//c.rgb = s.Albedo * _LightColor0.rgb * (NdotL * atten);
+			//c.a = s.Alpha;
+			c.rgb = s.Albedo * _LightColor0.rgb * (NdotL * atten);
+			c.a = s.Alpha;
+			return c;
+		}
 
 
 		void surf(Input IN, inout SurfaceOutput o)
