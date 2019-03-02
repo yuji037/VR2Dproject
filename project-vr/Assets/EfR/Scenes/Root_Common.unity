@@ -1228,7 +1228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   networkManager: {fileID: 86879180}
   selectMenuStageName: SelectMenu
-  switchIDs: 500400005104000052040000
+  switchIDs: 5204000051040000
   playingStageData: {fileID: 0}
 --- !u!1 &1610414773
 GameObject:
@@ -1377,10 +1377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6200177ba10419741ae4369f1b00430e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  changeTargerPrefixs:
-  - Ground
-  _2dMat: {fileID: 2100000, guid: 2e4d24c6732ab174f8c705fd2fbf9cd8, type: 2}
-  FixedMat: {fileID: 2100000, guid: e5baec8ca50951949979a2d04c57f961, type: 2}
+  materialParams: []
 --- !u!4 &1990757753
 Transform:
   m_ObjectHideFlags: 0
