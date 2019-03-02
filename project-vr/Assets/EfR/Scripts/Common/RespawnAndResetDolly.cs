@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 public class RespawnAndResetDolly : MonoBehaviour{
+    [System.Serializable]
+    class IDList
+    {
+        public List<int> ids = new List<int>();
+    }
     [SerializeField]
-    List<int>[] dollyIDsEachPlayer;
+    IDList[] dollyIDsEachPlayer;
 
-    List<DollyMoveObject> dollyMoveObjects;
+    List<DollyMoveObject> dollyMoveObjects=new List<DollyMoveObject>();
     static RespawnAndResetDolly instance;
     public static RespawnAndResetDolly GetInstance()
     {
@@ -16,13 +21,18 @@ public class RespawnAndResetDolly : MonoBehaviour{
     {
         instance = this;
     }
-    // Use this for initialization
-    private void Start()
+
+    bool initialized = false;
+    private void Update()
     {
-        int playerNum = PlayerManager.GetPlayerNumber();
-        foreach (var i in dollyIDsEachPlayer[playerNum])
+        if (PlayerManager.LocalPlayer&&!initialized)
         {
-           dollyMoveObjects.Add((GimmickManager.GetActor(i) as MonoBehaviour).GetComponent<DollyMoveObject>());
+            int playerNum = PlayerManager.GetPlayerNumber();
+            foreach (var i in dollyIDsEachPlayer[playerNum].ids)
+            {
+                dollyMoveObjects.Add((GimmickManager.GetActor(i) as MonoBehaviour).GetComponent<DollyMoveObject>());
+            }
+            initialized = true;
         }
     }
     public void ResetDollys()
@@ -30,6 +40,8 @@ public class RespawnAndResetDolly : MonoBehaviour{
         foreach (var i in dollyMoveObjects)
         {
             i.currentPathValue = 0f;
+            i.autoMove = false;
+            i.Move(0f);
         }
     }
 }
