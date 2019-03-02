@@ -8,9 +8,9 @@
 		SubShader
 	{
 			Stencil{
-			Ref 1
-			Comp GEqual
-}
+				Ref 16
+				Comp GEqual
+			}
 
 		Tags{ "RenderType" = "Opaque" }
 
