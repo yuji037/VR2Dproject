@@ -64,6 +64,7 @@ public class GimmickChangeSelectMenu : GimmickBase
         //アニメーション出来次第
         //PlayerManager.LocalPlayer.GetComponent<PlayerAnimationController>().CmdSetBool("yorokobi",true);
         yield return new WaitForSeconds(1.0f);
+		GameOverManager.GetInstance().SetUIActive(false);
         if (PlayerManager.playerMove.moveType==PlayerMove.MoveType.FIXED)
         {
             PlayerManager.playerStatus.CmdTransWorld(PlayerMove.MoveType._2D,transform.position);

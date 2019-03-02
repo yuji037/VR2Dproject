@@ -29,10 +29,10 @@ public class GameOverManager : NetworkBehaviour {
     // Use this for initialization
     public void Init ()
     {
-        //if (instance)
-        //{
-        //    Debug.LogError(this + "２つ目！");
-        //}
+		//if (instance)
+		//{
+		//    Debug.LogError(this + "２つ目！");
+		//}
         instance = this;
 		playerRespawner = PlayerRespawner.GetInstance();
 
@@ -48,7 +48,7 @@ public class GameOverManager : NetworkBehaviour {
     {
         SoundManager.GetInstance().FadeoutBGM();
 
-        RpcGameOver();
+		RpcGameOver();
     }
 
     [ClientRpc]
@@ -68,8 +68,9 @@ public class GameOverManager : NetworkBehaviour {
 
                 yield return new WaitForSeconds(1f);
                 var camera2DController = GameObject.Find(CameraUtility.Camera2DName).GetComponent<Camera2DController>();
+				SetUIActive(false);
                 camera2DController.NoiseActivate(0.5f, 1.0f);
-                yield return new WaitForSeconds(1.0f);
+				yield return new WaitForSeconds(1.0f);
                 FadeInOutController._2DFadePanel.StartBlackFadeOut(1f);
 
                 SoundManager.GetInstance().PlayBGM("gameover");
@@ -90,11 +91,12 @@ public class GameOverManager : NetworkBehaviour {
 
                 yield return new WaitForSeconds(1f);
                 var cameraVRController = GameObject.Find(CameraUtility.CameraVRName).GetComponent<CameraVRController>();
+				SetUIActive(false);
                 cameraVRController.NoiseActivate(0.7f, 1.0f);
-                yield return new WaitForSeconds(1.0f);
-                FadeInOutController.VRFadePanel.StartBlackFadeOut(1f);
+				yield return new WaitForSeconds(1.0f);
+				FadeInOutController.VRFadePanel.StartBlackFadeOut(1f);
 
-                SoundManager.GetInstance().PlayBGM("gameover");
+				SoundManager.GetInstance().PlayBGM("gameover");
                 var camera = VRObjectManager.GetInstance().GetBaseCameraObject().GetComponent<Camera>();
                 camera.cullingMask = vrGameOverCameraCullingMask;
                 camera.clearFlags = vrGameOverCameraClearFlags;
@@ -179,6 +181,11 @@ public class GameOverManager : NetworkBehaviour {
 
 	[ClientRpc]
 	void RpcSetUIActive(bool isActive)
+	{
+		SetUIActive(isActive);
+	}
+
+	public void SetUIActive(bool isActive)
 	{
 		charaIcon.SetActive(isActive);
 	}
