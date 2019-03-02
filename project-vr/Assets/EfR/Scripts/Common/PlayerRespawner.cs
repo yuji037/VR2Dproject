@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
 {
@@ -10,6 +12,7 @@ public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
     [Header("残機")]
     public int playerLife = 3;
 
+
     public void RespawnLocalPlayer()
     {
         //PlayerManager.LocalPlayer.transform.position = LocalPlayerRespawnPoint;
@@ -17,6 +20,7 @@ public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
         if (isRespawning) return;
         if (playerLife > 0)
         {
+            RespawnAndResetDolly.GetInstance().ResetDollys();
 			GameOverManager.GetInstance().CmdChangeLife(-1);
             StartCoroutine(RespawnCoroutine());
         }

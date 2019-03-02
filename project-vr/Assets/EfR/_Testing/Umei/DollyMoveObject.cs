@@ -11,7 +11,7 @@ public class DollyMoveObject : NetworkBehaviour{
     [SerializeField]
     float moveSpeed;
 
-    float currentPathValue;
+    public float currentPathValue;
 
     [SerializeField]
     public bool autoMove;

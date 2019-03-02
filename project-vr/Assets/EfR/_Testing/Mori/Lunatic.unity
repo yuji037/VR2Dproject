@@ -1261,6 +1261,23 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 72662381}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &81725740 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1384197808529300, guid: 23c2169400426d44e97c669504f7f4b9,
+    type: 2}
+  m_PrefabInternal: {fileID: 774634189}
+--- !u!114 &81725741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 81725740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d6eb114db9723419a6b5f1ac7850ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasAuthorityPlayerNumber: 0
 --- !u!1 &85007732
 GameObject:
   m_ObjectHideFlags: 0
@@ -1625,6 +1642,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   path: {fileID: 604732324}
   moveSpeed: 2
+  currentPathValue: 0
   autoMove: 0
   selfTurn: 0
   hasAuthorityPlayerNumber: 0
@@ -2099,6 +2117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   path: {fileID: 1629005730}
   moveSpeed: 0.5
+  currentPathValue: 0
   autoMove: 0
   selfTurn: 0
   hasAuthorityPlayerNumber: 1
@@ -8794,6 +8813,7 @@ GameObject:
   m_Component:
   - component: {fileID: 688979225}
   - component: {fileID: 688979224}
+  - component: {fileID: 688979226}
   m_Layer: 0
   m_Name: Collapser
   m_TagString: Untagged
@@ -8830,6 +8850,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &688979226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 688979223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1001 &695942643
 Prefab:
   m_ObjectHideFlags: 0
@@ -24682,6 +24734,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   path: {fileID: 298064742}
   moveSpeed: 2
+  currentPathValue: 0
   autoMove: 1
   selfTurn: 1
   hasAuthorityPlayerNumber: 0
@@ -25000,6 +25053,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   path: {fileID: 1888656893}
   moveSpeed: 2
+  currentPathValue: 0
   autoMove: 0
   selfTurn: 0
   hasAuthorityPlayerNumber: 0
@@ -25168,6 +25222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   path: {fileID: 1685091122}
   moveSpeed: 2
+  currentPathValue: 0
   autoMove: 1
   selfTurn: 1
   hasAuthorityPlayerNumber: 0
@@ -26052,6 +26107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   path: {fileID: 1039669886}
   moveSpeed: 1
+  currentPathValue: 0
   autoMove: 1
   selfTurn: 1
   hasAuthorityPlayerNumber: 0
@@ -30624,6 +30680,23 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1385840127}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1387551527 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1384197808529300, guid: 23c2169400426d44e97c669504f7f4b9,
+    type: 2}
+  m_PrefabInternal: {fileID: 4955029}
+--- !u!114 &1387551528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1387551527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d6eb114db9723419a6b5f1ac7850ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasAuthorityPlayerNumber: 0
 --- !u!1 &1390081811
 GameObject:
   m_ObjectHideFlags: 0
@@ -31414,6 +31487,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   path: {fileID: 1817947573}
   moveSpeed: 0.7
+  currentPathValue: 0
   autoMove: 0
   selfTurn: 1
   hasAuthorityPlayerNumber: 0
@@ -31681,6 +31755,46 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1440200449}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1441277172
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1441277174}
+  - component: {fileID: 1441277173}
+  m_Layer: 0
+  m_Name: DollyReset
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1441277173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1441277172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60f85fe17636d834397124372e1926ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1441277174
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1441277172}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 14.880613, y: 9.5314, z: 17.98516}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 31
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1445915314
 GameObject:
   m_ObjectHideFlags: 0
