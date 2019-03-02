@@ -429,6 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 545897f2e7114fd4e9baefd6e679acfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  changeParamType: 0
   min: 0.01
   max: 0.025
   speed: 0.05
@@ -860,9 +861,9 @@ Transform:
   - {fileID: 99431371}
   - {fileID: 1579450982}
   - {fileID: 439738827}
+  - {fileID: 1720873324}
   - {fileID: 686882340}
   - {fileID: 1394369926}
-  - {fileID: 1720873324}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7208,7 +7209,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1720873323}
   m_LocalRotation: {x: 0.2426579, y: -0, z: -0, w: 0.97011197}
-  m_LocalPosition: {x: 0.26700002, y: -0.621, z: -1.7749996}
+  m_LocalPosition: {x: 0.26700002, y: -0.621, z: -1.615}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1264938128}
@@ -7218,7 +7219,7 @@ Transform:
   - {fileID: 608365359}
   - {fileID: 1858146371}
   m_Father: {fileID: 530650126}
-  m_RootOrder: 12
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 28.087002, y: 0, z: 0}
 --- !u!114 &1720873325
 MonoBehaviour:
