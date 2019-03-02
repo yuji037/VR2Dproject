@@ -3,43 +3,51 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class StageMaterialChanger : SingletonMonoBehaviour<StageMaterialChanger> {
+public class StageMaterialChanger : SingletonMonoBehaviour<StageMaterialChanger>
+{
 
-    GameObject[] playerStageRootObject=new GameObject[2];
-
-    [SerializeField]
-    string[] changeTargerPrefixs;
-
-    [SerializeField]
-    Material _2dMat;
-
-    [SerializeField]
-    Material FixedMat;
-
-    public void ChangeMaterial(int playerNumber,PlayerMove.MoveType moveType)
+    [System.Serializable]
+    struct MaterialParam
     {
-        if(!playerStageRootObject[playerNumber]) playerStageRootObject[playerNumber]= GameObject.Find("P" + (playerNumber+1) + "Objects");
-        var renderers=playerStageRootObject[playerNumber].GetComponentsInChildren<Renderer>();
-        var targetObjects=renderers.Where(x => changeTargerPrefixs.Where(y => x.gameObject.name.Contains(y)).Count() > 0);
-        Material changeMat = null;
+        public Material _2dMat;
+        public Material VRMat;
+        public string prefix;
+    }
 
-        switch (moveType)
+    GameObject[] playerStageRootObject = new GameObject[2];
+
+    [SerializeField]
+    MaterialParam[] materialParams;
+
+    public void ChangeMaterial(int playerNumber, PlayerMove.MoveType moveType)
+    {
+        if (!playerStageRootObject[playerNumber]) playerStageRootObject[playerNumber] = GameObject.Find("P" + (playerNumber + 1) + "Objects");
+        var renderers = playerStageRootObject[playerNumber].GetComponentsInChildren<Renderer>();
+
+        foreach (var i in materialParams)
         {
-            case PlayerMove.MoveType.FPS:
-            case PlayerMove.MoveType.TPS:
-            case PlayerMove.MoveType.FIXED:
-                changeMat = FixedMat;
-                break;
-            case PlayerMove.MoveType._2D:
-                changeMat = _2dMat;
-                break;
+            var targetObjects = renderers.Where(x => i.prefix.Where(y => x.gameObject.name.Contains(y)).Count() > 0);
+            Material changeMat = null;
+
+            switch (moveType)
+            {
+                case PlayerMove.MoveType.FPS:
+                case PlayerMove.MoveType.TPS:
+                case PlayerMove.MoveType.FIXED:
+                    changeMat = i.VRMat;
+                    break;
+                case PlayerMove.MoveType._2D:
+                    changeMat = i._2dMat;
+                    break;
+            }
+
+            foreach (var t in targetObjects)
+            {
+                t.material = changeMat;
+            }
+
         }
 
-        foreach (var i in targetObjects)
-        {
-            i.material = changeMat;
-        }
-
-        Debug.Log("Changed StageMaterial: p"+playerNumber+moveType);
+        Debug.Log("Changed StageMaterial: p" + playerNumber + moveType);
     }
 }
