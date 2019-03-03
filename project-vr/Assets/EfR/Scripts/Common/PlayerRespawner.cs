@@ -20,7 +20,7 @@ public class PlayerRespawner : SingletonMonoBehaviour<PlayerRespawner>
         if (isRespawning) return;
         if (playerLife > 0)
         {
-            RespawnAndResetDolly.GetInstance().ResetDollys();
+            if(RespawnAndResetDolly.GetInstance())RespawnAndResetDolly.GetInstance.ResetDollys();
 			GameOverManager.GetInstance().CmdChangeLife(-1);
             StartCoroutine(RespawnCoroutine());
         }
