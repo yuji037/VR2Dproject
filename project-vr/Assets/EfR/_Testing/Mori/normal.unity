@@ -277,7 +277,7 @@ MonoBehaviour:
   respawnPoint: {fileID: 0}
   savePointDisplayObj: {fileID: 0}
   okDisplayObj: {fileID: 0}
-  playerLifePlus: 5
+  playerLifePlus: 0
 --- !u!1001 &13231879
 Prefab:
   m_ObjectHideFlags: 0
@@ -3056,6 +3056,11 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 2.0291638
       objectReference: {fileID: 0}
+    - target: {fileID: 114094838398568110, guid: a3d97f95100197742a7cfeb1a911f5b2,
+        type: 2}
+      propertyPath: playerLifePlus
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a3d97f95100197742a7cfeb1a911f5b2, type: 2}
   m_IsPrefabParent: 0
@@ -5446,7 +5451,7 @@ MonoBehaviour:
   respawnPoint: {fileID: 0}
   savePointDisplayObj: {fileID: 0}
   okDisplayObj: {fileID: 0}
-  playerLifePlus: 5
+  playerLifePlus: 0
 --- !u!1 &346680540
 GameObject:
   m_ObjectHideFlags: 0
@@ -8301,6 +8306,11 @@ Prefab:
     - target: {fileID: 4056158834056474, guid: a3d97f95100197742a7cfeb1a911f5b2, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114094838398568110, guid: a3d97f95100197742a7cfeb1a911f5b2,
+        type: 2}
+      propertyPath: playerLifePlus
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a3d97f95100197742a7cfeb1a911f5b2, type: 2}
@@ -13270,7 +13280,7 @@ MonoBehaviour:
   respawnPoint: {fileID: 0}
   savePointDisplayObj: {fileID: 0}
   okDisplayObj: {fileID: 0}
-  playerLifePlus: 5
+  playerLifePlus: 0
 --- !u!1 &897696389
 GameObject:
   m_ObjectHideFlags: 0
@@ -24604,6 +24614,11 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 114094838398568110, guid: a3d97f95100197742a7cfeb1a911f5b2,
+        type: 2}
+      propertyPath: playerLifePlus
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a3d97f95100197742a7cfeb1a911f5b2, type: 2}
   m_IsPrefabParent: 0
@@ -27001,7 +27016,7 @@ Transform:
   m_LocalScale: {x: 2, y: 1, z: 1.5}
   m_Children: []
   m_Father: {fileID: 1928680576}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1743054313
 MeshRenderer:
@@ -29273,9 +29288,9 @@ Transform:
   - {fileID: 1913912713}
   - {fileID: 1997296354}
   - {fileID: 784312440}
+  - {fileID: 1743054312}
   - {fileID: 55033074}
   - {fileID: 489826048}
-  - {fileID: 1743054312}
   - {fileID: 456420909}
   - {fileID: 1552069150}
   - {fileID: 627231630}
@@ -29899,7 +29914,7 @@ MonoBehaviour:
   respawnPoint: {fileID: 0}
   savePointDisplayObj: {fileID: 0}
   okDisplayObj: {fileID: 0}
-  playerLifePlus: 5
+  playerLifePlus: 1
 --- !u!1 &1997296353
 GameObject:
   m_ObjectHideFlags: 0
@@ -31052,7 +31067,7 @@ MonoBehaviour:
   respawnPoint: {fileID: 0}
   savePointDisplayObj: {fileID: 0}
   okDisplayObj: {fileID: 0}
-  playerLifePlus: 5
+  playerLifePlus: 2
 --- !u!1001 &2072614210
 Prefab:
   m_ObjectHideFlags: 0
@@ -32591,6 +32606,11 @@ Prefab:
     - target: {fileID: 4692403041931154, guid: a3d97f95100197742a7cfeb1a911f5b2, type: 2}
       propertyPath: m_LocalPosition.y
       value: -0.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 114094838398568110, guid: a3d97f95100197742a7cfeb1a911f5b2,
+        type: 2}
+      propertyPath: playerLifePlus
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a3d97f95100197742a7cfeb1a911f5b2, type: 2}

@@ -12,6 +12,7 @@ public class PushableObject : MonoBehaviour {
     [SerializeField]
     LayerMask stoppableLayerMask;
 	Vector3 halfExtents;
+	Rigidbody rigidBddy;
 
     NetworkIdentity netId;
 	private void Start()

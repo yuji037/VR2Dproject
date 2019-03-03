@@ -37,11 +37,18 @@ public class RespawnAndResetDolly : MonoBehaviour{
     }
     public void ResetDollys()
     {
-        foreach (var i in dollyMoveObjects)
-        {
-            i.currentPathValue = 0f;
-            i.autoMove = false;
-            i.Move(0f);
-        }
+        //foreach (var i in dollyMoveObjects)
+        //{
+        //    i.currentPathValue = 0f;
+        //    i.autoMove = false;
+        //    i.Move(0f);
+        //}
+
+		for(int i = 0; i < dollyMoveObjects.Count; ++i )
+		{
+			dollyMoveObjects[i].currentPathValue = 0f;
+			dollyMoveObjects[i].autoMove = false;
+			dollyMoveObjects[i].Move(0f);
+		}
     }
 }

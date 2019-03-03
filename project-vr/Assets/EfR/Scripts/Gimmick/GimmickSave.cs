@@ -34,7 +34,7 @@ public class GimmickSave : GimmickBase
                 savePointDisplayObj.SetActive(false);
                 okDisplayObj.SetActive(true);
             }
-			if ( !executed )
+			if ( !executed && isServer)
 			{
 				GameOverManager.GetInstance().CmdChangeLife(playerLifePlus);
 				executed = true;
